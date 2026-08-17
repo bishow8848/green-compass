@@ -1,0 +1,26 @@
+# Mardi Treks
+
+Mardi Treks is a Nepal trekking and travel company. This file provides
+machine-readable discovery links; current trip prices, dates, inclusions,
+locations, and contact details are published on the linked website pages.
+
+## Canonical Website
+- Homepage: https://www.marditreks.com/
+- Trek search: https://www.marditreks.com/search
+- Blog: https://www.marditreks.com/blog
+- About: https://www.marditreks.com/about
+- Contact: https://www.marditreks.com/contact
+
+## Machine-Readable Discovery
+- Sitemap: https://www.marditreks.com/sitemap.xml
+- Crawler policy: https://www.marditreks.com/robots.txt
+
+## Content Types
+- Trek and travel category pages
+- Trek detail pages with itineraries, prices, route information, FAQs, and reviews
+- Editorial trekking guides
+
+## Usage Notes
+- Treat each page's canonical URL as the authoritative URL.
+- Prefer facts shown on the relevant trek page over summaries in this file.
+- Check visible publication or update dates before citing time-sensitive facts.

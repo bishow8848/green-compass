@@ -1,0 +1,263 @@
+"use server";
+
+import { prisma } from "@/lib/prisma";
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
+import { auth } from "@/lib/auth";
+import { invalidateCachePattern, cacheKeys } from "@/lib/redis";
+import { deleteFile } from "@/lib/cloudinary";
+
+async function invalidateTrekCache(slug?: string, categorySlug?: string) {
+  await Promise.all([
+    invalidateCachePattern(cacheKeys.pattern.treks),
+    invalidateCachePattern(cacheKeys.pattern.home),
+    invalidateCachePattern(cacheKeys.pattern.category),
+  ]);
+  // Revalidate individual trek detail pages
+  revalidatePath("/", "layout");
+  // Revalidate the per-trek fix-departure pages.
+  // Route: /[category]/[slug]/fix-departure (e.g. /treks/mardi-himal-trek/fix-departure).
+  revalidatePath("/[category]/[slug]/fix-departure", "page");
+  if (slug) {
+    revalidatePath(`/${categorySlug || "[category]"}/${slug}`, "page");
+  }
+}
+
+export async function createTrek(formData: FormData) {
+  const session = await auth();
+  if (!session || (session.user as any).role !== "admin") throw new Error("Unauthorized");
+
+  const categoryId = (formData.get("categoryId") as string) || null;
+
+  const data: any = {
+    title: formData.get("title") as string,
+    slug: formData.get("slug") as string,
+    heroImage: formData.get("heroImage") as string || null,
+    price: parseFloat(formData.get("price") as string),
+    duration: parseInt(formData.get("duration") as string),
+    difficulty: formData.get("difficulty") as string,
+    region: formData.get("region") as string || null,
+    regionId: (formData.get("regionId") as string) || null,
+    bestTime: formData.get("bestTime") as string || null,
+    maxAltitude: parseFloat(formData.get("maxAltitude") as string) || null,
+    overview: formData.get("overview") as string || "",
+    inclusions: formData.get("inclusions") as string || "[]",
+    exclusions: formData.get("exclusions") as string || "[]",
+    status: formData.get("status") as string || "draft",
+    metaTitle: formData.get("metaTitle") as string || null,
+    metaDescription: formData.get("metaDescription") as string || null,
+    keywords: formData.get("keywords") as string || null,
+    tags: formData.get("tags") as string || null,
+    // Map fields
+    geoJsonUrl: formData.get("geoJsonUrl") as string || null,
+    geoJsonData: formData.get("geoJsonData") as string || null,
+    staticMapImage: formData.get("staticMapImage") as string || null,
+    waypoints: formData.get("waypoints") as string || null,
+    centerLat: parseFloat(formData.get("centerLat") as string) || null,
+    centerLng: parseFloat(formData.get("centerLng") as string) || null,
+    zoom: parseFloat(formData.get("zoom") as string) || null,
+    pitch: parseFloat(formData.get("pitch") as string) || null,
+    // Custom sections
+    customSections: formData.get("customSections") as string || null,
+    // Section metadata
+    sectionData: formData.get("sectionData") as string || null,
+    // Section order
+    sectionOrder: formData.get("sectionOrder") as string || null,
+    // Similar Treks
+    similarTrekIds: formData.get("similarTrekIds") as string || null,
+    // Add-ons
+    addons: formData.get("addons") as string || "[]",
+    // Fix Departure
+    fixedDepartureDays: formData.get("fixedDepartureDays") as string || null,
+    customStartDates: formData.get("customStartDates") as string || null,
+  };
+
+  const itinerary = JSON.parse(formData.get("itinerary") as string || "[]").map((d: any) => {
+    const { lat, lng, ...rest } = d;
+    return rest;
+  });
+  const pricingTiers = JSON.parse(formData.get("pricingTiers") as string || "[]");
+  const faqs = JSON.parse(formData.get("faqs") as string || "[]");
+  const gallery = JSON.parse(formData.get("gallery") as string || "[]");
+
+  const regionId = data.regionId;
+  delete data.regionId;
+
+  await prisma.trek.create({
+    data: {
+      ...data,
+      category: categoryId ? { connect: { id: categoryId } } : undefined,
+      regionRef: regionId ? { connect: { id: regionId } } : undefined,
+      itinerary: { create: itinerary },
+      pricingTiers: { create: pricingTiers },
+      faqs: { create: faqs },
+      galleryImages: {
+        create: gallery.map((g: any) => ({
+          imageId: g.imageId,
+          alt: g.alt || "",
+          caption: g.caption || "",
+        })),
+      },
+    },
+  });
+
+  await invalidateTrekCache(data.slug);
+  redirect("/admin/treks");
+}
+
+export async function updateTrek(id: string, formData: FormData) {
+  const session = await auth();
+  if (!session || (session.user as any).role !== "admin") throw new Error("Unauthorized");
+
+  const categoryId = (formData.get("categoryId") as string) || null;
+
+  const data: any = {
+    title: formData.get("title") as string,
+    slug: formData.get("slug") as string,
+    heroImage: formData.get("heroImage") as string || null,
+    price: parseFloat(formData.get("price") as string),
+    duration: parseInt(formData.get("duration") as string),
+    difficulty: formData.get("difficulty") as string,
+    region: formData.get("region") as string || null,
+    regionId: (formData.get("regionId") as string) || null,
+    bestTime: formData.get("bestTime") as string || null,
+    maxAltitude: parseFloat(formData.get("maxAltitude") as string) || null,
+    overview: formData.get("overview") as string || "",
+    inclusions: formData.get("inclusions") as string || "[]",
+    exclusions: formData.get("exclusions") as string || "[]",
+    status: formData.get("status") as string || "draft",
+    metaTitle: formData.get("metaTitle") as string || null,
+    metaDescription: formData.get("metaDescription") as string || null,
+    keywords: formData.get("keywords") as string || null,
+    tags: formData.get("tags") as string || null,
+    // Map fields
+    geoJsonUrl: formData.get("geoJsonUrl") as string || null,
+    geoJsonData: formData.get("geoJsonData") as string || null,
+    staticMapImage: formData.get("staticMapImage") as string || null,
+    waypoints: formData.get("waypoints") as string || null,
+    centerLat: parseFloat(formData.get("centerLat") as string) || null,
+    centerLng: parseFloat(formData.get("centerLng") as string) || null,
+    zoom: parseFloat(formData.get("zoom") as string) || null,
+    pitch: parseFloat(formData.get("pitch") as string) || null,
+    // Custom sections
+    customSections: formData.get("customSections") as string || null,
+    // Section metadata
+    sectionData: formData.get("sectionData") as string || null,
+    // Section order
+    sectionOrder: formData.get("sectionOrder") as string || null,
+    // Similar Treks
+    similarTrekIds: formData.get("similarTrekIds") as string || null,
+    // Add-ons
+    addons: formData.get("addons") as string || "[]",
+    // Fix Departure
+    fixedDepartureDays: formData.get("fixedDepartureDays") as string || null,
+    customStartDates: formData.get("customStartDates") as string || null,
+  };
+
+  const itinerary = JSON.parse(formData.get("itinerary") as string || "[]").map((d: any) => {
+    const { lat, lng, ...rest } = d;
+    return rest;
+  });
+  const pricingTiers = JSON.parse(formData.get("pricingTiers") as string || "[]");
+  const faqs = JSON.parse(formData.get("faqs") as string || "[]");
+  const gallery = JSON.parse(formData.get("gallery") as string || "[]");
+
+  // Fetch current trek to compare images
+  const currentTrek = await prisma.trek.findUnique({
+    where: { id },
+    select: { heroImage: true, geoJsonUrl: true, staticMapImage: true },
+  });
+
+  // Helper to extract Cloudinary public_id from a URL
+  function extractPublicId(url: string): string | null {
+    // Cloudinary URL includes the file extension, but the public_id does NOT
+    const match = url.match(/\/v\d+\/(.+?)(?:\.[^/.]+)?$/);
+    return match ? match[1] : null;
+  }
+
+  // Delete old heroImage if changed
+  if (currentTrek?.heroImage && currentTrek.heroImage !== data.heroImage) {
+    deleteFile(currentTrek.heroImage).catch(() => {});
+  }
+  if (currentTrek?.staticMapImage && currentTrek.staticMapImage !== data.staticMapImage) {
+    deleteFile(currentTrek.staticMapImage).catch(() => {});
+  }
+  // Delete old geoJsonUrl file from Cloudinary if changed/removed
+  if (currentTrek?.geoJsonUrl && currentTrek.geoJsonUrl !== data.geoJsonUrl) {
+    const oldPubId = extractPublicId(currentTrek.geoJsonUrl);
+    if (oldPubId) {
+      deleteFile(oldPubId, { resourceType: "raw" }).catch(() => {});
+    }
+  }
+
+  // Find gallery images to delete (ones in DB but not in new gallery)
+  const oldGalleryImages = await prisma.trekGalleryImage.findMany({
+    where: { trekId: id },
+    select: { imageId: true },
+  });
+  const newGalleryIds = new Set(gallery.map((g: any) => g.imageId));
+  const removedGalleryIds = oldGalleryImages
+    .map((g) => g.imageId)
+    .filter((imgId) => !newGalleryIds.has(imgId));
+  await Promise.allSettled(removedGalleryIds.map((pubId) => deleteFile(pubId)));
+
+  await prisma.$transaction(async (tx) => {
+    await tx.itineraryDay.deleteMany({ where: { trekId: id } });
+    await tx.pricingTier.deleteMany({ where: { trekId: id } });
+    await tx.trekFaq.deleteMany({ where: { trekId: id } });
+    await tx.trekGalleryImage.deleteMany({ where: { trekId: id } });
+
+    const regionId = data.regionId;
+    delete data.regionId;
+
+    await tx.trek.update({
+      where: { id },
+      data: {
+        ...data,
+        category: categoryId ? { connect: { id: categoryId } } : undefined,
+        regionRef: regionId ? { connect: { id: regionId } } : { disconnect: true },
+        itinerary: { create: itinerary },
+        pricingTiers: { create: pricingTiers },
+        faqs: { create: faqs },
+        galleryImages: {
+          create: gallery.map((g: any) => ({
+            imageId: g.imageId,
+            alt: g.alt || "",
+            caption: g.caption || "",
+          })),
+        },
+      },
+    });
+  });
+
+  await invalidateTrekCache(formData.get("slug") as string || undefined);
+  redirect("/admin/treks");
+}
+
+export async function deleteTrek(id: string) {
+  const session = await auth();
+  if (!session || (session.user as any).role !== "admin") throw new Error("Unauthorized");
+
+  const trek = await prisma.trek.findUnique({
+    where: { id },
+    select: { slug: true, heroImage: true, staticMapImage: true },
+  });
+
+  // Delete Cloudinary images
+  if (trek) {
+    const imagesToDelete = [trek.heroImage, trek.staticMapImage].filter(Boolean) as string[];
+    await Promise.allSettled(imagesToDelete.map((pubId) => deleteFile(pubId)));
+
+    // Also delete gallery images
+    const galleryImages = await prisma.trekGalleryImage.findMany({
+      where: { trekId: id },
+      select: { imageId: true },
+    });
+    const galleryIds = galleryImages.map((g) => g.imageId).filter(Boolean);
+    await Promise.allSettled(galleryIds.map((pubId) => deleteFile(pubId)));
+  }
+
+  await prisma.trek.delete({ where: { id } });
+  await invalidateTrekCache(trek?.slug);
+  redirect("/admin/treks");
+}

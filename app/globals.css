@@ -1,0 +1,399 @@
+@import "tailwindcss";
+
+@theme inline {
+  /* Background Colors */
+  --color-background: #f9f7f2;
+  --color-foreground: #1f2937;
+
+  /* Primary (Vibrant Orange) */
+  --color-primary: #fe4100;
+  --color-primary-dark: #e53900;
+  --color-primary-light: #ff6a33;
+
+  /* Secondary (Warm Slate) */
+  --color-secondary: #46576a;
+  --color-secondary-dark: #374151;
+  --color-secondary-light: #64748b;
+
+  /* Accent (Golden Beige) */
+  --color-accent: #e9d5b4;
+  --color-accent-dark: #d6bfa0;
+  --color-accent-light: #f4e6cf;
+
+  /* Surface Colors */
+  --color-surface: #ffffff;
+  --color-surface-alt: #f4f1ea;
+  --color-border: #e5e7eb;
+
+  /* Text Colors */
+  --color-text: #334155;
+  --color-text-muted: #64748b;
+
+  /* Status Colors */
+  --color-success: #22c55e;
+  --color-error: #dc2626;
+  --color-warning: #f59e0b;
+
+  /* Footer Colors */
+  --color-footer: #2d2d2d;
+  --color-footer-text: #f9f7f2;
+
+  /* Fonts */
+  --font-sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+}
+
+
+body {
+  background: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-sans), system-ui, sans-serif;
+}
+
+/* ==============================
+   MOTION / ANIMATIONS
+   ============================== */
+@keyframes slide-in-left {
+  from { transform: translateX(-100%); opacity: 0.5; }
+  to { transform: translateX(0); opacity: 1; }
+}
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Rich text content styles */
+.rich-text { overflow-x: hidden; word-break: break-word; }
+.rich-text img { display: block; max-width: 100%; height: auto; }
+/* CMS-authored images may not include intrinsic dimensions. Give those
+   images a predictable box before the file arrives so article text does not
+   jump when the browser discovers the natural image size. */
+.rich-text img:not([width]):not([height]) {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  background: var(--color-surface-alt, #f8fafc);
+}
+.rich-text .tableWrapper { overflow-x: auto; margin: 1.5rem 0; }
+.rich-text table { border-collapse: collapse; width: 100%; font-size: 0.9rem; }
+.rich-text th, .rich-text td {
+  border: 1px solid var(--color-border, #e2e8f0);
+  padding: 0.6rem 0.85rem;
+  text-align: left;
+  vertical-align: top;
+}
+.rich-text th { background: var(--color-surface-alt, #f8fafc); font-weight: 600; }
+.rich-text h1 { @apply text-3xl font-bold mt-8 mb-4; }
+.rich-text h2 { @apply text-2xl font-semibold mt-6 mb-3; }
+.rich-text h3 { @apply text-xl font-semibold mt-5 mb-2; }
+.rich-text p { @apply mb-4 leading-relaxed text-slate-600; }
+.rich-text ul { @apply list-disc pl-6 mb-4 space-y-1; }
+.rich-text ol { @apply list-decimal pl-6 mb-4 space-y-1; }
+.rich-text a { @apply text-primary underline hover:text-primary-dark; }
+.rich-text blockquote {
+  @apply border-l-4 border-primary pl-4 italic my-4 text-slate-600;
+}
+.rich-text figure { @apply my-6; }
+.rich-text figure img { @apply mx-auto block; border-radius: 0.75rem; }
+.rich-text figcaption { @apply mt-2 text-center text-sm text-slate-500; }
+/* Blog article: subtle separator above each h2 section heading, matching the
+   section dividers used on the trek detail page. */
+.blog-content .rich-text h2 {
+  border-top: 1px solid var(--color-border);
+  padding-top: 1.75rem;
+  margin-top: 2.75rem;
+}
+/* Only the article's very FIRST top-level heading is exempt from the
+   separator. Using the child combinator (>) means nested wrappers (like the
+   FAQ accordion, whose <h2> is the first child of an inner <div>) are NOT
+   treated as "first heading" — so FAQ headings get their separator line too. */
+.blog-content .rich-text > h2:first-child {
+  border-top: none;
+  padding-top: 0;
+  margin-top: 0;
+}
+
+/* Mapbox overrides */
+.mapboxgl-ctrl-logo { display: none !important; }
+.mapbox-improve-map { display: none; }
+
+/* Scrollbar styling */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--color-surface-alt); }
+::-webkit-scrollbar-thumb {
+  background: var(--color-text-muted);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover { background: var(--color-text); }
+
+/* ==============================
+   ADMIN PANEL STYLES
+   ============================== */
+
+/* The admin UI is part of the same product as the public site. These scoped
+   aliases keep existing admin views on the shared design tokens while older
+   page-level utility names are gradually replaced. */
+.admin-shell {
+  --admin-shadow: 0 12px 32px color-mix(in srgb, var(--color-secondary-dark) 8%, transparent);
+  color-scheme: light;
+}
+
+.admin-shell [class~="bg-white"] { background-color: var(--color-surface); }
+.admin-shell [class~="bg-slate-50"],
+.admin-shell [class~="bg-slate-50/50"] { background-color: var(--color-surface-alt); }
+.admin-shell [class~="bg-slate-100"] { background-color: var(--color-surface-alt); }
+.admin-shell [class~="bg-slate-200"] { background-color: var(--color-border); }
+
+.admin-shell [class~="text-slate-900"],
+.admin-shell [class~="text-slate-800"] { color: var(--color-foreground); }
+.admin-shell [class~="text-slate-700"],
+.admin-shell [class~="text-slate-600"] { color: var(--color-text); }
+.admin-shell [class~="text-slate-500"],
+.admin-shell [class~="text-slate-400"] { color: var(--color-text-muted); }
+.admin-shell [class~="text-slate-300"] { color: color-mix(in srgb, var(--color-text-muted) 65%, var(--color-surface)); }
+
+.admin-shell [class~="border-slate-100"],
+.admin-shell [class~="border-slate-200"],
+.admin-shell [class~="border-slate-300"] { border-color: var(--color-border); }
+.admin-shell [class~="divide-slate-100"] > :not(:last-child),
+.admin-shell [class~="divide-slate-200"] > :not(:last-child) { border-color: var(--color-border); }
+
+.admin-shell [class~="hover:bg-slate-50"]:hover,
+.admin-shell [class~="hover:bg-slate-50/50"]:hover,
+.admin-shell [class~="hover:bg-slate-100"]:hover { background-color: var(--color-surface-alt); }
+.admin-shell [class~="hover:bg-slate-200"]:hover { background-color: var(--color-accent-light); }
+.admin-shell [class~="hover:text-slate-700"]:hover,
+.admin-shell [class~="hover:text-slate-600"]:hover { color: var(--color-text); }
+
+/* Orange is the shared action color. The teal utility names below are kept as
+   compatibility aliases for the many existing admin forms and tables. */
+.admin-shell [class~="bg-teal-50"] { background-color: color-mix(in srgb, var(--color-primary) 9%, var(--color-surface)); }
+.admin-shell [class~="bg-teal-100"] { background-color: color-mix(in srgb, var(--color-primary) 14%, var(--color-surface)); }
+.admin-shell [class~="bg-teal-200"] { background-color: color-mix(in srgb, var(--color-primary) 20%, var(--color-surface)); }
+.admin-shell [class~="bg-teal-400"] { background-color: var(--color-primary-light); }
+.admin-shell [class~="bg-teal-500"] { background-color: var(--color-primary); }
+.admin-shell [class~="bg-teal-600"] { background-color: var(--color-primary-dark); }
+.admin-shell [class~="text-teal-700"] { color: var(--color-primary-dark); }
+.admin-shell [class~="text-teal-600"],
+.admin-shell [class~="text-teal-500"] { color: var(--color-primary); }
+.admin-shell [class~="text-teal-400"] { color: var(--color-primary-light); }
+.admin-shell [class~="border-teal-200"],
+.admin-shell [class~="border-teal-300"] { border-color: var(--color-primary-light); }
+.admin-shell [class~="hover:bg-teal-50"]:hover { background-color: color-mix(in srgb, var(--color-primary) 9%, var(--color-surface)); }
+.admin-shell [class~="hover:bg-teal-100"]:hover { background-color: color-mix(in srgb, var(--color-primary) 14%, var(--color-surface)); }
+.admin-shell [class~="hover:bg-teal-200"]:hover { background-color: color-mix(in srgb, var(--color-primary) 20%, var(--color-surface)); }
+.admin-shell [class~="hover:text-teal-700"]:hover { color: var(--color-primary-dark); }
+.admin-shell [class~="hover:text-teal-600"]:hover { color: var(--color-primary); }
+.admin-shell [class~="ring-teal-100"],
+.admin-shell [class~="ring-teal-300"] { --tw-ring-color: color-mix(in srgb, var(--color-primary) 25%, transparent); }
+.admin-shell [class~="focus:ring-teal-100"]:focus,
+.admin-shell [class~="focus:ring-teal-500"]:focus { --tw-ring-color: color-mix(in srgb, var(--color-primary) 22%, transparent); }
+.admin-shell [class~="focus:border-teal-300"]:focus { border-color: var(--color-primary-light); }
+.admin-shell [class~="from-teal-50"] { --tw-gradient-from: color-mix(in srgb, var(--color-primary) 9%, var(--color-surface)) var(--tw-gradient-from-position); }
+.admin-shell [class~="to-teal-100"] { --tw-gradient-to: color-mix(in srgb, var(--color-primary) 14%, var(--color-surface)) var(--tw-gradient-to-position); }
+.admin-shell [class~="from-teal-500"] { --tw-gradient-from: var(--color-primary) var(--tw-gradient-from-position); }
+.admin-shell [class~="to-teal-600"] { --tw-gradient-to: var(--color-primary-dark) var(--tw-gradient-to-position); }
+.admin-shell [class~="hover:from-teal-600"]:hover { --tw-gradient-from: var(--color-primary-dark) var(--tw-gradient-from-position); }
+.admin-shell [class~="hover:to-teal-700"]:hover { --tw-gradient-to: var(--color-primary-dark) var(--tw-gradient-to-position); }
+
+/* Supporting palette aliases keep status and CRM accents inside the brand
+   palette instead of introducing unrelated dashboard colors. */
+.admin-shell [class~="bg-emerald-50"] { background-color: color-mix(in srgb, var(--color-success) 10%, var(--color-surface)); }
+.admin-shell [class~="bg-emerald-100"] { background-color: color-mix(in srgb, var(--color-success) 16%, var(--color-surface)); }
+.admin-shell [class~="text-emerald-700"],
+.admin-shell [class~="text-emerald-600"] { color: var(--color-success); }
+.admin-shell [class~="border-emerald-200"] { border-color: color-mix(in srgb, var(--color-success) 35%, var(--color-border)); }
+.admin-shell [class~="bg-amber-50"] { background-color: color-mix(in srgb, var(--color-warning) 10%, var(--color-surface)); }
+.admin-shell [class~="bg-amber-100"] { background-color: color-mix(in srgb, var(--color-warning) 16%, var(--color-surface)); }
+.admin-shell [class~="text-amber-700"],
+.admin-shell [class~="text-amber-600"] { color: var(--color-warning); }
+.admin-shell [class~="border-amber-200"] { border-color: color-mix(in srgb, var(--color-warning) 35%, var(--color-border)); }
+.admin-shell [class~="bg-red-50"],
+.admin-shell [class~="bg-rose-50"] { background-color: color-mix(in srgb, var(--color-error) 9%, var(--color-surface)); }
+.admin-shell [class~="bg-red-100"],
+.admin-shell [class~="bg-rose-100"] { background-color: color-mix(in srgb, var(--color-error) 14%, var(--color-surface)); }
+.admin-shell [class~="text-red-700"],
+.admin-shell [class~="text-red-600"],
+.admin-shell [class~="text-rose-700"],
+.admin-shell [class~="text-rose-600"] { color: var(--color-error); }
+.admin-shell [class~="border-red-200"],
+.admin-shell [class~="border-rose-200"] { border-color: color-mix(in srgb, var(--color-error) 35%, var(--color-border)); }
+.admin-shell [class~="bg-blue-50"],
+.admin-shell [class~="bg-sky-50"] { background-color: color-mix(in srgb, var(--color-secondary) 9%, var(--color-surface)); }
+.admin-shell [class~="bg-blue-100"],
+.admin-shell [class~="bg-sky-100"] { background-color: color-mix(in srgb, var(--color-secondary) 14%, var(--color-surface)); }
+.admin-shell [class~="text-blue-700"],
+.admin-shell [class~="text-blue-600"],
+.admin-shell [class~="text-sky-700"] { color: var(--color-secondary); }
+.admin-shell [class~="border-blue-200"],
+.admin-shell [class~="border-sky-200"] { border-color: color-mix(in srgb, var(--color-secondary) 35%, var(--color-border)); }
+.admin-shell [class~="bg-purple-50"],
+.admin-shell [class~="bg-indigo-50"] { background-color: var(--color-accent-light); }
+.admin-shell [class~="bg-purple-100"] { background-color: color-mix(in srgb, var(--color-accent) 55%, var(--color-surface)); }
+.admin-shell [class~="text-purple-700"],
+.admin-shell [class~="text-purple-600"],
+.admin-shell [class~="text-indigo-600"] { color: var(--color-secondary-dark); }
+.admin-shell [class~="border-purple-200"] { border-color: var(--color-accent-dark); }
+.admin-shell [class~="bg-orange-50"] { background-color: color-mix(in srgb, var(--color-primary) 9%, var(--color-surface)); }
+.admin-shell [class~="bg-orange-100"] { background-color: color-mix(in srgb, var(--color-primary) 14%, var(--color-surface)); }
+.admin-shell [class~="text-orange-700"],
+.admin-shell [class~="text-orange-600"] { color: var(--color-primary-dark); }
+.admin-shell [class~="border-orange-200"],
+.admin-shell [class~="border-orange-300"] { border-color: var(--color-primary-light); }
+
+.admin-shell input,
+.admin-shell textarea,
+.admin-shell select {
+  border-color: var(--color-border);
+  background-color: var(--color-surface);
+  color: var(--color-foreground);
+}
+.admin-shell input::placeholder,
+.admin-shell textarea::placeholder { color: var(--color-text-muted); opacity: 0.8; }
+.admin-shell input:focus,
+.admin-shell textarea:focus,
+.admin-shell select:focus {
+  border-color: var(--color-primary-light);
+  outline: none;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 14%, transparent);
+}
+.admin-shell [class~="placeholder-slate-400"]::placeholder { color: var(--color-text-muted); }
+.admin-shell [class~="shadow-teal-200"] { --tw-shadow-color: color-mix(in srgb, var(--color-primary) 18%, transparent); }
+
+.admin-shell ::selection { background: color-mix(in srgb, var(--color-primary) 22%, transparent); }
+
+/* TipTap Editor Placeholder */
+.tiptap p.is-editor-empty:first-child::before {
+  color: var(--color-text-muted);
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+
+/* TipTap Editor Styles */
+.tiptap {
+  outline: none;
+  min-height: 300px;
+}
+
+.tiptap h1 { font-size: 1.875rem; font-weight: 700; line-height: 1.2; margin-top: 1.5rem; margin-bottom: 0.75rem; color: var(--color-foreground); }
+.tiptap h2 { font-size: 1.5rem; font-weight: 700; line-height: 1.3; margin-top: 1.25rem; margin-bottom: 0.5rem; color: var(--color-foreground); }
+.tiptap h3 { font-size: 1.25rem; font-weight: 600; line-height: 1.4; margin-top: 1rem; margin-bottom: 0.5rem; color: var(--color-foreground); }
+.tiptap p { margin-bottom: 0.75rem; line-height: 1.7; color: var(--color-text); }
+.tiptap ul { list-style-type: disc; padding-left: 1.5rem; margin-bottom: 0.75rem; }
+.tiptap ol { list-style-type: decimal; padding-left: 1.5rem; margin-bottom: 0.75rem; }
+.tiptap li { margin-bottom: 0.25rem; }
+.tiptap blockquote {
+  border-left: 3px solid var(--color-primary);
+  padding-left: 1rem;
+  margin: 1rem 0;
+  font-style: italic;
+  color: var(--color-text-muted);
+}
+/* Image captions stay hidden inside the editor — they're stored in the DOM and
+   only surfaced in the alt/caption dialog (just like alt text). They still
+   render on the public site via .rich-text figure/figcaption. */
+.tiptap figure { margin: 1rem 0; }
+.tiptap figcaption { display: none; }
+/* Tables inside the editor */
+.tiptap .tableWrapper { overflow-x: auto; margin: 1rem 0; }
+.tiptap table { border-collapse: collapse; width: 100%; table-layout: fixed; }
+.tiptap th, .tiptap td {
+  border: 1px solid var(--color-border);
+  padding: 0.5rem 0.75rem;
+  min-width: 80px;
+  position: relative;
+  vertical-align: top;
+}
+.tiptap th { background: var(--color-surface-alt); font-weight: 600; }
+.tiptap .selectedCell::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: color-mix(in srgb, var(--color-primary) 15%, transparent);
+  pointer-events: none;
+}
+.tiptap .column-resize-handle {
+  background-color: var(--color-primary);
+  bottom: -2px;
+  position: absolute;
+  right: -2px;
+  top: 0;
+  width: 4px;
+  pointer-events: none;
+}
+/* FAQ block (custom node) inside the editor */
+.tiptap .faq-block { margin: 1rem 0; }
+.tiptap pre {
+  background: var(--color-secondary-dark);
+  color: var(--color-footer-text);
+  border-radius: 0.75rem;
+  padding: 1rem;
+  font-family: ui-monospace, monospace;
+  font-size: 0.875rem;
+  overflow-x: auto;
+  margin: 1rem 0;
+}
+.tiptap code {
+  background: var(--color-surface-alt);
+  color: var(--color-foreground);
+  border-radius: 0.25rem;
+  padding: 0.125rem 0.375rem;
+  font-size: 0.875rem;
+}
+.tiptap pre code {
+  background: transparent;
+  color: inherit;
+  padding: 0;
+}
+.tiptap img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.75rem;
+  margin: 1rem 0;
+}
+.tiptap img:not([width]):not([height]) {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  background: var(--color-surface-alt);
+}
+.tiptap a {
+  color: var(--color-primary-dark);
+  text-decoration: underline;
+  cursor: pointer;
+}
+.tiptap a:hover { color: var(--color-primary); }
+.tiptap hr {
+  border: none;
+  border-top: 2px solid var(--color-border);
+  margin: 1.5rem 0;
+}
+.tiptap s { text-decoration: line-through; }
+.tiptap u { text-decoration: underline; }
+
+/* TipTap Selected Node */
+.tiptap *::selection {
+  background: color-mix(in srgb, var(--color-primary) 18%, transparent);
+}
+
+/* Smooth Page Transitions */
+main {
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Status Badge Pulse for Pending Items */
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.status-pending-dot {
+  animation: pulse-dot 2s ease-in-out infinite;
+}

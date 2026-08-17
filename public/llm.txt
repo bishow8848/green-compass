@@ -1,0 +1,86 @@
+# Mardi Treks — Company & Trekking Information
+
+## Company Overview
+Mardi Treks is a premier trekking and tour agency based in Pokhara, Nepal. Founded by local trekking experts, we specialize in guided trekking expeditions, cultural tours, and climbing adventures across Nepal's Himalayan regions. We have 8+ years of experience, 15+ certified guides, and have served 2,500+ trekkers from 40+ countries.
+
+## Services
+- Guided trekking expeditions (Mardi Himal, Annapurna, Everest, Langtang regions)
+- Custom itinerary planning and private treks
+- Cultural tours and sightseeing packages
+- Climbing expeditions
+- Group and private trekking options (groups of 2-12 trekkers)
+- Airport transfers and hotel arrangements
+- Permits and paperwork handling (TIMS, ACAP, national park permits)
+
+## Key Destinations & Trekking Routes
+- **Mardi Himal Trek** — 3 to 9 day options, max altitude 4,500m, moderate difficulty, from $250
+- **Mardi Himal Trek From Pokhara** — 5 days, moderate, from $335
+- **Short Mardi Himal Trek From Pokhara** — 3 days, challenging, from $250
+- Annapurna region treks
+- Everest Base Camp treks (planned)
+- Langtang Valley treks (planned)
+
+## Why Choose Mardi Treks
+- Safety First: All guides are wilderness first-aid certified with high-altitude experience
+- Expert Local Guides: Combined decades of experience across Nepal's trekking regions
+- Sustainable Travel: Leave No Trace principles, eco-friendly lodges, carbon offset programs
+- Community Impact: Fair wages, school support, sustainable practices in mountain communities
+- 24/7 Customer Support: Round-the-clock assistance before, during, and after your trek
+- No Hidden Charges: Transparent pricing as mentioned in the itinerary
+- Tailored for All Budgets: Custom modification options for every budget type
+
+## Team
+- Bishow Devkota — Trip Consultant, contactable via phone (+977 9864379436) and WhatsApp
+- Team of 15+ certified guides with 5-15 years of high-altitude experience
+
+## Certifications & Associations
+- Registered with Government of Nepal
+- Nepal Tourism Board (NTB)
+- Trekking Agencies' Association of Nepal (TAAN)
+- Nepal Mountaineering Association (NMA)
+- Traveler's Choice 2026 award recipient
+- Recommended on Booking.com and Review.co
+
+## Important Trekking Information
+- **Best seasons**: Spring (Mar-May) and Autumn (Sep-Nov) for clear views and stable weather
+- **Permits required**: TIMS card + ACAP/national park permit (handled by Mardi Treks)
+- **Guide requirement**: Mandatory by Nepal law for foreign trekkers on most routes
+- **Insurance**: Comprehensive travel insurance with helicopter evacuation coverage up to 5,000m is mandatory
+- **Accommodation**: Tea houses and lodges along all major trekking routes
+- **Difficulty levels**: Easy, Moderate, Challenging — suitable for beginners with good fitness
+
+## Pricing (2026)
+- Mardi Himal Trek (9 days): From $430 per person
+- Mardi Himal Trek From Pokhara (5 days): From $335 per person
+- Short Mardi Himal Trek (3 days): From $250 per person
+- Prices include: guide, permits, accommodation, meals on trek
+- Group discounts available for parties of 4+
+
+## Contact Information
+- Email: info@marditreks.com
+- Phone/WhatsApp: +977 9864379436
+- Address: Lakeside, Pokhara, Nepal
+- Office Hours: Sunday-Friday, 9AM-6PM
+
+## Website Structure
+- Homepage: https://www.marditreks.com
+- Treks category: https://www.marditreks.com/treks
+- Trek detail pages: https://www.marditreks.com/treks/{trek-slug}
+- Blog: https://www.marditreks.com/blog
+- About: https://www.marditreks.com/about
+- Contact: https://www.marditreks.com/contact
+- Search: https://www.marditreks.com/search
+- Sitemap: https://www.marditreks.com/sitemap.xml
+- Robots: https://www.marditreks.com/robots.txt
+- LLMs discovery: https://www.marditreks.com/llms.txt
+
+## Technical
+- Framework: Next.js with React Server Components
+- Database: PostgreSQL via Prisma ORM
+- CMS: Payload CMS
+- Cache: Upstash Redis
+- Image CDN: Cloudinary
+- Hosting: Vercel (Edge Network)
+- Analytics: Vercel Analytics
+- Error Monitoring: Sentry
+- Payments: Stripe
