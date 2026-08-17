@@ -75,23 +75,26 @@ export async function savePageContent(formData: FormData) {
     };
   }
 
-  // Also persist home data to homePageSettings for the frontend
-  // Only update featuredTrekIds/featuredSectionTrekIds when the Home tab form
-  // actually submitted them — otherwise preserve existing values to avoid
-  // wiping treks when saving from About/Blog/Contact/Footer tabs.
-  const hasFeaturedTrekIds = formData.has("featuredTrekIds");
-  if (hasHomeFields && !hasFeaturedTrekIds) {
+  // Also persist home data to homePageSettings for the frontend.
+  // featuredSectionTrekIds comes from the FeaturedTrekSelector hidden input —
+  // only update it when the Home tab form actually submitted it, otherwise
+  // preserve existing values to avoid wiping treks when saving from
+  // About/Blog/Contact/Footer tabs.
+  const hasFeaturedSectionIds = formData.has("featuredSectionTrekIds");
+  if (hasHomeFields && !hasFeaturedSectionIds) {
     const existing = await prisma.homePageSettings.findUnique({
       where: { id: "home-settings" },
-      select: { featuredTrekIds: true, featuredSectionTrekIds: true },
+      select: { featuredSectionTrekIds: true },
     });
     const homeUpdate: any = {
       heroTitle: formData.get("home_hero_title") as string,
       heroTitleHighlight: formData.get("home_hero_title_highlight") as string,
-      heroDescription: formData.get("home_hero_description") as string,
       heroImage: formData.get("home_hero_background") as string,
       heroEnabled: true,
-      featuredTrekIds: existing?.featuredTrekIds ?? "[]",
+      heroPrimaryCtaLabel: (formData.get("home_hero_primary_cta_label") as string) || null,
+      heroPrimaryCtaHref: (formData.get("home_hero_primary_cta_href") as string) || null,
+      heroSecondaryCtaLabel: (formData.get("home_hero_secondary_cta_label") as string) || null,
+      heroSecondaryCtaHref: (formData.get("home_hero_secondary_cta_href") as string) || null,
       featuredSectionTrekIds: existing?.featuredSectionTrekIds ?? "[]",
       featuredTreksHeading: homeSectionsParsed.featuredTreksHeading,
       featuredTreksDescription: homeSectionsParsed.featuredTreksDescription,
@@ -132,10 +135,12 @@ export async function savePageContent(formData: FormData) {
         id: "home-settings",
         heroTitle: formData.get("home_hero_title") as string,
         heroTitleHighlight: formData.get("home_hero_title_highlight") as string,
-        heroDescription: formData.get("home_hero_description") as string,
         heroImage: formData.get("home_hero_background") as string,
         heroEnabled: true,
-        featuredTrekIds: formData.get("featuredTrekIds") as string || "[]",
+        heroPrimaryCtaLabel: (formData.get("home_hero_primary_cta_label") as string) || null,
+        heroPrimaryCtaHref: (formData.get("home_hero_primary_cta_href") as string) || null,
+        heroSecondaryCtaLabel: (formData.get("home_hero_secondary_cta_label") as string) || null,
+        heroSecondaryCtaHref: (formData.get("home_hero_secondary_cta_href") as string) || null,
         featuredSectionTrekIds: formData.get("featuredSectionTrekIds") as string || "[]",
         featuredTreksHeading: homeSectionsParsed.featuredTreksHeading,
         featuredTreksDescription: homeSectionsParsed.featuredTreksDescription,
@@ -166,10 +171,12 @@ export async function savePageContent(formData: FormData) {
       update: {
         heroTitle: formData.get("home_hero_title") as string,
         heroTitleHighlight: formData.get("home_hero_title_highlight") as string,
-        heroDescription: formData.get("home_hero_description") as string,
         heroImage: formData.get("home_hero_background") as string,
         heroEnabled: true,
-        featuredTrekIds: formData.get("featuredTrekIds") as string || "[]",
+        heroPrimaryCtaLabel: (formData.get("home_hero_primary_cta_label") as string) || null,
+        heroPrimaryCtaHref: (formData.get("home_hero_primary_cta_href") as string) || null,
+        heroSecondaryCtaLabel: (formData.get("home_hero_secondary_cta_label") as string) || null,
+        heroSecondaryCtaHref: (formData.get("home_hero_secondary_cta_href") as string) || null,
         featuredSectionTrekIds: formData.get("featuredSectionTrekIds") as string || "[]",
         featuredTreksHeading: homeSectionsParsed.featuredTreksHeading,
         featuredTreksDescription: homeSectionsParsed.featuredTreksDescription,

@@ -388,15 +388,17 @@ model SiteSetting {
 
 model HomePageSettings {
   id                     String  @id @default("home-settings")
-  featuredTrekIds        String? // JSON array of trek IDs — for hero carousel
   featuredSectionTrekIds String? // JSON array of trek IDs — for featured section below hero
 
-  // Static company hero slide
-  heroEnabled        Boolean @default(true)
-  heroTitle          String? // Main title text (before highlight)
-  heroTitleHighlight String? // Highlighted portion of title (e.g. "Himalayas")
-  heroDescription    String? // Description paragraph
-  heroImage          String? // Cloudinary public ID for background
+  // Static company hero (GreenCompassHero — 3D globe + compass)
+  heroEnabled          Boolean @default(true)
+  heroTitle            String? // Main title text (before highlight)
+  heroTitleHighlight   String? // Highlighted portion of title (e.g. "Himalayas")
+  heroImage            String? // Cloudinary public ID for background
+  heroPrimaryCtaLabel   String? @default("Start exploring") // Primary CTA button text
+  heroPrimaryCtaHref    String? @default("/search") // Primary CTA button link
+  heroSecondaryCtaLabel String? @default("View field notes") // Secondary CTA button text
+  heroSecondaryCtaHref  String? @default("/blog") // Secondary CTA button link
 
   // Section headings & descriptions
   featuredTreksHeading        String? @default("Featured Treks")

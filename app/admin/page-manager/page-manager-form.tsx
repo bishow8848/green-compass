@@ -80,13 +80,13 @@ interface Trek {
 export function PageManagerForm({
   pageContent: saved,
   treks = [],
-  initialFeaturedIds = [],
   initialFeaturedSectionIds = [],
+  homeHeroCtas = { primaryCtaLabel: "", primaryCtaHref: "", secondaryCtaLabel: "", secondaryCtaHref: "" },
 }: {
   pageContent: any;
   treks?: Trek[];
-  initialFeaturedIds?: string[];
   initialFeaturedSectionIds?: string[];
+  homeHeroCtas?: { primaryCtaLabel: string; primaryCtaHref: string; secondaryCtaLabel: string; secondaryCtaHref: string };
 }) {
   const router = useRouter();
   const [saving, setSaving] = useState(false);
@@ -126,7 +126,13 @@ export function PageManagerForm({
   const [contactInfoCards, setContactInfoCards] = useState(pc.contact?.infoCards || defaultInfoCards);
 
   // ── Home state ──
-  const [homeHero, setHomeHero] = useState(pc.home?.hero || { badge: "", title: "", titleHighlight: "", subtitle: "", description: "", backgroundImage: "" });
+  const [homeHero, setHomeHero] = useState({
+    ...(pc.home?.hero || { badge: "", title: "", titleHighlight: "", subtitle: "", description: "", backgroundImage: "" }),
+    primaryCtaLabel: homeHeroCtas.primaryCtaLabel,
+    primaryCtaHref: homeHeroCtas.primaryCtaHref,
+    secondaryCtaLabel: homeHeroCtas.secondaryCtaLabel,
+    secondaryCtaHref: homeHeroCtas.secondaryCtaHref,
+  });
   const [homeSections, setHomeSections] = useState(pc.home?.sections || { featuredTreksHeading: "", featuredTreksDescription: "", topRatedTreksHeading: "", topRatedTreksDescription: "", reviewsHeading: "", reviewsDescription: "", blogHeading: "", blogDescription: "" });
   const [homeWhy, setHomeWhy] = useState(pc.home?.whyChooseUs || { heading: "Why Trek With Us?", subtitle: "Discover the Difference", bgImage: "", items: defaultWhyChooseUsItems });
   const [homeContact, setHomeContact] = useState(pc.home?.contact || { heading: "Get in Touch", description: "", infoCards: defaultInfoCards });
@@ -269,8 +275,11 @@ export function PageManagerForm({
     // Home (override with state-managed values)
     fd.set("home_hero_title", homeHero.title);
     fd.set("home_hero_title_highlight", homeHero.titleHighlight);
-    fd.set("home_hero_description", homeHero.description);
     fd.set("home_hero_background", orUploaded("homeHero", homeHero.backgroundImage));
+    fd.set("home_hero_primary_cta_label", homeHero.primaryCtaLabel || "");
+    fd.set("home_hero_primary_cta_href", homeHero.primaryCtaHref || "");
+    fd.set("home_hero_secondary_cta_label", homeHero.secondaryCtaLabel || "");
+    fd.set("home_hero_secondary_cta_href", homeHero.secondaryCtaHref || "");
     fd.set("home_sections", JSON.stringify(homeSections));
     fd.set("home_why_heading", homeWhy.heading);
     fd.set("home_why_subtitle", homeWhy.subtitle);
@@ -452,21 +461,33 @@ export function PageManagerForm({
             <div className="mb-4">
               <div>
                 <h3 className="text-sm font-bold text-slate-900">Hero Section</h3>
-                <p className="text-xs text-slate-400">The company slide is always shown first in the hero carousel</p>
+                <p className="text-xs text-slate-400">Headline, highlight and CTA buttons for the 3D-globe hero on the homepage.</p>
               </div>
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
               <div>
                 <label className="block text-xs font-medium text-slate-500 mb-1">Title</label>
-                <input value={homeHero.title} onChange={(e) => setHomeHeroField("title", e.target.value)} placeholder="e.g. Discover the Himalayas" className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" />
+                <input value={homeHero.title} onChange={(e) => setHomeHeroField("title", e.target.value)} placeholder="e.g. Go where the world feels" className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" />
               </div>
               <div>
                 <label className="block text-xs font-medium text-slate-500 mb-1">Title Highlight</label>
                 <input value={homeHero.titleHighlight} onChange={(e) => setHomeHeroField("titleHighlight", e.target.value)} placeholder="Highlighted word in title" className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" />
               </div>
-              <div className="sm:col-span-2">
-                <label className="block text-xs font-medium text-slate-500 mb-1">Description</label>
-                <textarea rows={2} value={homeHero.description} onChange={(e) => setHomeHeroField("description", e.target.value)} placeholder="Hero description..." className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" />
+              <div>
+                <label className="block text-xs font-medium text-slate-500 mb-1">Primary CTA Label</label>
+                <input value={homeHero.primaryCtaLabel || ""} onChange={(e) => setHomeHeroField("primaryCtaLabel", e.target.value)} placeholder="Start exploring" className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" />
+              </div>
+              <div>
+                <label className="block text-xs font-medium text-slate-500 mb-1">Primary CTA Link</label>
+                <input value={homeHero.primaryCtaHref || ""} onChange={(e) => setHomeHeroField("primaryCtaHref", e.target.value)} placeholder="/search" className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" />
+              </div>
+              <div>
+                <label className="block text-xs font-medium text-slate-500 mb-1">Secondary CTA Label</label>
+                <input value={homeHero.secondaryCtaLabel || ""} onChange={(e) => setHomeHeroField("secondaryCtaLabel", e.target.value)} placeholder="View field notes" className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" />
+              </div>
+              <div>
+                <label className="block text-xs font-medium text-slate-500 mb-1">Secondary CTA Link</label>
+                <input value={homeHero.secondaryCtaHref || ""} onChange={(e) => setHomeHeroField("secondaryCtaHref", e.target.value)} placeholder="/blog" className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" />
               </div>
               <div className="sm:col-span-2">
                 <label className="block text-xs font-medium text-slate-500 mb-1">Background Image</label>
@@ -478,7 +499,6 @@ export function PageManagerForm({
           {/* Trek Selectors */}
           <FeaturedTrekSelector
             treks={treks}
-            initialFeaturedIds={initialFeaturedIds}
             initialFeaturedSectionIds={initialFeaturedSectionIds}
           />
 

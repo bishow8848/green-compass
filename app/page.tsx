@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 import { prisma } from "@/lib/prisma";
 import { getCachedOrFetch, cacheKeys, CACHE_TTL } from "@/lib/redis";
-import { HeroCarousel } from "@/components/home/HeroCarousel";
+import { GreenCompassHero } from "@/components/home/GreenCompassHero";
 import { FeaturedTreksSection } from "@/components/home/FeaturedTreksSection";
 import { TopRatedTreks } from "@/components/home/TopRatedTreks";
 import { WhyChooseUs } from "@/components/home/WhyChooseUs";
@@ -87,42 +87,12 @@ export default async function HomePage() {
   ]);
   const homeContent = requirePageSection<any>(pageContent, "home");
 
-  const featuredTrekIds: string[] = settings?.featuredTrekIds
-    ? JSON.parse(settings.featuredTrekIds)
-    : [];
-
   const featuredSectionIds: string[] = settings?.featuredSectionTrekIds
     ? JSON.parse(settings.featuredSectionTrekIds)
     : [];
 
   // Start every independent home-page read together. This removes the
   // cache/DB waterfall that previously delayed the initial response.
-  const featuredTreksPromise = featuredTrekIds.length > 0
-    ? getCachedOrFetch(
-      cacheKeys.featuredTreks,
-      () => prisma.trek.findMany({
-        where: { id: { in: featuredTrekIds }, status: "published" },
-        select: {
-          id: true, title: true, slug: true, subtitle: true, heroImage: true,
-          maxGroupSize: true, duration: true, region: true, difficulty: true,
-          price: true, geoJsonData: true, geoJsonUrl: true, waypoints: true,
-          centerLat: true, centerLng: true, zoom: true, pitch: true,
-          category: { select: { slug: true } },
-          pricingTiers: { select: { groupSize: true, pricePerPerson: true } },
-          reviews: { where: { approved: true }, select: { rating: true } },
-          itinerary: {
-            orderBy: { dayNumber: "asc" },
-            select: {
-              dayNumber: true, title: true, elevation: true,
-              description: true, accommodation: true,
-            },
-          },
-          _count: { select: { reviews: true } },
-        },
-      }),
-      CACHE_TTL.MODERATE
-    )
-    : Promise.resolve([]);
   const featuredSectionPromise = featuredSectionIds.length > 0
     ? getCachedOrFetch(
       cacheKeys.featuredSectionTreks,
@@ -148,16 +118,15 @@ export default async function HomePage() {
     CACHE_TTL.MODERATE
   );
 
-  // Build hero content for the company slide
+  // Build hero content for the GreenCompassHero
   // Priority: HomePageSettings table → pageContent JSON (Page Manager form) → fallback undefined
   const pageHero = homeContent.hero || {};
-  const heroContent = {
-    enabled: true,
-    title: settings?.heroTitle || pageHero.title || "",
-    titleHighlight: settings?.heroTitleHighlight || pageHero.titleHighlight || "",
-    description: settings?.heroDescription || pageHero.description || "",
-    image: settings?.heroImage || pageHero.backgroundImage || "",
-  };
+  const heroPrimaryCta = settings?.heroPrimaryCtaLabel
+    ? { label: settings.heroPrimaryCtaLabel, href: settings.heroPrimaryCtaHref || "/search" }
+    : undefined;
+  const heroSecondaryCta = settings?.heroSecondaryCtaLabel
+    ? { label: settings.heroSecondaryCtaLabel, href: settings.heroSecondaryCtaHref || "/blog" }
+    : undefined;
 
   // Fetch latest approved reviews for the carousel
   const latestReviewsPromise = getCachedOrFetch(
@@ -172,18 +141,15 @@ export default async function HomePage() {
   );
 
   const [
-    featuredTreksData,
     featuredSectionTreks,
     allTreksForSearch,
     latestReviews,
   ] = await Promise.all([
-    featuredTreksPromise,
     featuredSectionPromise,
     searchTreksPromise,
     latestReviewsPromise,
   ]);
 
-  featuredTreksData.sort((a, b) => featuredTrekIds.indexOf(a.id) - featuredTrekIds.indexOf(b.id));
   featuredSectionTreks.sort((a, b) => featuredSectionIds.indexOf(a.id) - featuredSectionIds.indexOf(b.id));
 
   // Section content from settings
@@ -314,11 +280,12 @@ export default async function HomePage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: serializeJsonLd(homepageSchema) }}
       />
-      {/* Hero */}
-      <HeroCarousel
-        treks={JSON.parse(JSON.stringify(featuredTreksData))}
-        heroContent={heroContent}
-        allTreks={JSON.parse(JSON.stringify(allTreksForSearch))}
+      {/* Hero — 3D globe + compass */}
+      <GreenCompassHero
+        title={settings?.heroTitle || pageHero.title || ""}
+        titleHighlight={settings?.heroTitleHighlight || pageHero.titleHighlight || ""}
+        primaryCta={heroPrimaryCta}
+        secondaryCta={heroSecondaryCta}
       />
 
       {/* Featured Treks */}

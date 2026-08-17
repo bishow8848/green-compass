@@ -20,12 +20,15 @@ export default async function PageManagerPage() {
   }
 
   const hs = homeSettings as any;
-  const initialFeaturedIds: string[] = hs?.featuredTrekIds
-    ? JSON.parse(hs.featuredTrekIds)
-    : [];
   const initialFeaturedSectionIds: string[] = hs?.featuredSectionTrekIds
     ? JSON.parse(hs.featuredSectionTrekIds)
     : [];
+  const homeHeroCtas = {
+    primaryCtaLabel: hs?.heroPrimaryCtaLabel || "",
+    primaryCtaHref: hs?.heroPrimaryCtaHref || "",
+    secondaryCtaLabel: hs?.heroSecondaryCtaLabel || "",
+    secondaryCtaHref: hs?.heroSecondaryCtaHref || "",
+  };
 
   return (
     <div>
@@ -38,8 +41,8 @@ export default async function PageManagerPage() {
       <PageManagerForm
         pageContent={pageContent}
         treks={JSON.parse(JSON.stringify(treks))}
-        initialFeaturedIds={initialFeaturedIds}
         initialFeaturedSectionIds={initialFeaturedSectionIds}
+        homeHeroCtas={homeHeroCtas}
       />
     </div>
   );

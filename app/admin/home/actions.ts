@@ -10,8 +10,6 @@ export async function updateHomeSettings(formData: FormData) {
   const session = await auth();
   if (!session || (session.user as any).role !== "admin") throw new Error("Unauthorized");
 
-  const featuredTrekIdsRaw = formData.get("featuredTrekIds") as string;
-  const featuredTrekIds = featuredTrekIdsRaw ? JSON.parse(featuredTrekIdsRaw) : [];
   const featuredSectionIdsRaw = formData.get("featuredSectionTrekIds") as string;
   const featuredSectionIds = featuredSectionIdsRaw ? JSON.parse(featuredSectionIdsRaw) : [];
 
@@ -20,15 +18,17 @@ export async function updateHomeSettings(formData: FormData) {
   const whyChooseUsItems = whyChooseUsItemsRaw ? JSON.parse(whyChooseUsItemsRaw) : null;
 
   const data: any = {
-    featuredTrekIds: JSON.stringify(featuredTrekIds),
     featuredSectionTrekIds: JSON.stringify(featuredSectionIds),
 
     // Hero
     heroEnabled: formData.get("heroEnabled") === "on",
     heroTitle: (formData.get("heroTitle") as string) || null,
     heroTitleHighlight: (formData.get("heroTitleHighlight") as string) || null,
-    heroDescription: (formData.get("heroDescription") as string) || null,
     heroImage: (formData.get("heroImage") as string) || null,
+    heroPrimaryCtaLabel: (formData.get("heroPrimaryCtaLabel") as string) || null,
+    heroPrimaryCtaHref: (formData.get("heroPrimaryCtaHref") as string) || null,
+    heroSecondaryCtaLabel: (formData.get("heroSecondaryCtaLabel") as string) || null,
+    heroSecondaryCtaHref: (formData.get("heroSecondaryCtaHref") as string) || null,
 
     // Section headings
     featuredTreksHeading: (formData.get("featuredTreksHeading") as string) || null,
