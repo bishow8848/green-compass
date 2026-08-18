@@ -1,5 +1,7 @@
 "use client";
 
+import { CLOUDINARY_CLOUD_NAME } from "@/lib/cloudinary-url";
+
 import { useState, useEffect, useCallback, useMemo, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -197,7 +199,7 @@ export function HeroCarousel({ treks, heroContent, allTreks }: Props) {
         <div className="absolute inset-0">
           {c.image ? (
             <Image
-              src={`https://res.cloudinary.com/dk7ggjvlw/image/upload/c_fill,w_1920,q_auto,f_auto/${c.image}`}
+              src={`https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/c_fill,w_1920,q_auto,f_auto/${c.image}`}
               alt=""
               fill
               className="object-cover scale-105"
@@ -279,7 +281,7 @@ export function HeroCarousel({ treks, heroContent, allTreks }: Props) {
               }`}>
               {imgSrc ? (
                 <Image
-                  src={`https://res.cloudinary.com/dk7ggjvlw/image/upload/c_fill,w_1920,q_auto,f_auto/${imgSrc}`}
+                  src={`https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/c_fill,w_1920,q_auto,f_auto/${imgSrc}`}
                   alt={altText}
                   fill
                   className="object-cover"
@@ -419,7 +421,7 @@ export function HeroCarousel({ treks, heroContent, allTreks }: Props) {
               geoJsonData={trek.geoJsonData}
               waypoints={waypoints}
               itinerary={trek.itinerary}
-              staticFallbackImage={trek.heroImage ? `https://res.cloudinary.com/dk7ggjvlw/image/upload/${trek.heroImage}` : undefined}
+              staticFallbackImage={trek.heroImage ? `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/${trek.heroImage}` : undefined}
               startExpanded={true}
               onClose={() => setFullscreenView(null)}
             />

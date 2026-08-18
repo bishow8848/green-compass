@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { CLOUDINARY_CLOUD_NAME } from "@/lib/cloudinary-url";
 import { Calendar, Clock, ArrowRight, FileText } from "lucide-react";
 
 interface BlogCardProps {
@@ -26,7 +27,7 @@ export function BlogCard({ slug, title, excerpt, heroImage, tags, date, readTime
       >
         {heroImage ? (
           <img
-            src={`https://res.cloudinary.com/dk7ggjvlw/image/upload/c_fill,w_600,q_auto,f_auto/${heroImage}`}
+            src={`https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/c_fill,w_600,q_auto,f_auto/${heroImage}`}
             alt={title}
             width={600}
             height={450}

@@ -1,4 +1,5 @@
 import React from "react";
+import { CLOUDINARY_CLOUD_NAME } from "@/lib/cloudinary-url";
 import { Clock, Gauge, Mountain, Calendar, Tag, MapPin } from "lucide-react";
 import { Users, ArrowRight } from "lucide-react";
 
@@ -84,7 +85,7 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
       type: "article",
       url: `${SITE_URL}/${catSlug}/${slug}`,
       images: trek.heroImage
-        ? [{ url: `https://res.cloudinary.com/dk7ggjvlw/image/upload/c_fill,w_1200,h_630,q_auto,f_auto/${trek.heroImage}`, width: 1200, height: 630 }]
+        ? [{ url: `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/c_fill,w_1200,h_630,q_auto,f_auto/${trek.heroImage}`, width: 1200, height: 630 }]
         : undefined,
     },
     twitter: {
@@ -92,7 +93,7 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
       title: socialTitle,
       description,
       images: trek.heroImage
-        ? [`https://res.cloudinary.com/dk7ggjvlw/image/upload/c_fill,w_1200,h_630,q_auto,f_auto/${trek.heroImage}`]
+        ? [`https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/c_fill,w_1200,h_630,q_auto,f_auto/${trek.heroImage}`]
         : undefined,
     },
   };
@@ -246,10 +247,10 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
             description: trek.metaDescription || trek.overview?.replace(/<[^>]*>/g, "").slice(0, 300),
             image: [
               ...(trek.heroImage
-                ? [`https://res.cloudinary.com/dk7ggjvlw/image/upload/${trek.heroImage}`]
+                ? [`https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/${trek.heroImage}`]
                 : []),
               ...(trek.galleryImages || []).map(
-                (g: any) => `https://res.cloudinary.com/dk7ggjvlw/image/upload/${g.imageId}`
+                (g: any) => `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/${g.imageId}`
               ),
             ],
             category: trek.category?.name || undefined,
@@ -373,7 +374,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
         {/* Background image with parallax */}
         {trek.heroImage ? (
           <Image
-            src={`https://res.cloudinary.com/dk7ggjvlw/image/upload/c_fill,w_1920,q_auto,f_auto/${trek.heroImage}`}
+            src={`https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/c_fill,w_1920,q_auto,f_auto/${trek.heroImage}`}
             alt={`${trek.title} in Nepal`}
             fill
             sizes="100vw"
@@ -1167,7 +1168,7 @@ sectionMap["gallery"] = () => trek.galleryImages?.length > 0 ? <GallerySection
                         {st.heroImage ? (
                           <div className="relative aspect-[4/3] overflow-hidden">
                             <img
-                              src={`https://res.cloudinary.com/dk7ggjvlw/image/upload/c_fill,w_600,q_auto,f_auto/${st.heroImage}`}
+                              src={`https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/c_fill,w_600,q_auto,f_auto/${st.heroImage}`}
                               alt={st.title}
                               width={600}
                               height={450}

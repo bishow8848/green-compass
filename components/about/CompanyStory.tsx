@@ -1,7 +1,8 @@
 import Image from "next/image";
+import { CLOUDINARY_CLOUD_NAME } from "@/lib/cloudinary-url";
 import { BookOpen, Star } from "lucide-react";
 
-const CLOUDINARY_BASE = "https://res.cloudinary.com/dk7ggjvlw/image/upload/";
+const CLOUDINARY_BASE = `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/`;
 
 interface CompanyStoryProps {
   heading?: string;

@@ -1,5 +1,7 @@
 "use client";
 
+import { CLOUDINARY_CLOUD_NAME } from "@/lib/cloudinary-url";
+
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useRef, useEffect } from "react";
@@ -61,6 +63,7 @@ export function Header({
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [hoveredDropdown, setHoveredDropdown] = useState<string | null>(null);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(false);
   const { data: session } = useSession();
   const pathname = usePathname();
 
@@ -85,6 +88,17 @@ export function Header({
     window.addEventListener("scroll", handleScroll, { passive: true });
     evaluate();
     return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Track whether the viewport is desktop (lg = 1024px and up). The expanded
+  // header layout (logo spanning the top-bar row) only makes sense on desktop
+  // where the top bar is actually shown — on mobile it's always the compact nav.
+  useEffect(() => {
+    const mql = window.matchMedia("(min-width: 1024px)");
+    const update = () => setIsDesktop(mql.matches);
+    update();
+    mql.addEventListener("change", update);
+    return () => mql.removeEventListener("change", update);
   }, []);
 
   // Close dropdown when hovering away
@@ -180,14 +194,15 @@ export function Header({
   }
 
   // The "tall, logo spans both rows" layout only ever applies when there IS
-  // a top bar to share space with, and only while at the top of the page.
-  // No top bar, or scrolled -> always the normal compact header.
-  const showExpanded = Boolean(topBarContent) && !isScrolled;
+  // a top bar to share space with, only on desktop (lg+ where the top bar is
+  // shown), and only while at the top of the page. Mobile always gets the
+  // normal compact header — even when not scrolled.
+  const showExpanded = Boolean(topBarContent) && !isScrolled && isDesktop;
 
   const logoContent = siteLogo ? (
     // eslint-disable-next-line @next/next/no-img-element
     <img
-      src={`https://res.cloudinary.com/dk7ggjvlw/image/upload/f_auto,q_auto,w_480/${siteLogo}`}
+      src={`https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/f_auto,q_auto,w_480/${siteLogo}`}
       alt="Mardi Treks"
       width={240}
       height={160}
@@ -453,7 +468,8 @@ export function Header({
             {logoContent}
           </Link>
 
-          <div className="flex items-center justify-end border-b border-slate-100 py-1.5">
+          {/* Top bar (announcement content) — hidden on mobile, shown from lg up */}
+          <div className="hidden items-center justify-end border-b border-slate-100 py-1.5 lg:flex">
             <div
               className="flex flex-wrap items-center justify-end gap-x-3 gap-y-0.5 text-[11.5px] leading-relaxed text-text-muted [&_p]:my-0 [&_a]:font-medium [&_a]:text-primary [&_a]:transition-opacity [&_a]:hover:opacity-75"
               dangerouslySetInnerHTML={{ __html: topBarContent || "" }}
@@ -505,7 +521,7 @@ export function Header({
             {siteLogo ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img
-                src={`https://res.cloudinary.com/dk7ggjvlw/image/upload/f_auto,q_auto,w_480/${siteLogo}`}
+                src={`https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/f_auto,q_auto,w_480/${siteLogo}`}
                 alt="Mardi Treks"
                 width={240}
                 height={160}

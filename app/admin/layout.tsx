@@ -16,6 +16,7 @@ export const nav = [
   { label: "Pages", href: "/admin/pages", icon: "Calendar" },
   { label: "Page Manager", href: "/admin/page-manager", icon: "FileText" },
   { label: "Navigation", href: "/admin/navigation", icon: "Menu" },
+  { label: "Redirects", href: "/admin/redirects", icon: "ArrowRightLeft" },
   { label: "Settings", href: "/admin/settings", icon: "Settings" },
 ];
 

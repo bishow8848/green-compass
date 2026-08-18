@@ -1,5 +1,7 @@
 "use client";
 
+import { CLOUDINARY_CLOUD_NAME } from "@/lib/cloudinary-url";
+
 import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { X, Star, Search, Mountain, Upload, Loader2, ImageIcon, Plus, Trash2, GripVertical } from "lucide-react";
@@ -84,7 +86,7 @@ export function HomeForm({
   const [addingToHero, setAddingToHero] = useState(true);
   const [heroImage, setHeroImage] = useState(heroContent.heroImage);
   const [heroImagePreview, setHeroImagePreview] = useState<string | null>(
-    heroContent.heroImage ? `https://res.cloudinary.com/dk7ggjvlw/image/upload/${heroContent.heroImage}` : null
+    heroContent.heroImage ? `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/${heroContent.heroImage}` : null
   );
   const [whyChooseItems, setWhyChooseItems] = useState<WhyChooseItem[]>(
     whyChooseUsContent.whyChooseUsItems.length > 0
@@ -202,7 +204,7 @@ export function HomeForm({
       const data = await res.json();
       if (data.publicId) {
         setHeroImage(data.publicId);
-        setHeroImagePreview(`https://res.cloudinary.com/dk7ggjvlw/image/upload/${data.publicId}`);
+        setHeroImagePreview(`https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/${data.publicId}`);
         setPendingHeroFile(null);
         return data.publicId;
       }

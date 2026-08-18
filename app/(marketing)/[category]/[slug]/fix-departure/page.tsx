@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { CLOUDINARY_CLOUD_NAME } from "@/lib/cloudinary-url";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { SITE_URL } from "@/lib/seo";
@@ -57,7 +58,7 @@ export async function generateMetadata({
       type: "website",
       url: `${SITE_URL}/${catSlug}/${slug}/fix-departure`,
       images: trek.heroImage
-        ? [{ url: `https://res.cloudinary.com/dk7ggjvlw/image/upload/c_fill,w_1200,h_630,q_auto,f_auto/${trek.heroImage}`, width: 1200, height: 630 }]
+        ? [{ url: `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/c_fill,w_1200,h_630,q_auto,f_auto/${trek.heroImage}`, width: 1200, height: 630 }]
         : undefined,
     },
   };

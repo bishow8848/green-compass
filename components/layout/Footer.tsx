@@ -1,4 +1,5 @@
 import React from "react";
+import { CLOUDINARY_CLOUD_NAME } from "@/lib/cloudinary-url";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { getCachedOrFetch, cacheKeys, CACHE_TTL } from "@/lib/redis";
@@ -11,7 +12,7 @@ import {
   ChevronRight,
 } from "lucide-react";
 
-const CLOUDINARY_BASE = "https://res.cloudinary.com/dk7ggjvlw/image/upload/";
+const CLOUDINARY_BASE = `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/`;
 
 /**
  * Build a Cloudinary URL with auto-format & auto-quality.

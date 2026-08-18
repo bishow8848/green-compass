@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { CLOUDINARY_CLOUD_NAME } from "@/lib/cloudinary-url";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Calendar, Clock, ArrowLeft, Mountain } from "lucide-react";
@@ -27,7 +28,7 @@ export async function generateMetadata({
   if (!author) return {};
 
   const avatarUrl = author.avatar
-    ? `https://res.cloudinary.com/dk7ggjvlw/image/upload/c_fill,w_300,h_300,q_auto,f_auto/${author.avatar}`
+    ? `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/c_fill,w_300,h_300,q_auto,f_auto/${author.avatar}`
     : undefined;
 
   return {
@@ -81,7 +82,7 @@ export default async function AuthorPage({
   if (!author) notFound();
 
   const avatarUrl = author.avatar
-    ? `https://res.cloudinary.com/dk7ggjvlw/image/upload/c_fill,w_300,h_300,q_auto,f_auto/${author.avatar}`
+    ? `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/c_fill,w_300,h_300,q_auto,f_auto/${author.avatar}`
     : null;
 
   const socialLinks: { platform: string; url: string }[] = (() => {
@@ -191,7 +192,7 @@ export default async function AuthorPage({
                   catch { return []; }
                 })();
                 const postImageUrl = post.heroImage
-                  ? `https://res.cloudinary.com/dk7ggjvlw/image/upload/c_fill,w_600,q_auto,f_auto/${post.heroImage}`
+                  ? `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/c_fill,w_600,q_auto,f_auto/${post.heroImage}`
                   : null;
 
                 return (

@@ -1,5 +1,7 @@
 "use client";
 
+import { CLOUDINARY_CLOUD_NAME } from "@/lib/cloudinary-url";
+
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { useGalleryLightbox } from "./GalleryContext";
@@ -117,7 +119,7 @@ export default function GallerySection({
           >
             <div className="relative aspect-[4/3]">
               <Image
-                src={`https://res.cloudinary.com/dk7ggjvlw/image/upload/${img.imageId}`}
+                src={`https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/${img.imageId}`}
                 alt={img.alt || `${trekTitle} photo`}
                 fill
                 className="object-cover transition-transform duration-300 group-hover:scale-105"
@@ -231,7 +233,7 @@ export default function GallerySection({
           >
             <div className="relative h-full w-full">
               <Image
-                src={`https://res.cloudinary.com/dk7ggjvlw/image/upload/${images[lightboxIndex].imageId}`}
+                src={`https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/${images[lightboxIndex].imageId}`}
                 alt={images[lightboxIndex].alt || `${trekTitle} photo`}
                 fill
                 className="object-contain"

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { CLOUDINARY_CLOUD_NAME } from "@/lib/cloudinary-url";
 import Image from "next/image";
 import type { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
@@ -114,7 +115,7 @@ export default async function SearchPage({
                   <div className="aspect-[16/9] overflow-hidden bg-surface-alt">
                     {trek.heroImage ? (
                       <Image
-                        src={`https://res.cloudinary.com/dk7ggjvlw/image/upload/c_fill,w_600,q_auto,f_auto/${trek.heroImage}`}
+                        src={`https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/c_fill,w_600,q_auto,f_auto/${trek.heroImage}`}
                         alt={trek.title}
                         width={600}
                         height={338}

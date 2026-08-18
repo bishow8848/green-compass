@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { CLOUDINARY_CLOUD_NAME } from "@/lib/cloudinary-url";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/react";
 import { Header } from "@/components/layout/Header";
@@ -17,7 +18,7 @@ import { serializeJsonLd, SITE_URL } from "@/lib/seo";
 // the LOWEST revalidate across the route tree.
 export const revalidate = 31536000;
 
-const CLOUDINARY_BASE = "https://res.cloudinary.com/dk7ggjvlw/image/upload/";
+const CLOUDINARY_BASE = `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/`;
 
 /** Separate cache key — intentionally different from cacheKeys.siteSettings
  *  so generateMetadata doesn't overwrite the full settings cache that

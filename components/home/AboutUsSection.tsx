@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { CLOUDINARY_CLOUD_NAME } from "@/lib/cloudinary-url";
 import {
   ArrowRight,
   Award,
@@ -16,7 +17,7 @@ import {
   TrendingUp,
 } from "lucide-react";
 
-const CLOUDINARY_BASE = "https://res.cloudinary.com/dk7ggjvlw/image/upload/";
+const CLOUDINARY_BASE = `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/`;
 
 const defaultContent = [
   {

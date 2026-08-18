@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { CLOUDINARY_CLOUD_NAME } from "@/lib/cloudinary-url";
 import { prisma } from "@/lib/prisma";
 
 export async function GET() {
@@ -11,7 +12,7 @@ export async function GET() {
     return NextResponse.json({
       logo: settings?.logo || null,
       url: settings?.logo
-        ? `https://res.cloudinary.com/dk7ggjvlw/image/upload/${settings.logo}`
+        ? `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/${settings.logo}`
         : null,
     });
   } catch {

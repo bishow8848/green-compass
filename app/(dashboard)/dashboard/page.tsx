@@ -1,4 +1,5 @@
 import { auth } from "@/lib/auth";
+import { CLOUDINARY_CLOUD_NAME } from "@/lib/cloudinary-url";
 import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import Link from "next/link";
@@ -691,7 +692,7 @@ export default async function DashboardPage() {
                           {trek.heroImage ? (
                             // eslint-disable-next-line @next/next/no-img-element
                             <img
-                              src={`https://res.cloudinary.com/dk7ggjvlw/image/upload/c_fill,w_600,q_auto,f_auto/${trek.heroImage}`}
+                              src={`https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/c_fill,w_600,q_auto,f_auto/${trek.heroImage}`}
                               alt={trek.title}
                               width={600}
                               height={450}

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { CLOUDINARY_CLOUD_NAME } from "@/lib/cloudinary-url";
 import dynamic from "next/dynamic";
 import { prisma } from "@/lib/prisma";
 import Image from "next/image";
@@ -326,7 +327,7 @@ export default async function AboutPage() {
                   <div className="relative aspect-[4/3] overflow-hidden">
                     {member.image ? (
                       <Image
-                        src={`https://res.cloudinary.com/dk7ggjvlw/image/upload/c_fill,w_500,h_375,q_auto,f_auto/${member.image}`}
+                        src={`https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/c_fill,w_500,h_375,q_auto,f_auto/${member.image}`}
                         alt={member.name}
                         fill
                         className="object-cover transition-transform duration-500 group-hover:scale-105"

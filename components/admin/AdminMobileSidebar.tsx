@@ -7,7 +7,8 @@ import {
   Menu, X, Mountain, LayoutDashboard, List, FileText,
   ShoppingCart, Users, ImageIcon, Calendar, Settings, FolderKanban,
   Home, MessageSquare, TrendingUp, MapPin, Send,
-  Activity, BarChart, Shield, Contact
+  Activity, BarChart, Shield, Contact,
+  ArrowRightLeft
 } from "lucide-react";
 
 const iconMap: Record<string, any> = {
@@ -15,6 +16,7 @@ const iconMap: Record<string, any> = {
   Users, ImageIcon, Calendar, Settings, FolderKanban,
   Home, Menu, MessageSquare, TrendingUp, MapPin, Send,
   Activity, BarChart, Shield, Contact,
+  ArrowRightLeft,
 };
 
 interface NavItem {

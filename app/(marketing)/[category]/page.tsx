@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { CLOUDINARY_CLOUD_NAME } from "@/lib/cloudinary-url";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -235,7 +236,7 @@ export default async function CategoryListingPage({
                       >
                         {post.heroImage ? (
                           <Image
-                            src={`https://res.cloudinary.com/dk7ggjvlw/image/upload/c_fill,w_160,h_120,q_auto,f_auto/${post.heroImage}`}
+                            src={`https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/c_fill,w_160,h_120,q_auto,f_auto/${post.heroImage}`}
                             alt=""
                             width={80}
                             height={64}
@@ -277,7 +278,7 @@ export default async function CategoryListingPage({
                       >
                         {trek.heroImage ? (
                           <Image
-                            src={`https://res.cloudinary.com/dk7ggjvlw/image/upload/c_fill,w_160,h_120,q_auto,f_auto/${trek.heroImage}`}
+                            src={`https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/c_fill,w_160,h_120,q_auto,f_auto/${trek.heroImage}`}
                             alt=""
                             width={80}
                             height={64}

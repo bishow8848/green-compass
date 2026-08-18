@@ -1,3 +1,5 @@
+import { CLOUDINARY_CLOUD_NAME } from "@/lib/cloudinary-url";
+
 // Single source of truth for the site's canonical origin, driven by env so the
 // same codebase works for local dev, staging, and production. NEXT_PUBLIC_* is
 // inlined into client bundles at build time; SITE_URL is available to Node-side
@@ -10,7 +12,7 @@ const envSiteUrl = (
 
 export const SITE_URL = envSiteUrl;
 export const SITE_NAME = "Mardi Treks";
-const CLOUDINARY_IMAGE_BASE = "https://res.cloudinary.com/dk7ggjvlw/image/upload/";
+const CLOUDINARY_IMAGE_BASE = `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/`;
 
 export function absoluteUrl(path = "/"): string {
   if (path === "/") return SITE_URL;

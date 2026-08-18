@@ -4,6 +4,7 @@ import Image from "next/image";
 import dynamic from "next/dynamic";
 import { useState, useEffect } from "react";
 import { Loader2, Maximize2, Minimize2 } from "lucide-react";
+import { CLOUDINARY_CLOUD_NAME } from "@/lib/cloudinary-url";
 
 // Dynamic import with ssr:false — Mapbox GL JS is heavy and must not block LCP
 const MapWithNoSSR = dynamic(
@@ -83,7 +84,7 @@ export function TrekMap({
                 src={
                   staticFallbackImage.startsWith("http")
                     ? staticFallbackImage
-                    : `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/f_auto,q_auto/${staticFallbackImage}`
+                    : `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/f_auto,q_auto/${staticFallbackImage}`
                 }
                 alt="Trek route map"
                 fill

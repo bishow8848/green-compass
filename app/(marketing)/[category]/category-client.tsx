@@ -1,5 +1,7 @@
 "use client";
 
+import { CLOUDINARY_CLOUD_NAME } from "@/lib/cloudinary-url";
+
 import { useState, Suspense } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -496,7 +498,7 @@ function CategoryView({
                     <div className="relative aspect-[4/3] overflow-hidden">
                       {trek.heroImage ? (
                         <img
-                          src={`https://res.cloudinary.com/dk7ggjvlw/image/upload/c_fill,w_600,q_auto,f_auto/${trek.heroImage}`}
+                          src={`https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/c_fill,w_600,q_auto,f_auto/${trek.heroImage}`}
                           alt={trek.title}
                           width={600}
                           height={450}

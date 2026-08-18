@@ -135,7 +135,10 @@ export function PageManagerForm({
   });
   const [homeSections, setHomeSections] = useState(pc.home?.sections || { featuredTreksHeading: "", featuredTreksDescription: "", topRatedTreksHeading: "", topRatedTreksDescription: "", reviewsHeading: "", reviewsDescription: "", blogHeading: "", blogDescription: "" });
   const [homeWhy, setHomeWhy] = useState(pc.home?.whyChooseUs || { heading: "Why Trek With Us?", subtitle: "Discover the Difference", bgImage: "", items: defaultWhyChooseUsItems });
-  const [homeContact, setHomeContact] = useState(pc.home?.contact || { heading: "Get in Touch", description: "", infoCards: defaultInfoCards });
+  const [homeContact, setHomeContact] = useState(() => {
+    const c = pc.home?.contact;
+    return { heading: c?.heading || "Get in Touch", description: c?.description || "", infoCards: c?.infoCards || defaultInfoCards };
+  });
 
   // ── Home About Us section ──
   const defaultAboutUs = {
@@ -447,7 +450,7 @@ export function PageManagerForm({
               </div>
               <div>
                 <label className="block text-xs font-medium text-slate-500 mb-1">Meta Description</label>
-                <textarea rows={2} value={homeSeo.description} onChange={(e) => setHomeSeo({ ...homeSeo, description: e.target.value })} placeholder="Experience the Himalayas with Mardi Treks..." className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" />
+                <textarea rows={2} value={homeSeo.description || ""} onChange={(e) => setHomeSeo({ ...homeSeo, description: e.target.value })} placeholder="Experience the Himalayas with Mardi Treks..." className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" />
               </div>
               <div className="sm:col-span-2">
                 <label className="block text-xs font-medium text-slate-500 mb-1">Keywords</label>
@@ -684,7 +687,7 @@ export function PageManagerForm({
                         updated[i] = { ...updated[i], title: e.target.value };
                         setHomeAbout((prev: any) => ({ ...prev, content: updated }));
                       }} placeholder="Block title (e.g. Who We Are)" className="w-full rounded border border-slate-200 px-2 py-1.5 text-sm font-medium" />
-                      <textarea rows={3} value={block.description} onChange={(e) => {
+                      <textarea rows={3} value={block.description || ""} onChange={(e) => {
                         const updated = [...homeAbout.content];
                         updated[i] = { ...updated[i], description: e.target.value };
                         setHomeAbout((prev: any) => ({ ...prev, content: updated }));
@@ -711,7 +714,7 @@ export function PageManagerForm({
               </div>
               <div className="sm:col-span-2">
                 <label className="block text-xs font-medium text-slate-500 mb-1">Description</label>
-                <textarea rows={2} value={homeContact.description} onChange={(e) => setHomeContact((prev: any) => ({ ...prev, description: e.target.value }))} placeholder="Contact description..." className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" />
+                <textarea rows={2} value={homeContact.description || ""} onChange={(e) => setHomeContact((prev: any) => ({ ...prev, description: e.target.value }))} placeholder="Contact description..." className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" />
               </div>
             </div>
             <div className="mt-4 space-y-2">
@@ -765,7 +768,7 @@ export function PageManagerForm({
                         updated[i] = { ...updated[i], question: e.target.value };
                         setHomeFaq((prev: any) => ({ ...prev, items: updated }));
                       }} placeholder="Question" className="w-full rounded border border-slate-200 px-2 py-1.5 text-sm font-medium" />
-                      <textarea rows={2} value={item.answer} onChange={(e) => {
+                      <textarea rows={2} value={item.answer || ""} onChange={(e) => {
                         const updated = [...homeFaq.items];
                         updated[i] = { ...updated[i], answer: e.target.value };
                         setHomeFaq((prev: any) => ({ ...prev, items: updated }));
@@ -797,7 +800,7 @@ export function PageManagerForm({
               </div>
               <div>
                 <label className="block text-xs font-medium text-slate-500 mb-1">Meta Description</label>
-                <textarea rows={2} value={aboutSeo.description} onChange={(e) => setAboutSeo({ ...aboutSeo, description: e.target.value })} className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" />
+                <textarea rows={2} value={aboutSeo.description || ""} onChange={(e) => setAboutSeo({ ...aboutSeo, description: e.target.value })} className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" />
               </div>
               <div className="sm:col-span-2">
                 <label className="block text-xs font-medium text-slate-500 mb-1">Keywords</label>
@@ -811,7 +814,7 @@ export function PageManagerForm({
             <h3 className="text-sm font-bold text-slate-900 mb-4">Hero Section</h3>
             <div className="space-y-3">
               <input value={aboutHero.heading} onChange={(e) => setAboutHero({ ...aboutHero, heading: e.target.value })} placeholder="Heading" className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" />
-              <textarea rows={3} value={aboutHero.description} onChange={(e) => setAboutHero({ ...aboutHero, description: e.target.value })} placeholder="Description" className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" />
+              <textarea rows={3} value={aboutHero.description || ""} onChange={(e) => setAboutHero({ ...aboutHero, description: e.target.value })} placeholder="Description" className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" />
               <ImageUpload ref={setImageRef("aboutHero")} value={aboutHero.backgroundImage} onChange={(id) => setAboutHero({ ...aboutHero, backgroundImage: id })} label="Background Image" />
             </div>
           </section>
@@ -939,7 +942,7 @@ export function PageManagerForm({
                     <input value={sec.heading} onChange={(e) => {
                       const next = [...aboutSections]; next[i] = { ...next[i], heading: e.target.value }; setAboutSections(next);
                     }} placeholder="Section heading" className="w-full rounded border border-slate-200 px-2 py-1.5 text-sm" />
-                    <textarea rows={3} value={sec.description} onChange={(e) => {
+                    <textarea rows={3} value={sec.description || ""} onChange={(e) => {
                       const next = [...aboutSections]; next[i] = { ...next[i], description: e.target.value }; setAboutSections(next);
                     }} placeholder="Description / content" className="w-full rounded border border-slate-200 px-2 py-1.5 text-sm" />
                   </div>
@@ -958,7 +961,7 @@ export function PageManagerForm({
             <div className="space-y-3">
               <input value={aboutCompanyStory.heading} onChange={(e) => setAboutCompanyStory((prev: any) => ({ ...prev, heading: e.target.value }))} placeholder="Heading (e.g. Our Story)" className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" />
               <input value={aboutCompanyStory.badge || ""} onChange={(e) => setAboutCompanyStory((prev: any) => ({ ...prev, badge: e.target.value }))} placeholder='Badge label (e.g. "Our Story")' className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" />
-              <textarea rows={4} value={aboutCompanyStory.description} onChange={(e) => setAboutCompanyStory((prev: any) => ({ ...prev, description: e.target.value }))} placeholder="Company story description (use double line breaks for paragraphs)" className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" />
+              <textarea rows={4} value={aboutCompanyStory.description || ""} onChange={(e) => setAboutCompanyStory((prev: any) => ({ ...prev, description: e.target.value }))} placeholder="Company story description (use double line breaks for paragraphs)" className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" />
               <ImageUpload ref={setImageRef("aboutCompanyStory")} value={aboutCompanyStory.image || ""} onChange={(id) => setAboutCompanyStory((prev: any) => ({ ...prev, image: id }))} label="Story Image" />
               <div className="border-t border-slate-100 pt-3">
                 <p className="mb-2 text-xs font-medium text-slate-500">Floating Highlight Badge (shown on image)</p>
@@ -1164,7 +1167,7 @@ export function PageManagerForm({
             <div className="space-y-3">
               <input value={aboutFounder.heading} onChange={(e) => setAboutFounder((prev: any) => ({ ...prev, heading: e.target.value }))} placeholder="Heading (e.g. A Message from Our Founder)" className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" />
               <input value={aboutFounder.badge || ""} onChange={(e) => setAboutFounder((prev: any) => ({ ...prev, badge: e.target.value }))} placeholder={'Badge label (e.g. "Founder\'s Note")'} className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" />
-              <textarea rows={5} value={aboutFounder.message} onChange={(e) => setAboutFounder((prev: any) => ({ ...prev, message: e.target.value }))} placeholder="Founder's message..." className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" />
+              <textarea rows={5} value={aboutFounder.message || ""} onChange={(e) => setAboutFounder((prev: any) => ({ ...prev, message: e.target.value }))} placeholder="Founder's message..." className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" />
               <div className="grid gap-3 sm:grid-cols-2">
                 <input value={aboutFounder.founderName} onChange={(e) => setAboutFounder((prev: any) => ({ ...prev, founderName: e.target.value }))} placeholder="Founder name" className="rounded-lg border border-slate-200 px-3 py-2 text-sm" />
                 <input value={aboutFounder.founderRole} onChange={(e) => setAboutFounder((prev: any) => ({ ...prev, founderRole: e.target.value }))} placeholder="Founder role" className="rounded-lg border border-slate-200 px-3 py-2 text-sm" />
@@ -1188,7 +1191,7 @@ export function PageManagerForm({
               </div>
               <div>
                 <label className="block text-xs font-medium text-slate-500 mb-1">Meta Description</label>
-                <textarea rows={2} value={contactSeo.description} onChange={(e) => setContactSeo({ ...contactSeo, description: e.target.value })} className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" />
+                <textarea rows={2} value={contactSeo.description || ""} onChange={(e) => setContactSeo({ ...contactSeo, description: e.target.value })} className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" />
               </div>
               <div className="sm:col-span-2">
                 <label className="block text-xs font-medium text-slate-500 mb-1">Keywords</label>
@@ -1202,7 +1205,7 @@ export function PageManagerForm({
             <h3 className="text-sm font-bold text-slate-900 mb-4">Hero Section</h3>
             <div className="space-y-3">
               <input value={contactHero.heading} onChange={(e) => setContactHero({ ...contactHero, heading: e.target.value })} placeholder="Heading" className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" />
-              <textarea rows={3} value={contactHero.description} onChange={(e) => setContactHero({ ...contactHero, description: e.target.value })} placeholder="Description" className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" />
+              <textarea rows={3} value={contactHero.description || ""} onChange={(e) => setContactHero({ ...contactHero, description: e.target.value })} placeholder="Description" className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" />
               <ImageUpload ref={setImageRef("contactHero")} value={contactHero.backgroundImage} onChange={(id) => setContactHero({ ...contactHero, backgroundImage: id })} label="Background Image" />
             </div>
           </section>
@@ -1255,7 +1258,7 @@ export function PageManagerForm({
               </div>
               <div>
                 <label className="block text-xs font-medium text-slate-500 mb-1">Meta Description</label>
-                <textarea rows={2} value={blogSeo.description} onChange={(e) => setBlogSeo({ ...blogSeo, description: e.target.value })} className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" />
+                <textarea rows={2} value={blogSeo.description || ""} onChange={(e) => setBlogSeo({ ...blogSeo, description: e.target.value })} className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" />
               </div>
               <div className="sm:col-span-2">
                 <label className="block text-xs font-medium text-slate-500 mb-1">Keywords</label>
@@ -1269,7 +1272,7 @@ export function PageManagerForm({
             <h3 className="text-sm font-bold text-slate-900 mb-4">Hero Section</h3>
             <div className="space-y-3">
               <input value={blogHero.heading} onChange={(e) => setBlogHero({ ...blogHero, heading: e.target.value })} placeholder="Heading" className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" />
-              <textarea rows={3} value={blogHero.description} onChange={(e) => setBlogHero({ ...blogHero, description: e.target.value })} placeholder="Description" className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" />
+              <textarea rows={3} value={blogHero.description || ""} onChange={(e) => setBlogHero({ ...blogHero, description: e.target.value })} placeholder="Description" className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" />
               <ImageUpload ref={setImageRef("blogHero")} value={blogHero.backgroundImage} onChange={(id) => setBlogHero({ ...blogHero, backgroundImage: id })} label="Background Image" />
             </div>
           </section>

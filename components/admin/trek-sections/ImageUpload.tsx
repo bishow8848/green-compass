@@ -1,5 +1,7 @@
 "use client";
 
+import { CLOUDINARY_CLOUD_NAME } from "@/lib/cloudinary-url";
+
 import { useState, useRef, forwardRef, useImperativeHandle } from "react";
 import { Upload, Loader2, X, ImageIcon, AlertCircle } from "lucide-react";
 
@@ -24,7 +26,7 @@ export const ImageUpload = forwardRef<ImageUploadHandle, ImageUploadProps>(
   const [pendingFile, setPendingFile] = useState<File | null>(null);
   const [pendingPreview, setPendingPreview] = useState<string | null>(null);
   const [preview, setPreview] = useState<string | null>(
-    value ? `https://res.cloudinary.com/dk7ggjvlw/image/upload/${value}` : null
+    value ? `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/${value}` : null
   );
 
   // Expose save and hasPending to the parent form
@@ -73,7 +75,7 @@ export const ImageUpload = forwardRef<ImageUploadHandle, ImageUploadProps>(
       if (data.publicId) {
         newId = data.publicId;
         onChange(data.publicId);
-        setPreview(`https://res.cloudinary.com/dk7ggjvlw/image/upload/${data.publicId}`);
+        setPreview(`https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/${data.publicId}`);
       } else if (data.url) {
         newId = data.url;
         onChange(data.url);

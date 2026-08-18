@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { CLOUDINARY_CLOUD_NAME } from "@/lib/cloudinary-url";
 import { prisma } from "@/lib/prisma";
 import { Plus, Pencil, ExternalLink, Users } from "lucide-react";
 import { DeleteAuthorButton } from "./delete-button";
@@ -49,7 +50,7 @@ export default async function AuthorsPage() {
                     <div className="flex items-center gap-3">
                       {author.avatar ? (
                         <img
-                          src={`https://res.cloudinary.com/dk7ggjvlw/image/upload/c_fill,w_48,h_48,q_auto,f_auto/${author.avatar}`}
+                          src={`https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/c_fill,w_48,h_48,q_auto,f_auto/${author.avatar}`}
                           alt={author.name}
                           width={48}
                           height={48}

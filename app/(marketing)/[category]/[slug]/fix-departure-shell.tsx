@@ -1,4 +1,5 @@
 import { FixDepartureTable, type FixDepartureTrek } from "@/components/trek/FixDepartureTable";
+import { CLOUDINARY_CLOUD_NAME } from "@/lib/cloudinary-url";
 import { CalendarDays } from "lucide-react";
 
 function parseJsonArray(val: string | null | undefined): any[] {
@@ -54,7 +55,7 @@ export function FixDeparturePageShell({
       <section className="relative flex min-h-[320px] items-end overflow-hidden bg-gradient-to-br from-secondary-dark via-primary-dark/30 to-gray-900">
         {heroImage ? (
           <img
-            src={`https://res.cloudinary.com/dk7ggjvlw/image/upload/c_fill,w_1600,q_auto,f_auto/${heroImage}`}
+            src={`https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/c_fill,w_1600,q_auto,f_auto/${heroImage}`}
             alt=""
             className="absolute inset-0 h-full w-full object-cover"
           />

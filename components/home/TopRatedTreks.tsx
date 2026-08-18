@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { CLOUDINARY_CLOUD_NAME } from "@/lib/cloudinary-url";
 import { Mountain, Clock, Star } from "lucide-react";
 import { prisma } from "@/lib/prisma";
 import { getCachedOrFetch, cacheKeys, CACHE_TTL } from "@/lib/redis";
@@ -106,7 +107,7 @@ export async function TopRatedTreks({
                 <div className="relative aspect-[4/3] overflow-hidden">
                   {trek.heroImage ? (
                     <img
-                      src={`https://res.cloudinary.com/dk7ggjvlw/image/upload/c_fill,w_500,q_auto,f_auto/${trek.heroImage}`}
+                      src={`https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/c_fill,w_500,q_auto,f_auto/${trek.heroImage}`}
                       alt={trek.title}
                       width={500}
                       height={375}

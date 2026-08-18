@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { CLOUDINARY_CLOUD_NAME } from "@/lib/cloudinary-url";
 import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
@@ -72,7 +73,7 @@ export default async function TeamMemberPage({
   const sidebarMembers = otherMembers.slice(0, 3);
 
   const heroImageUrl = member.image
-    ? `https://res.cloudinary.com/dk7ggjvlw/image/upload/c_fill,w_1200,q_auto,f_auto/${member.image}`
+    ? `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/c_fill,w_1200,q_auto,f_auto/${member.image}`
     : null;
 
   const socialLinks: { platform: string; url: string }[] = (() => {
@@ -104,7 +105,7 @@ export default async function TeamMemberPage({
               <div className="flex items-center gap-4">
                 <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full border-2 border-white/30 bg-white/10 backdrop-blur-sm">
                   {member.image ? (
-                    <Image src={`https://res.cloudinary.com/dk7ggjvlw/image/upload/c_fill,w_120,h_120,q_auto,f_auto/${member.image}`} alt={member.name} width={64} height={64} className="rounded-full object-cover" />
+                    <Image src={`https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/c_fill,w_120,h_120,q_auto,f_auto/${member.image}`} alt={member.name} width={64} height={64} className="rounded-full object-cover" />
                   ) : (
                     <User className="h-7 w-7 text-white/70" />
                   )}
@@ -177,7 +178,7 @@ export default async function TeamMemberPage({
                       >
                         <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10">
                           {other.image ? (
-                            <Image src={`https://res.cloudinary.com/dk7ggjvlw/image/upload/c_fill,w_80,h_80,q_auto,f_auto/${other.image}`} alt={other.name} width={40} height={40} className="rounded-full object-cover" />
+                            <Image src={`https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/c_fill,w_80,h_80,q_auto,f_auto/${other.image}`} alt={other.name} width={40} height={40} className="rounded-full object-cover" />
                           ) : (
                             <User className="h-5 w-5 text-primary" />
                           )}
@@ -215,7 +216,7 @@ export default async function TeamMemberPage({
                           <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10 overflow-hidden">
                             {post.heroImage ? (
                               <Image
-                                src={`https://res.cloudinary.com/dk7ggjvlw/image/upload/c_fill,w_80,h_80,q_auto,f_auto/${post.heroImage}`}
+                                src={`https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/c_fill,w_80,h_80,q_auto,f_auto/${post.heroImage}`}
                                 alt={post.title}
                                 width={40}
                                 height={40}

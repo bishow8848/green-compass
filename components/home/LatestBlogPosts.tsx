@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { CLOUDINARY_CLOUD_NAME } from "@/lib/cloudinary-url";
 import { ArrowRight } from "lucide-react";
 import { prisma } from "@/lib/prisma";
 import { getCachedOrFetch, cacheKeys, CACHE_TTL } from "@/lib/redis";
@@ -74,7 +75,7 @@ export async function LatestBlogPosts({
                   : post.publishedDate.toISOString())
               : new Date().toISOString(),
             image: post.heroImage
-              ? `https://res.cloudinary.com/dk7ggjvlw/image/upload/${post.heroImage}`
+              ? `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/${post.heroImage}`
               : undefined,
           })}
         />

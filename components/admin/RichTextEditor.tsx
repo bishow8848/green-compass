@@ -1,5 +1,7 @@
 "use client";
 
+import { CLOUDINARY_CLOUD_NAME } from "@/lib/cloudinary-url";
+
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import ImageExtension from "@tiptap/extension-image";
@@ -245,7 +247,7 @@ export const RichTextEditor = forwardRef<RichTextEditorHandle, RichTextEditorPro
             const res = await fetch("/api/upload", { method: "POST", body: fd });
             const data = await res.json();
             const cloudinaryUrl = data.publicId
-              ? `https://res.cloudinary.com/dk7ggjvlw/image/upload/${data.publicId}`
+              ? `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/${data.publicId}`
               : data.url;
 
             if (cloudinaryUrl) {

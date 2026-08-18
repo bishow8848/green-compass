@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { CLOUDINARY_CLOUD_NAME } from "@/lib/cloudinary-url";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -42,7 +43,7 @@ export async function generateMetadata({
   if (!post) return {};
 
   const heroImageUrl = post.heroImage
-    ? `https://res.cloudinary.com/dk7ggjvlw/image/upload/c_fill,w_1200,h_630,q_auto,f_auto/${post.heroImage}`
+    ? `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/c_fill,w_1200,h_630,q_auto,f_auto/${post.heroImage}`
     : null;
 
   return {
@@ -146,7 +147,7 @@ export default async function BlogPostPage({
   });
 
   const heroImageUrl = post.heroImage
-    ? `https://res.cloudinary.com/dk7ggjvlw/image/upload/c_fill,w_1200,q_auto,f_auto/${post.heroImage}`
+    ? `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/c_fill,w_1200,q_auto,f_auto/${post.heroImage}`
     : null;
 
   const overlayStyle = {

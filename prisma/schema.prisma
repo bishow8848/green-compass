@@ -714,3 +714,20 @@ model Traveller {
   @@index([name])
   @@map("travellers")
 }
+
+// ==============================
+// LEGACY REDIRECTS
+// ==============================
+
+model LegacyRedirect {
+  id        String   @id @default(cuid())
+  oldPath   String   @unique // Legacy URL path, e.g. "/abc"
+  newPath   String   // Destination path, e.g. "/treks/abc"
+  permanent Boolean  @default(true) // 308 permanent vs 307 temporary
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([active])
+  @@map("legacy_redirects")
+}
