@@ -4,7 +4,7 @@ import { Mail, Phone, MapPin, Clock } from "lucide-react";
 import { ContactFormSection } from "@/components/home/ContactFormSection";
 import { PageHero } from "@/components/layout/PageHero";
 import { getCachedOrFetch, cacheKeys, CACHE_TTL } from "@/lib/redis";
-import { SITE_URL, seoImageUrl } from "@/lib/seo";
+import { SITE_URL, brandedTitle, seoDescription, seoImageUrl, serializeJsonLd } from "@/lib/seo";
 import { sanitizeIframeHtml } from "@/lib/sanitize";
 
 // Contact content is cached for 7 days and refreshed on-demand after CMS edits (revalidatePath)
@@ -27,24 +27,29 @@ export async function generateMetadata(): Promise<Metadata> {
   const contact = pc?.contact;
   const seo = contact?.seo;
   const heroImage = seoImageUrl(contact?.hero?.backgroundImage);
+  const title = seo?.title?.trim() || "Contact Mardi Treks: Plan Your Nepal Trek";
+  const description = seoDescription(
+    seo?.description,
+    "Contact Mardi Treks for expert help planning your Nepal trek, from Mardi Himal and Annapurna adventures to custom itineraries."
+  );
   return {
-    title: seo?.title || "Contact Us",
-    description: seo?.description || "Get in touch with Mardi Treks — your trusted trekking partner in Nepal.",
+    title: brandedTitle(title),
+    description,
     keywords: seo?.keywords || undefined,
     alternates: { canonical: `${SITE_URL}/contact` },
     openGraph: {
-      title: seo?.title || "Contact Us",
-      description: seo?.description || "Get in touch with Mardi Treks — your trusted trekking partner in Nepal.",
+      title: brandedTitle(title).absolute,
+      description,
       url: `${SITE_URL}/contact`,
       siteName: "Mardi Treks",
       locale: "en_US",
       type: "website",
-      images: heroImage ? [{ url: heroImage, width: 1200, height: 630, alt: "Contact Mardi Treks" }] : undefined,
+      images: heroImage ? [{ url: heroImage, width: 1200, height: 630, alt: "Contact Mardi Treks about a Nepal trek" }] : undefined,
     },
     twitter: {
       card: "summary_large_image",
-      title: seo?.title || "Contact Us",
-      description: seo?.description || "Get in touch with Mardi Treks — your trusted trekking partner in Nepal.",
+      title: brandedTitle(title).absolute,
+      description,
       images: heroImage ? [heroImage] : undefined,
     },
   };
@@ -73,6 +78,12 @@ export default async function ContactPage() {
   ]);
 
   const contact = pc?.contact || {};
+  const contactSeo = contact.seo || {};
+  const contactPageTitle = contactSeo.title?.trim() || "Contact Mardi Treks: Plan Your Nepal Trek";
+  const contactPageDescription = seoDescription(
+    contactSeo.description,
+    "Contact Mardi Treks for expert help planning your Nepal trek, from Mardi Himal and Annapurna adventures to custom itineraries."
+  );
   const hero = contact.hero || {};
   const mapIframe = contact.mapIframe || "";
   const contactInfoCards: { title: string; description: string }[] = (homeSettings as any)?.contactInfoCards
@@ -85,7 +96,7 @@ export default async function ContactPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
+          __html: serializeJsonLd({
             "@context": "https://schema.org",
             "@graph": [
               {
@@ -98,8 +109,8 @@ export default async function ContactPage() {
               {
                 "@type": "ContactPage",
                 "@id": `${SITE_URL}/contact#page`,
-                name: "Contact Us",
-                description: "Get in touch with Mardi Treks — your trusted trekking partner in Nepal.",
+                name: contactPageTitle,
+                description: contactPageDescription,
                 isPartOf: { "@id": `${SITE_URL}/#website` },
               },
             ],

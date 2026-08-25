@@ -24,6 +24,17 @@ const ADDABLE_SECTION_TYPES: { type: TrekSection["type"]; label: string; icon: s
   { type: "custom", label: "Custom Section", icon: "📄" },
 ];
 
+// "Details" and "SEO" are mandatory sections — they must ALWAYS render at the
+// very top of the Page Builder (Details first, SEO second), no matter what a
+// previously-saved sectionOrder says. Pinning them here guarantees they never
+// end up at the bottom when restoring an older or misordered save.
+function pinMandatorySections(ordered: TrekSection[]): TrekSection[] {
+  const details = ordered.filter((s) => s.type === "details");
+  const seo = ordered.filter((s) => s.type === "seo");
+  const rest = ordered.filter((s) => s.type !== "details" && s.type !== "seo");
+  return [...details, ...seo, ...rest];
+}
+
 export function TrekForm({ mode, trek, categories }: { mode: "create" | "edit"; trek?: any; categories?: any[] }) {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
@@ -110,7 +121,7 @@ export function TrekForm({ mode, trek, categories }: { mode: "create" | "edit"; 
             if (similarTreksSec && !ordered.some((s) => s.type === "similarTreks")) {
               ordered.push(similarTreksSec);
             }
-            return ordered;
+            return pinMandatorySections(ordered);
           }
         } catch {}
       }

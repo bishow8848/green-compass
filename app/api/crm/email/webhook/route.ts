@@ -8,7 +8,7 @@ import { prisma } from "@/lib/prisma";
  *
  * Expected payload format (SendGrid inbound parse style):
  * {
- *   "to": "contact+abc123@inbound.marditreks.com",
+ *   "to": "contact+abc123@inbound.greencompasstreks.com",
  *   "from": "john@example.com",
  *   "subject": "Re: Trek booking",
  *   "html": "...",

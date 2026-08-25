@@ -42,7 +42,7 @@ export async function sendEmailToContact({
   const from = fromEmail || EMAIL_FROM;
 
   // Generate a unique Message-ID
-  const generatedMessageId = `<crm-${Date.now()}-${Math.random().toString(36).slice(2)}@marditreks.com>`;
+  const generatedMessageId = `<crm-${Date.now()}-${Math.random().toString(36).slice(2)}@greencompasstreks.com>`;
 
   // Determine threadId: if replying, use the parent's threadId; otherwise new thread
   let threadId: string | null = null;

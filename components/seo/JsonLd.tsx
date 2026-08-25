@@ -66,8 +66,8 @@ export function organizationSchema() {
       addressCountry: "NP",
     },
     sameAs: [
-      "https://facebook.com/marditreks",
-      "https://instagram.com/marditreks",
+      "https://facebook.com/greencompasstreks",
+      "https://instagram.com/greencompasstreks",
     ],
   };
 }

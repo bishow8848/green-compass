@@ -57,22 +57,22 @@ Mardi Treks is a premier trekking and tour agency based in Pokhara, Nepal. Found
 - Group discounts available for parties of 4+
 
 ## Contact Information
-- Email: info@marditreks.com
+- Email: info@greencompasstreks.com
 - Phone/WhatsApp: +977 9864379436
 - Address: Lakeside, Pokhara, Nepal
 - Office Hours: Sunday-Friday, 9AM-6PM
 
 ## Website Structure
-- Homepage: https://www.marditreks.com
-- Treks category: https://www.marditreks.com/treks
-- Trek detail pages: https://www.marditreks.com/treks/{trek-slug}
-- Blog: https://www.marditreks.com/blog
-- About: https://www.marditreks.com/about
-- Contact: https://www.marditreks.com/contact
-- Search: https://www.marditreks.com/search
-- Sitemap: https://www.marditreks.com/sitemap.xml
-- Robots: https://www.marditreks.com/robots.txt
-- LLMs discovery: https://www.marditreks.com/llms.txt
+- Homepage: https://greencompasstreks.com
+- Treks category: https://greencompasstreks.com/treks
+- Trek detail pages: https://greencompasstreks.com/treks/{trek-slug}
+- Blog: https://greencompasstreks.com/blog
+- About: https://greencompasstreks.com/about
+- Contact: https://greencompasstreks.com/contact
+- Search: https://greencompasstreks.com/search
+- Sitemap: https://greencompasstreks.com/sitemap.xml
+- Robots: https://greencompasstreks.com/robots.txt
+- LLMs discovery: https://greencompasstreks.com/llms.txt
 
 ## Technical
 - Framework: Next.js with React Server Components

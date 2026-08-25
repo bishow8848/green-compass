@@ -9,7 +9,7 @@ import { WhyChooseUs } from "@/components/home/WhyChooseUs";
 import { LatestBlogPosts } from "@/components/home/LatestBlogPosts";
 import { AboutUsSection } from "@/components/home/AboutUsSection";
 import { FAQAccordion } from "@/components/ui/FAQAccordion";
-import { SITE_URL, seoImageUrl, serializeJsonLd } from "@/lib/seo";
+import { SITE_URL, brandedTitle, seoDescription, seoImageUrl, serializeJsonLd } from "@/lib/seo";
 import { getPageContent, requirePageSection } from "@/lib/page-content";
 
 const ReviewCarousel = dynamic(
@@ -43,32 +43,31 @@ export async function generateMetadata(): Promise<Metadata> {
   ]);
   const home = requirePageSection<any>(pageContent, "home");
   const homeSeo: { title?: string; description?: string; keywords?: string } = home.seo || {};
-  const seoTitle = homeSeo.title?.toLowerCase().includes("mardi himal trek")
-    ? homeSeo.title
-    : "Mardi Himal Trek & Annapurna Treks in Nepal";
+  const seoTitle = homeSeo.title?.trim() || "Mardi Himal Trek & Nepal Trekking Tours";
+  const socialTitle = brandedTitle(seoTitle).absolute;
+  const seoDescriptionText = seoDescription(
+    homeSeo.description,
+    "Plan a guided Mardi Himal Trek from Pokhara and explore Nepal's Annapurna region with trusted local experts."
+  );
   const heroImage = seoImageUrl(settings?.heroImage || home.hero?.backgroundImage);
   return {
-    title: seoTitle,
-    description:
-      homeSeo.description ||
-      "Plan the Mardi Himal Trek with a local trekking company in Pokhara, Nepal. Compare guided Annapurna itineraries, prices, difficulty and trip details.",
+    title: { absolute: socialTitle },
+    description: seoDescriptionText,
     keywords:
       homeSeo.keywords ||
       "Mardi Himal Trek, Annapurna region trek, trekking company in Nepal, Pokhara trekking company, guided trekking in Nepal",
     alternates: { canonical: SITE_URL },
     openGraph: {
-      title: "Mardi Himal Trek & Guided Annapurna Treks | Mardi Treks",
-      description:
-        "Plan a guided Mardi Himal Trek from Pokhara and explore Nepal's Annapurna region with Mardi Treks.",
+      title: socialTitle,
+      description: seoDescriptionText,
       url: SITE_URL,
       type: "website",
       images: heroImage ? [{ url: heroImage, width: 1200, height: 630, alt: "Mardi Treks" }] : undefined,
     },
     twitter: {
       card: "summary_large_image",
-      title: "Mardi Himal Trek & Guided Annapurna Treks | Mardi Treks",
-      description:
-        "Plan a guided Mardi Himal Trek from Pokhara and explore Nepal's Annapurna region with Mardi Treks.",
+      title: socialTitle,
+      description: seoDescriptionText,
       images: heroImage ? [heroImage] : undefined,
     },
   };
@@ -86,6 +85,12 @@ export default async function HomePage() {
     getPageContent(),
   ]);
   const homeContent = requirePageSection<any>(pageContent, "home");
+  const homeSeo: { title?: string; description?: string } = homeContent.seo || {};
+  const homepageTitle = homeSeo.title?.trim() || "Mardi Himal Trek & Nepal Trekking Tours";
+  const homepageDescription = seoDescription(
+    homeSeo.description,
+    "Plan a guided Mardi Himal Trek from Pokhara and explore Nepal's Annapurna region with trusted local experts."
+  );
 
   const featuredSectionIds: string[] = settings?.featuredSectionTrekIds
     ? JSON.parse(settings.featuredSectionTrekIds)
@@ -246,9 +251,9 @@ export default async function HomePage() {
         "@type": "WebPage",
         "@id": `${SITE_URL}/#webpage`,
         url: SITE_URL,
-        name: "Mardi Himal Trek & Annapurna Treks in Nepal",
+        name: homepageTitle,
         description:
-          "Plan guided Mardi Himal and Annapurna region treks from Pokhara with Mardi Treks.",
+          homepageDescription,
         isPartOf: { "@id": `${SITE_URL}/#website` },
         about: [
           { "@type": "Thing", name: "Mardi Himal Trek" },

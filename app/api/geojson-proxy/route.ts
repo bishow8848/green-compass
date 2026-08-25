@@ -92,7 +92,7 @@ export async function GET(req: NextRequest) {
   for (const tryUrl of urlsToTry) {
     try {
       const res = await fetch(tryUrl, {
-        headers: { "User-Agent": "MardiTreks/1.0" },
+        headers: { "User-Agent": "GreenCompassTreks/1.0" },
       });
 
       if (!res.ok) {

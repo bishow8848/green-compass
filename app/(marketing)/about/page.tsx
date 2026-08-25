@@ -16,7 +16,7 @@ import { Timeline } from "@/components/about/Timeline";
 import { ProcessSteps } from "@/components/about/ProcessSteps";
 import { FounderMessage } from "@/components/about/FounderMessage";
 import { getCachedOrFetch, cacheKeys, CACHE_TTL } from "@/lib/redis";
-import { SITE_URL, seoImageUrl } from "@/lib/seo";
+import { SITE_URL, brandedTitle, seoDescription, seoImageUrl, serializeJsonLd } from "@/lib/seo";
 
 const ReviewCarousel = dynamic(
   () => import("@/components/home/ReviewCarousel").then((m) => ({ default: m.ReviewCarousel })),
@@ -66,24 +66,29 @@ export async function generateMetadata(): Promise<Metadata> {
   const about = pc?.about;
   const seo = about?.seo;
   const heroImage = seoImageUrl(about?.hero?.backgroundImage);
+  const title = seo?.title?.trim() || "About Mardi Treks: Local Nepal Trekking Experts";
+  const description = seoDescription(
+    seo?.description,
+    "Meet Mardi Treks, a local Nepal trekking company helping travelers explore the Himalayas with expert guides and thoughtful itineraries."
+  );
   return {
-    title: seo?.title || "About Us",
-    description: seo?.description || "Learn about Mardi Treks — Nepal's premier trekking and tour agency.",
+    title: brandedTitle(title),
+    description,
     keywords: seo?.keywords || undefined,
     alternates: { canonical: `${SITE_URL}/about` },
     openGraph: {
-      title: seo?.title || "About Us",
-      description: seo?.description || "Learn about Mardi Treks — Nepal's premier trekking and tour agency.",
+      title: brandedTitle(title).absolute,
+      description,
       url: `${SITE_URL}/about`,
       siteName: "Mardi Treks",
       locale: "en_US",
       type: "website",
-      images: heroImage ? [{ url: heroImage, width: 1200, height: 630, alt: "About Mardi Treks" }] : undefined,
+      images: heroImage ? [{ url: heroImage, width: 1200, height: 630, alt: "About Mardi Treks and our Nepal trekking team" }] : undefined,
     },
     twitter: {
       card: "summary_large_image",
-      title: seo?.title || "About Us",
-      description: seo?.description || "Learn about Mardi Treks — Nepal's premier trekking and tour agency.",
+      title: brandedTitle(title).absolute,
+      description,
       images: heroImage ? [heroImage] : undefined,
     },
   };
@@ -120,6 +125,12 @@ export default async function AboutPage() {
   ]);
 
   const about = pc?.about || {};
+  const aboutSeo = about.seo || {};
+  const aboutPageTitle = aboutSeo.title?.trim() || "About Mardi Treks: Local Nepal Trekking Experts";
+  const aboutPageDescription = seoDescription(
+    aboutSeo.description,
+    "Meet Mardi Treks, a local Nepal trekking company helping travelers explore the Himalayas with expert guides and thoughtful itineraries."
+  );
   const hero = about.hero || {};
   const sections = about.sections || [];
   const team = about.team || [];
@@ -193,7 +204,7 @@ export default async function AboutPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
+          __html: serializeJsonLd({
             "@context": "https://schema.org",
             "@graph": [
               {
@@ -206,8 +217,8 @@ export default async function AboutPage() {
               {
                 "@type": "AboutPage",
                 "@id": `${SITE_URL}/about#page`,
-                name: "About Mardi Treks",
-                description: "Learn about Mardi Treks — Nepal's premier trekking and tour agency.",
+                name: aboutPageTitle,
+                description: aboutPageDescription,
                 isPartOf: { "@id": `${SITE_URL}/#website` },
               },
             ],

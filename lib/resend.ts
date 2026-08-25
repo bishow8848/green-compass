@@ -22,7 +22,7 @@ export function getResend(): Resend {
  * The "From" address used for all outbound email.
  *
  * Set RESEND_FROM in your environment once your domain is verified in Resend,
- * e.g. "Mardi Treks <noreply@marditreks.com>". Until a domain is verified,
+ * e.g. "Green Compass Treks <noreply@greencompasstreks.com>". Until a domain is verified,
  * Resend only allows its test sender (onboarding@resend.dev) and only to the
  * account owner's email address.
  */

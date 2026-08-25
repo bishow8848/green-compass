@@ -48,7 +48,7 @@ export function getBaseUrl(): string {
   if (typeof window !== "undefined") return window.location.origin;
   if (process.env.PAYLOAD_PUBLIC_SERVER_URL)
     return process.env.PAYLOAD_PUBLIC_SERVER_URL;
-  return `http://localhost:${process.env.PORT ?? 3000}`;
+  return "https://greencompasstreks.com";
 }
 
 export function getCloudinaryImageUrl(publicId: string, options?: {

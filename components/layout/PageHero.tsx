@@ -34,7 +34,7 @@ export function PageHero({ heading, description, backgroundImage, treks, breadcr
       {backgroundImage ? (
         <Image
           src={seoImageUrl(backgroundImage) || ""}
-          alt=""
+          alt={`${heading} — Mardi Treks`}
           fill
           priority
           sizes="100vw"

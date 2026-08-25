@@ -24,7 +24,7 @@ import { SearchBar } from "@/components/search/SearchBar";
 
 import { FAQAccordion } from "@/components/ui/FAQAccordion";
 import { sanitizeRichText } from "@/lib/sanitize";
-import { SITE_URL, serializeJsonLd } from "@/lib/seo";
+import { SITE_URL, brandedTitle, seoDescription, seoImageUrl, serializeJsonLd } from "@/lib/seo";
 
 export const revalidate = 604800; // Trek detail cached 7 days; refreshed on-demand after CMS edits
 
@@ -68,14 +68,14 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
   const trek = await getTrek(slug, catSlug);
   if (!trek) return {};
   const title = trek.metaTitle || trek.title;
-  const socialTitle = /\|\s*Mardi Treks\s*$/i.test(title)
-    ? title
-    : `${title} | Mardi Treks`;
-  const description = trek.metaDescription || trek.overview?.slice(0, 160);
+  const socialTitle = brandedTitle(title).absolute;
+  const description = seoDescription(
+    trek.metaDescription || trek.overview,
+    `Plan the ${trek.title} with local Nepal trekking experts, including itinerary, difficulty, price and practical trip details.`
+  );
+  const trekImage = seoImageUrl(trek.heroImage);
   return {
-    title: /\|\s*Mardi Treks\s*$/i.test(title)
-      ? { absolute: title }
-      : title,
+    title: { absolute: socialTitle },
     description,
     keywords: trek.keywords || undefined,
     alternates: { canonical: `${SITE_URL}/${catSlug}/${slug}` },
@@ -84,16 +84,16 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
       description,
       type: "article",
       url: `${SITE_URL}/${catSlug}/${slug}`,
-      images: trek.heroImage
-        ? [{ url: `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/c_fill,w_1200,h_630,q_auto,f_auto/${trek.heroImage}`, width: 1200, height: 630 }]
+      images: trekImage
+        ? [{ url: trekImage, width: 1200, height: 630, alt: `${trek.title} in Nepal` }]
         : undefined,
     },
     twitter: {
       card: "summary_large_image",
       title: socialTitle,
       description,
-      images: trek.heroImage
-        ? [`https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/c_fill,w_1200,h_630,q_auto,f_auto/${trek.heroImage}`]
+      images: trekImage
+        ? [trekImage]
         : undefined,
     },
   };
@@ -239,7 +239,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
+          __html: serializeJsonLd({
             "@context": "https://schema.org",
             "@type": "Product",
             "@id": `${SITE_URL}/${catSlug}/${slug}#product`,
@@ -306,7 +306,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
+          __html: serializeJsonLd({
             "@context": "https://schema.org",
             "@type": "BreadcrumbList",
             itemListElement: [
@@ -322,7 +322,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
+          __html: serializeJsonLd({
             "@context": "https://schema.org",
             "@type": "TouristTrip",
             "@id": `${SITE_URL}/${catSlug}/${slug}#trip`,
@@ -689,7 +689,7 @@ sectionMap["inEx"] = () => {
   const hasInclusions = Array.isArray(inclusions) ? inclusions.length > 0 : (typeof inclusions === "string" && inclusions.trim().length > 0);
   const hasExclusions = Array.isArray(exclusions) ? exclusions.length > 0 : (typeof exclusions === "string" && exclusions.trim().length > 0);
   return (hasInclusions || hasExclusions) ? <section id="inEx" className="py-10 sm:py-12">
-    <div className="mb-12 max-w-2xl">
+    <div className="mb-12">
       <h2
         className="mb-3 text-2xl font-bold tracking-tight sm:text-3xl"
         style={{ color: "var(--color-secondary)" }}

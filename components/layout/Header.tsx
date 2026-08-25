@@ -4,9 +4,10 @@ import { CLOUDINARY_CLOUD_NAME } from "@/lib/cloudinary-url";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { useSession, signOut } from "next-auth/react";
 import { Mountain, Menu, X, User, LogOut, ChevronDown } from "lucide-react";
+import { HeaderMegaMenu } from "./HeaderMegaMenu";
 
 interface CategoryNav {
   id: string;
@@ -62,10 +63,24 @@ export function Header({
 }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [hoveredDropdown, setHoveredDropdown] = useState<string | null>(null);
+  // Remember the active mega-menu region per nav href, so each dropdown
+  // reopens on the region the visitor was last looking at.
+  const [megaRegions, setMegaRegions] = useState<Record<string, string | null>>({});
+  // Mobile menu: which region's treks are expanded inside a category. A single
+  // value keeps it accordion-style (only one region open at a time).
+  const [mobileRegion, setMobileRegion] = useState<string | null>(null);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
   const { data: session } = useSession();
   const pathname = usePathname();
+  // Root of the sticky header — used to anchor the full-width mega menu panel
+  // and to move focus between the nav trigger and the panel.
+  const headerRef = useRef<HTMLDivElement | null>(null);
+  // Measured horizontal bounds for the mega menu: from the first nav item
+  // (left) to just before the auth actions (right).
+  const navRef = useRef<HTMLElement | null>(null);
+  const authRef = useRef<HTMLDivElement | null>(null);
+  const [megaBox, setMegaBox] = useState<{ left: number; width: number } | null>(null);
 
   // Scroll tracking with hysteresis + rAF throttling.
   // Wide gap (30px to leave the top, 100px to re-enter) means a scroll
@@ -115,11 +130,78 @@ export function Header({
     }, 150);
   }
 
+  // Close the mega menu and return keyboard focus to the nav trigger for
+  // `href` (used by the Escape key inside the mega menu panel).
+  function closeMegaMenuAndFocusTrigger(href: string) {
+    setHoveredDropdown(null);
+    requestAnimationFrame(() => {
+      headerRef.current
+        ?.querySelector<HTMLElement>(`[data-mega-trigger][data-href="${CSS.escape(href)}"]`)
+        ?.focus();
+    });
+  }
+
+  // Measure the mega menu's horizontal extent: it starts at the left edge of
+  // the first nav item and ends just before the auth actions (sign in/sign up
+  // or the user chip), never overlapping them. Coordinates are relative to the
+  // sticky header root, which is the panel's containing block.
+  const measureMegaBox = useCallback(() => {
+    const root = headerRef.current;
+    const nav = navRef.current;
+    if (!root || !nav) return;
+    const rootRect = root.getBoundingClientRect();
+    const navRect = nav.getBoundingClientRect();
+    const authRect = authRef.current?.getBoundingClientRect();
+    const left = navRect.left - rootRect.left;
+    const gap = 12;
+    const rightBound = authRect
+      ? authRect.left - rootRect.left - gap
+      : navRect.right - rootRect.left;
+    const width = Math.max(rightBound - left, 320);
+    setMegaBox((prev) =>
+      prev && Math.abs(prev.left - left) < 1 && Math.abs(prev.width - width) < 1
+        ? prev
+        : { left, width }
+    );
+  }, []);
+
+  // Measure once on mount and whenever the viewport resizes.
+  useEffect(() => {
+    measureMegaBox();
+    window.addEventListener("resize", measureMegaBox);
+    return () => window.removeEventListener("resize", measureMegaBox);
+  }, [measureMegaBox]);
+
+  // Re-measure whenever a dropdown opens so the panel is always correctly
+  // placed (header height can change between expanded and compact states).
+  useEffect(() => {
+    if (hoveredDropdown) measureMegaBox();
+  }, [hoveredDropdown, measureMegaBox]);
+
+  // While a dropdown is open, re-measure on scroll so the panel width/left
+  // track the header as it collapses from expanded (with top bar) to compact.
+  // The panel's own transition then animates the change smoothly instead of
+  // staying at the stale expanded-header width.
+  useEffect(() => {
+    if (!hoveredDropdown) return;
+    let raf = 0;
+    function onScroll() {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(measureMegaBox);
+    }
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener("scroll", onScroll);
+    };
+  }, [hoveredDropdown, measureMegaBox]);
+
   // Close mobile menu on route change
   useEffect(() => {
     const timeout = setTimeout(() => {
       setIsMenuOpen(false);
       setHoveredDropdown(null);
+      setMobileRegion(null);
     }, 0);
     return () => clearTimeout(timeout);
   }, [pathname]);
@@ -222,7 +304,7 @@ export function Header({
   // logo or the auth actions are — this is what keeps it dead-center in
   // both the expanded (with top bar) and compact (scrolled) layouts.
   const desktopNav = (
-    <nav className="ml-14 hidden items-center gap-1 lg:flex">
+    <nav ref={navRef} className="relative ml-14 hidden items-center gap-1 lg:flex">
       {navItems.map((item) => {
         const groupedTreks = getTreksGroupedByRegion(item.href);
         const hasDropdown = groupedTreks.length > 0;
@@ -256,14 +338,20 @@ export function Header({
             onMouseLeave={handleDropdownLeave}
             onFocus={() => handleDropdownEnter(item.href)}
             onBlur={(e) => {
-              // Close dropdown when focus leaves the entire dropdown container
-              if (!e.currentTarget.contains(e.relatedTarget as Node)) {
+              // Keep the menu open when focus moves into the mega panel,
+              // which lives under the header root rather than under this item.
+              if (
+                !e.currentTarget.contains(e.relatedTarget as Node) &&
+                !headerRef.current?.contains(e.relatedTarget as Node)
+              ) {
                 handleDropdownLeave();
               }
             }}
           >
             <Link
               href={item.href}
+              data-mega-trigger="true"
+              data-href={item.href}
               onClick={() => setHoveredDropdown(null)}
               onKeyDown={(e) => {
                 if (e.key === "Escape") {
@@ -273,11 +361,10 @@ export function Header({
                 }
                 if (e.key === "ArrowDown" && isHovered) {
                   e.preventDefault();
-                  // Focus first trek link in dropdown
-                  const firstLink = e.currentTarget
-                    .closest("[data-dropdown-container]")
-                    ?.querySelector<HTMLElement>('[data-dropdown-item]:first-of-type a, a[data-dropdown-item]');
-                  firstLink?.focus();
+                  // Focus the first region tab in the mega menu
+                  headerRef.current
+                    ?.querySelector<HTMLElement>("[data-mega-panel] [data-region-tab]")
+                    ?.focus();
                 }
               }}
               aria-expanded={isHovered}
@@ -297,95 +384,40 @@ export function Header({
                 }`}
               />
             </Link>
-
-            <div
-              data-dropdown-container="true"
-              onMouseEnter={() => handleDropdownEnter(item.href)}
-              onMouseLeave={handleDropdownLeave}
-              role="menu"
-              aria-label={`${item.label} submenu`}
-              className={`absolute left-1/2 top-full z-10 mt-3 -translate-x-1/2 overflow-hidden rounded-2xl border border-border bg-surface shadow-sm transition-all duration-200 ease-out ${
-                isHovered
-                  ? "translate-y-0 opacity-100"
-                  : "pointer-events-none -translate-y-1 opacity-0"
-              }`}
-              style={{ minWidth: `${Math.max(groupedTreks.length * 208, 220)}px` }}
-            >
-              {/* Little pointer caret connecting the trigger to the panel */}
-              <span className="absolute -top-1.5 left-1/2 h-3 w-3 -translate-x-1/2 rotate-45 border-l border-t border-border bg-surface" aria-hidden="true" />
-
-              <div className="relative flex divide-x divide-border">
-                {groupedTreks.map((group) => (
-                  <div key={group.region} className="min-w-[200px] flex-1 p-3">
-                    <div className="mb-2 flex items-center gap-2 border-b border-border px-1 pb-2">
-                      <div className="h-1 w-4 rounded-full bg-primary" aria-hidden="true" />
-                      <p className="text-[10px] font-black uppercase tracking-[0.2em] text-foreground">
-                        {group.region}
-                      </p>
-                    </div>
-                    <div className="space-y-0.5">
-                      {group.treks.map((trek, idx) => {
-                        const trekHref = `/${item.href.replace(/^\//, "")}/${trek.slug}`;
-                        const isTrekActive = pathname === trekHref;
-                        return (
-                          <Link
-                            key={trek.id}
-                            href={trekHref}
-                            role="menuitem"
-                            data-dropdown-item="true"
-                            onClick={() => setHoveredDropdown(null)}
-                            onKeyDown={(e) => {
-                              if (e.key === "Escape") {
-                                setHoveredDropdown(null);
-                                // Return focus to the trigger button
-                                const trigger = e.currentTarget
-                                  .closest("[data-dropdown-container]")
-                                  ?.parentElement
-                                  ?.querySelector<HTMLElement>("button[aria-haspopup]");
-                                trigger?.focus();
-                              }
-                            }}
-                            className={`group/trek relative flex items-center gap-2.5 rounded-xl px-2 py-1.5 transition-all duration-300 hover:bg-primary/10 ${
-                              isTrekActive ? "bg-primary/10" : ""
-                            }`}
-                          >
-                            <span
-                              className={`absolute left-0 w-1 rounded-r-full bg-primary transition-all duration-300 group-hover/trek:h-1/3 ${
-                                isTrekActive ? "h-1/2" : "h-0"
-                              }`}
-                              aria-hidden="true"
-                            />
-                            <span
-                              className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-md text-[9px] font-black transition-transform duration-300 group-hover/trek:scale-110 group-hover/trek:bg-primary group-hover/trek:text-white ${
-                                isTrekActive ? "bg-primary text-white" : "bg-primary/10 text-primary"
-                              }`}
-                              aria-hidden="true"
-                            >
-                              {String(idx + 1).padStart(2, "0")}
-                            </span>
-                            <span
-                              className={`truncate text-sm transition-all duration-300 group-hover/trek:translate-x-0.5 group-hover/trek:text-foreground ${
-                                isTrekActive ? "font-semibold text-foreground" : "font-medium text-text-muted"
-                              }`}
-                            >
-                              {trek.title}
-                            </span>
-                          </Link>
-                        );
-                      })}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
           </div>
         );
       })}
     </nav>
   );
 
+  // Derive the single mega-menu panel from whichever nav item is hovered.
+  // Only items backed by region/trek data get a panel; the rest are plain links.
+  const megaItem = navItems.find((n) => n.href === hoveredDropdown) ?? null;
+  const megaGroups = megaItem ? getTreksGroupedByRegion(megaItem.href) : [];
+  const megaOpen = Boolean(megaItem && megaGroups.length > 0);
+
+  const megaMenuPanel = megaItem ? (
+    <HeaderMegaMenu
+      label={megaItem.label}
+      href={megaItem.href}
+      groups={megaGroups}
+      isOpen={megaOpen}
+      activeRegion={megaRegions[megaItem.href] ?? null}
+      onRegionChange={(region) =>
+        setMegaRegions((prev) => ({ ...prev, [megaItem.href]: region }))
+      }
+      onNavigate={() => setHoveredDropdown(null)}
+      onEscape={() => closeMegaMenuAndFocusTrigger(megaItem.href)}
+      pathname={pathname}
+      onMouseEnter={() => handleDropdownEnter(megaItem.href)}
+      onMouseLeave={handleDropdownLeave}
+      left={megaBox?.left ?? 0}
+      width={megaBox?.width ?? 320}
+    />
+  ) : null;
+
   const authActions = (
-    <div className="ml-auto hidden items-center gap-4 lg:flex">
+    <div ref={authRef} className="ml-auto hidden items-center gap-4 lg:flex">
       {session?.user ? (
         <div className="flex items-center gap-2.5">
           <Link
@@ -455,7 +487,9 @@ export function Header({
 
   return (
     <div
-      className={`sticky top-0 z-50 border-b transition-all duration-300 ${
+      ref={headerRef}
+      data-header-root="true"
+      className={`relative sticky top-0 z-50 border-b transition-all duration-300 ${
         isScrolled
           ? "border-black/5 bg-white/85 shadow-[0_1px_2px_rgba(0,0,0,0.03),0_4px_16px_-4px_rgba(0,0,0,0.08)] backdrop-blur-md"
           : "border-transparent bg-white"
@@ -493,6 +527,9 @@ export function Header({
           {mobileMenuButton}
         </div>
       )}
+
+      {/* Mega menu — full-width panel shown below the header on hover (desktop) */}
+      {megaMenuPanel}
 
       {/* Mobile backdrop — dims the page and closes the drawer on tap */}
       <div
@@ -591,7 +628,10 @@ export function Header({
                         {item.label}
                       </Link>
                       <button
-                        onClick={() => setHoveredDropdown(isOpen ? null : `mobile-${item.href}`)}
+                        onClick={() => {
+                          if (isOpen) setMobileRegion(null);
+                          setHoveredDropdown(isOpen ? null : `mobile-${item.href}`);
+                        }}
                         aria-label={`Toggle ${item.label} submenu`}
                         aria-expanded={isOpen}
                         className="mr-1 rounded-lg p-3 text-slate-500 transition-colors hover:bg-surface-alt active:bg-surface-alt"
@@ -599,41 +639,69 @@ export function Header({
                         <ChevronDown className={`h-4 w-4 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`} />
                       </button>
                     </div>
+
+                    {/* Level 1 — region list (only regions, collapsed) */}
                     <div
                       className={`grid overflow-hidden transition-[grid-template-rows] duration-200 ease-out ${
                         isOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
                       }`}
                     >
                       <div className="min-h-0">
-                        <div className="ml-4 mt-1 space-y-3 border-l border-slate-100 py-1 pl-3">
-                          {groupedTreks.map((group) => (
-                            <div key={group.region}>
-                              <p className="px-1 pb-1 text-[11px] font-semibold uppercase tracking-wider text-text-muted">
-                                {group.region}
-                              </p>
-                              <div className="space-y-0.5">
-                                {group.treks.map((trek) => {
-                                  const trekHref = `/${item.href.replace(/^\//, "")}/${trek.slug}`;
-                                  const isTrekActive = pathname === trekHref;
-                                  return (
-                                    <Link
-                                      key={trek.id}
-                                      href={trekHref}
-                                      onClick={() => {
-                                        setHoveredDropdown(null);
-                                        setIsMenuOpen(false);
-                                      }}
-                                      className={`block rounded-lg px-3 py-2.5 text-[14.5px] transition-colors hover:bg-surface-alt hover:text-primary ${
-                                        isTrekActive ? "bg-primary/10 font-semibold text-primary" : "text-slate-600"
-                                      }`}
-                                    >
-                                      {trek.title}
-                                    </Link>
-                                  );
-                                })}
+                        <div className="ml-4 mt-1 space-y-0.5 border-l border-slate-100 py-1 pl-3">
+                          {groupedTreks.map((group) => {
+                            const regionKey = `${item.href}:${group.region}`;
+                            const regionOpen = mobileRegion === regionKey;
+                            return (
+                              <div key={group.region}>
+                                <button
+                                  type="button"
+                                  onClick={() => setMobileRegion(regionOpen ? null : regionKey)}
+                                  aria-expanded={regionOpen}
+                                  className="flex w-full items-center justify-between gap-2 rounded-lg px-3 py-2.5 text-left text-[14px] font-semibold text-slate-700 transition-colors hover:bg-surface-alt hover:text-primary active:bg-surface-alt"
+                                >
+                                  <span className="min-w-0 truncate">{group.region}</span>
+                                  <ChevronDown
+                                    className={`h-4 w-4 shrink-0 text-slate-400 transition-transform duration-200 ${
+                                      regionOpen ? "rotate-180 text-primary" : ""
+                                    }`}
+                                    aria-hidden="true"
+                                  />
+                                </button>
+
+                                {/* Level 2 — treks for this region */}
+                                <div
+                                  className={`grid overflow-hidden transition-[grid-template-rows] duration-200 ease-out ${
+                                    regionOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+                                  }`}
+                                >
+                                  <div className="min-h-0">
+                                    <div className="space-y-0.5 pb-1 pl-3">
+                                      {group.treks.map((trek) => {
+                                        const trekHref = `/${item.href.replace(/^\//, "")}/${trek.slug}`;
+                                        const isTrekActive = pathname === trekHref;
+                                        return (
+                                          <Link
+                                            key={trek.id}
+                                            href={trekHref}
+                                            onClick={() => {
+                                              setHoveredDropdown(null);
+                                              setMobileRegion(null);
+                                              setIsMenuOpen(false);
+                                            }}
+                                            className={`block rounded-lg px-3 py-2.5 text-[14.5px] transition-colors hover:bg-surface-alt hover:text-primary ${
+                                              isTrekActive ? "bg-primary/10 font-semibold text-primary" : "text-slate-600"
+                                            }`}
+                                          >
+                                            {trek.title}
+                                          </Link>
+                                        );
+                                      })}
+                                    </div>
+                                  </div>
+                                </div>
                               </div>
-                            </div>
-                          ))}
+                            );
+                          })}
                         </div>
                       </div>
                     </div>

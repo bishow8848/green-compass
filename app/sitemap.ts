@@ -1,20 +1,21 @@
 import type { MetadataRoute } from "next";
 import { prisma } from "@/lib/prisma";
-import { SITE_URL } from "@/lib/seo";
+import { SITE_URL, seoImageUrl } from "@/lib/seo";
 
 const baseUrl = SITE_URL;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [categories, treks, blogPosts, siteSettings, homeSettings, pageSettings] = await Promise.all([
+  const [categories, treks, blogPosts, siteSettings, homeSettings, pageSettings, pages] = await Promise.all([
     prisma.category.findMany({
       where: { status: "published" },
-      select: { slug: true, updatedAt: true },
+      select: { slug: true, heroImage: true, updatedAt: true },
     }),
     prisma.trek.findMany({
       where: { status: "published" },
       select: {
         slug: true,
         category: { select: { slug: true } },
+        heroImage: true,
         updatedAt: true,
         fixedDepartureDays: true,
         customStartDates: true,
@@ -22,7 +23,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }),
     prisma.blogPost.findMany({
       where: { status: "published" },
-      select: { slug: true, updatedAt: true },
+      select: { slug: true, heroImage: true, ogImage: true, updatedAt: true },
     }),
     prisma.siteSetting.findUnique({
       where: { id: "site-settings" },
@@ -30,11 +31,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }),
     prisma.homePageSettings.findUnique({
       where: { id: "home-settings" },
-      select: { updatedAt: true },
+      select: { updatedAt: true, heroImage: true },
     }),
     prisma.siteSetting.findUnique({
       where: { id: "site-settings" },
       select: { pageContent: true, updatedAt: true },
+    }),
+    prisma.page.findMany({
+      where: { status: "published" },
+      select: { slug: true, updatedAt: true, heroImage: true, ogImage: true },
     }),
   ]);
 
@@ -59,10 +64,34 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // Static pages
   const staticRoutes = [
-    { url: baseUrl, lastModified: staticLastModified, changeFrequency: "weekly" as const, priority: 1.0 },
-    { url: `${baseUrl}/blog`, lastModified: staticLastModified, changeFrequency: "weekly" as const, priority: 0.7 },
-    { url: `${baseUrl}/about`, lastModified: staticLastModified, changeFrequency: "monthly" as const, priority: 0.5 },
-    { url: `${baseUrl}/contact`, lastModified: staticLastModified, changeFrequency: "monthly" as const, priority: 0.5 },
+    {
+      url: baseUrl,
+      lastModified: staticLastModified,
+      changeFrequency: "weekly" as const,
+      priority: 1.0,
+      images: [seoImageUrl(homeSettings?.heroImage || pageContent?.home?.hero?.backgroundImage)].filter(Boolean) as string[],
+    },
+    {
+      url: `${baseUrl}/blog`,
+      lastModified: staticLastModified,
+      changeFrequency: "weekly" as const,
+      priority: 0.7,
+      images: [seoImageUrl(pageContent?.blog?.hero?.backgroundImage)].filter(Boolean) as string[],
+    },
+    {
+      url: `${baseUrl}/about`,
+      lastModified: staticLastModified,
+      changeFrequency: "monthly" as const,
+      priority: 0.5,
+      images: [seoImageUrl(pageContent?.about?.hero?.backgroundImage)].filter(Boolean) as string[],
+    },
+    {
+      url: `${baseUrl}/contact`,
+      lastModified: staticLastModified,
+      changeFrequency: "monthly" as const,
+      priority: 0.5,
+      images: [seoImageUrl(pageContent?.contact?.hero?.backgroundImage)].filter(Boolean) as string[],
+    },
   ];
 
   // Category listing pages (e.g., /treks, /tour, /climbing)
@@ -71,6 +100,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     lastModified: cat.updatedAt,
     changeFrequency: "weekly" as const,
     priority: 0.9,
+    images: [seoImageUrl(cat.heroImage)].filter(Boolean) as string[],
   }));
 
   // Product detail pages (e.g., /treks/everest-base-camp)
@@ -79,6 +109,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     lastModified: trek.updatedAt,
     changeFrequency: "weekly" as const,
     priority: 0.8,
+    images: [seoImageUrl(trek.heroImage)].filter(Boolean) as string[],
   }));
 
   // Fix Departure pages — per-trek only (e.g. /treks/mardi-himal-trek/fix-departure),
@@ -102,7 +133,22 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     lastModified: post.updatedAt,
     changeFrequency: "monthly" as const,
     priority: 0.6,
+    images: [seoImageUrl(post.ogImage || post.heroImage)].filter(Boolean) as string[],
   }));
 
-  return [...staticRoutes, ...categoryRoutes, ...trekRoutes, ...fixDepartureRoutes, ...blogRoutes];
+  const reservedSlugs = new Set([
+    "about", "contact", "blog", "search", "admin", "dashboard", "api", "author", "book", "payment",
+  ]);
+  const categorySlugs = new Set(categories.map((category) => category.slug));
+  const pageRoutes = pages
+    .filter((page) => !reservedSlugs.has(page.slug) && !categorySlugs.has(page.slug))
+    .map((page) => ({
+      url: `${baseUrl}/${page.slug}`,
+      lastModified: page.updatedAt,
+      changeFrequency: "monthly" as const,
+      priority: 0.6,
+      images: [seoImageUrl(page.ogImage || page.heroImage)].filter(Boolean) as string[],
+    }));
+
+  return [...staticRoutes, ...categoryRoutes, ...trekRoutes, ...fixDepartureRoutes, ...blogRoutes, ...pageRoutes];
 }

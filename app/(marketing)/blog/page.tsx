@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { getCachedOrFetch, cacheKeys, CACHE_TTL } from "@/lib/redis";
-import { SITE_URL } from "@/lib/seo";
+import { SITE_URL, brandedTitle, seoDescription, seoImageUrl, serializeJsonLd } from "@/lib/seo";
 import { PageHero } from "@/components/layout/PageHero";
 import { BlogClient } from "./blog-client";
 import { getPageContent, requirePageSection } from "@/lib/page-content";
@@ -11,7 +11,11 @@ import { getPageContent, requirePageSection } from "@/lib/page-content";
 // refreshed on-demand after CMS edits (revalidatePath).
 export const revalidate = 86400;
 
-export async function generateMetadata(): Promise<Metadata> {
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: Promise<{ page?: string }>;
+}): Promise<Metadata> {
   const pc = await getPageContent();
   const blog = requirePageSection<any>(pc, "blog");
   const seo = blog?.seo;
@@ -21,36 +25,40 @@ export async function generateMetadata(): Promise<Metadata> {
   const isValidTitle = rawTitle &&
     rawTitle.length > 2 &&
     !["dsaf", "adsf", "asdf", "test", "hello", "hi"].some((p) => rawTitle.toLowerCase().includes(p));
-  const title = isValidTitle ? rawTitle : "Blog";
-  const socialTitle = /\|\s*Mardi Treks\s*$/i.test(title)
-    ? title
-    : `${title} | Mardi Treks`;
+  const title = isValidTitle ? rawTitle : "Nepal Trekking Blog & Himalayan Travel Guides";
+  const socialTitle = brandedTitle(title).absolute;
+  const description = seoDescription(
+    seo?.description,
+    "Read practical Nepal trekking guides, Mardi Himal tips, itinerary advice and stories from the Himalayas."
+  );
+  const pageParams = await searchParams;
+  const pageNumber = Math.max(1, parseInt(pageParams.page ?? "1", 10) || 1);
+  const canonical = pageNumber > 1
+    ? `${SITE_URL}/blog?page=${pageNumber}`
+    : `${SITE_URL}/blog`;
+  const heroImage = seoImageUrl(blog?.hero?.backgroundImage);
 
   return {
-    title: /\|\s*Mardi Treks\s*$/i.test(title)
-      ? { absolute: title }
-      : title,
-    description: seo?.description?.length > 5
-      ? seo.description
-      : "Read our trekking guides and stories from the Himalayas.",
+    title: { absolute: socialTitle },
+    description,
     keywords: seo?.keywords || undefined,
-    alternates: { canonical: `${SITE_URL}/blog` },
+    alternates: { canonical },
     openGraph: {
       title: socialTitle,
-      description: seo?.description?.length > 5
-        ? seo.description
-        : "Read our trekking guides and stories from the Himalayas.",
-      url: `${SITE_URL}/blog`,
+      description,
+      url: canonical,
       siteName: "Mardi Treks",
       locale: "en_US",
       type: "website",
+      images: heroImage
+        ? [{ url: heroImage, width: 1200, height: 630, alt: "Nepal trekking and Himalayan travel guides" }]
+        : undefined,
     },
     twitter: {
       card: "summary_large_image",
       title: socialTitle,
-      description: seo?.description?.length > 5
-        ? seo.description
-        : "Read our trekking guides and stories from the Himalayas.",
+      description,
+      images: heroImage ? [heroImage] : undefined,
     },
   };
 }
@@ -121,6 +129,12 @@ export default async function BlogPage({
 
   const blog = requirePageSection<any>(pc, "blog");
   const hero = blog.hero || {};
+  const blogDescription = seoDescription(
+    blog.seo?.description,
+    "Read practical Nepal trekking guides, Mardi Himal tips, itinerary advice and stories from the Himalayas."
+  );
+  const blogTitle = blog.seo?.title?.trim() || "Nepal Trekking Blog & Himalayan Travel Guides";
+  const pageUrl = currentPage > 1 ? `${SITE_URL}/blog?page=${currentPage}` : `${SITE_URL}/blog`;
 
   const postsWithReadTime = posts.map((post) => {
     const wordCount = post.excerpt ? post.excerpt.split(/\s+/).length : 0;
@@ -149,6 +163,13 @@ export default async function BlogPage({
       })(),
     };
   });
+  const postItems = posts.map((post, index) => ({
+    "@type": "ListItem",
+    position: index + 1,
+    name: post.title,
+    url: `${SITE_URL}/blog/${post.slug}`,
+    ...(post.heroImage ? { image: seoImageUrl(post.heroImage) } : {}),
+  }));
 
   return (
     <>
@@ -156,22 +177,31 @@ export default async function BlogPage({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
+          __html: serializeJsonLd({
             "@context": "https://schema.org",
             "@graph": [
               {
                 "@type": "BreadcrumbList",
                 itemListElement: [
                   { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
-                  { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE_URL}/blog` },
+                  { "@type": "ListItem", position: 2, name: "Blog", item: pageUrl },
                 ],
               },
               {
                 "@type": "CollectionPage",
-                "@id": `${SITE_URL}/blog#collection`,
-                name: "Blog",
-                description: "Read our trekking guides and stories from the Himalayas.",
+                "@id": `${pageUrl}#collection`,
+                url: pageUrl,
+                name: blogTitle,
+                description: blogDescription,
+                mainEntity: { "@id": `${pageUrl}#items` },
                 isPartOf: { "@id": `${SITE_URL}/#website` },
+              },
+              {
+                "@type": "ItemList",
+                "@id": `${pageUrl}#items`,
+                name: "Latest Nepal trekking articles",
+                numberOfItems: postItems.length,
+                itemListElement: postItems,
               },
             ],
           }),

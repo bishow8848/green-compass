@@ -41,7 +41,7 @@ const defaultTeam = {
 };
 
 const defaultInfoCards = [
-  { icon: "Mail", title: "Email Us", description: "info@marditreks.com" },
+  { icon: "Mail", title: "Email Us", description: "info@greencompasstreks.com" },
   { icon: "Phone", title: "Call Us", description: "+977-1-2345678" },
   { icon: "MapPin", title: "Office", description: "Lakeside, Pokhara, Nepal" },
   { icon: "Clock", title: "Office Hours", description: "Sun-Fri: 9AM-6PM" },
@@ -213,7 +213,7 @@ export function PageManagerForm({
   ];
 
   const footerDefaults = {
-    email: "info@marditreks.com",
+    email: "info@greencompasstreks.com",
     phone: "+977-1-2345678",
     address: "Lakeside, Pokhara, Nepal",
     socialLinks: defaultSocialLinks,
@@ -1230,7 +1230,7 @@ export function PageManagerForm({
                     }} placeholder="Title (e.g. Email Us)" className="rounded border border-slate-200 px-2 py-1.5 text-sm" />
                     <input value={card.description} onChange={(e) => {
                       const next = [...contactInfoCards]; next[i] = { ...next[i], description: e.target.value }; setContactInfoCards(next);
-                    }} placeholder="Value (e.g. info@marditreks.com)" className="rounded border border-slate-200 px-2 py-1.5 text-sm" />
+                    }} placeholder="Value (e.g. info@greencompasstreks.com)" className="rounded border border-slate-200 px-2 py-1.5 text-sm" />
                   </div>
                   <button type="button" onClick={() => setContactInfoCards(contactInfoCards.filter((_: any, idx: number) => idx !== i))}
                     className="rounded p-1 text-slate-400 hover:bg-red-50 hover:text-red-500"><Trash2 className="h-3.5 w-3.5" /></button>

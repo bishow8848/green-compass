@@ -5,7 +5,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { getCachedOrFetch, cacheKeys, CACHE_TTL } from "@/lib/redis";
-import { SITE_URL, seoImageUrl } from "@/lib/seo";
+import { SITE_URL, brandedTitle, seoDescription, seoImageUrl, serializeJsonLd } from "@/lib/seo";
 import { CategoryClient } from "./category-client";
 import { SearchBar } from "@/components/search/SearchBar";
 import { sanitizeRichText } from "@/lib/sanitize";
@@ -41,59 +41,59 @@ export async function generateMetadata({
     if (!page) return { title: "Page Not Found" };
 
     const pageTitle = page.metaTitle || page.title;
-    const pageSocialTitle = /\|\s*Mardi Treks\s*$/i.test(pageTitle)
-      ? pageTitle
-      : `${pageTitle} | Mardi Treks`;
+    const pageSocialTitle = brandedTitle(pageTitle).absolute;
+    const pageDescription = seoDescription(
+      page.metaDescription || page.heroDescription,
+      `${page.title} from Mardi Treks, your local Nepal trekking and travel company.`
+    );
     const pageImage = seoImageUrl(page.ogImage || page.heroImage);
     return {
-      title: /\|\s*Mardi Treks\s*$/i.test(pageTitle)
-        ? { absolute: pageTitle }
-        : pageTitle,
-      description: page.metaDescription || undefined,
+      title: { absolute: pageSocialTitle },
+      description: pageDescription,
       alternates: { canonical: `${SITE_URL}/${page.slug}` },
       openGraph: {
         title: pageSocialTitle,
-        description: page.metaDescription || undefined,
+        description: pageDescription,
         url: `${SITE_URL}/${page.slug}`,
-        images: pageImage ? [{ url: pageImage, width: 1200, height: 630 }] : undefined,
+        siteName: "Mardi Treks",
+        locale: "en_US",
+        type: "website",
+        images: pageImage ? [{ url: pageImage, width: 1200, height: 630, alt: page.title }] : undefined,
       },
       twitter: {
         card: "summary_large_image",
         title: pageSocialTitle,
-        description: page.metaDescription || undefined,
+        description: pageDescription,
         images: pageImage ? [pageImage] : undefined,
       },
     };
   }
 
   const title = cat.metaTitle || cat.name;
-  const socialTitle = /\|\s*Mardi Treks\s*$/i.test(title)
-    ? title
-    : `${title} | Mardi Treks`;
+  const socialTitle = brandedTitle(title).absolute;
+  const description = seoDescription(
+    cat.metaDescription,
+    `Explore ${cat.name.toLowerCase()} in Nepal with carefully planned itineraries, local guides and practical trip details from Mardi Treks.`
+  );
+  const categoryImage = seoImageUrl(cat.heroImage);
   return {
-    title: /\|\s*Mardi Treks\s*$/i.test(title)
-      ? { absolute: title }
-      : title,
-    description:
-      cat.metaDescription ||
-      `Browse our ${cat.name.toLowerCase()} packages across Nepal.`,
+    title: { absolute: socialTitle },
+    description,
     alternates: { canonical: `${SITE_URL}/${slug}` },
     openGraph: {
       title: socialTitle,
-      description:
-        cat.metaDescription ||
-        `Browse our ${cat.name.toLowerCase()} packages across Nepal.`,
+      description,
       url: `${SITE_URL}/${slug}`,
       siteName: "Mardi Treks",
       locale: "en_US",
       type: "website",
-      images: seoImageUrl(cat.heroImage) ? [{ url: seoImageUrl(cat.heroImage)!, width: 1200, height: 630, alt: cat.name }] : undefined,
+      images: categoryImage ? [{ url: categoryImage, width: 1200, height: 630, alt: `${cat.name} in Nepal` }] : undefined,
     },
     twitter: {
       card: "summary_large_image",
       title: socialTitle,
-      description: cat.metaDescription || `Browse our ${cat.name.toLowerCase()} packages across Nepal.`,
-      images: seoImageUrl(cat.heroImage) ? [seoImageUrl(cat.heroImage)!] : undefined,
+      description,
+      images: categoryImage ? [categoryImage] : undefined,
     },
   };
 }
@@ -173,14 +173,43 @@ export default async function CategoryListingPage({
       : [];
 
     const heroImageUrl = seoImageUrl(page.heroImage, "c_fill,w_1600,q_auto,f_auto");
+    const pageDescription = seoDescription(
+      page.metaDescription || page.heroDescription,
+      `${page.title} from Mardi Treks, your local Nepal trekking and travel company.`
+    );
 
     return (
       <>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: serializeJsonLd({
+              "@context": "https://schema.org",
+              "@graph": [
+                {
+                  "@type": "BreadcrumbList",
+                  itemListElement: [
+                    { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
+                    { "@type": "ListItem", position: 2, name: page.title, item: `${SITE_URL}/${page.slug}` },
+                  ],
+                },
+                {
+                  "@type": "WebPage",
+                  "@id": `${SITE_URL}/${page.slug}#page`,
+                  url: `${SITE_URL}/${page.slug}`,
+                  name: page.title,
+                  description: pageDescription,
+                  isPartOf: { "@id": `${SITE_URL}/#website` },
+                },
+              ],
+            }),
+          }}
+        />
         <section className="relative isolate flex min-h-[clamp(460px,72vh,760px)] flex-col overflow-hidden">
           {heroImageUrl ? (
             <Image
               src={heroImageUrl}
-              alt=""
+              alt={page.title}
               fill
               priority
               sizes="100vw"
@@ -394,13 +423,26 @@ export default async function CategoryListingPage({
     { value: "1", label: "1 star & up" },
   ];
 
+  const categoryDescription = seoDescription(
+    category.metaDescription,
+    `Explore ${category.name.toLowerCase()} in Nepal with carefully planned itineraries, local guides and practical trip details from Mardi Treks.`
+  );
+  const categoryImage = seoImageUrl(category.heroImage);
+  const categoryItems = treks.map((trek, index) => ({
+    "@type": "ListItem",
+    position: index + 1,
+    name: trek.title,
+    url: `${SITE_URL}/${catSlug}/${trek.slug}`,
+    ...(trek.heroImage ? { image: seoImageUrl(trek.heroImage) } : {}),
+  }));
+
   return (
     <>
       {/* BreadcrumbList + CollectionPage schema */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
+          __html: serializeJsonLd({
             "@context": "https://schema.org",
             "@graph": [
               {
@@ -414,8 +456,17 @@ export default async function CategoryListingPage({
                 "@type": "CollectionPage",
                 "@id": `${SITE_URL}/${catSlug}#collection`,
                 name: category.name,
-                description: category.metaDescription || `Browse our ${category.name.toLowerCase()} packages across Nepal.`,
+                description: categoryDescription,
+                image: categoryImage || undefined,
+                mainEntity: { "@id": `${SITE_URL}/${catSlug}#items` },
                 isPartOf: { "@id": `${SITE_URL}/#website` },
+              },
+              {
+                "@type": "ItemList",
+                "@id": `${SITE_URL}/${catSlug}#items`,
+                name: `${category.name} itineraries`,
+                numberOfItems: categoryItems.length,
+                itemListElement: categoryItems,
               },
             ],
           }),

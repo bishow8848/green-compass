@@ -1,6 +1,6 @@
 # Mardi Treks API Documentation
 
-> **Base URL:** `https://marditreks.com/api` (production) / `http://localhost:3000/api` (development)
+> **Base URL:** `https://greencompasstreks.com/api` (production) / `http://localhost:3000/api` (development)
 
 ## Overview
 
@@ -1081,7 +1081,7 @@ GET /api/crm/fetch-emails
 {
   "host": "imap.gmail.com",
   "port": 993,
-  "user": "admin@marditreks.com",
+  "user": "admin@greencompasstreks.com",
   "hasPassword": true,
   "fetchDays": 7,
   "status": "configured"

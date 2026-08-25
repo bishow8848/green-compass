@@ -1,15 +1,26 @@
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
-import { Plus, Pencil, ExternalLink, List, TrendingUp, DollarSign, MapPin } from "lucide-react";
+import { Plus, List, TrendingUp, DollarSign, MapPin } from "lucide-react";
 import { formatPrice } from "@/lib/utils";
 import { AdminTreksClient } from "./client";
 
 export default async function AdminTreksPage() {
   const treks = await prisma.trek.findMany({
     orderBy: { createdAt: "desc" },
-    include: {
+    // Keep the list query small. Trek records contain large route JSON in
+    // geoJsonData, which the table never uses and which can make this request
+    // appear to render forever when fetched for every trek.
+    select: {
+      id: true,
+      title: true,
+      slug: true,
+      subtitle: true,
+      price: true,
+      duration: true,
+      difficulty: true,
+      region: true,
+      status: true,
       _count: { select: { reviews: true } },
-      category: { select: { name: true, slug: true, icon: true } },
     },
   });
 

@@ -2,7 +2,7 @@
 
 | **Document Version** | 1.0 |
 |---|---|
-| **Application** | Mardi Treks (marditreks.com) |
+| **Application** | Mardi Treks (greencompasstreks.com) |
 | **Prepared By** | QA Engineering |
 | **Last Updated** | 2026-07-29 |
 
@@ -201,8 +201,8 @@
 | Environment | URL | Purpose |
 |---|---|---|
 | **Local Development** | `http://localhost:3000` | Unit tests, component-level testing, Playwright E2E |
-| **Staging** | `https://staging.marditreks.com` | Integration testing, regression, UAT |
-| **Production** | `https://marditreks.com` | Smoke tests post-deployment, monitoring |
+| **Staging** | `https://staging.greencompasstreks.com` | Integration testing, regression, UAT |
+| **Production** | `https://greencompasstreks.com` | Smoke tests post-deployment, monitoring |
 
 ### 5.2 Test Data Requirements
 

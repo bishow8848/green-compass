@@ -69,6 +69,35 @@ function FilterSection({
 type FilterKey = "region" | "difficulty" | "duration" | "price" | "rating";
 type SelectedFilters = Record<FilterKey, string>;
 
+// Pinned Apply / Clear-all buttons, used at the bottom of both the desktop
+// sidebar (fixed footer) and the mobile sheet (end of the scroll content).
+function FilterActions({
+  onApply,
+  onClear,
+}: {
+  onApply: () => void;
+  onClear: () => void;
+}) {
+  return (
+    <div className="flex flex-col gap-2 py-4">
+      <button
+        type="button"
+        onClick={onApply}
+        className="flex w-full items-center justify-center gap-1.5 rounded-xl bg-primary py-2.5 text-xs font-semibold text-white shadow-sm transition hover:bg-primary-dark"
+      >
+        Apply Filter
+      </button>
+      <button
+        type="button"
+        onClick={onClear}
+        className="flex w-full items-center justify-center gap-1.5 rounded-xl border border-border py-2.5 text-xs font-semibold text-text-muted transition hover:bg-surface-alt hover:text-foreground"
+      >
+        <X className="h-3 w-3" /> Clear all filters
+      </button>
+    </div>
+  );
+}
+
 // Shared filter panel used by both the mobile sheet and the desktop sidebar.
 // Options are toggled locally and only applied to the URL when "Apply Filter"
 // is clicked, so selecting filters never triggers a slow page navigation.
@@ -83,6 +112,7 @@ function FilterControls({
   onToggle,
   onApply,
   onClear,
+  hideActions = false,
 }: {
   treks: TrekCard[];
   regions: FilterOption[];
@@ -94,6 +124,8 @@ function FilterControls({
   onToggle: (key: FilterKey, value: string) => void;
   onApply: () => void;
   onClear: () => void;
+  /** When true the Apply/Clear footer is omitted (desktop sidebar pins it separately). */
+  hideActions?: boolean;
 }) {
   return (
     <div className="divide-y divide-border">
@@ -190,22 +222,7 @@ function FilterControls({
         </FilterSection>
       </div>
 
-      <div className="flex flex-col gap-2 py-4">
-        <button
-          type="button"
-          onClick={onApply}
-          className="flex w-full items-center justify-center gap-1.5 rounded-xl bg-primary py-2.5 text-xs font-semibold text-white shadow-sm transition hover:bg-primary-dark"
-        >
-          Apply Filter
-        </button>
-        <button
-          type="button"
-          onClick={onClear}
-          className="flex w-full items-center justify-center gap-1.5 rounded-xl border border-border py-2.5 text-xs font-semibold text-text-muted transition hover:bg-surface-alt hover:text-foreground"
-        >
-          <X className="h-3 w-3" /> Clear all filters
-        </button>
-      </div>
+      {!hideActions && <FilterActions onApply={onApply} onClear={onClear} />}
     </div>
   );
 }
@@ -437,24 +454,32 @@ function CategoryView({
 
             {/* Desktop static sidebar */}
             <div className="hidden lg:block">
-              <div className="rounded-3xl border border-border bg-surface px-5 shadow-sm">
-                <div className="flex items-center gap-2 border-b border-border py-4">
+              <div className="flex max-h-[calc(100vh-9rem)] flex-col overflow-hidden rounded-3xl border border-border bg-surface shadow-sm">
+                <div className="flex shrink-0 items-center gap-2 border-b border-border px-5 py-4">
                   <SlidersHorizontal className="h-4 w-4 text-primary" />
-                  <h2 className="text-sm font-bold uppercase tracking-wide text-secondary">Refine Results</h2>
+                  <h2 className="text-sm font-bold uppercase tracking-wide text-secondary">Filters</h2>
                 </div>
 
-                <FilterControls
-                  treks={treks}
-                  regions={regions}
-                  difficulties={difficulties}
-                  durations={durations}
-                  priceRanges={priceRanges}
-                  ratingOptions={ratingOptions}
-                  selected={selected}
-                  onToggle={toggleFilter}
-                  onApply={applyFilters}
-                  onClear={clearAllFilters}
-                />
+                {/* Only the filter sections scroll — header and actions stay pinned */}
+                <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-5">
+                  <FilterControls
+                    treks={treks}
+                    regions={regions}
+                    difficulties={difficulties}
+                    durations={durations}
+                    priceRanges={priceRanges}
+                    ratingOptions={ratingOptions}
+                    selected={selected}
+                    onToggle={toggleFilter}
+                    onApply={applyFilters}
+                    onClear={clearAllFilters}
+                    hideActions
+                  />
+                </div>
+
+                <div className="shrink-0 border-t border-border px-5">
+                  <FilterActions onApply={applyFilters} onClear={clearAllFilters} />
+                </div>
               </div>
             </div>
           </div>

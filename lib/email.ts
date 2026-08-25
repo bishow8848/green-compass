@@ -12,7 +12,7 @@ function escapeHtml(text: string): string {
 
 // Recipient for internal notifications (booking alerts, contact form messages).
 const ADMIN_EMAIL =
-  process.env.ADMIN_EMAIL || process.env.SMTP_USER || "admin@marditreks.com";
+  process.env.ADMIN_EMAIL || process.env.SMTP_USER || "admin@greencompasstreks.com";
 
 export type TravelerInfo = {
   fullName: string;

@@ -5,15 +5,15 @@ machine-readable discovery links; current trip prices, dates, inclusions,
 locations, and contact details are published on the linked website pages.
 
 ## Canonical Website
-- Homepage: https://www.marditreks.com/
-- Trek search: https://www.marditreks.com/search
-- Blog: https://www.marditreks.com/blog
-- About: https://www.marditreks.com/about
-- Contact: https://www.marditreks.com/contact
+- Homepage: https://greencompasstreks.com/
+- Trek search: https://greencompasstreks.com/search
+- Blog: https://greencompasstreks.com/blog
+- About: https://greencompasstreks.com/about
+- Contact: https://greencompasstreks.com/contact
 
 ## Machine-Readable Discovery
-- Sitemap: https://www.marditreks.com/sitemap.xml
-- Crawler policy: https://www.marditreks.com/robots.txt
+- Sitemap: https://greencompasstreks.com/sitemap.xml
+- Crawler policy: https://greencompasstreks.com/robots.txt
 
 ## Content Types
 - Trek and travel category pages

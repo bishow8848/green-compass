@@ -14,7 +14,7 @@ import BlogSidebar from "@/components/blog/BlogSidebar";
 import { RichTextContent } from "@/components/blog/RichTextContent";
 import { FAQAccordion } from "@/components/ui/FAQAccordion";
 import { ContactFormSection } from "@/components/home/ContactFormSection";
-import { SITE_URL, serializeJsonLd } from "@/lib/seo";
+import { SITE_URL, brandedTitle, seoDescription, seoImageUrl, serializeJsonLd } from "@/lib/seo";
 
 // Blog post is cached for 7 days and refreshed on-demand after CMS edits (revalidatePath)
 export const revalidate = 604800;
@@ -36,24 +36,27 @@ export async function generateMetadata({
     cacheKeys.blogPostMeta(slug),
     () => prisma.blogPost.findUnique({
       where: { slug },
-      select: { title: true, excerpt: true, metaTitle: true, metaDescription: true, keywords: true, heroImage: true, publishedDate: true, updatedAt: true, author: true },
+      select: { title: true, excerpt: true, metaTitle: true, metaDescription: true, keywords: true, heroImage: true, ogImage: true, publishedDate: true, updatedAt: true, author: true },
     }),
     CACHE_TTL.DAILY
   );
   if (!post) return {};
 
-  const heroImageUrl = post.heroImage
-    ? `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/c_fill,w_1200,h_630,q_auto,f_auto/${post.heroImage}`
-    : null;
+  const socialImageUrl = seoImageUrl(post.ogImage || post.heroImage);
+  const title = brandedTitle(post.metaTitle || post.title).absolute;
+  const description = seoDescription(
+    post.metaDescription || post.excerpt,
+    `Read ${post.title} and get practical advice for trekking in Nepal.`
+  );
 
   return {
-    title: post.metaTitle || post.title,
-    description: post.metaDescription || post.excerpt,
+    title: { absolute: title },
+    description,
     keywords: post.keywords || undefined,
     alternates: { canonical: `${SITE_URL}/blog/${slug}` },
     openGraph: {
-      title: post.metaTitle || post.title,
-      description: post.metaDescription || post.excerpt,
+      title,
+      description,
       url: `${SITE_URL}/blog/${slug}`,
       siteName: "Mardi Treks",
       locale: "en_US",
@@ -61,15 +64,15 @@ export async function generateMetadata({
       publishedTime: post.publishedDate ? new Date(post.publishedDate).toISOString() : undefined,
       modifiedTime: post.updatedAt ? new Date(post.updatedAt).toISOString() : undefined,
       authors: [post.author || "Mardi Treks"],
-      images: heroImageUrl
-        ? [{ url: heroImageUrl, width: 1200, height: 630 }]
+      images: socialImageUrl
+        ? [{ url: socialImageUrl, width: 1200, height: 630, alt: post.title }]
         : undefined,
     },
     twitter: {
       card: "summary_large_image",
-      title: post.metaTitle || post.title,
-      description: post.metaDescription || post.excerpt,
-      images: heroImageUrl ? [heroImageUrl] : undefined,
+      title,
+      description,
+      images: socialImageUrl ? [socialImageUrl] : undefined,
     },
   };
 }
@@ -149,6 +152,11 @@ export default async function BlogPostPage({
   const heroImageUrl = post.heroImage
     ? `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/c_fill,w_1200,q_auto,f_auto/${post.heroImage}`
     : null;
+  const articleDescription = seoDescription(
+    post.metaDescription || post.excerpt,
+    `Read ${post.title} and get practical advice for trekking in Nepal.`
+  );
+  const articleSocialImageUrl = seoImageUrl(post.ogImage || post.heroImage);
 
   const overlayStyle = {
     background: `
@@ -181,7 +189,7 @@ export default async function BlogPostPage({
             "@context": "https://schema.org",
             "@type": "Article",
             headline: post.title,
-            description: post.metaDescription || post.excerpt,
+            description: articleDescription,
             author: {
               "@type": "Person",
               name: post.author || "Mardi Treks",
@@ -189,11 +197,13 @@ export default async function BlogPostPage({
             },
             datePublished: post.publishedDate,
             dateModified: post.updatedAt || post.publishedDate,
-            image: heroImageUrl || undefined,
+            image: heroImageUrl || articleSocialImageUrl || undefined,
+            url: `${SITE_URL}/blog/${slug}`,
+            inLanguage: "en",
+            keywords: tags.length > 0 ? tags.join(", ") : undefined,
+            wordCount: post.content?.replace(/<[^>]*>/g, " ").trim().split(/\s+/).filter(Boolean).length || undefined,
             publisher: {
-              "@type": "Organization",
-              name: "Mardi Treks",
-              url: SITE_URL,
+              "@id": `${SITE_URL}/#organization`,
             },
             mainEntityOfPage: {
               "@type": "WebPage",
@@ -230,7 +240,7 @@ export default async function BlogPostPage({
       {heroImageUrl ? (
           <Image
             src={heroImageUrl}
-            alt=""
+            alt={`${post.title} — Mardi Treks`}
             fill
             priority
             sizes="100vw"

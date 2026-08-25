@@ -7,12 +7,35 @@ import { CLOUDINARY_CLOUD_NAME } from "@/lib/cloudinary-url";
 const envSiteUrl = (
   process.env.NEXT_PUBLIC_SITE_URL ||
   process.env.SITE_URL ||
-  "https://www.marditreks.com"
+  "https://greencompasstreks.com"
 ).replace(/\/+$/, "");
 
 export const SITE_URL = envSiteUrl;
 export const SITE_NAME = "Mardi Treks";
 const CLOUDINARY_IMAGE_BASE = `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/`;
+
+/** Keep SEO copy readable when the source is rich text or legacy CMS data. */
+export function plainText(value?: string | null): string {
+  return (value || "")
+    .replace(/<[^>]*>/g, " ")
+    .replace(/&nbsp;/gi, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+export function seoDescription(value: string | null | undefined, fallback: string, maxLength = 160): string {
+  const text = plainText(value) || fallback;
+  if (text.length <= maxLength) return text;
+  return `${text.slice(0, maxLength - 1).replace(/\s+\S*$/, "").trim()}…`;
+}
+
+/** Avoid duplicated brand suffixes while keeping titles explicit and unique. */
+export function brandedTitle(value: string): { absolute: string } {
+  const title = plainText(value);
+  return {
+    absolute: /\bmardi treks\b/i.test(title) ? title : `${title} | ${SITE_NAME}`,
+  };
+}
 
 export function absoluteUrl(path = "/"): string {
   if (path === "/") return SITE_URL;

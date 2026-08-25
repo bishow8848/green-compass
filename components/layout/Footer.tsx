@@ -89,7 +89,7 @@ export async function Footer() {
     } catch {}
   }
 
-  const email = footer.email || "info@marditreks.com";
+  const email = footer.email || "info@greencompasstreks.com";
   const phone = footer.phone || "+977-1-4XXXXXX";
   const address = footer.address || "Kathmandu, Nepal";
   const socialLinks = footer.socialLinks && footer.socialLinks.length > 0 ? footer.socialLinks : [];

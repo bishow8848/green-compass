@@ -251,7 +251,7 @@ export function SettingsForm({ settings }: { settings: any }) {
                     name="email"
                     type="email"
                     defaultValue={settings?.email || ""}
-                    placeholder="info@marditreks.com"
+                    placeholder="info@greencompasstreks.com"
                     className="w-full rounded-xl border border-slate-200 py-2.5 pl-8 pr-4 text-sm focus:border-teal-300 focus:outline-none focus:ring-2 focus:ring-teal-100"
                   />
                 </div>

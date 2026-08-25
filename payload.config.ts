@@ -12,7 +12,7 @@ import { Settings } from "./globals/Settings";
 
 export default buildConfig({
   // Server URL for admin panel and API
-  serverURL: process.env.PAYLOAD_PUBLIC_SERVER_URL || "http://localhost:3000",
+  serverURL: process.env.PAYLOAD_PUBLIC_SERVER_URL || "https://greencompasstreks.com",
 
   // Secret for authentication (required by Payload)
   secret: process.env.PAYLOAD_SECRET || "dev-payload-secret-change-in-production",

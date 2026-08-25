@@ -57,7 +57,7 @@ function resolveCacheSiteKey(): string {
   const siteUrl =
     process.env.NEXT_PUBLIC_SITE_URL ||
     process.env.SITE_URL ||
-    "https://www.marditreks.com";
+    "https://greencompasstreks.com";
   try {
     const host = new URL(siteUrl).hostname.replace(/^www\./, "").toLowerCase();
     return host || "default";

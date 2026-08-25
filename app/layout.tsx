@@ -89,7 +89,7 @@ export async function generateMetadata(): Promise<Metadata> {
       title: defaultTitle,
       description: defaultDescription,
       images: ogImageUrl ? [ogImageUrl] : undefined,
-      site: "@MardiTreks",
+      site: "@GreenCompassTreks",
     },
     robots: {
       index: true,
@@ -241,15 +241,6 @@ export default async function RootLayout({
     },
   };
 
-  // BreadcrumbList schema for homepage
-  const breadcrumbSchema = {
-    "@type": "BreadcrumbList",
-    "@id": `${siteUrl}/#breadcrumb`,
-    itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Home", item: siteUrl },
-    ],
-  };
-
   // FAQPage schema — will be conditionally rendered on pages with FAQ content
 
   // Fetch treks that are selected for dropdowns, with region info
@@ -300,7 +291,6 @@ export default async function RootLayout({
                 "@graph": [
                   organizationSchema,
                   websiteSchema,
-                  breadcrumbSchema,
                 ],
               }),
             }}
