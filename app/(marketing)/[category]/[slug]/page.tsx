@@ -593,7 +593,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
       <div className="space-y-3">
         {itinerary.map((day: any, index: number) => (
           <details
-            key={day.dayNumber}
+            key={day.id ?? day.dayNumber}
             className="group relative rounded-2xl border transition-colors"
             style={{
               backgroundColor: "var(--color-surface)",
