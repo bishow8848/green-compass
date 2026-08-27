@@ -91,46 +91,65 @@ function createPrismaClient() {
   // next candidate instead of reaching new URL() as an empty string.
   const rawDirectUrl = process.env.DIRECT_DATABASE_URL?.trim();
   const directUrl = rawDirectUrl ? stripSurroundingQuotes(rawDirectUrl) : undefined;
-  const rawAccelerateUrl = process.env.DATABASE_URL?.trim();
-  const accelerateUrl = rawAccelerateUrl ? stripSurroundingQuotes(rawAccelerateUrl) : undefined;
+  const rawDatabaseUrl = process.env.DATABASE_URL?.trim();
+  const databaseUrl = rawDatabaseUrl ? stripSurroundingQuotes(rawDatabaseUrl) : undefined;
 
-  // Cap the connection pool per PrismaClient. Supabase's session pooler
-  // (port 5432) limits total clients to pool_size (15 by default), and Next.js
-  // builds spawn one worker per CPU — each worker gets its own pool. Without a
-  // cap, concurrent prerendering easily exceeds the server's limit
-  // (EMAXCONNSESSION). A small pool is also the recommended pattern for
-  // serverless runtimes. Overridable via PRISMA_POOL_MAX.
+  // Cap the connection pool per PrismaClient. A small pool is the recommended
+  // pattern for serverless runtimes. Overridable via PRISMA_POOL_MAX.
   const poolMax = Math.max(1, Number(process.env.PRISMA_POOL_MAX ?? 2));
 
-  // Prefer a direct Postgres connection whenever one is available. This is safe
-  // on any Node runtime (Vercel, local dev) and keeps the app off the Prisma
-  // Accelerate proxy and its account/plan limits. Accelerate
-  // (prisma+postgres://) is used only as a fallback when no direct URL exists.
-  const directConnectionString =
-    directUrl ||
-    (accelerateUrl?.startsWith("postgres://") || accelerateUrl?.startsWith("postgresql://")
-      ? accelerateUrl
-      : undefined);
+  const isPlainPostgres = (u?: string): u is string =>
+    !!u && (u.startsWith("postgres://") || u.startsWith("postgresql://"));
 
-  if (directConnectionString) {
-    // Report which env var was used so the warning above names the right source.
-    const directSource = directUrl ? "DIRECT_DATABASE_URL" : "DATABASE_URL";
+  // Prefer the TRANSACTION-mode pooler (DATABASE_URL, port 6543 + pgbouncer=true)
+  // for the runtime Prisma client. Supabase's SESSION-mode pooler
+  // (DIRECT_DATABASE_URL, port 5432) caps total clients at pool_size (15) and
+  // throws EMAXCONNSESSION ("max clients reached in session mode") under
+  // serverless concurrency, because every instance/worker opens its own pool
+  // and each pooled connection occupies a session slot until released. The
+  // transaction pooler has no such cap — connections are returned after each
+  // transaction — and interactive $transaction (BEGIN/COMMIT) works over it
+  // with @prisma/adapter-pg. DIRECT_DATABASE_URL is used only as a fallback,
+  // and Accelerate (prisma+postgres://) only when no plain Postgres URL exists.
+  const runtimeUrl = isPlainPostgres(databaseUrl) ? databaseUrl : directUrl;
+  const runtimeSource = isPlainPostgres(databaseUrl) ? "DATABASE_URL" : "DIRECT_DATABASE_URL";
+
+  if (isPlainPostgres(runtimeUrl)) {
     return new PrismaClient({
       adapter: new PrismaPg({
-        connectionString: normalizeDirectDatabaseUrl(directConnectionString, directSource),
+        connectionString: normalizeDirectDatabaseUrl(runtimeUrl, runtimeSource),
         max: poolMax,
+        // Fail fast instead of queueing forever when the pool is saturated, so
+        // a burst of requests surfaces a fast error rather than piling up and
+        // tripping Prisma's "connection terminated" path.
+        connectionTimeoutMillis: 10_000,
+        // Release idle connections quickly. Every idle client still occupies a
+        // slot on the Supabase pooler, and serverless instances go idle between
+        // bursts — holding them for 30s is what turns a traffic spike into
+        // EMAXCONNSESSION.
+        idleTimeoutMillis: 10_000,
       }),
+      // Heavy writes (e.g. updateTrek: ~530 child rows ≈ 9.8s) exceed Prisma's
+      // default interactive transaction timeout (5000ms) → P2028. These match
+      // the verified working values from the Supabase connection investigation.
+      transactionOptions: {
+        maxWait: 10_000,
+        timeout: 30_000,
+      },
     });
   }
 
-  if (!accelerateUrl) {
+  if (!databaseUrl) {
     throw new Error("DATABASE_URL environment variable is required");
   }
-  return new PrismaClient({ accelerateUrl });
+  return new PrismaClient({ accelerateUrl: databaseUrl });
 }
 
 export const prisma = globalForPrisma.prisma ?? createPrismaClient();
 
-if (process.env.NODE_ENV !== "production") {
-  globalForPrisma.prisma = prisma;
-}
+// Cache on globalThis in EVERY environment, not just development. In dev this
+// stops HMR from leaking a new pool per reload; in production it stops the same
+// process from ending up with several PrismaClients when this module is
+// instantiated by more than one bundle (the proxy runs in its own bundle from
+// the app server, and each extra client means another pool of connections).
+globalForPrisma.prisma = prisma;

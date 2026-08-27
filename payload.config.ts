@@ -25,10 +25,16 @@ export default buildConfig({
     },
   },
 
-  // Database adapter — shared PostgreSQL with Prisma
+  // Database adapter — shared PostgreSQL with Prisma.
+  // node-postgres defaults to max: 10, which on top of Prisma's own pool is
+  // enough to exhaust the Supabase pooler on its own. The CMS is low-traffic
+  // (admins only), so it gets a small pool and short idle timeout.
   db: postgresAdapter({
     pool: {
       connectionString: process.env.DATABASE_URL || "",
+      max: Math.max(1, Number(process.env.PAYLOAD_POOL_MAX ?? 3)),
+      idleTimeoutMillis: 10_000,
+      connectionTimeoutMillis: 10_000,
     },
   }),
 
