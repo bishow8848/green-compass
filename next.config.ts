@@ -56,6 +56,12 @@ const nextConfig: NextConfig = {
   experimental: {
     globalNotFound: true,
     serverActions: { bodySizeLimit: "2mb" },
+    // 147 prerendered pages all read from a Supabase pooler on the other side
+    // of the planet from the build machine. A single transient connection blip
+    // otherwise aborts the whole export ("Export encountered an error on ...,
+    // exiting the build"), throwing away every page already generated. Retry
+    // the individual page instead of failing the build on the first hiccup.
+    staticGenerationRetryCount: 1,
   },
 };
 

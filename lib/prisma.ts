@@ -94,9 +94,25 @@ function createPrismaClient() {
   const rawDatabaseUrl = process.env.DATABASE_URL?.trim();
   const databaseUrl = rawDatabaseUrl ? stripSurroundingQuotes(rawDatabaseUrl) : undefined;
 
+  // `next build` is not a serverless runtime and must not be sized like one.
+  // Next prerenders up to `staticGenerationMaxConcurrency` pages (default 8) at
+  // once per build worker, and each trek page fans out ~8 statements (Prisma
+  // issues one query per `include`d relation) on top of the layout's. That
+  // leaves ~60 acquisitions queued behind a serverless-sized pool of 2 — and
+  // node-postgres counts queue wait against connectionTimeoutMillis, so the
+  // waiters fail with "timeout exceeded when trying to connect" and the export
+  // aborts mid-build. Build workers are few (bounded by CPU count) and the
+  // transaction pooler has no session-slot cap, so a larger, more patient pool
+  // is safe here. NEXT_PHASE is set before the static workers are forked and
+  // they inherit process.env, so this is visible inside every prerender worker.
+  const isBuildPhase = process.env.NEXT_PHASE === "phase-production-build";
+
   // Cap the connection pool per PrismaClient. A small pool is the recommended
   // pattern for serverless runtimes. Overridable via PRISMA_POOL_MAX.
-  const poolMax = Math.max(1, Number(process.env.PRISMA_POOL_MAX ?? 2));
+  const poolMax = Math.max(
+    1,
+    Number(process.env.PRISMA_POOL_MAX ?? (isBuildPhase ? 10 : 2))
+  );
 
   const isPlainPostgres = (u?: string): u is string =>
     !!u && (u.startsWith("postgres://") || u.startsWith("postgresql://"));
@@ -121,13 +137,17 @@ function createPrismaClient() {
         max: poolMax,
         // Fail fast instead of queueing forever when the pool is saturated, so
         // a burst of requests surfaces a fast error rather than piling up and
-        // tripping Prisma's "connection terminated" path.
-        connectionTimeoutMillis: 10_000,
+        // tripping Prisma's "connection terminated" path. Prerendering queues
+        // far deeper than any single request, has no user waiting on it, and
+        // runs cross-region (build in iad1, database in ap-northeast-2), so the
+        // build gets a patient budget rather than a dead page.
+        connectionTimeoutMillis: isBuildPhase ? 60_000 : 10_000,
         // Release idle connections quickly. Every idle client still occupies a
         // slot on the Supabase pooler, and serverless instances go idle between
         // bursts — holding them for 30s is what turns a traffic spike into
-        // EMAXCONNSESSION.
-        idleTimeoutMillis: 10_000,
+        // EMAXCONNSESSION. A build reuses the one pool continuously, where
+        // recycling that eagerly just pays the cross-region reconnect again.
+        idleTimeoutMillis: isBuildPhase ? 60_000 : 10_000,
       }),
       // Heavy writes (e.g. updateTrek: ~530 child rows ≈ 9.8s) exceed Prisma's
       // default interactive transaction timeout (5000ms) → P2028. These match
