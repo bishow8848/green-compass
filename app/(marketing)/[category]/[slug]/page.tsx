@@ -328,14 +328,23 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
             "@id": `${SITE_URL}/${catSlug}/${slug}#trip`,
             name: trek.title,
             description: trek.metaDescription || trek.overview?.replace(/<[^>]*>/g, "").slice(0, 200),
+            url: `${SITE_URL}/${catSlug}/${slug}`,
             provider: {
               "@id": `${SITE_URL}/#organization`,
             },
+            // Trip length as an ISO 8601 duration — the single most useful
+            // property on a TouristTrip and the one that was missing, so "how
+            // many days is X" queries had nothing structured to match against.
+            ...(trek.duration ? { duration: `P${trek.duration}D` } : {}),
+            ...(trek.region
+              ? { arrivalLocation: { "@type": "Place", name: trek.region } }
+              : {}),
             offers: {
               "@type": "Offer",
               price: offerLowPrice,
               priceCurrency: "USD",
               availability: "https://schema.org/InStock",
+              url: `${SITE_URL}/${catSlug}/${slug}`,
             },
             itinerary: itinerary?.map((day: any) => ({
               "@type": "Itinerary",

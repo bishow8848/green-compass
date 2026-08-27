@@ -8,6 +8,7 @@ import { prisma } from "@/lib/prisma";
 import { getCachedOrFetch, cacheKeys, CACHE_TTL } from "@/lib/redis";
 import { PageHero } from "@/components/layout/PageHero";
 import { sanitizeRichText } from "@/lib/sanitize";
+import { SITE_URL, SITE_NAME, brandedTitle, seoDescription, seoImageUrl, serializeJsonLd } from "@/lib/seo";
 
 // Team member content is cached for 7 days and refreshed on-demand after CMS edits (revalidatePath)
 export const revalidate = 604800;
@@ -20,9 +21,39 @@ export async function generateMetadata({
   const { slug } = await params;
   const member = await prisma.teamMember.findUnique({ where: { slug } });
   if (!member) return {};
+
+  const canonical = `${SITE_URL}/about/team/${slug}`;
+  const title = `${member.name} - ${member.role}`;
+  const socialTitle = brandedTitle(title).absolute;
+  // shortBio is the card blurb and is often empty; fall back to the full rich
+  // text bio (stripped and clamped) before the generic sentence, so these pages
+  // get a real, distinct description instead of a templated one.
+  const description = seoDescription(
+    member.shortBio || member.bio,
+    `Meet ${member.name}, ${member.role} at ${SITE_NAME}.`
+  );
+  const memberImage = seoImageUrl(member.image, "c_fill,g_face,w_1200,h_630,q_auto,f_auto");
+
   return {
-    title: `${member.name} - ${member.role}`,
-    description: member.shortBio || `Meet ${member.name}, ${member.role} at Mardi Treks.`,
+    title,
+    description,
+    alternates: { canonical },
+    openGraph: {
+      title: socialTitle,
+      description,
+      url: canonical,
+      siteName: SITE_NAME,
+      type: "profile",
+      images: memberImage
+        ? [{ url: memberImage, width: 1200, height: 630, alt: `${member.name}, ${member.role}` }]
+        : undefined,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: socialTitle,
+      description,
+      images: memberImage ? [memberImage] : undefined,
+    },
   };
 }
 
@@ -82,6 +113,42 @@ export default async function TeamMemberPage({
 
   return (
     <>
+      {/* Person + BreadcrumbList. The breadcrumb trail is already rendered
+          visually below; declaring it lets Google show /about/team/... in a
+          readable hierarchy instead of a bare URL, and Person ties the bio to
+          the Organization for E-E-A-T. */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: serializeJsonLd({
+            "@context": "https://schema.org",
+            "@graph": [
+              {
+                "@type": "Person",
+                "@id": `${SITE_URL}/about/team/${slug}#person`,
+                name: member.name,
+                url: `${SITE_URL}/about/team/${slug}`,
+                jobTitle: member.role,
+                description: seoDescription(member.shortBio || member.bio, `${member.name}, ${member.role}.`, 300),
+                ...(member.image ? { image: seoImageUrl(member.image, "c_fill,g_face,w_800,h_800,q_auto,f_auto") } : {}),
+                worksFor: { "@id": `${SITE_URL}/#organization` },
+                ...(socialLinks.length > 0
+                  ? { sameAs: socialLinks.map((link) => link.url).filter((url) => /^https?:\/\//i.test(url)) }
+                  : {}),
+              },
+              {
+                "@type": "BreadcrumbList",
+                itemListElement: [
+                  { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
+                  { "@type": "ListItem", position: 2, name: "About", item: `${SITE_URL}/about` },
+                  { "@type": "ListItem", position: 3, name: member.name, item: `${SITE_URL}/about/team/${slug}` },
+                ],
+              },
+            ],
+          }),
+        }}
+      />
+
       {/* ── Hero ── */}
       <section className="relative isolate flex min-h-[clamp(420px,70vh,720px)] flex-col overflow-hidden">
         {heroImageUrl ? (

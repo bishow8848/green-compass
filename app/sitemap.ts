@@ -5,7 +5,7 @@ import { SITE_URL, seoImageUrl } from "@/lib/seo";
 const baseUrl = SITE_URL;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [categories, treks, blogPosts, siteSettings, homeSettings, pageSettings, pages] = await Promise.all([
+  const [categories, treks, blogPosts, siteSettings, homeSettings, pageSettings, pages, teamMembers, authors] = await Promise.all([
     prisma.category.findMany({
       where: { status: "published" },
       select: { slug: true, heroImage: true, updatedAt: true },
@@ -40,6 +40,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     prisma.page.findMany({
       where: { status: "published" },
       select: { slug: true, updatedAt: true, heroImage: true, ogImage: true },
+    }),
+    prisma.teamMember.findMany({
+      where: { status: "published" },
+      select: { slug: true, image: true, updatedAt: true },
+    }),
+    // Only authors who actually have a published post. An author page with no
+    // articles is a thin, near-empty page — indexable, but not worth asking
+    // Google to crawl, and a sitemap full of them dilutes the good URLs.
+    prisma.author.findMany({
+      where: { blogPosts: { some: { status: "published" } } },
+      select: { slug: true, avatar: true, updatedAt: true },
     }),
   ]);
 
@@ -150,5 +161,35 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       images: [seoImageUrl(page.ogImage || page.heroImage)].filter(Boolean) as string[],
     }));
 
-  return [...staticRoutes, ...categoryRoutes, ...trekRoutes, ...fixDepartureRoutes, ...blogRoutes, ...pageRoutes];
+  // Team bios (/about/team/[slug]) and author archives (/author/[slug]) are
+  // public, indexable pages rendered by real routes, but nothing here listed
+  // them — so they were discoverable only by internal link. Both carry E-E-A-T
+  // signals (named people behind the trips and the articles), which is exactly
+  // the kind of page worth surfacing to Google explicitly.
+  const teamRoutes = teamMembers.map((member) => ({
+    url: `${baseUrl}/about/team/${member.slug}`,
+    lastModified: member.updatedAt,
+    changeFrequency: "monthly" as const,
+    priority: 0.4,
+    images: [seoImageUrl(member.image)].filter(Boolean) as string[],
+  }));
+
+  const authorRoutes = authors.map((author) => ({
+    url: `${baseUrl}/author/${author.slug}`,
+    lastModified: author.updatedAt,
+    changeFrequency: "monthly" as const,
+    priority: 0.4,
+    images: [seoImageUrl(author.avatar)].filter(Boolean) as string[],
+  }));
+
+  return [
+    ...staticRoutes,
+    ...categoryRoutes,
+    ...trekRoutes,
+    ...fixDepartureRoutes,
+    ...blogRoutes,
+    ...pageRoutes,
+    ...teamRoutes,
+    ...authorRoutes,
+  ];
 }

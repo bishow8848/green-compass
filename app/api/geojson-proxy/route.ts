@@ -2,6 +2,10 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { gunzip, inflate, inflateRaw } from "zlib";
 import { apiRateLimit, checkRateLimit } from "@/lib/rate-limit";
+import { getClientIp } from "@/lib/request-security";
+
+/** Upper bound on a proxied response body. Route files are far smaller. */
+const MAX_PROXY_BYTES = 5 * 1024 * 1024;
 
 // Try all three decompression methods in order until one works
 async function decompress(buffer: Buffer): Promise<Buffer> {
@@ -19,10 +23,11 @@ async function decompress(buffer: Buffer): Promise<Buffer> {
 }
 
 export async function GET(req: NextRequest) {
-  // Rate limiting — this endpoint can be abused as an open proxy
-  const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
-    req.headers.get("x-real-ip") ||
-    "unknown";
+  // Rate limiting — this endpoint can be abused as an open proxy.
+  // Use the shared helper: it prefers x-real-ip, which the platform sets, over
+  // the leftmost x-forwarded-for entry, which the caller can forge to get a
+  // fresh rate-limit bucket on every request.
+  const ip = getClientIp(req);
   const rateCheck = await checkRateLimit(apiRateLimit, ip);
   if (!rateCheck.success) {
     return NextResponse.json(
@@ -75,7 +80,10 @@ export async function GET(req: NextRequest) {
         },
       });
     } catch (err: any) {
-      return NextResponse.json({ error: `Failed to decode geojson.io data: ${err.message}` }, { status: 502 });
+      // Don't echo the raw error: it is upstream/internal detail and only
+      // helps someone probing what this endpoint can reach.
+      console.error("[geojson-proxy] geojson.io decode failed:", err);
+      return NextResponse.json({ error: "Failed to decode geojson.io data" }, { status: 502 });
     }
   }
 
@@ -93,14 +101,38 @@ export async function GET(req: NextRequest) {
     try {
       const res = await fetch(tryUrl, {
         headers: { "User-Agent": "GreenCompassTreks/1.0" },
+        // The host allowlist above is checked against the URL we were GIVEN.
+        // Following redirects would hand that guarantee to the remote server —
+        // an allowed host answering 302 to http://169.254.169.254/ would turn
+        // this into an SSRF gadget. Refuse to follow instead.
+        redirect: "manual",
+        signal: AbortSignal.timeout(10_000),
       });
+
+      if (res.status >= 300 && res.status < 400) {
+        lastError = "Upstream redirected; refusing to follow";
+        continue;
+      }
 
       if (!res.ok) {
         lastError = `HTTP ${res.status}`;
         continue;
       }
 
-      const text = await res.text();
+      // Cap the body. Route files are a few hundred KB at most, and without a
+      // limit any large file on an allowed host becomes a memory-exhaustion
+      // lever against the server.
+      const declaredLength = Number(res.headers.get("content-length") || 0);
+      if (declaredLength > MAX_PROXY_BYTES) {
+        lastError = "Response too large";
+        continue;
+      }
+      const raw = Buffer.from(await res.arrayBuffer());
+      if (raw.byteLength > MAX_PROXY_BYTES) {
+        lastError = "Response too large";
+        continue;
+      }
+      const text = raw.toString("utf-8");
 
       // Validate it's actually JSON
       try {
@@ -117,7 +149,8 @@ export async function GET(req: NextRequest) {
         },
       });
     } catch (err: any) {
-      lastError = err.message;
+      console.error("[geojson-proxy] fetch failed:", err);
+      lastError = "Upstream fetch failed";
       continue;
     }
   }

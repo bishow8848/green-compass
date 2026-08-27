@@ -1,9 +1,9 @@
 import Link from "next/link";
-import { CLOUDINARY_CLOUD_NAME } from "@/lib/cloudinary-url";
 import { ArrowRight } from "lucide-react";
 import { prisma } from "@/lib/prisma";
 import { getCachedOrFetch, cacheKeys, CACHE_TTL } from "@/lib/redis";
-import { JsonLd, blogPostSchema } from "@/components/seo/JsonLd";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { SITE_URL, seoImageUrl } from "@/lib/seo";
 import { BlogCard } from "@/components/blog/BlogCard";
 
 export async function LatestBlogPosts({
@@ -61,25 +61,30 @@ export async function LatestBlogPosts({
 
   return (
     <>
-      {/* JSON-LD structured data for blog posts */}
-      {postsWithMeta.map((post) => (
-        <JsonLd
-          key={post.slug}
-          data={blogPostSchema({
-            title: post.title,
-            description: post.excerpt,
-            author: post.author,
-            datePublished: post.publishedDate
-              ? (typeof post.publishedDate === "string"
-                  ? post.publishedDate
-                  : post.publishedDate.toISOString())
-              : new Date().toISOString(),
-            image: post.heroImage
-              ? `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/${post.heroImage}`
-              : undefined,
-          })}
-        />
-      ))}
+      {/* This section is a teaser: the articles themselves live at /blog/<slug>,
+          and each of those pages already emits its own BlogPosting. Emitting a
+          second, detached BlogPosting per post here — with no url or
+          mainEntityOfPage — told Google that three full articles were the main
+          content of the HOMEPAGE, which both misattributes the articles and
+          competes with the homepage's own WebPage entity. An ItemList of links
+          is the correct markup for a "latest posts" strip, and it matches what
+          /blog already publishes. */}
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "ItemList",
+          "@id": `${SITE_URL}/#latest-posts`,
+          name: heading || "Latest from Our Blog",
+          numberOfItems: postsWithMeta.length,
+          itemListElement: postsWithMeta.map((post, index) => ({
+            "@type": "ListItem",
+            position: index + 1,
+            name: post.title,
+            url: `${SITE_URL}/blog/${post.slug}`,
+            ...(post.heroImage ? { image: seoImageUrl(post.heroImage) } : {}),
+          })),
+        }}
+      />
 
       <section className="bg-background py-16 sm:py-24" aria-labelledby="latest-blog-posts-heading">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">

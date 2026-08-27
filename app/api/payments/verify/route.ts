@@ -47,9 +47,29 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Booking not found" }, { status: 404 });
     }
 
-    // Update payment and booking status (idempotent — safe if webhook already did this)
+    // The intent records the booking it was created for (see createPaymentIntent
+    // in /api/payments/stripe). Checking it here means a succeeded intent can
+    // only ever confirm the booking it was actually raised against.
+    const intentBookingId = paymentIntent.metadata?.bookingId;
+    if (intentBookingId && intentBookingId !== bookingId) {
+      return NextResponse.json(
+        { error: "Payment does not belong to this booking" },
+        { status: 403 }
+      );
+    }
+
+    // Update payment and booking status (idempotent — safe if webhook already did this).
+    //
+    // The payment MUST be matched on bookingId as well as the intent id. Looking
+    // it up by intent id alone let a caller pair any booking they owned with a
+    // succeeded intent belonging to a DIFFERENT booking: ownership passed, the
+    // intent was genuinely "succeeded", and this route then marked the unrelated
+    // booking CONFIRMED. One real payment could confirm every other booking on
+    // the account. The webhook (PUT /api/payments/stripe) never had this hole
+    // because it derives the booking from payment.bookingId instead of trusting
+    // a client-supplied id.
     const payment = await prisma.payment.findFirst({
-      where: { stripePaymentIntentId: paymentIntentId },
+      where: { bookingId, stripePaymentIntentId: paymentIntentId },
     });
 
     if (!payment) {

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { logIncomingEmail } from "@/lib/crm-email";
+import { secretsMatch } from "@/lib/request-security";
 import { prisma } from "@/lib/prisma";
 
 /**
@@ -25,7 +26,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Service unavailable" }, { status: 503 });
   }
   const token = req.headers.get("x-webhook-token") || req.headers.get("authorization")?.replace("Bearer ", "");
-  if (token !== webhookSecret) {
+  if (!secretsMatch(token, webhookSecret)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 

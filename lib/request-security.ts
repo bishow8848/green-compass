@@ -1,4 +1,31 @@
+import { timingSafeEqual } from "node:crypto";
 import type { NextRequest } from "next/server";
+
+/**
+ * Constant-time comparison for shared secrets (webhook tokens, revalidation
+ * secrets).
+ *
+ * `provided !== expected` short-circuits at the first differing byte, so the
+ * response time leaks how many leading characters were correct. That turns
+ * guessing a secret from infeasible into a byte-at-a-time search. Every secret
+ * check on a route an attacker can call must go through this.
+ */
+export function secretsMatch(
+  provided: string | null | undefined,
+  expected: string | null | undefined
+): boolean {
+  if (!provided || !expected) return false;
+  const a = Buffer.from(provided, "utf8");
+  const b = Buffer.from(expected, "utf8");
+  // timingSafeEqual throws unless both buffers are the same length. Length is
+  // not the secret, but still run a comparison on the mismatch path so a wrong
+  // length doesn't return measurably faster than a wrong value.
+  if (a.length !== b.length) {
+    timingSafeEqual(b, b);
+    return false;
+  }
+  return timingSafeEqual(a, b);
+}
 
 export function getClientIp(request: NextRequest): string {
   return (

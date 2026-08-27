@@ -3,6 +3,7 @@ import { auth } from "@/lib/auth";
 import { writeFile, mkdir } from "fs/promises";
 import path from "path";
 import os from "os";
+import { randomUUID } from "node:crypto";
 import { v2 as cloudinary } from "cloudinary";
 import { DOMParser } from "@xmldom/xmldom";
 import { gpx, kml } from "@tmcw/togeojson";
@@ -93,7 +94,14 @@ export async function POST(req: NextRequest) {
       const resourceType = isJson || isKml || isGpx ? "raw" : "auto";
       const tmpDir = path.join(os.tmpdir(), "mardi-uploads");
       await mkdir(tmpDir, { recursive: true });
-      const tmpPath = path.join(tmpDir, file.name);
+      // file.name is attacker-controlled (it is whatever the multipart part
+      // claims), so joining it straight onto tmpDir let a crafted name like
+      // "../../x" escape the directory and write elsewhere on disk. Keep only
+      // the basename, strip anything outside a safe charset, and prefix a
+      // random component so concurrent uploads can't clobber each other.
+      const safeName =
+        path.basename(file.name).replace(/[^a-zA-Z0-9._-]/g, "_").slice(-100) || "upload";
+      const tmpPath = path.join(tmpDir, `${randomUUID()}-${safeName}`);
       await writeFile(tmpPath, buffer);
       result = await cloudinary.uploader.upload(tmpPath, {
         folder,
