@@ -3,7 +3,7 @@
  *
  * Turns the compact per-trek definitions in ./<region>.ts into the exact
  * HTML / JSON shapes the trek detail page and admin editor already use
- * (matching the reference treks: manaslu-circuit-trek, tsun-valley-trek,
+ * (matching the reference treks: manaslu-circuit-trek, tsum-valley-trek,
  * annapurna-base-camp-trek, makalu-base-camp-trek, ...).
  */
 

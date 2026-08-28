@@ -17,7 +17,8 @@
     "db:studio": "npx prisma studio",
     "cache:reset": "node scripts/cache-reset.mjs",
     "cache:reset:all": "node scripts/cache-reset.mjs --all",
-    "postinstall": "npx prisma generate"
+    "postinstall": "npx prisma generate",
+    "cache:refresh": "npx tsx scripts/refresh-site-cache.mts"
   },
   "prisma": {
     "seed": "npx tsx prisma/seed.ts"

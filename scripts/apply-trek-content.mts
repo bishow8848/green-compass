@@ -46,7 +46,7 @@ const APPLY = process.argv.includes("--apply");
 /** Treks whose content was already written by hand — never touched by this script. */
 const REFERENCE_SLUGS = new Set([
   "manaslu-circuit-trek",
-  "tsun-valley-trek",
+  "tsum-valley-trek",
   "tsum-valley-and-manaslu-circuit-trek",
   "annapurna-base-camp-trek",
   "annapurna-base-camp-trek-with-ghorepani-poonhill-trek",

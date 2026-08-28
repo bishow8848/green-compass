@@ -152,7 +152,7 @@ export const annapurnaTreksA: TrekContent[] = [
 
   // ------------------------------------------------------------------
   {
-    slug: "annapurna-cicuit-with-tilicho-lake-trek",
+    slug: "annapurna-circuit-with-tilicho-lake-trek",
     title: "Annapurna Circuit with Tilicho Lake Trek",
     overview:
       "<p>The <strong>Annapurna Circuit with Tilicho Lake Trek</strong> compresses the classic circuit into 14 days by driving straight to Chame, then adds the region's finest side trip — the walk to <strong>Tilicho Lake (4,919 m)</strong>, one of the highest lakes in the world, cradled in a bare glacial basin beneath Tilicho Peak.</p><p>From Chame the trail climbs through Pisang to <strong>Manang (3,540 m)</strong> for an acclimatization day, then branches west along the exposed Khangsar traverse to Tilicho Base Camp. After the lake, the route rejoins the main circuit at Yak Kharka for the crossing of <strong>Thorong La Pass (5,416 m)</strong> and the descent to Muktinath, Jomsom, and the Kali Gandaki valley. It is the most efficient way to combine both of the Annapurna region's great high-altitude objectives in a single trip.</p>",
