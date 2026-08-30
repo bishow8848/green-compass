@@ -21,79 +21,97 @@ interface MissionVisionProps {
   };
 }
 
+/** Rich-text styling for the CMS-authored body copy. */
+const PROSE =
+  "[&_p]:mb-4 [&_p:last-child]:mb-0 [&_ul]:mb-4 [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:mb-4 [&_ol]:list-decimal [&_ol]:pl-5 [&_strong]:font-semibold [&_strong]:text-foreground [&_a]:underline [&_a]:decoration-1 [&_a]:underline-offset-2";
+
 export function MissionVision({ badge, heading, missionLabel, visionLabel, mission, vision }: MissionVisionProps) {
   if (!mission?.description && !vision?.description) return null;
 
-  const MissionIcon = iconMap[mission?.icon || ""] || Target;
-  const VisionIcon = iconMap[vision?.icon || ""] || Eye;
+  const panels = [
+    {
+      key: "mission",
+      index: "01",
+      label: missionLabel || "Core Purpose",
+      title: mission?.heading || "Our Mission",
+      body: mission?.description,
+      Icon: iconMap[mission?.icon || ""] || Target,
+      accent: true,
+    },
+    {
+      key: "vision",
+      index: "02",
+      label: visionLabel || "Future Outlook",
+      title: vision?.heading || "Our Vision",
+      body: vision?.description,
+      Icon: iconMap[vision?.icon || ""] || Eye,
+      accent: false,
+    },
+  ].filter((panel) => panel.body);
 
   return (
-    <section className="relative overflow-hidden bg-background py-12 sm:py-16">
-
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative">
-        
-        {/* Section Header - Left Aligned with line like Why Choose Us */}
-        <div className="mb-16">
-          <div className="flex items-center gap-3">
-            <span className="h-px w-8 bg-secondary" aria-hidden="true" />
-            <span className="text-xs font-semibold uppercase tracking-[0.12em] text-secondary">
-              {badge || "Purpose & Direction"}
-            </span>
-          </div>
-          <h2 className="mt-4 text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl">
-            {heading || "What Drives Us Forward"}
-          </h2>
+    <section className="bg-background py-12 sm:py-16">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        {/* Section header — the hairline + label pattern used across the site */}
+        <div className="flex items-center gap-3">
+          <span className="h-px w-8 bg-secondary" aria-hidden="true" />
+          <span className="text-xs font-semibold uppercase tracking-[0.12em] text-secondary">
+            {badge || "Purpose & Direction"}
+          </span>
         </div>
+        <h2 className="mt-4 max-w-2xl font-display text-3xl leading-[1.1] tracking-tight text-foreground sm:text-4xl">
+          {heading || "What Drives Us Forward"}
+        </h2>
 
-        {/* Mission & Vision Grid */}
-        <div className="grid gap-8 lg:grid-cols-2">
-          
-          {/* Mission Card */}
-          <div className="group relative rounded-3xl border border-border/60 bg-card p-8 sm:p-10 shadow-2xl shadow-black/10 transition-all duration-300 hover:-translate-y-1 hover:border-primary/50 hover:shadow-[0_20px_60px_-8px_rgba(0,0,0,0.2)]">
-            {/* Top row with icon */}
-            <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/10 text-primary transition-transform duration-300 group-hover:scale-110">
-              <MissionIcon className="h-8 w-8" />
-            </div>
+        {/* One panel split by a shared rule, rather than two floating cards */}
+        <div className="mt-10 grid overflow-hidden rounded-3xl border border-border bg-surface sm:mt-12 lg:grid-cols-2">
+          {panels.map((panel, i) => (
+            <div
+              key={panel.key}
+              className={`relative flex flex-col p-8 sm:p-10 lg:p-12 ${
+                i > 0 ? "border-t border-border lg:border-l lg:border-t-0" : ""
+              }`}
+            >
+              {/* Oversized icon, held back to a watermark */}
+              <panel.Icon
+                className={`pointer-events-none absolute -right-2 -top-2 h-28 w-28 ${
+                  panel.accent ? "text-primary/[0.07]" : "text-secondary/[0.07]"
+                }`}
+                aria-hidden="true"
+              />
 
-            <div className="mt-8">
-              <span className="text-xs font-bold uppercase tracking-widest text-primary">
-                {missionLabel || "Core Purpose"}
+              <span
+                className={`font-display text-5xl leading-none ${
+                  panel.accent ? "text-primary/25" : "text-secondary/25"
+                }`}
+                aria-hidden="true"
+              >
+                {panel.index}
               </span>
-              <h3 className="mt-2 text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
-                {mission?.heading || "Our Mission"}
-              </h3>
-              <div className="mt-4 text-base sm:text-lg leading-relaxed text-muted-foreground [&_p]:mb-4 [&_p:last-child]:mb-0 [&_ul]:mb-4 [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:mb-4 [&_ol]:list-decimal [&_ol]:pl-5 [&_h1]:text-2xl [&_h1]:font-bold [&_h2]:text-xl [&_h2]:font-bold [&_h3]:text-lg [&_h3]:font-semibold [&_blockquote]:border-l-4 [&_blockquote]:border-primary/30 [&_blockquote]:pl-4 [&_blockquote]:italic [&_blockquote]:text-muted-foreground/80 [&_a]:text-primary [&_a]:underline">
-                <div dangerouslySetInnerHTML={{ __html: mission?.description || "To provide safe, authentic, and unforgettable trekking experiences in Nepal while promoting sustainable tourism and supporting local communities." }} />
-              </div>
-            </div>
 
-            {/* Decorative bottom line gradient */}
-            <div className="absolute bottom-0 left-8 right-8 h-1 rounded-full bg-gradient-to-r from-primary/40 via-primary/10 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-          </div>
-
-          {/* Vision Card */}
-          <div className="group relative rounded-3xl border border-border/60 bg-card p-8 sm:p-10 shadow-2xl shadow-black/10 transition-all duration-300 hover:-translate-y-1 hover:border-secondary/50 hover:shadow-[0_20px_60px_-8px_rgba(0,0,0,0.2)]">
-            {/* Top row with icon */}
-            <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-secondary/10 text-secondary transition-transform duration-300 group-hover:scale-110">
-              <VisionIcon className="h-8 w-8" />
-            </div>
-
-            <div className="mt-8">
-              <span className="text-xs font-bold uppercase tracking-widest text-secondary">
-                {visionLabel || "Future Outlook"}
+              <span
+                className={`mt-6 text-[11px] font-bold uppercase tracking-[0.2em] ${
+                  panel.accent ? "text-primary" : "text-secondary"
+                }`}
+              >
+                {panel.label}
               </span>
-              <h3 className="mt-2 text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
-                {vision?.heading || "Our Vision"}
+
+              <h3 className="mt-2 font-display text-2xl leading-tight tracking-tight text-foreground sm:text-3xl">
+                {panel.title}
               </h3>
-              <div className="mt-4 text-base sm:text-lg leading-relaxed text-muted-foreground [&_p]:mb-4 [&_p:last-child]:mb-0 [&_ul]:mb-4 [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:mb-4 [&_ol]:list-decimal [&_ol]:pl-5 [&_h1]:text-2xl [&_h1]:font-bold [&_h2]:text-xl [&_h2]:font-bold [&_h3]:text-lg [&_h3]:font-semibold [&_blockquote]:border-l-4 [&_blockquote]:border-secondary/30 [&_blockquote]:pl-4 [&_blockquote]:italic [&_blockquote]:text-muted-foreground/80 [&_a]:text-secondary [&_a]:underline">
-                <div dangerouslySetInnerHTML={{ __html: vision?.description || "To be Nepal's most trusted trekking company, recognized for excellence in guiding, customer satisfaction, and responsible tourism practices." }} />
-              </div>
+
+              <span
+                className={`mt-5 h-px w-12 ${panel.accent ? "bg-primary/40" : "bg-secondary/40"}`}
+                aria-hidden="true"
+              />
+
+              <div
+                className={`mt-5 text-base leading-relaxed text-text-muted sm:text-lg ${PROSE}`}
+                dangerouslySetInnerHTML={{ __html: panel.body as string }}
+              />
             </div>
-
-            {/* Decorative bottom line gradient */}
-            <div className="absolute bottom-0 left-8 right-8 h-1 rounded-full bg-gradient-to-r from-secondary/40 via-secondary/10 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-          </div>
-
+          ))}
         </div>
       </div>
     </section>

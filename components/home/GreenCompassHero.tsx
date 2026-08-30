@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import Link from "next/link";
 import { ArrowRight, Undo2, ZoomIn, ZoomOut } from "lucide-react";
 import * as THREE from "three";
+import { SearchBar } from "@/components/search/SearchBar";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 
 interface HeroCta {
@@ -14,6 +15,8 @@ interface HeroCta {
 interface GreenCompassHeroProps {
   title?: string;
   titleHighlight?: string;
+  /** Letterspaced kicker above the headline. Pass "" to hide it. */
+  eyebrow?: string;
   /** Primary CTA button (name + link) shown under the headline. */
   primaryCta?: HeroCta;
   /** Secondary CTA button (name + link) shown under the headline. */
@@ -43,6 +46,7 @@ function hexToNum(hex: string): number {
 export function GreenCompassHero({
   title,
   titleHighlight,
+  eyebrow = "Nepal · Himalaya",
   primaryCta = { label: "Start exploring", href: "/search" },
   secondaryCta = { label: "View field notes", href: "/blog" },
   children,
@@ -54,8 +58,6 @@ export function GreenCompassHero({
   const zoomInRef = useRef<HTMLButtonElement | null>(null);
   const zoomOutRef = useRef<HTMLButtonElement | null>(null);
   const zoomResetRef = useRef<HTMLButtonElement | null>(null);
-  const compassWrapRef = useRef<HTMLDivElement | null>(null);
-  const compassRef = useRef<HTMLCanvasElement | null>(null);
 
   const heroTitle = title || "Go where the world feels";
   const heroHighlight = titleHighlight || "wild.";
@@ -212,7 +214,7 @@ export function GreenCompassHero({
       oc.update();
     });
 
-    // Grow the globe canvas with zoom (mirrors the compass): the canvas expands
+    // Grow the globe canvas with zoom: the canvas expands
     // around the globe's centre so the globe is never clipped, and the fov opens
     // as you zoom so the sphere always fits the frustum.
     let baseW = 0;
@@ -300,299 +302,6 @@ export function GreenCompassHero({
     };
   }, []);
 
-  /* ─────────────────────────────────────────────────────────────
-     COMPASS — crisp 2D canvas, always visible, draggable housing.
-     ───────────────────────────────────────────────────────────── */
-  useEffect(() => {
-    const wrap = compassWrapRef.current!;
-    const canvas = compassRef.current!;
-
-    const rm = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const DPR = Math.min(window.devicePixelRatio || 1, 2);
-    // Half-size compass on small screens (100px vs 200px on desktop).
-    const SIZE = window.innerWidth < 640 ? 100 : 200;
-    canvas.width = SIZE * DPR;
-    canvas.height = SIZE * DPR;
-    canvas.style.width = SIZE + "px";
-    canvas.style.height = SIZE + "px";
-    const ctx = canvas.getContext("2d")!;
-
-    // Colors from the global.css theme.
-    const ink = readVar("--color-foreground", "#1f2937");
-    const brand = readVar("--color-primary", "#fe4100");
-    const brandLight = readVar("--color-primary-light", "#ff6a33");
-    const gold = readVar("--color-accent", "#e9d5b4");
-    const goldLight = readVar("--color-accent-light", "#f4e6cf");
-
-    ctx.scale(DPR, DPR);
-
-    let needleAngle = 0;
-    let housingAngle = 0;
-    let isDragging = false;
-    let dragStartX = 0;
-    let dragStartAngle = 0;
-    let targetHousing = 0;
-    // The compass slowly revolves on its own (outer cover + dial together).
-    const REVOLVE_SPEED = 0.45; // radians per second (~26°/s, full turn ~14s)
-
-    function onPointerDown(e: PointerEvent) {
-      isDragging = true;
-      dragStartX = e.clientX;
-      dragStartAngle = housingAngle;
-      try {
-        wrap.setPointerCapture(e.pointerId);
-      } catch {
-        /* ignore */
-      }
-      wrap.style.cursor = "grabbing";
-    }
-    function onPointerMove(e: PointerEvent) {
-      if (!isDragging) return;
-      targetHousing = dragStartAngle + (e.clientX - dragStartX) * 0.013;
-    }
-    function stopDrag() {
-      isDragging = false;
-      wrap.style.cursor = "grab";
-    }
-    function onWheel(e: WheelEvent) {
-      e.preventDefault();
-      targetScale = Math.max(0.5, Math.min(1.2, targetScale + (e.deltaY > 0 ? -0.08 : 0.08)));
-    }
-
-    wrap.addEventListener("pointerdown", onPointerDown);
-    window.addEventListener("pointermove", onPointerMove);
-    window.addEventListener("pointerup", stopDrag);
-    window.addEventListener("pointercancel", stopDrag);
-    wrap.addEventListener("wheel", onWheel, { passive: false });
-
-    let scale = 1;
-    let targetScale = 1;
-
-    function drawCompass(hAngle: number, nAngle: number, z: number) {
-      // Grow the canvas to match zoom so the compass is never clipped. The
-      // wrapper keeps its fixed footprint so growing never moves the copy below.
-      const dim = Math.round(SIZE * z);
-      const bw = Math.round(dim * DPR);
-      if (canvas.width !== bw) {
-        canvas.width = bw;
-        canvas.height = bw;
-        canvas.style.width = dim + "px";
-        canvas.style.height = dim + "px";
-      }
-      ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
-      ctx.clearRect(0, 0, dim, dim);
-      const CX = dim / 2;
-      const CY = dim / 2;
-      const R = dim / 2 - 4 * z;
-      ctx.save();
-      ctx.translate(CX, CY);
-
-      // Soft drop shadow behind the dial.
-      ctx.save();
-      ctx.beginPath();
-      ctx.arc(0, 0, R, 0, Math.PI * 2);
-      ctx.shadowColor = "rgba(31,41,55,0.16)";
-      ctx.shadowBlur = 12 * z;
-      ctx.shadowOffsetY = 4 * z;
-      ctx.fillStyle = "rgba(255,255,255,0.4)";
-      ctx.fill();
-      ctx.restore();
-
-      // Housing — outer cover + dial, revolves together.
-      ctx.save();
-      ctx.rotate(hAngle);
-
-      const dialR = R * 0.84; // dial sits inside the outer cover
-
-      // ── Outer cover — metallic bezel casing that turns with the housing ──
-      const bezel = ctx.createRadialGradient(0, -R * 0.05, R * 0.55, 0, 0, R);
-      bezel.addColorStop(0, goldLight);
-      bezel.addColorStop(0.72, gold);
-      bezel.addColorStop(1, "#c9a86a");
-      ctx.beginPath();
-      ctx.arc(0, 0, R, 0, Math.PI * 2);
-      ctx.fillStyle = bezel;
-      ctx.fill();
-
-      // Outer rim of the cover.
-      ctx.beginPath();
-      ctx.arc(0, 0, R, 0, Math.PI * 2);
-      ctx.strokeStyle = "rgba(122,90,44,0.6)";
-      ctx.lineWidth = 2 * z;
-      ctx.stroke();
-
-      // Knurled notches around the bezel so the revolution reads clearly.
-      ctx.strokeStyle = "rgba(122,90,44,0.45)";
-      ctx.lineWidth = 1.3 * z;
-      for (let d = 0; d < 360; d += 12) {
-        const na = ((d - 90) * Math.PI) / 180;
-        ctx.beginPath();
-        ctx.moveTo(Math.cos(na) * (R - 0.8 * z), Math.sin(na) * (R - 0.8 * z));
-        ctx.lineTo(Math.cos(na) * (R - 4.5 * z), Math.sin(na) * (R - 4.5 * z));
-        ctx.stroke();
-      }
-
-      // Inner shadow lip where the cover meets the dial.
-      ctx.beginPath();
-      ctx.arc(0, 0, dialR + 1.5 * z, 0, Math.PI * 2);
-      ctx.strokeStyle = "rgba(122,90,44,0.35)";
-      ctx.lineWidth = 2 * z;
-      ctx.stroke();
-
-      // Dial face — clean warm white, inside the cover.
-      const face = ctx.createRadialGradient(0, -dialR * 0.12, dialR * 0.05, 0, 0, dialR);
-      face.addColorStop(0, "#ffffff");
-      face.addColorStop(0.7, "#fdfbf6");
-      face.addColorStop(1, goldLight);
-      ctx.beginPath();
-      ctx.arc(0, 0, dialR, 0, Math.PI * 2);
-      ctx.fillStyle = face;
-      ctx.fill();
-
-      // Thin gold hairline ring at the dial's edge.
-      ctx.beginPath();
-      ctx.arc(0, 0, dialR - 1 * z, 0, Math.PI * 2);
-      ctx.strokeStyle = gold;
-      ctx.lineWidth = 2 * z;
-      ctx.stroke();
-
-      // Inner hairline ring.
-      ctx.beginPath();
-      ctx.arc(0, 0, dialR * 0.8, 0, Math.PI * 2);
-      ctx.strokeStyle = "rgba(31,41,55,0.12)";
-      ctx.lineWidth = 1 * z;
-      ctx.stroke();
-
-      // Clean tick marks — major every 30°, minor every 6°. No numbers.
-      for (let d = 0; d < 360; d += 6) {
-        const da = ((d - 90) * Math.PI) / 180;
-        const major = d % 30 === 0;
-        const ro = dialR * 0.97;
-        const ri = major ? dialR * 0.85 : dialR * 0.91;
-        ctx.save();
-        ctx.rotate(da);
-        ctx.beginPath();
-        ctx.moveTo(ro, 0);
-        ctx.lineTo(ri, 0);
-        ctx.strokeStyle = major ? ink : "rgba(31,41,55,0.35)";
-        ctx.lineWidth = major ? 1.6 * z : 0.9 * z;
-        ctx.stroke();
-        ctx.restore();
-      }
-
-      // Cardinal letters — N in brand orange, E/S/W in ink.
-      const cardinals: Array<[string, number, string, number]> = [
-        ["N", 0, brand, 1],
-        ["E", 90, ink, 0.7],
-        ["S", 180, ink, 0.7],
-        ["W", 270, ink, 0.7],
-      ];
-      cardinals.forEach((cv) => {
-        const ca = ((cv[1] - 90) * Math.PI) / 180;
-        const cr = dialR * 0.56;
-        ctx.save();
-        ctx.translate(Math.cos(ca) * cr, Math.sin(ca) * cr);
-        ctx.globalAlpha = cv[3];
-        ctx.font = "500 " + (17 * z).toFixed(1) + "px var(--font-serif), serif";
-        ctx.fillStyle = cv[2];
-        ctx.textAlign = "center";
-        ctx.textBaseline = "middle";
-        ctx.fillText(cv[0], 0, 1);
-        ctx.restore();
-      });
-
-      // Subtle crosshair across the dial.
-      ctx.strokeStyle = "rgba(31,41,55,0.07)";
-      ctx.lineWidth = 1 * z;
-      ctx.beginPath();
-      ctx.moveTo(0, -dialR * 0.32);
-      ctx.lineTo(0, dialR * 0.32);
-      ctx.moveTo(-dialR * 0.32, 0);
-      ctx.lineTo(dialR * 0.32, 0);
-      ctx.stroke();
-
-      ctx.restore(); // end housing rotate
-
-      // Needle — always points "north", fixed relative to the world.
-      ctx.save();
-      ctx.rotate(nAngle);
-
-      // North half — brand orange.
-      ctx.beginPath();
-      ctx.moveTo(0, 0);
-      ctx.lineTo(-4 * z, -R * 0.46);
-      ctx.lineTo(0, -R * 0.8);
-      ctx.lineTo(4 * z, -R * 0.46);
-      ctx.closePath();
-      const ng = ctx.createLinearGradient(0, -R * 0.8, 0, 0);
-      ng.addColorStop(0, brandLight);
-      ng.addColorStop(1, brand);
-      ctx.fillStyle = ng;
-      ctx.fill();
-
-      // South half — ink / slate.
-      ctx.beginPath();
-      ctx.moveTo(0, 0);
-      ctx.lineTo(-4 * z, R * 0.46);
-      ctx.lineTo(0, R * 0.8);
-      ctx.lineTo(4 * z, R * 0.46);
-      ctx.closePath();
-      ctx.fillStyle = ink;
-      ctx.fill();
-
-      ctx.restore();
-
-      // Centre pivot — gold dot with ink centre.
-      ctx.beginPath();
-      ctx.arc(0, 0, 5 * z, 0, Math.PI * 2);
-      ctx.fillStyle = gold;
-      ctx.fill();
-      ctx.beginPath();
-      ctx.arc(0, 0, 2 * z, 0, Math.PI * 2);
-      ctx.fillStyle = ink;
-      ctx.fill();
-
-      ctx.restore(); // end translate
-    }
-
-    let last = 0;
-    let rafId = 0;
-    function loop(ts: number) {
-      rafId = requestAnimationFrame(loop);
-      const dt = Math.min((ts - last) / 1000, 0.05);
-      last = ts;
-      if (!isDragging) {
-        if (!rm) {
-          // Constant, stately revolution of the whole compass.
-          targetHousing += REVOLVE_SPEED * dt;
-        }
-      }
-      housingAngle += (targetHousing - housingAngle) * (isDragging ? 0.35 : 0.06);
-      if (rm) {
-        needleAngle = 0;
-      } else {
-        const phase = (ts % 1250) / 1250;
-        const pulse = (at: number, width: number) => {
-          const x = (phase - at) / width;
-          return Math.exp(-x * x);
-        };
-        needleAngle = (pulse(0.1, 0.025) - pulse(0.16, 0.028) + pulse(0.24, 0.032) - pulse(0.31, 0.038)) * 0.13;
-      }
-      scale += (targetScale - scale) * 0.1;
-      drawCompass(housingAngle, needleAngle, scale);
-    }
-    rafId = requestAnimationFrame(loop);
-
-    return () => {
-      cancelAnimationFrame(rafId);
-      wrap.removeEventListener("pointerdown", onPointerDown);
-      window.removeEventListener("pointermove", onPointerMove);
-      window.removeEventListener("pointerup", stopDrag);
-      window.removeEventListener("pointercancel", stopDrag);
-      wrap.removeEventListener("wheel", onWheel);
-    };
-  }, []);
-
   return (
     <section
       ref={sectionRef}
@@ -643,39 +352,75 @@ export function GreenCompassHero({
         Drag to rotate · scroll to zoom
       </p>
 
-      {/* Copy — pointer-transparent so the globe hitzone behind it stays draggable/zoomable */}
-      <div className="pointer-events-none relative mx-auto flex min-h-full w-full max-w-[1400px] flex-col justify-end px-5 pb-10 sm:px-8 sm:pb-12 lg:justify-center lg:px-14 lg:pb-0">
-        <div className="w-full max-w-xl lg:max-w-2xl">
-          {/* Compass */}
-          <div
-            ref={compassWrapRef}
-            className="pointer-events-auto relative z-30 h-[100px] w-[100px] cursor-grab touch-none active:cursor-grabbing sm:h-[200px] sm:w-[200px]"
+      {/* ── Copy — the headline and the trek search that is this page's main
+             action. Pointer-transparent so the globe hitzone behind it stays
+             draggable/zoomable; interactive bits opt back in. ── */}
+      <div className="pointer-events-none relative z-20 mx-auto flex min-h-full w-full max-w-[1400px] flex-col justify-end px-5 pb-10 sm:px-8 sm:pb-12 lg:justify-center lg:px-14 lg:pb-0">
+        <div className="relative w-full max-w-xl lg:max-w-2xl">
+          {/* Rhumb lines — the bearing lines that radiate from a compass rose on
+              an old chart. The origin sits off the left edge, so the copy reads
+              as sitting on the chart rather than next to a diagram. */}
+          <svg
+            viewBox="-550 -550 1100 1100"
+            className="pointer-events-none absolute -left-[760px] top-1/2 hidden h-[1100px] w-[1100px] -translate-y-1/2 text-primary/[0.10] lg:block"
             aria-hidden="true"
           >
-            <canvas
-              ref={compassRef}
-              className="absolute bottom-0 left-0"
-            />
-          </div>
+            {Array.from({ length: 32 }, (_, i) => {
+              const a = (i * 11.25 * Math.PI) / 180;
+              const r = 778; // reaches the corners of the viewBox
+              return (
+                <line
+                  key={i}
+                  x1="0"
+                  y1="0"
+                  x2={(Math.sin(a) * r).toFixed(2)}
+                  y2={(-Math.cos(a) * r).toFixed(2)}
+                  stroke="currentColor"
+                  strokeWidth={i % 4 === 0 ? 1.6 : 0.7}
+                />
+              );
+            })}
+            <circle cx="0" cy="0" r="420" fill="none" stroke="currentColor" strokeWidth="1" />
+            <circle cx="0" cy="0" r="700" fill="none" stroke="currentColor" strokeWidth="0.7" />
+          </svg>
+
+          {/* Eyebrow */}
+          {eyebrow && (
+            <div className="relative flex items-center gap-2.5 sm:gap-3">
+              <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 shrink-0 text-primary" aria-hidden="true">
+                <path d="M12 1 L13.6 10.4 L23 12 L13.6 13.6 L12 23 L10.4 13.6 L1 12 L10.4 10.4 Z" fill="currentColor" />
+              </svg>
+              <span className="h-px w-7 shrink-0 bg-primary/40 sm:w-11" aria-hidden="true" />
+              <p className="text-[10px] font-semibold uppercase tracking-[0.26em] text-text-muted sm:text-xs sm:tracking-[0.3em]">
+                {eyebrow}
+              </p>
+            </div>
+          )}
 
           {/* Headline */}
-          <h1 className="mt-2 font-display text-[2.6rem] leading-[1.03] tracking-tight text-foreground sm:mt-3 sm:text-6xl lg:text-[4.75rem]">
+          <h1 className="relative mt-4 font-display text-[2.6rem] leading-[1.05] tracking-[-0.02em] text-foreground sm:mt-5 sm:text-6xl lg:text-[4.75rem]">
             {heroTitle}{" "}
             <em className="font-serif font-medium italic text-primary">{heroHighlight}</em>
           </h1>
 
-          {/* CTA row — dynamic buttons (name + link) */}
-          <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-4 sm:mt-8">
+          {/* Search — the same autocomplete bar the category and trek pages use */}
+          <div className="pointer-events-auto relative mt-6 w-full max-w-md sm:mt-8">
+            <SearchBar />
+          </div>
+
+          {/* CTA row — dynamic buttons (name + link). Quieter than the search,
+              which is now this hero's primary action. */}
+          <div className="relative mt-6 flex flex-wrap items-center gap-x-6 gap-y-3 sm:mt-7">
             <Link
               href={primaryCta.href || "/search"}
-              className="pointer-events-auto inline-flex items-center justify-center gap-2 rounded-full bg-primary px-7 py-3 text-sm font-semibold text-white shadow-lg shadow-primary/25 transition-all hover:-translate-y-0.5 hover:bg-primary-dark sm:px-8 sm:py-3.5 sm:text-base"
+              className="pointer-events-auto group inline-flex items-center gap-1.5 text-sm font-semibold text-foreground underline-offset-4 transition-colors hover:text-primary sm:text-base"
             >
               {primaryCta.label || "Start exploring"}
-              <ArrowRight className="h-4 w-4" />
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
             </Link>
             <Link
               href={secondaryCta.href || "/blog"}
-              className="pointer-events-auto group inline-flex items-center gap-1 text-sm font-semibold text-foreground underline-offset-4 transition-colors hover:text-primary sm:text-base"
+              className="pointer-events-auto group inline-flex items-center gap-1.5 text-sm font-semibold text-text-muted underline-offset-4 transition-colors hover:text-primary sm:text-base"
             >
               {secondaryCta.label || "View field notes"}
               <span className="transition-transform group-hover:translate-x-0.5" aria-hidden>
@@ -683,7 +428,6 @@ export function GreenCompassHero({
               </span>
             </Link>
           </div>
-
         </div>
       </div>
 

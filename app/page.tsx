@@ -289,6 +289,7 @@ export default async function HomePage() {
       <GreenCompassHero
         title={settings?.heroTitle || pageHero.title || ""}
         titleHighlight={settings?.heroTitleHighlight || pageHero.titleHighlight || ""}
+        eyebrow={pageHero.badge}
         primaryCta={heroPrimaryCta}
         secondaryCta={heroSecondaryCta}
       />
