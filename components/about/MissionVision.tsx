@@ -59,7 +59,7 @@ export function MissionVision({ badge, heading, missionLabel, visionLabel, missi
             {badge || "Purpose & Direction"}
           </span>
         </div>
-        <h2 className="mt-4 max-w-2xl font-display text-3xl leading-[1.1] tracking-tight text-foreground sm:text-4xl">
+        <h2 className="mt-4 max-w-2xl text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
           {heading || "What Drives Us Forward"}
         </h2>
 
@@ -81,7 +81,7 @@ export function MissionVision({ badge, heading, missionLabel, visionLabel, missi
               />
 
               <span
-                className={`font-display text-5xl leading-none ${
+                className={`text-5xl font-bold leading-none ${
                   panel.accent ? "text-primary/25" : "text-secondary/25"
                 }`}
                 aria-hidden="true"
@@ -97,7 +97,7 @@ export function MissionVision({ badge, heading, missionLabel, visionLabel, missi
                 {panel.label}
               </span>
 
-              <h3 className="mt-2 font-display text-2xl leading-tight tracking-tight text-foreground sm:text-3xl">
+              <h3 className="mt-2 text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
                 {panel.title}
               </h3>
 

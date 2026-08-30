@@ -124,8 +124,7 @@ export function AboutUsSection({
         <div className="mt-8 max-w-3xl">
           <h2
             id="about-us-heading"
-            className="font-serif text-3xl font-bold tracking-tight text-foreground sm:text-4xl lg:text-[3.25rem] lg:leading-[1.1]"
-            style={{ fontFamily: "'Fraunces', ui-serif, Georgia, serif" }}
+            className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl lg:text-[3.25rem] lg:leading-[1.1]"
           >
             {resolvedHeading}
           </h2>
