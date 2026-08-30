@@ -5,12 +5,20 @@ import { useRouter } from "next/navigation";
 import { createPage, updatePage, deletePage } from "./actions";
 import { RichTextEditor, type RichTextEditorHandle } from "@/components/admin/RichTextEditor";
 import { ImageUpload, type ImageUploadHandle } from "@/components/admin/trek-sections/ImageUpload";
+import { SeoAnalyzer } from "@/components/admin/SeoAnalyzer";
 
 export function PageForm({ mode, page }: { mode: "create" | "edit"; page?: any }) {
   const router = useRouter();
   const [content, setContent] = useState(page?.content || "");
   const [heroImage, setHeroImage] = useState(page?.heroImage || "");
   const [saving, setSaving] = useState(false);
+  // Controlled so the SEO analyser can score them live as they are typed
+  const [title, setTitle] = useState(page?.title || "");
+  const [slug, setSlug] = useState(page?.slug || "");
+  const [metaTitle, setMetaTitle] = useState(page?.metaTitle || "");
+  const [metaDescription, setMetaDescription] = useState(page?.metaDescription || "");
+  // Pages have no keywords column, so the focus keyword drives the analysis only
+  const [focusKeyword, setFocusKeyword] = useState("");
   const editorRef = useRef<RichTextEditorHandle>(null);
   const heroImageRef = useRef<ImageUploadHandle>(null);
 
@@ -45,7 +53,8 @@ export function PageForm({ mode, page }: { mode: "create" | "edit"; page?: any }
                 <label className="block text-xs font-medium text-slate-500">Title *</label>
                 <input
                   name="title"
-                  defaultValue={page?.title || ""}
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
                   required
                   className="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-teal-300 focus:outline-none focus:ring-2 focus:ring-teal-100"
                 />
@@ -54,11 +63,12 @@ export function PageForm({ mode, page }: { mode: "create" | "edit"; page?: any }
                 <label className="block text-xs font-medium text-slate-500">Slug *</label>
                 <input
                   name="slug"
-                  defaultValue={page?.slug || ""}
+                  value={slug}
+                  onChange={(e) => setSlug(e.target.value)}
                   required
                   className="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm font-mono focus:border-teal-300 focus:outline-none focus:ring-2 focus:ring-teal-100"
                 />
-                <p className="mt-1 text-xs text-slate-400">URL path: /{page?.slug || "your-slug"}</p>
+                <p className="mt-1 text-xs text-slate-400">URL path: /{slug || "your-slug"}</p>
               </div>
               <div>
                 <ImageUpload
@@ -83,6 +93,18 @@ export function PageForm({ mode, page }: { mode: "create" | "edit"; page?: any }
                 <label className="block text-xs font-medium text-slate-500">Body</label>
                 <RichTextEditor ref={editorRef} content={content} onChange={setContent} placeholder="Write page content..." />
               </div>
+              <SeoAnalyzer
+                html={content}
+                title={title}
+                slug={slug}
+                metaTitle={metaTitle}
+                metaDescription={metaDescription}
+                focusKeyword={focusKeyword}
+                onFocusKeywordChange={setFocusKeyword}
+                urlPrefix="/"
+                minWords={300}
+                focusKeywordHint="Used for this analysis only — pages have no keywords field to save it to."
+              />
             </div>
           </section>
         </div>
@@ -112,18 +134,23 @@ export function PageForm({ mode, page }: { mode: "create" | "edit"; page?: any }
                 <label className="block text-xs font-medium text-slate-500">Meta Title</label>
                 <input
                   name="metaTitle"
-                  defaultValue={page?.metaTitle || ""}
+                  value={metaTitle}
+                  onChange={(e) => setMetaTitle(e.target.value)}
+                  placeholder={title || "Falls back to the page title"}
                   className="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm"
                 />
+                <p className="mt-1 text-[11px] text-slate-400">{metaTitle.length}/60 characters</p>
               </div>
               <div>
                 <label className="block text-xs font-medium text-slate-500">Meta Description</label>
                 <textarea
                   name="metaDescription"
                   rows={3}
-                  defaultValue={page?.metaDescription || ""}
+                  value={metaDescription}
+                  onChange={(e) => setMetaDescription(e.target.value)}
                   className="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm"
                 />
+                <p className="mt-1 text-[11px] text-slate-400">{metaDescription.length}/160 characters</p>
               </div>
             </div>
           </section>

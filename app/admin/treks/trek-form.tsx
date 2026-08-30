@@ -1,11 +1,11 @@
 "use client";
 
-import { useState, useCallback, useRef } from "react";
+import { useState, useCallback, useMemo, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { createTrek, updateTrek, deleteTrek } from "./actions";
 import { TrekSection } from "@/components/admin/trek-sections/types";
 import { createDefaultSection } from "@/components/admin/trek-sections/types";
-import { SectionRenderer } from "@/components/admin/trek-sections/SectionRenderer";
+import { SectionRenderer, type SeoContext } from "@/components/admin/trek-sections/SectionRenderer";
 import type { ImageUploadHandle } from "@/components/admin/trek-sections/ImageUpload";
 import type { RichTextEditorHandle } from "@/components/admin/RichTextEditor";
 import { Plus, Save, Loader2, ArrowUp, ArrowDown } from "lucide-react";
@@ -129,6 +129,58 @@ export function TrekForm({ mode, trek, categories }: { mode: "create" | "edit"; 
 
     return existing;
   });
+
+  // ── Live SEO context ──────────────────────────────────────────────
+  // The trek page is assembled from many sections, so the SEO analyser scores
+  // them together: whatever a visitor will actually read on the published page.
+  const seoContext = useMemo<SeoContext>(() => {
+    const escape = (value: string) =>
+      String(value || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    const details: any = sections.find((s) => s.type === "details")?.data || {};
+    const parts: string[] = [];
+
+    for (const section of sections) {
+      if (!section.visible) continue;
+      const data: any = section.data || {};
+      switch (section.type) {
+        case "overview":
+          parts.push(data.content || "");
+          break;
+        case "itinerary":
+          for (const item of data.items || []) {
+            parts.push(`<h3>${escape(item.title)}</h3>`, item.description || "");
+          }
+          break;
+        case "inEx":
+          parts.push(data.inclusions || "", data.exclusions || "");
+          break;
+        case "faqs":
+          for (const item of data.items || []) {
+            parts.push(`<h3>${escape(item.question)}</h3><p>${escape(item.answer)}</p>`);
+          }
+          break;
+        case "custom":
+          parts.push(`<h2>${escape(data.heading)}</h2>`, data.content || "");
+          break;
+        case "gallery":
+          for (const item of data.items || []) {
+            parts.push(`<img src="${escape(item.imageId)}" alt="${escape(item.alt)}" />`);
+          }
+          break;
+        default:
+          break;
+      }
+    }
+
+    const categorySlug = categories?.find((c: any) => c.id === details.categoryId)?.slug || "";
+
+    return {
+      title: details.title || "",
+      slug: details.slug || "",
+      html: parts.filter(Boolean).join("\n"),
+      urlPrefix: categorySlug ? `/${categorySlug}` : "/",
+    };
+  }, [sections, categories]);
 
   // ── Section mutations ─────────────────────────────────────────────
   const updateSection = useCallback((id: string, data: any) => {
@@ -442,6 +494,7 @@ export function TrekForm({ mode, trek, categories }: { mode: "create" | "edit"; 
             categories={categories}
             registerImageUpload={registerImageUpload}
             registerRichTextEditor={registerRichTextEditor}
+            seoContext={seoContext}
           />
         ))}
       </div>

@@ -19,8 +19,9 @@ import {
   Bold, Italic, Heading1, Heading2, Heading3, List, ListOrdered,
   Quote, Undo, Redo, Code, Strikethrough, Underline as UnderlineIcon,
   Link, Image, AlignLeft, AlignCenter, AlignRight, Minus, Pilcrow, Loader2,
-  Table2, Plus, ListPlus, Trash2
+  Table2, Plus, ListPlus, Trash2, ChevronDown, ListTree
 } from "lucide-react";
+import { countWords } from "@/lib/seo-analysis";
 import { useState, useCallback, useRef, useEffect, forwardRef, useImperativeHandle } from "react";
 
 export interface RichTextEditorHandle {
@@ -32,7 +33,33 @@ interface RichTextEditorProps {
   content: string;
   onChange: (html: string) => void;
   placeholder?: string;
+  /** Hide the word count / heading outline bar under the editor */
+  hideStatusBar?: boolean;
 }
+
+/** Live document stats, recomputed (debounced) as the author types. */
+interface DocStats {
+  words: number;
+  readingMinutes: number;
+  headings: { level: number; text: string; pos: number }[];
+  images: number;
+  imagesMissingAlt: number;
+}
+
+const EMPTY_DOC_STATS: DocStats = {
+  words: 0,
+  readingMinutes: 0,
+  headings: [],
+  images: 0,
+  imagesMissingAlt: 0,
+};
+
+const HEADING_OPTIONS = [
+  { level: 0, label: "Paragraph" },
+  { level: 1, label: "Heading 1" },
+  { level: 2, label: "Heading 2" },
+  { level: 3, label: "Heading 3" },
+] as const;
 
 /** Extract the Cloudinary publicId from a Cloudinary image URL */
 function publicIdFromUrl(url: string): string | null {
@@ -145,9 +172,15 @@ const CaptionImage = ImageExtension.extend({
 });
 
 export const RichTextEditor = forwardRef<RichTextEditorHandle, RichTextEditorProps>(
-  function RichTextEditor({ content, onChange, placeholder }, ref) {
+  function RichTextEditor({ content, onChange, placeholder, hideStatusBar }, ref) {
   const [linkUrl, setLinkUrl] = useState("");
   const [showLinkInput, setShowLinkInput] = useState(false);
+
+  // Heading controls + live outline
+  const [showHeadingMenu, setShowHeadingMenu] = useState(false);
+  const headingMenuRef = useRef<HTMLDivElement>(null);
+  const [showOutline, setShowOutline] = useState(false);
+  const [docStats, setDocStats] = useState<DocStats>(EMPTY_DOC_STATS);
 
   // Alt text + caption state
   const [altText, setAltText] = useState("");
@@ -224,6 +257,59 @@ export const RichTextEditor = forwardRef<RichTextEditorHandle, RichTextEditorPro
       },
     },
   });
+
+  // Close the block-type dropdown when clicking anywhere else — it floats over
+  // the writing area, so leaving it open gets in the way.
+  useEffect(() => {
+    if (!showHeadingMenu) return;
+    const onPointerDown = (event: MouseEvent) => {
+      if (!headingMenuRef.current?.contains(event.target as Node)) setShowHeadingMenu(false);
+    };
+    document.addEventListener("mousedown", onPointerDown);
+    return () => document.removeEventListener("mousedown", onPointerDown);
+  }, [showHeadingMenu]);
+
+  // Recompute the outline + word count from the document, debounced so a long
+  // article doesn't re-walk the whole doc on every keystroke.
+  useEffect(() => {
+    if (!editor) return;
+    let timer: ReturnType<typeof setTimeout> | undefined;
+
+    const compute = () => {
+      if (editor.isDestroyed) return;
+      const headings: DocStats["headings"] = [];
+      let images = 0;
+      let imagesMissingAlt = 0;
+      editor.state.doc.descendants((node, pos) => {
+        if (node.type.name === "heading") {
+          headings.push({ level: node.attrs.level, text: node.textContent, pos });
+        } else if (node.type.name === "image") {
+          images += 1;
+          if (!String(node.attrs.alt || "").trim()) imagesMissingAlt += 1;
+        }
+      });
+      const words = countWords(editor.getText({ blockSeparator: " " }));
+      setDocStats({
+        words,
+        readingMinutes: words > 0 ? Math.max(1, Math.round(words / 200)) : 0,
+        headings,
+        images,
+        imagesMissingAlt,
+      });
+    };
+
+    const schedule = () => {
+      clearTimeout(timer);
+      timer = setTimeout(compute, 250);
+    };
+
+    compute();
+    editor.on("update", schedule);
+    return () => {
+      clearTimeout(timer);
+      editor.off("update", schedule);
+    };
+  }, [editor]);
 
   // Expose processPendingImages to parent forms
   useImperativeHandle(ref, () => ({
@@ -420,10 +506,26 @@ export const RichTextEditor = forwardRef<RichTextEditorHandle, RichTextEditorPro
 
   const Divider = () => <span className="mx-0.5 h-5 w-px bg-slate-200" />;
 
+  // Which block the caret sits in — shown in the toolbar at all times
+  const activeHeadingLevel = [1, 2, 3].find((level) => editor.isActive("heading", { level })) ?? 0;
+  const activeBlockLabel =
+    HEADING_OPTIONS.find((option) => option.level === activeHeadingLevel)?.label ?? "Paragraph";
+
+  const applyHeading = (level: number) => {
+    if (level === 0) editor.chain().focus().setParagraph().run();
+    else editor.chain().focus().setHeading({ level: level as 1 | 2 | 3 }).run();
+    setShowHeadingMenu(false);
+  };
+
+  const goToHeading = (pos: number) => {
+    editor.chain().focus().setTextSelection(pos + 1).scrollIntoView().run();
+  };
+
   return (
-    <div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
-      {/* Toolbar */}
-      <div className="flex flex-wrap items-center gap-0.5 border-b border-slate-100 bg-slate-50/80 px-2 py-1.5">
+    <div className="relative rounded-xl border border-slate-200 bg-white shadow-sm">
+      {/* Toolbar — sticks to the top of the scroll area so the heading controls
+          stay reachable however far down the article you are writing. */}
+      <div className="sticky top-0 z-30 flex flex-wrap items-center gap-0.5 rounded-t-xl border-b border-slate-200 bg-slate-50 px-2 py-1.5 shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
         {/* Text Formatting */}
         <ToolButton onClick={() => editor.chain().focus().toggleBold().run()} active={editor.isActive("bold")} title="Bold (Ctrl+B)">
           <Bold className="h-4 w-4" />
@@ -437,6 +539,45 @@ export const RichTextEditor = forwardRef<RichTextEditorHandle, RichTextEditorPro
         <ToolButton onClick={() => editor.chain().focus().toggleStrike().run()} active={editor.isActive("strike")} title="Strikethrough">
           <Strikethrough className="h-4 w-4" />
         </ToolButton>
+
+        <Divider />
+
+        {/* Current block type — always visible, so you can see (and change) the
+            heading level of the line you are writing without hunting for it. */}
+        <div className="relative" ref={headingMenuRef}>
+          <button
+            type="button"
+            onClick={() => setShowHeadingMenu((value) => !value)}
+            title="Block type"
+            className={`flex items-center gap-1 rounded-lg px-2 py-1.5 text-xs font-medium transition-all ${
+              activeHeadingLevel > 0
+                ? "bg-teal-100 text-teal-700 shadow-sm"
+                : "text-slate-500 hover:bg-slate-100 hover:text-slate-700"
+            }`}
+          >
+            <span className="w-[68px] text-left">{activeBlockLabel}</span>
+            <ChevronDown className="h-3 w-3" />
+          </button>
+          {showHeadingMenu && (
+            <div className="absolute left-0 top-full z-40 mt-1 w-40 rounded-xl border border-slate-200 bg-white py-1 shadow-lg">
+              {HEADING_OPTIONS.map((option) => (
+                <button
+                  key={option.level}
+                  type="button"
+                  onClick={() => applyHeading(option.level)}
+                  className={`flex w-full items-center justify-between px-3 py-1.5 text-left text-xs hover:bg-slate-50 ${
+                    activeHeadingLevel === option.level ? "font-semibold text-teal-600" : "text-slate-600"
+                  }`}
+                >
+                  <span style={{ fontSize: option.level === 0 ? 12 : 18 - option.level * 2 }}>
+                    {option.label}
+                  </span>
+                  {activeHeadingLevel === option.level && <span>&#10003;</span>}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
 
         <Divider />
 
@@ -607,6 +748,65 @@ export const RichTextEditor = forwardRef<RichTextEditorHandle, RichTextEditorPro
       <div onClick={handleEditorClick}>
         <EditorContent editor={editor} />
       </div>
+
+      {/* Heading outline — the article's structure at a glance; click to jump */}
+      {!hideStatusBar && showOutline && (
+        <div className="max-h-56 overflow-y-auto border-t border-slate-100 bg-slate-50/60 px-3 py-2">
+          {docStats.headings.length === 0 ? (
+            <p className="py-1 text-[11px] text-slate-400">
+              No headings yet — break the content up with H2 subheadings.
+            </p>
+          ) : (
+            <ul className="space-y-0.5">
+              {docStats.headings.map((heading, i) => (
+                <li key={`${heading.pos}-${i}`}>
+                  <button
+                    type="button"
+                    onClick={() => goToHeading(heading.pos)}
+                    className="flex w-full items-center gap-2 rounded-md px-1.5 py-1 text-left text-[11px] text-slate-600 hover:bg-white hover:text-teal-700"
+                    style={{ paddingLeft: `${(heading.level - 1) * 12 + 6}px` }}
+                  >
+                    <span className="shrink-0 rounded bg-slate-200 px-1 text-[9px] font-bold text-slate-500">
+                      H{heading.level}
+                    </span>
+                    <span className="truncate">{heading.text || "(empty heading)"}</span>
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      )}
+
+      {/* Live status bar — word count, structure and alt-text warnings while you write */}
+      {!hideStatusBar && (
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-1 rounded-b-xl border-t border-slate-100 bg-slate-50/60 px-3 py-1.5 text-[11px] text-slate-500">
+          <button
+            type="button"
+            onClick={() => setShowOutline((value) => !value)}
+            className="inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 font-medium text-slate-600 hover:bg-white"
+            title="Show the heading outline"
+          >
+            <ListTree className="h-3 w-3" />
+            Outline ({docStats.headings.length})
+          </button>
+          <span className="h-3 w-px bg-slate-200" />
+          <span>{docStats.words} words</span>
+          <span>{docStats.readingMinutes} min read</span>
+          <span>
+            H1 {docStats.headings.filter((h) => h.level === 1).length} · H2{" "}
+            {docStats.headings.filter((h) => h.level === 2).length} · H3{" "}
+            {docStats.headings.filter((h) => h.level === 3).length}
+          </span>
+          {docStats.images > 0 && (
+            <span className={docStats.imagesMissingAlt > 0 ? "font-medium text-rose-600" : ""}>
+              {docStats.imagesMissingAlt > 0
+                ? `${docStats.imagesMissingAlt}/${docStats.images} images missing alt text`
+                : `${docStats.images} images, all with alt text`}
+            </span>
+          )}
+        </div>
+      )}
 
       {/* Alt Text Dialog */}
       {showAltInput && altImagePreview && (

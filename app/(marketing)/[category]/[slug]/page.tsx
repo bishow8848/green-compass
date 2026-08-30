@@ -256,7 +256,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
             category: trek.category?.name || undefined,
             brand: {
               "@type": "Brand",
-              name: "Mardi Treks",
+              name: "Green Compass Treks",
             },
             provider: {
               "@id": `${SITE_URL}/#organization`,

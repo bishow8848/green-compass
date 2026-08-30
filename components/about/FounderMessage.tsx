@@ -55,7 +55,7 @@ export function FounderMessage({ heading, message, founderName, founderRole, fou
               {!founderName && !founderRole && (
                 <>
                   <p className="text-xl font-bold text-white">Rajesh Gurung</p>
-                  <p className="mt-1 text-sm text-white/80">Founder & Lead Guide, Mardi Treks</p>
+                  <p className="mt-1 text-sm text-white/80">Founder & Lead Guide, Green Compass Treks</p>
                 </>
               )}
             </div>

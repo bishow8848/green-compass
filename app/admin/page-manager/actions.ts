@@ -34,6 +34,7 @@ export async function savePageContent(formData: FormData) {
       hero: {
         title: formData.get("home_hero_title") as string,
         titleHighlight: formData.get("home_hero_title_highlight") as string,
+        badge: formData.get("home_hero_badge") as string,
         description: formData.get("home_hero_description") as string,
         backgroundImage: formData.get("home_hero_background") as string,
       },
@@ -292,7 +293,7 @@ export async function savePageContent(formData: FormData) {
       recommendedLabel: formData.get("footer_recommended_label") as string || "Recommended On:",
       recommendedOn: JSON.parse(formData.get("footer_recommended_on") as string || "[]"),
       followUsLabel: formData.get("footer_follow_us_label") as string || "Follow Us On:",
-      card1Title: formData.get("footer_card1_title") as string || "Mardi Treks",
+      card1Title: formData.get("footer_card1_title") as string || "Green Compass Treks",
       card2Title: formData.get("footer_card2_title") as string || "Speak with a Representative",
       representative: JSON.parse(formData.get("footer_representative") as string || "{}"),
       card3Title: formData.get("footer_card3_title") as string || "Recognitions",
@@ -321,7 +322,7 @@ export async function savePageContent(formData: FormData) {
         slug,
         role: member.role,
         image: member.image || null,
-        bio: member.bio || `<p>${member.name} is ${member.role} at Mardi Treks.</p>`,
+        bio: member.bio || `<p>${member.name} is ${member.role} at Green Compass Treks.</p>`,
         status: "published",
       },
       update: {

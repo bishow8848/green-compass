@@ -44,7 +44,7 @@ export async function updateNavigationSettings(formData: FormData) {
     },
     create: {
       id: "site-settings",
-      siteName: "Mardi Treks",
+      siteName: "Green Compass Treks",
       logo,
       topBarContent,
       navigation: navigation.length > 0 ? JSON.stringify(navigation) : null,

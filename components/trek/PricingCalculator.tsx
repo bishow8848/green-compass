@@ -4,6 +4,7 @@ import { useState, useEffect, useMemo, useRef } from "react";
 import { createPortal } from "react-dom";
 import Link from "next/link";
 import { Minus, Plus, Users, Calendar, Package, Tag, X } from "lucide-react";
+import { getPriceForGroupSize, parseTierRange } from "@/lib/pricing";
 
 interface PricingTier {
   groupSize: string;
@@ -32,26 +33,6 @@ interface PricingCalculatorProps {
   maxGroupSize?: number;
 }
 
-function parseTierRange(label: string): { min: number; max: number } {
-  const match = label.match(/(\d+)\s*-\s*(\d+)/);
-  if (match) return { min: parseInt(match[1]), max: parseInt(match[2]) };
-  const single = label.match(/(\d+)/);
-  if (single) return { min: parseInt(single[1]), max: parseInt(single[1]) };
-  return { min: 1, max: 1 };
-}
-
-function getPriceForGroupSize(tiers: PricingTier[], groupSize: number): number {
-  for (const tier of tiers) {
-    const range = parseTierRange(tier.groupSize);
-    if (groupSize >= range.min && groupSize <= range.max) {
-      return tier.pricePerPerson;
-    }
-  }
-  if (tiers.length > 0) {
-    return tiers[tiers.length - 1].pricePerPerson;
-  }
-  return 0;
-}
 
 // Renders the tooltip into document.body via a portal, positioned from the
 // trigger's bounding rect — this means it's never clipped by an ancestor's
@@ -249,8 +230,8 @@ export function PricingCalculator({
   }, [pricingTiers, maxGroupSizeProp]);
 
   const pricePerPerson = useMemo(
-    () => getPriceForGroupSize(pricingTiers, travelers),
-    [pricingTiers, travelers]
+    () => getPriceForGroupSize(pricingTiers, travelers, basePrice),
+    [pricingTiers, travelers, basePrice]
   );
 
   const trekTotal = pricePerPerson * travelers;
@@ -494,7 +475,13 @@ export function PricingCalculator({
         <Link
           href={`/book/${trekSlug}?travelers=${travelers}${startDate ? `&startDate=${startDate}` : ""}&addons=${encodeURIComponent(
             JSON.stringify(
-              addons.filter((_, i) => addonQtys[i] > 0).map((a, i) => ({ title: a.title, qty: addonQtys[i], pricePerUnit: a.pricePerUnit }))
+              // Map BEFORE filtering: filtering first re-indexes the array, so
+              // addonQtys[i] then read a different add-on's quantity — every
+              // selection slid onto the wrong add-on and the booking total
+              // disagreed with the "Book Now" total shown here.
+              addons
+                .map((a, i) => ({ title: a.title, qty: addonQtys[i] || 0, pricePerUnit: a.pricePerUnit }))
+                .filter((a) => a.qty > 0)
             )
           )}`}
           className="flex w-full items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold text-white hover:opacity-90"

@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { createBookingSchema } from "@/lib/validations";
 import { bookingRateLimit, checkRateLimit } from "@/lib/rate-limit";
 import { sendBookingNotification, sendBookingReceivedEmail } from "@/lib/email";
+import { getPriceForGroupSize } from "@/lib/pricing";
 import { getClientIp, hasTrustedOrigin, rateLimitIdentifier } from "@/lib/request-security";
 import { invalidateCachePattern, cacheKeys } from "@/lib/redis";
 import { hash } from "bcryptjs";
@@ -90,7 +91,11 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Use server-side price and duration — NEVER trust client values
+    // Use server-side price and duration — NEVER trust client values.
+    // trek.price is only the base/headline rate; a trek with pricing tiers
+    // charges per group size, which is what the calculator and the booking page
+    // quote. Charging trek.price here silently wrote a different total to the
+    // database than the customer agreed to on screen.
     const serverTrekPrice = trek.price;
     const serverTrekDuration = trek.duration;
     const serverTrekTitle = trek.title;
@@ -135,7 +140,12 @@ export async function POST(request: NextRequest) {
       return sum + a.qty * serverAddon.pricePerUnit;
     }, 0);
 
-    const totalPrice = serverTrekPrice * groupSize + addonsTotal;
+    const pricePerPerson = getPriceForGroupSize(
+      trek.pricingTiers,
+      groupSize,
+      serverTrekPrice
+    );
+    const totalPrice = pricePerPerson * groupSize + addonsTotal;
 
     // Check availability (Prisma read, could also check Payload CMS date)
     // Check TrekAvailability table
@@ -216,7 +226,7 @@ export async function POST(request: NextRequest) {
           userId: bookingUserId,
           trekSlug,
           trekTitle: serverTrekTitle,
-          trekPrice: serverTrekPrice,
+          trekPrice: pricePerPerson,
           trekDuration: serverTrekDuration,
           startDate: new Date(startDate),
           groupSize,

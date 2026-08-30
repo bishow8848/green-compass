@@ -1,5 +1,5 @@
 import { SITE_URL } from "@/lib/seo";
-import { sendEmail } from "@/lib/resend";
+import { sendEmail, EMAIL_NOTIFICATIONS_FROM } from "@/lib/resend";
 
 function escapeHtml(text: string): string {
   return text
@@ -38,22 +38,22 @@ export async function sendVerificationEmail({
   email: string;
   token: string;
 }) {
-  const baseUrl =
-    process.env.NEXT_PUBLIC_APP_URL ||
-    (typeof window !== "undefined" ? window.location.origin : SITE_URL);
-  const verificationUrl = `${baseUrl}/api/auth/verify-email?token=${token}`;
+  // Always build the link from the configured site origin (NEXT_PUBLIC_SITE_URL /
+  // SITE_URL in .env). Deriving it from the runtime origin produced localhost
+  // links whenever the app ran in dev or behind a reverse proxy.
+  const verificationUrl = `${SITE_URL}/api/auth/verify-email?token=${token}`;
 
   await sendEmail({
     to: email,
-    subject: "Verify your email address - Mardi Treks",
+    subject: "Verify your email address - Green Compass Treks",
     html: `
       <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;line-height:1.65;color:#334155;">
         <div style="text-align:center;padding:20px 0;">
-          <h1 style="color:#0f766e;margin:0;">Mardi Treks</h1>
+          <h1 style="color:#0f766e;margin:0;">Green Compass Treks</h1>
         </div>
         <h2 style="color:#0f766e;">Verify your email address</h2>
         <p>Hello ${escapeHtml(name)},</p>
-        <p>Thank you for signing up with Mardi Treks! Please verify your email address by clicking the button below:</p>
+        <p>Thank you for signing up with Green Compass Treks! Please verify your email address by clicking the button below:</p>
         <div style="text-align:center;margin:30px 0;">
           <a href="${verificationUrl}" style="display:inline-block;padding:14px 32px;background-color:#0f766e;color:#ffffff;text-decoration:none;border-radius:8px;font-size:16px;font-weight:600;">
             Verify Email Address
@@ -63,7 +63,7 @@ export async function sendVerificationEmail({
         <p style="color:#64748b;font-size:14px;word-break:break-all;">${verificationUrl}</p>
         <hr style="border:none;border-top:1px solid #e5e7eb;margin:24px 0;" />
         <p style="color:#64748b;font-size:13px;">This link will expire in 24 hours. If you did not create an account, you can safely ignore this email.</p>
-        <p style="margin-top:28px;">Warm regards,<br /><strong>Mardi Treks Team</strong></p>
+        <p style="margin-top:28px;">Warm regards,<br /><strong>Green Compass Treks Team</strong></p>
       </div>
     `,
   });
@@ -78,13 +78,13 @@ export async function sendWelcomeEmail({
 }) {
   await sendEmail({
     to: email,
-    subject: "Welcome to Mardi Treks",
+    subject: "Welcome to Green Compass Treks",
     html: `
       <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;line-height:1.65;color:#334155;">
-        <h2 style="color:#0f766e;">Welcome to Mardi Treks, ${escapeHtml(name)}!</h2>
+        <h2 style="color:#0f766e;">Welcome to Green Compass Treks, ${escapeHtml(name)}!</h2>
         <p>Thank you for creating your account. You can now explore our treks, submit bookings, and view your booking information from your dashboard.</p>
         <p>If you need help choosing a trek, simply reply to this email.</p>
-        <p style="margin-top:28px;">Warm regards,<br /><strong>Mardi Treks</strong></p>
+        <p style="margin-top:28px;">Warm regards,<br /><strong>Green Compass Treks</strong></p>
       </div>
     `,
   });
@@ -114,7 +114,7 @@ export async function sendBookingReceivedEmail({
       <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;line-height:1.65;color:#334155;">
         <h2 style="color:#0f766e;">Your booking request has been received</h2>
         <p>Hello ${escapeHtml(name)},</p>
-        <p>Thank you for choosing Mardi Treks. Your booking details have been sent to our team successfully.</p>
+        <p>Thank you for choosing Green Compass Treks. Your booking details have been sent to our team successfully.</p>
         <div style="margin:20px 0;padding:16px;border-radius:10px;background:#f0fdfa;">
           <strong>${escapeHtml(trekTitle)}</strong><br />
           Preferred start date: ${escapeHtml(startDate)}<br />
@@ -130,9 +130,9 @@ export async function sendBookingReceivedEmail({
           </div>
         ` : ""}
         ${linkedExistingAccount ? `
-          <p>This booking was linked to your existing Mardi Treks account. Sign in with your current password to view it in your dashboard.</p>
+          <p>This booking was linked to your existing Green Compass Treks account. Sign in with your current password to view it in your dashboard.</p>
         ` : ""}
-        <p style="margin-top:28px;">Warm regards,<br /><strong>Mardi Treks</strong></p>
+        <p style="margin-top:28px;">Warm regards,<br /><strong>Green Compass Treks</strong></p>
       </div>
     `,
   });
@@ -149,19 +149,19 @@ export async function sendTemporaryPasswordEmail({
 }) {
   await sendEmail({
     to: email,
-    subject: "Your temporary Mardi Treks password",
+    subject: "Your temporary Green Compass Treks password",
     html: `
       <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;line-height:1.65;color:#334155;">
         <h2 style="color:#0f766e;">Temporary password requested</h2>
         <p>Hello ${escapeHtml(name)},</p>
-        <p>Use the temporary password below to sign in to your Mardi Treks account:</p>
+        <p>Use the temporary password below to sign in to your Green Compass Treks account:</p>
         <div style="margin:20px 0;padding:16px;border-radius:10px;background:#fff7ed;border:1px solid #fed7aa;">
           Email: ${escapeHtml(email)}<br />
           Temporary password: <code style="font-weight:bold;">${escapeHtml(temporaryPassword)}</code>
         </div>
         <p>You will be required to choose a new password immediately after signing in.</p>
-        <p>If you did not request this, please contact Mardi Treks support.</p>
-        <p style="margin-top:28px;">Warm regards,<br /><strong>Mardi Treks</strong></p>
+        <p>If you did not request this, please contact Green Compass Treks support.</p>
+        <p style="margin-top:28px;">Warm regards,<br /><strong>Green Compass Treks</strong></p>
       </div>
     `,
   });
@@ -175,6 +175,7 @@ export async function sendBookingNotification({
   travelers,
   groupSize,
   totalPrice,
+  amountPaid = 0,
   addons,
   specialRequests,
 }: {
@@ -185,9 +186,12 @@ export async function sendBookingNotification({
   travelers: TravelerInfo[];
   groupSize: number;
   totalPrice: number;
+  /** Paid so far. A newly submitted booking is always 0. */
+  amountPaid?: number;
   addons?: AddonInfo[];
   specialRequests?: string | null;
 }) {
+  const balanceDue = Math.max(0, totalPrice - amountPaid);
   const addonsRows = addons && addons.length > 0
     ? addons.map((a) => `<tr><td style="padding:6px 8px;border-bottom:1px solid #eee;">${escapeHtml(a.title)} &times; ${a.qty}</td><td style="padding:6px 8px;border-bottom:1px solid #eee;text-align:right;">+$${(a.qty * a.pricePerUnit).toLocaleString()}</td></tr>`).join("")
     : "";
@@ -204,6 +208,7 @@ export async function sendBookingNotification({
 
   try {
     await sendEmail({
+      from: EMAIL_NOTIFICATIONS_FROM,
       to: ADMIN_EMAIL,
       subject: `[New Booking] ${trekTitle} - ${customerName}`,
       html: `
@@ -216,6 +221,8 @@ export async function sendBookingNotification({
             <tr><td style="padding:8px;font-weight:bold;color:#46576a;">Start Date</td><td style="padding:8px;">${escapeHtml(startDate)}</td></tr>
             <tr><td style="padding:8px;font-weight:bold;color:#46576a;">Travelers</td><td style="padding:8px;">${groupSize}</td></tr>
             <tr><td style="padding:8px;font-weight:bold;color:#46576a;">Total Price</td><td style="padding:8px;"><strong>$${totalPrice.toLocaleString()}</strong></td></tr>
+            <tr><td style="padding:8px;font-weight:bold;color:#46576a;">Amount Paid</td><td style="padding:8px;">$${amountPaid.toLocaleString()}</td></tr>
+            <tr><td style="padding:8px;font-weight:bold;color:#46576a;">Balance Due</td><td style="padding:8px;color:#b45309;"><strong>$${balanceDue.toLocaleString()}</strong></td></tr>
           </table>
           ${addonsRows ? `
           <h3 style="color:#0d9488;margin-top:20px;">Add-ons</h3>
@@ -232,7 +239,7 @@ export async function sendBookingNotification({
             ${travelerRows}
           </table>
           <hr style="border:none;border-top:1px solid #e5e7eb;margin:20px 0;" />
-          <p style="font-size:12px;color:#64748b;">Sent from Mardi Treks booking system</p>
+          <p style="font-size:12px;color:#64748b;">Sent from Green Compass Treks booking system</p>
         </div>
       `,
     });
@@ -256,8 +263,9 @@ export async function sendContactEmail({
   try {
     await sendEmail({
       replyTo: email,
+      from: EMAIL_NOTIFICATIONS_FROM,
       to: ADMIN_EMAIL,
-      subject: `[Mardi Treks Contact] ${escapeHtml(subject)}`,
+      subject: `[Green Compass Treks Contact] ${escapeHtml(subject)}`,
       html: `
         <div style="font-family:sans-serif;max-width:600px;margin:0 auto;">
           <h2 style="color:#fe4100;">New Contact Form Message</h2>
@@ -269,7 +277,7 @@ export async function sendContactEmail({
           <hr style="border:none;border-top:1px solid #e5e7eb;margin:16px 0;" />
           <p style="color:#334155;line-height:1.6;">${escapeHtml(message)}</p>
           <hr style="border:none;border-top:1px solid #e5e7eb;margin:16px 0;" />
-          <p style="font-size:12px;color:#64748b;">Sent from Mardi Treks contact form</p>
+          <p style="font-size:12px;color:#64748b;">Sent from Green Compass Treks contact form</p>
         </div>
       `,
     });
@@ -299,8 +307,9 @@ export async function sendFixDepartureContactEmail({
   try {
     await sendEmail({
       replyTo: email,
+      from: EMAIL_NOTIFICATIONS_FROM,
       to: ADMIN_EMAIL,
-      subject: `[Mardi Treks Fix Departure] ${escapeHtml(trekTitle)} - ${escapeHtml(startDate)}`,
+      subject: `[Green Compass Treks Fix Departure] ${escapeHtml(trekTitle)} - ${escapeHtml(startDate)}`,
       html: `
         <div style="font-family:sans-serif;max-width:600px;margin:0 auto;">
           <h2 style="color:#fe4100;">New Fix Departure Interest</h2>

@@ -19,7 +19,7 @@ const defaultWhyChooseUsItems = [
 ];
 
 const defaultAboutContent = [
-  { title: "Who We Are", description: "Mardi Treks is a premier trekking and tour agency based in Pokhara, Nepal. Founded by local trekking experts with a passion for the Himalayas, we specialize in guided trekking expeditions, cultural tours, and climbing adventures across Nepal's most stunning landscapes." },
+  { title: "Who We Are", description: "Green Compass Treks is a premier trekking and tour agency based in Pokhara, Nepal. Founded by local trekking experts with a passion for the Himalayas, we specialize in guided trekking expeditions, cultural tours, and climbing adventures across Nepal's most stunning landscapes." },
   { title: "What Makes Us Different", description: "Unlike large, impersonal tour operators, we keep our groups small, our service personal, and our commitment to sustainable tourism unwavering. When you trek with us, you're not just exploring the Himalayas — you're making a positive impact." },
 ];
 
@@ -100,7 +100,7 @@ export function PageManagerForm({
   const pc = saved || {};
 
   // ── About state ──
-  const [aboutHero, setAboutHero] = useState(pc.about?.hero || { heading: "About Mardi Treks", description: "", backgroundImage: "" });
+  const [aboutHero, setAboutHero] = useState(pc.about?.hero || { heading: "About Green Compass Treks", description: "", backgroundImage: "" });
   const [aboutSeo, setAboutSeo] = useState(pc.about?.seo || { title: "", description: "", keywords: "" });
   const [aboutTeam, setAboutTeam] = useState(() => {
     const raw = pc.about?.team;
@@ -128,6 +128,9 @@ export function PageManagerForm({
   // ── Home state ──
   const [homeHero, setHomeHero] = useState({
     ...(pc.home?.hero || { badge: "", title: "", titleHighlight: "", subtitle: "", description: "", backgroundImage: "" }),
+    // Prefill with the hero's own default so saving an untouched form doesn't
+    // silently blank the kicker. Clearing the field still hides it.
+    badge: pc.home?.hero?.badge ?? "Locally guided from Pokhara, Nepal",
     primaryCtaLabel: homeHeroCtas.primaryCtaLabel,
     primaryCtaHref: homeHeroCtas.primaryCtaHref,
     secondaryCtaLabel: homeHeroCtas.secondaryCtaLabel,
@@ -217,7 +220,7 @@ export function PageManagerForm({
     phone: "+977-1-2345678",
     address: "Lakeside, Pokhara, Nepal",
     socialLinks: defaultSocialLinks,
-    copyright: `© ${new Date().getFullYear()} Mardi Treks. All rights reserved.`,
+    copyright: `© ${new Date().getFullYear()} Green Compass Treks. All rights reserved.`,
     trustedBadge: "Trusted & Certified",
     associatedHeading: "We're Associated With",
     partners: defaultPartners,
@@ -229,7 +232,7 @@ export function PageManagerForm({
     recommendedLabel: "Recommended On:",
     recommendedOn: defaultRecommendedOn,
     followUsLabel: "Follow Us On:",
-    card1Title: "Mardi Treks",
+    card1Title: "Green Compass Treks",
     card2Title: "Speak with a Representative",
     representative: defaultRepresentative,
     card3Title: "Recognitions",
@@ -278,6 +281,8 @@ export function PageManagerForm({
     // Home (override with state-managed values)
     fd.set("home_hero_title", homeHero.title);
     fd.set("home_hero_title_highlight", homeHero.titleHighlight);
+    fd.set("home_hero_badge", homeHero.badge || "");
+    fd.set("home_hero_description", homeHero.description || "");
     fd.set("home_hero_background", orUploaded("homeHero", homeHero.backgroundImage));
     fd.set("home_hero_primary_cta_label", homeHero.primaryCtaLabel || "");
     fd.set("home_hero_primary_cta_href", homeHero.primaryCtaHref || "");
@@ -446,11 +451,11 @@ export function PageManagerForm({
             <div className="grid gap-4 sm:grid-cols-2">
               <div>
                 <label className="block text-xs font-medium text-slate-500 mb-1">Meta Title</label>
-                <input value={homeSeo.title} onChange={(e) => setHomeSeo({ ...homeSeo, title: e.target.value })} placeholder="Mardi Treks | Premier Trekking & Tour Agency" className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" />
+                <input value={homeSeo.title} onChange={(e) => setHomeSeo({ ...homeSeo, title: e.target.value })} placeholder="Green Compass Treks | Premier Trekking & Tour Agency" className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" />
               </div>
               <div>
                 <label className="block text-xs font-medium text-slate-500 mb-1">Meta Description</label>
-                <textarea rows={2} value={homeSeo.description || ""} onChange={(e) => setHomeSeo({ ...homeSeo, description: e.target.value })} placeholder="Experience the Himalayas with Mardi Treks..." className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" />
+                <textarea rows={2} value={homeSeo.description || ""} onChange={(e) => setHomeSeo({ ...homeSeo, description: e.target.value })} placeholder="Experience the Himalayas with Green Compass Treks..." className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" />
               </div>
               <div className="sm:col-span-2">
                 <label className="block text-xs font-medium text-slate-500 mb-1">Keywords</label>
@@ -464,10 +469,15 @@ export function PageManagerForm({
             <div className="mb-4">
               <div>
                 <h3 className="text-sm font-bold text-slate-900">Hero Section</h3>
-                <p className="text-xs text-slate-400">Headline, highlight and CTA buttons for the 3D-globe hero on the homepage.</p>
+                <p className="text-xs text-slate-400">Kicker, headline, supporting line and CTA buttons for the 3D-globe hero on the homepage.</p>
               </div>
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
+              <div className="sm:col-span-2">
+                <label className="block text-xs font-medium text-slate-500 mb-1">Kicker</label>
+                <input value={homeHero.badge || ""} onChange={(e) => setHomeHeroField("badge", e.target.value)} placeholder="Locally guided from Pokhara, Nepal" className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" />
+                <p className="mt-1 text-[11px] text-slate-400">Small line above the headline. Leave blank to hide it.</p>
+              </div>
               <div>
                 <label className="block text-xs font-medium text-slate-500 mb-1">Title</label>
                 <input value={homeHero.title} onChange={(e) => setHomeHeroField("title", e.target.value)} placeholder="e.g. Go where the world feels" className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" />
@@ -475,6 +485,10 @@ export function PageManagerForm({
               <div>
                 <label className="block text-xs font-medium text-slate-500 mb-1">Title Highlight</label>
                 <input value={homeHero.titleHighlight} onChange={(e) => setHomeHeroField("titleHighlight", e.target.value)} placeholder="Highlighted word in title" className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" />
+              </div>
+              <div className="sm:col-span-2">
+                <label className="block text-xs font-medium text-slate-500 mb-1">Supporting Line</label>
+                <textarea rows={2} value={homeHero.description || ""} onChange={(e) => setHomeHeroField("description", e.target.value)} placeholder="One or two sentences under the headline — what you do and who it's for." className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" />
               </div>
               <div>
                 <label className="block text-xs font-medium text-slate-500 mb-1">Primary CTA Label</label>
@@ -804,7 +818,7 @@ export function PageManagerForm({
               </div>
               <div className="sm:col-span-2">
                 <label className="block text-xs font-medium text-slate-500 mb-1">Keywords</label>
-                <input value={aboutSeo.keywords} onChange={(e) => setAboutSeo({ ...aboutSeo, keywords: e.target.value })} placeholder="about, mardi treks, nepal, team" className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" />
+                <input value={aboutSeo.keywords} onChange={(e) => setAboutSeo({ ...aboutSeo, keywords: e.target.value })} placeholder="about, green compass treks, nepal, team" className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" />
               </div>
             </div>
           </section>
@@ -1001,6 +1015,7 @@ export function PageManagerForm({
                     content={aboutMissionVision.mission?.description || ""}
                     onChange={(html) => setAboutMissionVision((prev: any) => ({ ...prev, mission: { ...prev.mission, description: html } }))}
                     placeholder="Write your mission description..."
+                    hideStatusBar
                   />
                 </div>
               </div>
@@ -1018,6 +1033,7 @@ export function PageManagerForm({
                     content={aboutMissionVision.vision?.description || ""}
                     onChange={(html) => setAboutMissionVision((prev: any) => ({ ...prev, vision: { ...prev.vision, description: html } }))}
                     placeholder="Write your vision description..."
+                    hideStatusBar
                   />
                 </div>
               </div>
@@ -1195,7 +1211,7 @@ export function PageManagerForm({
               </div>
               <div className="sm:col-span-2">
                 <label className="block text-xs font-medium text-slate-500 mb-1">Keywords</label>
-                <input value={contactSeo.keywords} onChange={(e) => setContactSeo({ ...contactSeo, keywords: e.target.value })} placeholder="contact, mardi treks, nepal, support" className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" />
+                <input value={contactSeo.keywords} onChange={(e) => setContactSeo({ ...contactSeo, keywords: e.target.value })} placeholder="contact, green compass treks, nepal, support" className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" />
               </div>
             </div>
           </section>

@@ -44,7 +44,7 @@ export async function generateMetadata({
     const pageSocialTitle = brandedTitle(pageTitle).absolute;
     const pageDescription = seoDescription(
       page.metaDescription || page.heroDescription,
-      `${page.title} from Mardi Treks, your local Nepal trekking and travel company.`
+      `${page.title} from Green Compass Treks, your local Nepal trekking and travel company.`
     );
     const pageImage = seoImageUrl(page.ogImage || page.heroImage);
     return {
@@ -55,7 +55,7 @@ export async function generateMetadata({
         title: pageSocialTitle,
         description: pageDescription,
         url: `${SITE_URL}/${page.slug}`,
-        siteName: "Mardi Treks",
+        siteName: "Green Compass Treks",
         locale: "en_US",
         type: "website",
         images: pageImage ? [{ url: pageImage, width: 1200, height: 630, alt: page.title }] : undefined,
@@ -73,7 +73,7 @@ export async function generateMetadata({
   const socialTitle = brandedTitle(title).absolute;
   const description = seoDescription(
     cat.metaDescription,
-    `Explore ${cat.name.toLowerCase()} in Nepal with carefully planned itineraries, local guides and practical trip details from Mardi Treks.`
+    `Explore ${cat.name.toLowerCase()} in Nepal with carefully planned itineraries, local guides and practical trip details from Green Compass Treks.`
   );
   const categoryImage = seoImageUrl(cat.heroImage);
   return {
@@ -84,7 +84,7 @@ export async function generateMetadata({
       title: socialTitle,
       description,
       url: `${SITE_URL}/${slug}`,
-      siteName: "Mardi Treks",
+      siteName: "Green Compass Treks",
       locale: "en_US",
       type: "website",
       images: categoryImage ? [{ url: categoryImage, width: 1200, height: 630, alt: `${cat.name} in Nepal` }] : undefined,
@@ -175,7 +175,7 @@ export default async function CategoryListingPage({
     const heroImageUrl = seoImageUrl(page.heroImage, "c_fill,w_1600,q_auto,f_auto");
     const pageDescription = seoDescription(
       page.metaDescription || page.heroDescription,
-      `${page.title} from Mardi Treks, your local Nepal trekking and travel company.`
+      `${page.title} from Green Compass Treks, your local Nepal trekking and travel company.`
     );
 
     return (
@@ -425,7 +425,7 @@ export default async function CategoryListingPage({
 
   const categoryDescription = seoDescription(
     category.metaDescription,
-    `Explore ${category.name.toLowerCase()} in Nepal with carefully planned itineraries, local guides and practical trip details from Mardi Treks.`
+    `Explore ${category.name.toLowerCase()} in Nepal with carefully planned itineraries, local guides and practical trip details from Green Compass Treks.`
   );
   const categoryImage = seoImageUrl(category.heroImage);
   const categoryItems = treks.map((trek, index) => ({

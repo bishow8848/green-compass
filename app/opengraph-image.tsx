@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 
-export const alt = "Mardi Himal Trek in Nepal with Mardi Treks";
+export const alt = "Mardi Himal Trek in Nepal with Green Compass Treks";
 export const size = {
   width: 1200,
   height: 630,
@@ -33,7 +33,7 @@ export default function OpenGraphImage() {
               textTransform: "uppercase",
             }}
           >
-            Mardi Treks · Pokhara, Nepal
+            Green Compass Treks · Pokhara, Nepal
           </div>
           <div
             style={{

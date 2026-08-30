@@ -31,6 +31,7 @@ export async function generateMetadata(): Promise<Metadata> {
     () => prisma.siteSetting.findUnique({
       where: { id: "site-settings" },
       select: {
+        siteName: true,
         logo: true,
         defaultMetaTitle: true,
         defaultMetaDescription: true,
@@ -49,18 +50,21 @@ export async function generateMetadata(): Promise<Metadata> {
       ? settings.defaultOgImage
       : `${CLOUDINARY_BASE}c_fill,w_1200,h_630,q_auto,f_auto/${settings.defaultOgImage}`
     : undefined;
+  // Every brand string below reads from siteSetting.siteName so the company name
+  // lives in one place; the literal is only a fallback for an unseeded database.
+  const siteName = settings?.siteName?.trim() || "Green Compass Treks";
   const defaultTitle =
     settings?.defaultMetaTitle ||
-    "Mardi Treks | Premier Trekking & Tour Agency in Nepal";
+    `${siteName} | Premier Trekking & Tour Agency in Nepal`;
   const defaultDescription =
     settings?.defaultMetaDescription ||
-    "Experience the Himalayas with Mardi Treks. Expert-guided trekking and tour packages in Nepal.";
+    `Experience the Himalayas with ${siteName}. Expert-guided trekking and tour packages in Nepal.`;
 
   return {
     metadataBase: new URL(SITE_URL),
     title: {
       default: defaultTitle,
-      template: "%s | Mardi Treks",
+      template: `%s | ${siteName}`,
     },
     description: defaultDescription,
     keywords: settings?.defaultKeywords || undefined,
@@ -77,11 +81,11 @@ export async function generateMetadata(): Promise<Metadata> {
       title: defaultTitle,
       description: defaultDescription,
       url: SITE_URL,
-      siteName: "Mardi Treks",
+      siteName,
       locale: "en_US",
       type: "website",
       images: ogImageUrl
-        ? [{ url: ogImageUrl, width: 1200, height: 630, alt: "Mardi Treks" }]
+        ? [{ url: ogImageUrl, width: 1200, height: 630, alt: siteName }]
         : undefined,
     },
     twitter: {
@@ -182,7 +186,7 @@ export default async function RootLayout({
     /\d{7,}/.test(settingsData.phone.replace(/\D/g, ""))
       ? settingsData.phone
       : undefined;
-  const siteName = settingsData?.siteName || "Mardi Treks";
+  const siteName = settingsData?.siteName || "Green Compass Treks";
   const siteDescription =
     settingsData?.description ||
     settingsData?.tagline ||

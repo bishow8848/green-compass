@@ -27,10 +27,10 @@ export async function generateMetadata(): Promise<Metadata> {
   const contact = pc?.contact;
   const seo = contact?.seo;
   const heroImage = seoImageUrl(contact?.hero?.backgroundImage);
-  const title = seo?.title?.trim() || "Contact Mardi Treks: Plan Your Nepal Trek";
+  const title = seo?.title?.trim() || "Contact Green Compass Treks: Plan Your Nepal Trek";
   const description = seoDescription(
     seo?.description,
-    "Contact Mardi Treks for expert help planning your Nepal trek, from Mardi Himal and Annapurna adventures to custom itineraries."
+    "Contact Green Compass Treks for expert help planning your Nepal trek, from Mardi Himal and Annapurna adventures to custom itineraries."
   );
   return {
     title: brandedTitle(title),
@@ -41,10 +41,10 @@ export async function generateMetadata(): Promise<Metadata> {
       title: brandedTitle(title).absolute,
       description,
       url: `${SITE_URL}/contact`,
-      siteName: "Mardi Treks",
+      siteName: "Green Compass Treks",
       locale: "en_US",
       type: "website",
-      images: heroImage ? [{ url: heroImage, width: 1200, height: 630, alt: "Contact Mardi Treks about a Nepal trek" }] : undefined,
+      images: heroImage ? [{ url: heroImage, width: 1200, height: 630, alt: "Contact Green Compass Treks about a Nepal trek" }] : undefined,
     },
     twitter: {
       card: "summary_large_image",
@@ -79,10 +79,10 @@ export default async function ContactPage() {
 
   const contact = pc?.contact || {};
   const contactSeo = contact.seo || {};
-  const contactPageTitle = contactSeo.title?.trim() || "Contact Mardi Treks: Plan Your Nepal Trek";
+  const contactPageTitle = contactSeo.title?.trim() || "Contact Green Compass Treks: Plan Your Nepal Trek";
   const contactPageDescription = seoDescription(
     contactSeo.description,
-    "Contact Mardi Treks for expert help planning your Nepal trek, from Mardi Himal and Annapurna adventures to custom itineraries."
+    "Contact Green Compass Treks for expert help planning your Nepal trek, from Mardi Himal and Annapurna adventures to custom itineraries."
   );
   const hero = contact.hero || {};
   const mapIframe = contact.mapIframe || "";

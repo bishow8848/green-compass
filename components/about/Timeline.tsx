@@ -17,7 +17,7 @@ interface TimelineProps {
 }
 
 const defaultEvents: TimelineEvent[] = [
-  { year: "2017", title: "Foundation", description: "Mardi Treks was founded in Pokhara by a team of local trekking experts with a vision to showcase Nepal's beauty." },
+  { year: "2017", title: "Foundation", description: "Green Compass Treks was founded in Pokhara by a team of local trekking experts with a vision to showcase Nepal's beauty." },
   { year: "2018", title: "First Expeditions", description: "Led our first group expeditions to Mardi Himal, Annapurna Base Camp, and Everest View Trek." },
   { year: "2020", title: "Community Initiatives", description: "Launched our community support program, contributing to local schools and trail maintenance projects." },
   { year: "2022", title: "Expansion", description: "Expanded our trek portfolio to include all major Himalayan regions — from Langtang to Kanchenjunga." },

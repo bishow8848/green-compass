@@ -58,7 +58,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
           <div className="hidden items-center gap-3 sm:flex sm:flex-1">
             <div className="h-7 w-px bg-border" />
             <div>
-              <p className="text-sm font-semibold text-foreground">Mardi Treks</p>
+              <p className="text-sm font-semibold text-foreground">Green Compass Treks</p>
               <p className="text-[11px] text-text-muted">Admin workspace</p>
             </div>
           </div>

@@ -53,7 +53,7 @@ export async function generateMetadata({
     description: `Guaranteed fixed departure dates for ${trek.title}. Pick your preferred date — every trip listed runs as scheduled.`,
     alternates: { canonical: `${SITE_URL}/${catSlug}/${slug}/fix-departure` },
     openGraph: {
-      title: `${title} | Mardi Treks`,
+      title: `${title} | Green Compass Treks`,
       description: `Guaranteed fixed departure dates for ${trek.title}.`,
       type: "website",
       url: `${SITE_URL}/${catSlug}/${slug}/fix-departure`,

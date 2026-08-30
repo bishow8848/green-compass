@@ -146,7 +146,7 @@ export function SettingsForm({ settings }: { settings: any }) {
                 <label className="block text-xs font-medium text-slate-500 mb-1.5">Site Name *</label>
                 <input
                   name="siteName"
-                  defaultValue={settings?.siteName || "Mardi Treks"}
+                  defaultValue={settings?.siteName || "Green Compass Treks"}
                   required
                   className="w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm focus:border-teal-300 focus:outline-none focus:ring-2 focus:ring-teal-100"
                 />
@@ -408,7 +408,7 @@ export function SettingsForm({ settings }: { settings: any }) {
                 <input
                   name="defaultMetaTitle"
                   defaultValue={settings?.defaultMetaTitle || ""}
-                  placeholder="Mardi Treks | Premier Trekking & Tour Agency in Nepal"
+                  placeholder="Green Compass Treks | Premier Trekking & Tour Agency in Nepal"
                   className="w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm focus:border-teal-300 focus:outline-none focus:ring-2 focus:ring-teal-100"
                 />
               </div>
@@ -418,7 +418,7 @@ export function SettingsForm({ settings }: { settings: any }) {
                   name="defaultMetaDescription"
                   rows={3}
                   defaultValue={settings?.defaultMetaDescription || ""}
-                  placeholder="Experience the Himalayas with Mardi Treks..."
+                  placeholder="Experience the Himalayas with Green Compass Treks..."
                   className="w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm focus:border-teal-300 focus:outline-none focus:ring-2 focus:ring-teal-100"
                 />
               </div>

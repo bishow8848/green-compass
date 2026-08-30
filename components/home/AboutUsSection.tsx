@@ -23,12 +23,12 @@ const defaultContent = [
   {
     title: "Who We Are",
     description:
-      "Mardi Treks is a premier trekking and tour agency based in Pokhara, Nepal. Founded by local trekking experts with a passion for the Himalayas, we specialize in guided trekking expeditions, cultural tours, and climbing adventures across Nepal's most stunning landscapes. Our team of certified guides brings decades of combined high-altitude experience, ensuring every journey is safe, memorable, and authentic.",
+      "Green Compass Treks is a premier trekking and tour agency based in Pokhara, Nepal. Founded by local trekking experts with a passion for the Himalayas, we specialize in guided trekking expeditions, cultural tours, and climbing adventures across Nepal's most stunning landscapes. Our team of certified guides brings decades of combined high-altitude experience, ensuring every journey is safe, memorable, and authentic.",
   },
   {
     title: "What Makes Us Different",
     description:
-      "Unlike large, impersonal tour operators, we keep our groups small, our service personal, and our commitment to sustainable tourism unwavering. Every trek with Mardi Treks directly supports local communities — from fair wages for porters and guides to school contributions in mountain villages. We practice Leave No Trace principles, offset carbon where possible, and partner with eco-friendly lodges. When you trek with us, you're not just exploring the Himalayas — you're making a positive impact.",
+      "Unlike large, impersonal tour operators, we keep our groups small, our service personal, and our commitment to sustainable tourism unwavering. Every trek with Green Compass Treks directly supports local communities — from fair wages for porters and guides to school contributions in mountain villages. We practice Leave No Trace principles, offset carbon where possible, and partner with eco-friendly lodges. When you trek with us, you're not just exploring the Himalayas — you're making a positive impact.",
   },
 ];
 
@@ -190,7 +190,7 @@ export function AboutUsSection({
                 : undefined
             }
             role="img"
-            aria-label="Mardi Treks trekking adventure in Nepal"
+            aria-label="Green Compass Treks trekking adventure in Nepal"
           >
             {!resolvedImage && (
               <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-secondary/10 to-accent/20" aria-hidden="true" />

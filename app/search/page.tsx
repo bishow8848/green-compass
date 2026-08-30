@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     follow: true,
   },
   openGraph: {
-    title: "Search Treks | Mardi Treks",
+    title: "Search Treks | Green Compass Treks",
     description: "Search and discover trekking packages in Nepal.",
   },
 };

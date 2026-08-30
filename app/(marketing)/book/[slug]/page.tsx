@@ -5,6 +5,7 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { ArrowLeft, Plus, Trash2, Loader2, Minus, Users, Calendar, Package, AlertCircle } from "lucide-react";
 import { travelerDetailSchema } from "@/lib/validations";
+import { getPriceForGroupSize } from "@/lib/pricing";
 
 interface TravelerForm {
   fullName: string;
@@ -118,20 +119,12 @@ export default function BookingPage({
     });
   }, [searchParams, session]);
 
-  // Calculate price per person from pricing tiers based on group size
-  function getPriceForGroupSize(): number {
-    if (!trek?.pricingTiers?.length) return trek?.price || 0;
-    for (const tier of trek.pricingTiers) {
-      const match = tier.groupSize.match(/(\d+)/);
-      if (match) {
-        const min = parseInt(match[1]);
-        const maxMatch = tier.groupSize.match(/-?\s*(\d+)/g);
-        const max = maxMatch && maxMatch.length > 1 ? parseInt(maxMatch[1].replace(/[-\s]/g, '')) : min;
-        if (travelerCount >= min && travelerCount <= max) return tier.pricePerPerson;
-      }
-    }
-    return trek.pricingTiers[trek.pricingTiers.length - 1]?.pricePerPerson || trek.price || 0;
-  }
+  // Lowering the group size drops the extra traveller cards, so the booking can
+  // never carry more travellers than the party being paid for.
+  useEffect(() => {
+    setTravelers((prev) => (prev.length > travelerCount ? prev.slice(0, travelerCount) : prev));
+  }, [travelerCount]);
+
 
   // Derive max group size from pricing tiers so the counter matches the highest tier
   const effectiveMaxGroupSize = useMemo(() => {
@@ -149,7 +142,9 @@ export default function BookingPage({
     return trek?.maxGroupSize || 20;
   }, [trek]);
 
-  const pricePerPerson = getPriceForGroupSize();
+  // Same helper the server prices the booking with, so the quote on screen and
+  // the total written to the database can never disagree.
+  const pricePerPerson = getPriceForGroupSize(trek?.pricingTiers, travelerCount, trek?.price || 0);
   const addonsTotal = selectedAddons.reduce((sum, a) => sum + a.qty * a.pricePerUnit, 0);
   const totalPrice = pricePerPerson * travelerCount + addonsTotal;
 
@@ -162,11 +157,33 @@ export default function BookingPage({
         }))
     : [];
 
-  // Only one lead traveler form is shown; the traveler count is used for pricing only
+  // Travellers beyond the lead are optional: the booker adds as many as they
+  // actually have details for, up to the group size they are paying for.
+  const canAddTraveler = travelers.length < travelerCount;
+
+  function addTraveler() {
+    if (!canAddTraveler) return;
+    setTravelers((prev) => [
+      ...prev,
+      { fullName: "", email: "", phone: "", nationality: "", emergencyContact: "", age: "" },
+    ]);
+  }
+
+  // Errors and touched flags are keyed by traveller index, so removing a card
+  // would leave them pointing at whoever shifted down into that slot. Drop the
+  // traveller-scoped entries and let blur/submit re-derive them.
+  function forgetTravelerFieldState() {
+    setFormErrors((prev) =>
+      Object.fromEntries(Object.entries(prev).filter(([k]) => !k.startsWith("travelers.")))
+    );
+    setTouchedFields((prev) => new Set([...prev].filter((k) => !k.startsWith("travelers."))));
+  }
+
   function removeTraveler(index: number) {
-    if (travelers.length > 1) {
-      setTravelers(travelers.filter((_, i) => i !== index));
-    }
+    // The lead traveller is the booking contact and can never be removed.
+    if (index === 0 || travelers.length <= 1) return;
+    setTravelers((prev) => prev.filter((_, i) => i !== index));
+    forgetTravelerFieldState();
   }
 
   function updateTraveler(index: number, field: keyof TravelerForm, value: string) {
@@ -750,21 +767,37 @@ export default function BookingPage({
               style={{ backgroundColor: "var(--color-surface)", borderColor: "var(--color-border)" }}
             >
               <h2 className="text-lg font-bold" style={{ color: "var(--color-secondary)" }}>
-                Lead Traveler Details
+                Traveler Details
               </h2>
               <p className="mt-1 text-xs" style={{ color: "var(--color-text-muted)" }}>
                 {travelerCount > 1
-                  ? `You're booking for ${travelerCount} travelers. We only need the lead traveler's contact info.`
+                  ? `You're booking for ${travelerCount} travelers. Only the lead traveler's details are required — add the others now if you have them, or send them to us later.`
                   : "We'll need some details for the booking."}
               </p>
 
               <div className="mt-5 space-y-4">
-                {travelers.slice(0, 1).map((traveler, index) => (
+                {travelers.map((traveler, index) => (
                   <div
                     key={index}
                     className="rounded-2xl border-2 p-5"
                     style={{ borderColor: "var(--color-border)", backgroundColor: "var(--color-surface)" }}
                   >
+                    <div className="flex items-center justify-between gap-3">
+                      <h3 className="text-sm font-semibold" style={{ color: "var(--color-foreground)" }}>
+                        {index === 0 ? "Lead Traveler" : `Traveler ${index + 1}`}
+                      </h3>
+                      {index > 0 && (
+                        <button
+                          type="button"
+                          onClick={() => removeTraveler(index)}
+                          className="inline-flex items-center gap-1 rounded-lg px-2 py-1 text-xs font-medium transition hover:opacity-80"
+                          style={{ color: "var(--color-error)" }}
+                        >
+                          <Trash2 className="h-3.5 w-3.5" />
+                          Remove
+                        </button>
+                      )}
+                    </div>
 
                     <div className="mt-4 grid gap-3 sm:grid-cols-2">
                       <div>
@@ -906,6 +939,18 @@ export default function BookingPage({
                     )}
                   </div>
                 ))}
+
+                {canAddTraveler && (
+                  <button
+                    type="button"
+                    onClick={addTraveler}
+                    className="flex w-full items-center justify-center gap-2 rounded-2xl border-2 border-dashed px-4 py-3 text-sm font-semibold transition hover:opacity-80"
+                    style={{ borderColor: "var(--color-border)", color: "var(--color-primary)" }}
+                  >
+                    <Plus className="h-4 w-4" />
+                    Add traveler {travelers.length + 1} of {travelerCount}
+                  </button>
+                )}
               </div>
             </div>
 

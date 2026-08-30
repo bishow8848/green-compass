@@ -53,7 +53,7 @@ export async function sendBulkEmail(formData: FormData) {
 
   if (users.length === 0) throw new Error("No users with email addresses found");
 
-  const siteName = "Mardi Treks";
+  const siteName = "Green Compass Treks";
   const results = { sent: 0, failed: 0, errors: [] as string[] };
 
   for (const user of users) {

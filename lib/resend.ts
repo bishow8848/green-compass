@@ -27,7 +27,22 @@ export function getResend(): Resend {
  * account owner's email address.
  */
 export const EMAIL_FROM =
-  process.env.RESEND_FROM || "Mardi Treks <onboarding@resend.dev>";
+  process.env.RESEND_FROM || "Green Compass Treks <onboarding@resend.dev>";
+
+/**
+ * Sender for INTERNAL notifications (contact form, booking alerts, fix-departure).
+ *
+ * Deliberately a DIFFERENT address from the inbox that receives them. When a
+ * message's From and To are the same mailbox but it arrives from an external
+ * relay (Resend/SES rather than the domain's own MX), receiving providers
+ * routinely treat it as spoofed self-mail and junk or drop it silently — which
+ * is why customer-facing mail from this domain was delivering fine while the
+ * copies addressed to the team's own inbox never showed up.
+ *
+ * Set RESEND_NOTIFICATIONS_FROM to any address on the domain verified in Resend.
+ */
+export const EMAIL_NOTIFICATIONS_FROM =
+  process.env.RESEND_NOTIFICATIONS_FROM || EMAIL_FROM;
 
 type SendEmailArgs = {
   to: string | string[];
@@ -55,7 +70,7 @@ export async function sendEmail({
     to: Array.isArray(to) ? to : [to],
     subject,
     html,
-    ...(replyTo ? { reply_to: replyTo } : {}),
+    ...(replyTo ? { replyTo } : {}),
     ...(headers ? { headers } : {}),
   });
 

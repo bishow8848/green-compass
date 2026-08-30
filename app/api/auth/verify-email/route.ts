@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { sendWelcomeEmail } from "@/lib/email";
+import { SITE_URL } from "@/lib/seo";
 import { authRateLimit, checkRateLimit } from "@/lib/rate-limit";
 import { getClientIp } from "@/lib/request-security";
 
@@ -20,7 +21,7 @@ export async function GET(request: NextRequest) {
 
     if (!token) {
       return NextResponse.redirect(
-        new URL("/verify-email?status=error&message=Missing verification token", request.url)
+        new URL("/verify-email?status=error&message=Missing verification token", SITE_URL)
       );
     }
 
@@ -33,7 +34,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.redirect(
         new URL(
           "/verify-email?status=error&message=Invalid or expired verification link. Please sign up again.",
-          request.url
+          SITE_URL
         )
       );
     }
@@ -46,7 +47,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.redirect(
         new URL(
           "/verify-email?status=error&message=Verification link has expired. Please sign up again.",
-          request.url
+          SITE_URL
         )
       );
     }
@@ -61,7 +62,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.redirect(
         new URL(
           "/verify-email?status=error&message=Account not found. Please sign up again.",
-          request.url
+          SITE_URL
         )
       );
     }
@@ -78,14 +79,14 @@ export async function GET(request: NextRequest) {
     }).catch((error) => console.error("Failed to send welcome email:", error));
 
     return NextResponse.redirect(
-      new URL("/verify-email?status=success", request.url)
+      new URL("/verify-email?status=success", SITE_URL)
     );
   } catch (error) {
     console.error("Email verification error:", error);
     return NextResponse.redirect(
       new URL(
         "/verify-email?status=error&message=Something went wrong. Please try again.",
-        request.url
+        SITE_URL
       )
     );
   }

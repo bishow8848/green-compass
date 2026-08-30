@@ -66,6 +66,22 @@ function FilterSection({
   );
 }
 
+// Filter values are either a closed range ("1000-1499") or open-ended ("2000+").
+// The open-ended form has no "-", so splitting on it yielded NaN for both bounds
+// and every comparison came back false — "$2,000+" and "17+ Days" silently
+// matched nothing to exclude and showed the full, unfiltered list.
+function parseRangeValue(value: string): { min: number; max: number } {
+  if (value.endsWith("+")) {
+    const min = Number(value.slice(0, -1));
+    return { min: Number.isFinite(min) ? min : 0, max: Infinity };
+  }
+  const [min, max] = value.split("-").map(Number);
+  return {
+    min: Number.isFinite(min) ? min : 0,
+    max: Number.isFinite(max) ? max : Infinity,
+  };
+}
+
 type FilterKey = "region" | "difficulty" | "duration" | "price" | "rating";
 type SelectedFilters = Record<FilterKey, string>;
 
@@ -361,12 +377,12 @@ function CategoryView({
     if (region && t.region !== region) return false;
     if (difficulty && t.difficulty !== difficulty) return false;
     if (duration) {
-      const [min, max] = duration.split("-").map(Number);
-      if (max ? t.duration < min || t.duration > max : t.duration < min) return false;
+      const { min, max } = parseRangeValue(duration);
+      if (t.duration < min || t.duration > max) return false;
     }
     if (price) {
-      const [min, max] = price.split("-").map(Number);
-      if (max ? t.price < min || t.price > max : t.price < min) return false;
+      const { min, max } = parseRangeValue(price);
+      if (t.price < min || t.price > max) return false;
     }
     if (rating) {
       const minRating = Number(rating);

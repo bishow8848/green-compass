@@ -58,12 +58,12 @@ export async function generateMetadata({
       title,
       description,
       url: `${SITE_URL}/blog/${slug}`,
-      siteName: "Mardi Treks",
+      siteName: "Green Compass Treks",
       locale: "en_US",
       type: "article",
       publishedTime: post.publishedDate ? new Date(post.publishedDate).toISOString() : undefined,
       modifiedTime: post.updatedAt ? new Date(post.updatedAt).toISOString() : undefined,
-      authors: [post.author || "Mardi Treks"],
+      authors: [post.author || "Green Compass Treks"],
       images: socialImageUrl
         ? [{ url: socialImageUrl, width: 1200, height: 630, alt: post.title }]
         : undefined,
@@ -192,7 +192,7 @@ export default async function BlogPostPage({
             description: articleDescription,
             author: {
               "@type": "Person",
-              name: post.author || "Mardi Treks",
+              name: post.author || "Green Compass Treks",
               url: post.authorSlug ? `${SITE_URL}/author/${post.authorSlug}` : SITE_URL,
             },
             datePublished: post.publishedDate,
@@ -240,7 +240,7 @@ export default async function BlogPostPage({
       {heroImageUrl ? (
           <Image
             src={heroImageUrl}
-            alt={`${post.title} — Mardi Treks`}
+            alt={`${post.title} — Green Compass Treks`}
             fill
             priority
             sizes="100vw"

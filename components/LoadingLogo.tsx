@@ -8,7 +8,7 @@ export function LoadingLogo() {
     // eslint-disable-next-line @next/next/no-img-element
     <img
       src="/images/logo/bg-removed-logo.png"
-      alt="Mardi Treks"
+      alt="Green Compass Treks"
       width={80}
       height={80}
       className="h-20 w-auto object-contain animate-revolve"

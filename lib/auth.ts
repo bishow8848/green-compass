@@ -61,6 +61,22 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     }),
   ],
   events: {
+    // A guest booking provisions the account with a temporary password and
+    // mustChangePassword = true, which the dashboard layout enforces by
+    // redirecting to /change-password. Signing in with Google proves ownership
+    // of the address without that password ever being used, so the forced
+    // change is meaningless — it just traps the user on a form asking for a
+    // password they were never required to learn. Clear the flag instead.
+    async signIn({ user, account }) {
+      // Google is an OIDC provider in Auth.js v5 (account.type === "oidc"),
+      // so match "not the credentials provider" rather than a single type
+      // string — that also covers any federated provider added later.
+      if (!account || account.type === "credentials" || !user.id) return;
+      await prisma.user.updateMany({
+        where: { id: user.id, mustChangePassword: true },
+        data: { mustChangePassword: false },
+      });
+    },
     async createUser({ user }) {
       if (!user.email) return;
       sendWelcomeEmail({

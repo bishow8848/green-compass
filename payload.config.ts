@@ -21,7 +21,7 @@ export default buildConfig({
   admin: {
     user: "payload-users",
     meta: {
-      titleSuffix: " | Mardi Treks CMS",
+      titleSuffix: " | Green Compass Treks CMS",
     },
   },
 

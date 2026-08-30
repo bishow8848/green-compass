@@ -5,15 +5,30 @@ import { useRouter } from "next/navigation";
 import { createPost, updatePost, deletePost } from "./actions";
 import { RichTextEditor, type RichTextEditorHandle } from "@/components/admin/RichTextEditor";
 import { ImageUpload, type ImageUploadHandle } from "@/components/admin/trek-sections/ImageUpload";
+import { SeoAnalyzer } from "@/components/admin/SeoAnalyzer";
 
 export function BlogForm({ mode, post, authors = [] }: { mode: "create" | "edit"; post?: any; authors?: { id: string; name: string; slug: string }[] }) {
   const router = useRouter();
   const [content, setContent] = useState(post?.content || "");
   const [heroImage, setHeroImage] = useState(post?.heroImage || "");
   const [selectedAuthor, setSelectedAuthor] = useState(post?.authorSlug || "");
+  // Controlled so the SEO analyser can score them live as they are typed
+  const [title, setTitle] = useState(post?.title || "");
+  const [slug, setSlug] = useState(post?.slug || "");
+  const [metaTitle, setMetaTitle] = useState(post?.metaTitle || "");
+  const [metaDescription, setMetaDescription] = useState(post?.metaDescription || "");
+  const [keywords, setKeywords] = useState(post?.keywords || "");
   const [saving, setSaving] = useState(false);
   const heroImageRef = useRef<ImageUploadHandle>(null);
   const editorRef = useRef<RichTextEditorHandle>(null);
+
+  // The first keyword doubles as the focus keyword — it is what the post is
+  // meant to rank for, and it persists in the existing `keywords` column.
+  const focusKeyword = keywords.split(",")[0]?.trim() || "";
+  const setFocusKeyword = (value: string) => {
+    const rest = keywords.split(",").slice(1).map((k: string) => k.trim()).filter(Boolean);
+    setKeywords([value.trim(), ...rest].filter(Boolean).join(", "));
+  };
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -57,12 +72,12 @@ export function BlogForm({ mode, post, authors = [] }: { mode: "create" | "edit"
             <div className="space-y-4">
               <div>
                 <label className="block text-xs font-medium text-slate-500 mb-1.5">Title *</label>
-                <input name="title" defaultValue={post?.title || ""} required className="w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm focus:border-teal-300 focus:outline-none focus:ring-2 focus:ring-teal-100" />
+                <input name="title" value={title} onChange={(e) => setTitle(e.target.value)} required className="w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm focus:border-teal-300 focus:outline-none focus:ring-2 focus:ring-teal-100" />
               </div>
               <div className="grid gap-4 sm:grid-cols-2">
                 <div>
                   <label className="block text-xs font-medium text-slate-500 mb-1.5">Slug *</label>
-                  <input name="slug" defaultValue={post?.slug || ""} required className="w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm font-mono focus:border-teal-300 focus:outline-none focus:ring-2 focus:ring-teal-100" />
+                  <input name="slug" value={slug} onChange={(e) => setSlug(e.target.value)} required className="w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm font-mono focus:border-teal-300 focus:outline-none focus:ring-2 focus:ring-teal-100" />
                 </div>
                 <div>
                   <label className="block text-xs font-medium text-slate-500 mb-1.5">Author *</label>
@@ -91,6 +106,18 @@ export function BlogForm({ mode, post, authors = [] }: { mode: "create" | "edit"
                 <label className="block text-xs font-medium text-slate-500 mb-1.5">Body</label>
                 <RichTextEditor ref={editorRef} content={content} onChange={setContent} placeholder="Write your blog post..." />
               </div>
+              <SeoAnalyzer
+                html={content}
+                title={title}
+                slug={slug}
+                metaTitle={metaTitle}
+                metaDescription={metaDescription}
+                focusKeyword={focusKeyword}
+                onFocusKeywordChange={setFocusKeyword}
+                urlPrefix="/blog"
+                minWords={600}
+                focusKeywordHint="Saved as the first entry of the Keywords field."
+              />
             </div>
           </section>
         </div>
@@ -131,15 +158,18 @@ export function BlogForm({ mode, post, authors = [] }: { mode: "create" | "edit"
             <div className="space-y-4">
               <div>
                 <label className="block text-xs font-medium text-slate-500 mb-1.5">Meta Title</label>
-                <input name="metaTitle" defaultValue={post?.metaTitle || ""} className="w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm focus:border-teal-300 focus:outline-none focus:ring-2 focus:ring-teal-100" />
+                <input name="metaTitle" value={metaTitle} onChange={(e) => setMetaTitle(e.target.value)} placeholder={title || "Falls back to the post title"} className="w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm focus:border-teal-300 focus:outline-none focus:ring-2 focus:ring-teal-100" />
+                <p className="mt-1 text-[11px] text-slate-400">{metaTitle.length}/60 characters</p>
               </div>
               <div>
                 <label className="block text-xs font-medium text-slate-500 mb-1.5">Meta Description</label>
-                <textarea name="metaDescription" rows={3} defaultValue={post?.metaDescription || ""} className="w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm focus:border-teal-300 focus:outline-none focus:ring-2 focus:ring-teal-100" />
+                <textarea name="metaDescription" rows={3} value={metaDescription} onChange={(e) => setMetaDescription(e.target.value)} className="w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm focus:border-teal-300 focus:outline-none focus:ring-2 focus:ring-teal-100" />
+                <p className="mt-1 text-[11px] text-slate-400">{metaDescription.length}/160 characters</p>
               </div>
               <div>
                 <label className="block text-xs font-medium text-slate-500 mb-1.5">Keywords</label>
-                <input name="keywords" defaultValue={post?.keywords || ""} placeholder="trekking, nepal, everest, guide" className="w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm focus:border-teal-300 focus:outline-none focus:ring-2 focus:ring-teal-100" />
+                <input name="keywords" value={keywords} onChange={(e) => setKeywords(e.target.value)} placeholder="trekking, nepal, everest, guide" className="w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm focus:border-teal-300 focus:outline-none focus:ring-2 focus:ring-teal-100" />
+                <p className="mt-1 text-[11px] text-slate-400">The first keyword is used as the focus keyword.</p>
               </div>
             </div>
           </section>

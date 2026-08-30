@@ -66,10 +66,10 @@ export async function generateMetadata(): Promise<Metadata> {
   const about = pc?.about;
   const seo = about?.seo;
   const heroImage = seoImageUrl(about?.hero?.backgroundImage);
-  const title = seo?.title?.trim() || "About Mardi Treks: Local Nepal Trekking Experts";
+  const title = seo?.title?.trim() || "About Green Compass Treks: Local Nepal Trekking Experts";
   const description = seoDescription(
     seo?.description,
-    "Meet Mardi Treks, a local Nepal trekking company helping travelers explore the Himalayas with expert guides and thoughtful itineraries."
+    "Meet Green Compass Treks, a local Nepal trekking company helping travelers explore the Himalayas with expert guides and thoughtful itineraries."
   );
   return {
     title: brandedTitle(title),
@@ -80,10 +80,10 @@ export async function generateMetadata(): Promise<Metadata> {
       title: brandedTitle(title).absolute,
       description,
       url: `${SITE_URL}/about`,
-      siteName: "Mardi Treks",
+      siteName: "Green Compass Treks",
       locale: "en_US",
       type: "website",
-      images: heroImage ? [{ url: heroImage, width: 1200, height: 630, alt: "About Mardi Treks and our Nepal trekking team" }] : undefined,
+      images: heroImage ? [{ url: heroImage, width: 1200, height: 630, alt: "About Green Compass Treks and our Nepal trekking team" }] : undefined,
     },
     twitter: {
       card: "summary_large_image",
@@ -126,10 +126,10 @@ export default async function AboutPage() {
 
   const about = pc?.about || {};
   const aboutSeo = about.seo || {};
-  const aboutPageTitle = aboutSeo.title?.trim() || "About Mardi Treks: Local Nepal Trekking Experts";
+  const aboutPageTitle = aboutSeo.title?.trim() || "About Green Compass Treks: Local Nepal Trekking Experts";
   const aboutPageDescription = seoDescription(
     aboutSeo.description,
-    "Meet Mardi Treks, a local Nepal trekking company helping travelers explore the Himalayas with expert guides and thoughtful itineraries."
+    "Meet Green Compass Treks, a local Nepal trekking company helping travelers explore the Himalayas with expert guides and thoughtful itineraries."
   );
   const hero = about.hero || {};
   const sections = about.sections || [];
@@ -227,7 +227,7 @@ export default async function AboutPage() {
       />
 
       <PageHero
-        heading={hero.heading || "About Mardi Treks"}
+        heading={hero.heading || "About Green Compass Treks"}
         description={hero.description}
         backgroundImage={hero.backgroundImage}
         treks={allTreksForSearch}
@@ -397,7 +397,7 @@ export default async function AboutPage() {
             <GallerySection
               images={gallery}
               heading="Legal Documents"
-              trekTitle="Mardi Treks"
+              trekTitle="Green Compass Treks"
               className="py-0"
             />
           </div>

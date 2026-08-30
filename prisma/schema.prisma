@@ -359,7 +359,7 @@ model Page {
 
 model SiteSetting {
   id                     String   @id @default("site-settings")
-  siteName               String   @default("Mardi Treks")
+  siteName               String   @default("Green Compass Treks")
   tagline                String?
   logo                   String? // Cloudinary public ID
   description            String?

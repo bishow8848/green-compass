@@ -6,6 +6,7 @@ import { TrekSection, DetailsData, OverviewData, ItineraryData, InExData, Pricin
 import { ImageUpload, type ImageUploadHandle } from "./ImageUpload";
 import type { RichTextEditorHandle } from "@/components/admin/RichTextEditor";
 import { MapPreview } from "./MapPreview";
+import { SeoAnalyzer } from "@/components/admin/SeoAnalyzer";
 import dynamic from "next/dynamic";
 
 const RichTextEditor = dynamic(
@@ -36,6 +37,17 @@ interface Props {
   registerImageUpload?: (key: string, handle: ImageUploadHandle) => void;
   /** Callback to register RichTextEditor handles for deferred image upload */
   registerRichTextEditor?: (key: string, handle: RichTextEditorHandle) => void;
+  /** Everything the SEO section needs to score the trek page as a whole */
+  seoContext?: SeoContext;
+}
+
+/** Title, slug and the combined body HTML of every visible trek section. */
+export interface SeoContext {
+  title: string;
+  slug: string;
+  html: string;
+  /** URL path the trek lives under, e.g. "/annapurna" */
+  urlPrefix: string;
 }
 
 // ─── Section wrapper with controls ──────────────────────────────────
@@ -243,7 +255,7 @@ function ItinerarySection({ data, onChange, registerRichTextEditor }: { data: It
             <input type="number" value={item.dayNumber || i + 1} onChange={(e) => updateItem(i, { dayNumber: parseInt(e.target.value) || i + 1 })} className="rounded border border-slate-200 px-2 py-1.5 text-sm" />
             <input value={item.title} onChange={(e) => updateItem(i, { title: e.target.value })} placeholder="Title" className="rounded border border-slate-200 px-2 py-1.5 text-sm" />
             <div className="col-span-2">
-              <RichTextEditor ref={registerRichTextEditor ? (el) => { if (el) registerRichTextEditor(`itinerary.${i}`, el); } : undefined} content={item.description} onChange={(html) => updateItem(i, { description: html })} placeholder="Describe the day's trek..." />
+              <RichTextEditor ref={registerRichTextEditor ? (el) => { if (el) registerRichTextEditor(`itinerary.${i}`, el); } : undefined} content={item.description} onChange={(html) => updateItem(i, { description: html })} placeholder="Describe the day's trek..." hideStatusBar />
             </div>
             <input value={item.elevation} onChange={(e) => updateItem(i, { elevation: e.target.value })} placeholder="Elevation (e.g. 2,800m)" className="rounded border border-slate-200 px-2 py-1.5 text-sm" />
             <input value={item.accommodation} onChange={(e) => updateItem(i, { accommodation: e.target.value })} placeholder="Accommodation" className="rounded border border-slate-200 px-2 py-1.5 text-sm" />
@@ -295,6 +307,7 @@ function InExSection({ data, onChange, registerRichTextEditor }: { data: InExDat
           content={data.inclusions}
           onChange={(html) => set("inclusions", html)}
           placeholder="Describe what's included. You can use formatting, lists, images, etc."
+          hideStatusBar
         />
       </div>
 
@@ -308,6 +321,7 @@ function InExSection({ data, onChange, registerRichTextEditor }: { data: InExDat
           content={data.exclusions}
           onChange={(html) => set("exclusions", html)}
           placeholder="Describe what's excluded. You can use formatting, lists, images, etc."
+          hideStatusBar
         />
       </div>
     </div>
@@ -508,14 +522,43 @@ function MapSection({ data, onChange, registerImageUpload }: { data: MapData; on
 }
 
 // ─── SEO ────────────────────────────────────────────────────────────
-function SeoSection({ data, onChange }: { data: SeoData; onChange: (d: SeoData) => void }) {
+function SeoSection({ data, onChange, context }: { data: SeoData; onChange: (d: SeoData) => void; context?: SeoContext }) {
   const set = (field: keyof SeoData, value: any) => onChange({ ...data, [field]: value });
+
+  // The first keyword doubles as the focus keyword the trek should rank for.
+  const focusKeyword = (data.keywords || "").split(",")[0]?.trim() || "";
+  const setFocusKeyword = (value: string) => {
+    const rest = (data.keywords || "").split(",").slice(1).map((k) => k.trim()).filter(Boolean);
+    set("keywords", [value.trim(), ...rest].filter(Boolean).join(", "));
+  };
+
   return (
     <div className="space-y-3">
-      <Field label="Meta Title"><input value={data.metaTitle} onChange={(e) => set("metaTitle", e.target.value)} className="w-full rounded border border-slate-200 px-2 py-1.5 text-sm" /></Field>
-      <Field label="Meta Description"><textarea rows={3} value={data.metaDescription} onChange={(e) => set("metaDescription", e.target.value)} className="w-full rounded border border-slate-200 px-2 py-1.5 text-sm" /></Field>
-      <Field label="Keywords"><input value={data.keywords} onChange={(e) => set("keywords", e.target.value)} placeholder="trekking, nepal, everest, himalaya" className="w-full rounded border border-slate-200 px-2 py-1.5 text-sm" /></Field>
+      <Field label="Meta Title">
+        <input value={data.metaTitle} onChange={(e) => set("metaTitle", e.target.value)} placeholder={context?.title || "Falls back to the trek title"} className="w-full rounded border border-slate-200 px-2 py-1.5 text-sm" />
+        <p className="mt-1 text-[11px] text-slate-400">{(data.metaTitle || "").length}/60 characters</p>
+      </Field>
+      <Field label="Meta Description">
+        <textarea rows={3} value={data.metaDescription} onChange={(e) => set("metaDescription", e.target.value)} className="w-full rounded border border-slate-200 px-2 py-1.5 text-sm" />
+        <p className="mt-1 text-[11px] text-slate-400">{(data.metaDescription || "").length}/160 characters</p>
+      </Field>
+      <Field label="Keywords">
+        <input value={data.keywords} onChange={(e) => set("keywords", e.target.value)} placeholder="trekking, nepal, everest, himalaya" className="w-full rounded border border-slate-200 px-2 py-1.5 text-sm" />
+        <p className="mt-1 text-[11px] text-slate-400">The first keyword is used as the focus keyword.</p>
+      </Field>
       <Field label="Tags"><input value={data.tags || ""} onChange={(e) => set("tags", e.target.value)} placeholder="adventure, nepal, himalayas" className="w-full rounded border border-slate-200 px-2 py-1.5 text-sm" /></Field>
+      <SeoAnalyzer
+        html={context?.html || ""}
+        title={context?.title || ""}
+        slug={context?.slug || ""}
+        metaTitle={data.metaTitle}
+        metaDescription={data.metaDescription}
+        focusKeyword={focusKeyword}
+        onFocusKeywordChange={setFocusKeyword}
+        urlPrefix={context?.urlPrefix || "/"}
+        minWords={800}
+        focusKeywordHint="Scores every visible section of this trek page together."
+      />
     </div>
   );
 }
@@ -827,7 +870,7 @@ export function SectionRenderer(props: Props) {
       case "gallery":    return <GallerySection data={section.data} onChange={upd} registerImageUpload={registerKeyed} />;
       case "faqs":       return <FaqsSection data={section.data} onChange={upd} />;
       case "map":        return <MapSection data={section.data} onChange={upd} registerImageUpload={registerKeyed} />;
-      case "seo":        return <SeoSection data={section.data} onChange={upd} />;
+      case "seo":        return <SeoSection data={section.data} onChange={upd} context={props.seoContext} />;
       case "similarTreks": return <SimilarTreksSection data={section.data} onChange={upd} />;
       case "fixedDepartures": return <FixedDeparturesSection data={section.data} onChange={upd} />;
       case "custom":     return <CustomSection data={section.data} onChange={upd} registerRichTextEditor={registerEditorKeyed} />;

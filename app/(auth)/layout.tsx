@@ -6,9 +6,9 @@ import { AuthImageProvider } from "@/components/auth/AuthImageProvider";
 export const metadata: Metadata = {
   title: {
     default: "Account",
-    template: "%s | Mardi Treks",
+    template: "%s | Green Compass Treks",
   },
-  description: "Manage your Mardi Treks account — sign in, sign up, and manage your bookings.",
+  description: "Manage your Green Compass Treks account — sign in, sign up, and manage your bookings.",
   robots: {
     index: false,
     follow: false,

@@ -32,16 +32,16 @@ export async function generateMetadata({
     : undefined;
 
   return {
-    title: `${author.name} - Author | Mardi Treks`,
+    title: `${author.name} - Author | Green Compass Treks`,
     description: author.bio
       ? author.bio.replace(/<[^>]*>/g, "").slice(0, 160)
       : `Articles written by ${author.name}${author.role ? `, ${author.role}` : ""}`,
     alternates: { canonical: `${SITE_URL}/author/${slug}` },
     openGraph: {
-      title: `${author.name} | Mardi Treks`,
+      title: `${author.name} | Green Compass Treks`,
       description: author.role || `Articles by ${author.name}`,
       url: `${SITE_URL}/author/${slug}`,
-      siteName: "Mardi Treks",
+      siteName: "Green Compass Treks",
       type: "profile",
       images: avatarUrl ? [{ url: avatarUrl, width: 300, height: 300 }] : undefined,
     },

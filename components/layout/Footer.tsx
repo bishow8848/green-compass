@@ -93,7 +93,7 @@ export async function Footer() {
   const phone = footer.phone || "+977-1-4XXXXXX";
   const address = footer.address || "Kathmandu, Nepal";
   const socialLinks = footer.socialLinks && footer.socialLinks.length > 0 ? footer.socialLinks : [];
-  const copyright = footer.copyright || `© ${new Date().getFullYear()} Mardi Treks. All rights reserved.`;
+  const copyright = footer.copyright || `© ${new Date().getFullYear()} Green Compass Treks. All rights reserved.`;
 
   const trustedBadge: string = footer.trustedBadge || "Trusted & Certified";
   const associatedHeading: string = footer.associatedHeading || "We're Associated With";
@@ -103,7 +103,7 @@ export async function Footer() {
   const recommendedLabel: string = footer.recommendedLabel || "Recommended On:";
   const recommendedOn: { name: string; src: string }[] = footer.recommendedOn || [];
   const followUsLabel: string = footer.followUsLabel || "Follow Us On:";
-  const card1Title: string = footer.card1Title || "Mardi Treks";
+  const card1Title: string = footer.card1Title || "Green Compass Treks";
   const card2Title: string = footer.card2Title || "Speak with a Representative";
   const representative: { name?: string; title?: string; avatar?: string; phone?: string; whatsapp?: string } = footer.representative || {};
   const card3Title: string = footer.card3Title || "Recognitions";
@@ -180,7 +180,7 @@ export async function Footer() {
                 {siteLogo ? (
                   <img
                     src={imgSrc(siteLogo, 640)}
-                    alt="Mardi Treks"
+                    alt="Green Compass Treks"
                     width={240}
                     height={160}
                     decoding="async"
@@ -198,7 +198,7 @@ export async function Footer() {
                       <Mountain className="h-5 w-5 sm:h-6 sm:w-6" />
                     </span>
                     <span className="leading-tight">
-                      Mardi Treks
+                      Green Compass Treks
                       <small
                         className="block text-[10px] font-semibold uppercase tracking-[0.22em]"
                         style={{ color: "var(--color-primary)" }}

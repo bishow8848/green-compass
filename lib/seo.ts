@@ -11,7 +11,7 @@ const envSiteUrl = (
 ).replace(/\/+$/, "");
 
 export const SITE_URL = envSiteUrl;
-export const SITE_NAME = "Mardi Treks";
+export const SITE_NAME = "Green Compass Treks";
 const CLOUDINARY_IMAGE_BASE = `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/`;
 
 /** Keep SEO copy readable when the source is rich text or legacy CMS data. */
@@ -32,8 +32,12 @@ export function seoDescription(value: string | null | undefined, fallback: strin
 /** Avoid duplicated brand suffixes while keeping titles explicit and unique. */
 export function brandedTitle(value: string): { absolute: string } {
   const title = plainText(value);
+  // Only append the brand when the title does not already carry it. This used to
+  // test a hardcoded company name, which silently double-branded every title the
+  // moment the name changed — so it is derived from SITE_NAME instead.
+  const brand = SITE_NAME.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
   return {
-    absolute: /\bmardi treks\b/i.test(title) ? title : `${title} | ${SITE_NAME}`,
+    absolute: new RegExp(`\\b${brand}\\b`, "i").test(title) ? title : `${title} | ${SITE_NAME}`,
   };
 }
 

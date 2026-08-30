@@ -5,7 +5,7 @@ import { SITE_URL } from "@/lib/seo";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: "404 - Page Not Found | Mardi Treks",
+  title: "404 - Page Not Found | Green Compass Treks",
   description: "The requested page could not be found.",
   robots: {
     index: false,

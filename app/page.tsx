@@ -62,7 +62,7 @@ export async function generateMetadata(): Promise<Metadata> {
       description: seoDescriptionText,
       url: SITE_URL,
       type: "website",
-      images: heroImage ? [{ url: heroImage, width: 1200, height: 630, alt: "Mardi Treks" }] : undefined,
+      images: heroImage ? [{ url: heroImage, width: 1200, height: 630, alt: "Green Compass Treks" }] : undefined,
     },
     twitter: {
       card: "summary_large_image",

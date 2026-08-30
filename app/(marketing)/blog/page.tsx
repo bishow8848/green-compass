@@ -47,7 +47,7 @@ export async function generateMetadata({
       title: socialTitle,
       description,
       url: canonical,
-      siteName: "Mardi Treks",
+      siteName: "Green Compass Treks",
       locale: "en_US",
       type: "website",
       images: heroImage

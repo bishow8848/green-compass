@@ -285,7 +285,7 @@ export function Header({
     // eslint-disable-next-line @next/next/no-img-element
     <img
       src={`https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/f_auto,q_auto,w_480/${siteLogo}`}
-      alt="Mardi Treks"
+      alt="Green Compass Treks"
       width={240}
       height={160}
       decoding="async"
@@ -296,7 +296,7 @@ export function Header({
   ) : (
     <div className={`flex items-center gap-2 font-bold tracking-tight text-primary transition-all duration-300 ease-out ${showExpanded ? "text-3xl" : "text-xl"}`}>
       <Mountain className={`transition-all duration-300 ease-out ${showExpanded ? "h-10 w-10" : "h-7 w-7"}`} strokeWidth={2.25} />
-      <span>Mardi Treks</span>
+      <span>Green Compass Treks</span>
     </div>
   );
 
@@ -559,7 +559,7 @@ export function Header({
               // eslint-disable-next-line @next/next/no-img-element
               <img
                 src={`https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/f_auto,q_auto,w_480/${siteLogo}`}
-                alt="Mardi Treks"
+                alt="Green Compass Treks"
                 width={240}
                 height={160}
                 decoding="async"
@@ -568,7 +568,7 @@ export function Header({
             ) : (
               <div className="flex items-center gap-2 text-xl font-bold tracking-tight text-primary">
                 <Mountain className="h-7 w-7" strokeWidth={2.25} aria-hidden="true" />
-                <span>Mardi Treks</span>
+                <span>Green Compass Treks</span>
               </div>
             )}
           </Link>
