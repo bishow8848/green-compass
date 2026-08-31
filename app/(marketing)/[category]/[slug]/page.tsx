@@ -923,13 +923,16 @@ sectionMap["addons"] = () => addons.length > 0 ? <section id="addons" className=
     ))}
   </div>
 </section> : null;
+// With no route file uploaded, TrekMap shows the admin's static map image
+// instead of the interactive map — waypoint pins aren't rendered on it.
+const mapIsImageOnly = !trek.geoJsonUrl && !trek.geoJsonData && !!trek.staticMapImage;
 sectionMap["map"] = () => <section id="map" className="py-10 sm:py-12">
   <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
     <div>
       <h2 className="mb-2 text-2xl font-bold" style={{ color: "var(--color-secondary)" }}>{sectionData.map?.heading || "Route Map"}</h2>
       <p className="text-sm" style={{ color: "var(--color-text-muted)" }}>{sectionData.map?.description || "Explore the terrain map showing the trek route."}</p>
     </div>
-    {waypoints?.length > 0 && (
+    {waypoints?.length > 0 && !mapIsImageOnly && (
       <span
         className="flex shrink-0 items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-semibold"
         style={{ borderColor: "var(--color-border)", color: "var(--color-primary)", backgroundColor: "var(--color-surface-alt)" }}

@@ -45,6 +45,18 @@ export function TrekMap({
 }: TrekMapProps) {
   const [isExpanded, setIsExpanded] = useState(startExpanded ?? false);
 
+  // Images are stored either as a bare Cloudinary public ID or a full URL.
+  const staticImageSrc = staticFallbackImage
+    ? staticFallbackImage.startsWith("http")
+      ? staticFallbackImage
+      : `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/f_auto,q_auto/${staticFallbackImage}`
+    : null;
+
+  // No route file (.gpx/.kml/.geojson) was uploaded for this trek. If the admin
+  // uploaded a map image instead, show that image in place of the interactive
+  // map — otherwise the map would render with no route on it.
+  const imageOnly = !geoJsonUrl && !geoJsonData && !!staticImageSrc;
+
   // Lock page scrolling while the map is expanded to fullscreen (fixed
   // inset-0 overlay) so the side scrollbar disappears and the page behind
   // can't scroll. We lock BOTH <html> and <body> because on many setups the
@@ -76,30 +88,40 @@ export function TrekMap({
       }`}
     >
       <div className={isExpanded ? "h-full" : "aspect-[21/9]"}>
-        {/* Static fallback image for search engine crawlers and non-JS contexts */}
-        {staticFallbackImage && (
-          <noscript>
-            <div className="relative h-full w-full">
-              <Image
-                src={
-                  staticFallbackImage.startsWith("http")
-                    ? staticFallbackImage
-                    : `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/f_auto,q_auto/${staticFallbackImage}`
-                }
-                alt="Trek route map"
-                fill
-                className="object-cover"
-                priority
-              />
-            </div>
-          </noscript>
+        {imageOnly ? (
+          <div className="relative h-full w-full bg-surface">
+            <Image
+              src={staticImageSrc!}
+              alt="Trek route map"
+              fill
+              sizes="(max-width: 1024px) 100vw, 1200px"
+              className={isExpanded ? "object-contain" : "object-cover"}
+            />
+          </div>
+        ) : (
+          <>
+            {/* Static fallback image for search engine crawlers and non-JS contexts */}
+            {staticImageSrc && (
+              <noscript>
+                <div className="relative h-full w-full">
+                  <Image
+                    src={staticImageSrc}
+                    alt="Trek route map"
+                    fill
+                    className="object-cover"
+                    priority
+                  />
+                </div>
+              </noscript>
+            )}
+            <MapWithNoSSR
+              geoJsonUrl={geoJsonUrl}
+              geoJsonData={geoJsonData}
+              waypoints={waypoints}
+              itinerary={itinerary}
+            />
+          </>
         )}
-        <MapWithNoSSR
-          geoJsonUrl={geoJsonUrl}
-          geoJsonData={geoJsonData}
-          waypoints={waypoints}
-          itinerary={itinerary}
-        />
       </div>
 
       {/* Controls overlay */}

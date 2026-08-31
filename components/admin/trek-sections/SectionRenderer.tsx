@@ -472,6 +472,7 @@ function FaqsSection({ data, onChange }: { data: FaqsData; onChange: (d: FaqsDat
 function MapSection({ data, onChange, registerImageUpload }: { data: MapData; onChange: (d: MapData) => void; registerImageUpload?: (key: string, h: ImageUploadHandle) => void }) {
   const set = (field: keyof MapData, value: any) => onChange({ ...data, [field]: value });
   const setMeta = (field: string, val: any) => onChange({ ...data, [field]: val });
+  const hasRouteFile = !!data.geoJsonUrl || !!data.geoJsonData;
 
   return (
     <div className="space-y-3">
@@ -492,7 +493,7 @@ function MapSection({ data, onChange, registerImageUpload }: { data: MapData; on
       <div className="rounded-lg border border-slate-200 bg-slate-50/50 p-3">
         <div className="flex items-center justify-between mb-2">
           <label className="text-xs font-medium text-slate-500">Actual Trek Route (GeoJSON)</label>
-          <span className="text-[10px] text-slate-400">If empty, a dashed straight line is shown</span>
+          <span className="text-[10px] text-slate-400">If empty, the map image below is shown instead</span>
         </div>
         <p className="text-xs text-amber-600 mb-1">⚠️ If you see &quot;not valid GeoJSON&quot; on the map, click Remove and re-upload your file.</p>
         <GeoJsonUpload
@@ -509,8 +510,18 @@ function MapSection({ data, onChange, registerImageUpload }: { data: MapData; on
         ref={registerImageUpload ? (el) => { if (el) registerImageUpload("staticMapImage", el); } : undefined}
         value={data.staticMapImage || ""}
         onChange={(id) => set("staticMapImage", id)}
-        label="Static Route Map Fallback (required for SEO/no-JavaScript)"
+        label="Map Image (used when no route file is uploaded, and for SEO/no-JavaScript)"
       />
+      {!hasRouteFile && data.staticMapImage ? (
+        <p className="rounded-lg border border-teal-200 bg-teal-50 px-3 py-2 text-xs text-teal-700">
+          🖼️ No route file uploaded — visitors will see this image instead of the interactive map.
+        </p>
+      ) : null}
+      {!hasRouteFile && !data.staticMapImage ? (
+        <p className="rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-700">
+          ⚠️ No route file and no map image. Upload either one, or the map will render without a route.
+        </p>
+      ) : null}
 
       <div className="rounded-lg border border-slate-200 bg-slate-50/50 p-3">
         <p className="text-xs text-slate-500">

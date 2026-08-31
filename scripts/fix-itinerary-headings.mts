@@ -36,8 +36,8 @@ const ELEVATION: Record<string, string> = {
   "Jhinu Danda": "1,780", "Lower Sinuwa": "2,340", "Upper Sinuwa": "2,360",
   "Sinuwa": "2,340", "Chhomrong": "2,170", "Bamboo": "2,310", "Dovan": "2,600",
   "Himalaya": "2,920", "Deurali": "3,230", "Machhapuchhre Base Camp": "3,700",
-  "Annapurna Base Camp": "4,130", "Ghandruk": "1,940", "Tadapani": "2,630",
-  "Ghorepani": "2,860", "Poon Hill": "3,210", "Ulleri": "1,960", "Tikhedhunga": "1,540",
+  "Annapurna Base Camp": "4,130", "Ghandruk": "2,012", "Tadapani": "2,630",
+  "Ghorepani": "2,874", "Poon Hill": "3,210", "Ulleri": "1,960", "Tikhedhunga": "1,540",
   "Hille": "1,495", "Chhomrong Khola": "1,900", "Jhinu": "1,780",
 
   // --- Mardi Himal ---
