@@ -5,6 +5,7 @@ import { createPortal } from "react-dom";
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import { Maximize2, Minimize2 } from "lucide-react";
+import { NEPAL_MAX_BOUNDS, NEPAL_OUTLINE_GEOJSON } from "@/lib/nepal-boundary";
 
 interface MapContentProps {
   geoJsonUrl?: string;
@@ -121,6 +122,7 @@ export default function MapContent({
             tileSize: 512,
             attribution: "&copy; Mapbox &copy; OpenStreetMap contributors &copy; Maxar",
           },
+          "nepal-outline": { type: "geojson", data: NEPAL_OUTLINE_GEOJSON },
           "terrain-source": {
             type: "raster-dem",
             tiles: [
@@ -134,6 +136,29 @@ export default function MapContent({
         },
         layers: [
           { id: "satellite", type: "raster", source: "satellite" },
+          // Nepal is marked by its border rather than by hiding the
+          // neighbouring ground, so the Himalaya still reads as one
+          // continuous range. Drawn as a dark casing under a bright dashed
+          // line so it stays legible over both snow and dark valley floor.
+          {
+            id: "nepal-border-casing",
+            type: "line",
+            source: "nepal-outline",
+            layout: { "line-join": "round", "line-cap": "round" },
+            paint: { "line-color": "#0f172a", "line-width": 4, "line-opacity": 0.45, "line-blur": 1 },
+          },
+          {
+            id: "nepal-border",
+            type: "line",
+            source: "nepal-outline",
+            layout: { "line-join": "round", "line-cap": "round" },
+            paint: {
+              "line-color": "#ffffff",
+              "line-width": 1.6,
+              "line-opacity": 0.9,
+              "line-dasharray": [3, 2],
+            },
+          },
         ],
         sky: {
           "sky-color": "#8ecae6",
@@ -150,6 +175,10 @@ export default function MapContent({
         zoom: 8,
         pitch: 48,
         bearing: 0,
+        // Pan and zoom are confined to Nepal. maplibre derives a minimum zoom
+        // from this too, so the camera can never pull back far enough to put
+        // the whole region on screen.
+        maxBounds: NEPAL_MAX_BOUNDS,
         attributionControl: { compact: true },
       });
 
