@@ -67,6 +67,28 @@ const CATEGORIES: Record<string, string[]> = {
   "lower-dolpo-trek": ["Dolpo", "Phoksundo Lake", "Shey Phoksundo National Park", "Dolpa District"],
   "upper-dolpo-trek": ["Dolpo", "Shey Gompa", "Phoksundo Lake", "Shey Phoksundo National Park", "Dolpa District"],
   "humla-limi-valley-trek": ["Humla District", "Limi Valley", "Simikot", "Karnali Province"],
+
+  // --- treks added in the remote-region batch ---
+  "dhaulagiri-circuit-trek": ["Dhaulagiri", "French Pass", "Myagdi District", "Hidden Valley (Nepal)", "Marpha", "Jomsom"],
+  "churen-himal-base-camp-trek": ["Dhorpatan Hunting Reserve", "Dhaulagiri", "Myagdi District", "Baglung District"],
+  "guerrilla-trek": ["Dhorpatan Hunting Reserve", "Rolpa District", "Rukum District", "Myagdi District"],
+  "larke-pass-trek": ["Manaslu", "Larkya La", "Samagaun", "Manaslu Conservation Area", "Gorkha District"],
+  "lower-manaslu-trek": ["Barpak", "Gorkha District", "Manaslu", "Manaslu Conservation Area"],
+  "rupina-la-pass-trek": ["Gorkha District", "Manaslu", "Barpak", "Manaslu Conservation Area"],
+  "serang-gompa-trek": ["Manaslu Conservation Area", "Manaslu", "Gorkha District", "Nubri"],
+  "tsho-rolpa-trek": ["Tsho Rolpa", "Rolwaling", "Gaurishankar", "Dolakha District"],
+  "tashi-lapcha-pass-trek": ["Rolwaling", "Tsho Rolpa", "Thame", "Khumbu", "Gaurishankar"],
+  "tilman-pass-trek": ["Langtang National Park", "Langtang", "Kyanjin Gompa", "Jugal Himal", "Sindhupalchowk District"],
+  "panch-pokhari-trek": ["Sindhupalchowk District", "Jugal Himal", "Langtang National Park", "Helambu"],
+  "sherpani-col-passes-trek": ["Makalu", "Makalu Barun National Park", "Baruntse", "Khumbu", "Sankhuwasabha District"],
+  "shey-phoksundo-lake-trek": ["Phoksundo Lake", "Shey Phoksundo National Park", "Dolpo", "Dolpa District"],
+  "jomsom-dolpo-trek": ["Dolpo", "Phoksundo Lake", "Shey Phoksundo National Park", "Jomsom", "Kagbeni", "Dolpa District"],
+  "saribung-pass-trek": ["Upper Mustang", "Lo Manthang", "Nar Phu", "Mustang District", "Damodar Kunda"],
+  "teri-la-pass-trek": ["Upper Mustang", "Lo Manthang", "Nar Phu", "Mustang District", "Manang District"],
+  "api-himal-base-camp-trek": ["Api Himal", "Darchula District", "Api Nampa Conservation Area", "Sudurpashchim Province"],
+  "badimalika-trek": ["Bajura District", "Saipal", "Sudurpashchim Province", "Karnali Province"],
+  "ramaroshan-lakes-trek": ["Achham District", "Sudurpashchim Province", "Karnali Province"],
+  "red-panda-trail-trek": ["Ilam District", "Panchthar District", "Red panda", "Sandakphu", "Kangchenjunga"],
 };
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));

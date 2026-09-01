@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Loader2, MapPin } from "lucide-react";
+import { addPeakLayers, mapboxGlyphsUrl } from "@/lib/map-peaks";
 
 interface MapPreviewProps {
   centerLat: number;
@@ -28,6 +29,8 @@ export function MapPreview({ centerLat, centerLng, zoom, pitch, geoJsonData }: M
 
         const style: any = {
           version: 8,
+          // Needed for the peak-name labels to render at all.
+          glyphs: mapboxGlyphsUrl(process.env.NEXT_PUBLIC_MAPBOX_TOKEN),
           sources: {
             satellite: {
               type: "raster",
@@ -103,6 +106,10 @@ export function MapPreview({ centerLat, centerLng, zoom, pitch, geoJsonData }: M
         });
 
         map.on("load", () => {
+          // Same mountain dots and names as the public trek map, so the admin
+          // preview matches what visitors see. Not interactive, so no cards.
+          addPeakLayers(map, { minElevation: 6000, labelScale: 0.85 });
+
           if (geoJsonData) {
             try {
               const route = JSON.parse(geoJsonData);

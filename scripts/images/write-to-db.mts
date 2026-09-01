@@ -52,6 +52,24 @@ const FEATURES = [
   "Simikot", "Kermi", "Yalbang", "Hilsa", "Halji", "Til", "Limi Valley",
   "Bedding", "Simigaon", "Rolwaling", "Tumlingtar", "Pokhara", "Kathmandu",
   "Sundarijal", "Nayapul", "Birethanti", "Siding",
+  // Places on the remote-region treks added later.
+  "Italian Base Camp", "Dhaulagiri Base Camp", "Churen Himal Base Camp",
+  "Api Himal Base Camp", "Glacier Camp", "Hidden Valley", "French Pass",
+  "Dhampus Pass", "Jaljala Pass", "Rupina La", "Teri La", "Saribung La",
+  "Sherpani Col", "West Col", "Amphu Labtsa", "Tilman Pass", "Sangda La",
+  "Niwar La", "Numa La", "Baga La", "Mola La", "Shipton La", "Namaskar Pass",
+  "Panch Pokhari", "Damodar Kunda", "Ramaroshan", "Badimalika",
+  "Dhorpatan", "Darbang", "Dharapani", "Muri", "Boghara", "Dobang", "Lumsum",
+  "Gurjaghat", "Pelma", "Maikot", "Thabang", "Sulichaur",
+  "Barpak", "Laprak", "Gumda", "Nyak", "Bihi", "Prok", "Serang Gompa",
+  "Yak Kharka", "Sanduwa", "Chhepka", "Shyanta", "Charka Bhot", "Tokyu",
+  "Yara", "Tange", "Luri", "Ghuma Thanti", "Phalyak", "Sangda",
+  "Nar", "Phu", "Meta", "Kyang", "Koto", "Nagoru", "Dhalung",
+  "Simigaon", "Beding", "Dongang", "Gongar", "Singati", "Na",
+  "Langshisa Kharka", "Nasempati", "Kami Kharka", "Tempathang", "Deep Gaun",
+  "Ghusa", "Martadi", "Kolti", "Mangalsen", "Darchula", "Dhangadhi",
+  "Nepalgunj", "Ilam", "Bhadrapur", "Sandakphu", "Chintapu", "Chyangthapu",
+  "Hangetham", "Maimajhuwa", "Singalila",
 ];
 
 /** Peaks — described as mountains rather than places. */
@@ -65,6 +83,12 @@ const PEAKS = [
   "Langtang Lirung", "Dorje Lakpa", "Ganchenpo", "Naya Kanga", "Gaurishankar",
   "Kangchenjunga", "Kanchenjunga", "Jannu", "Kumbhakarna",
   "Mardi Himal", "Lamjung Himal", "Khori Himal", "Nemjung", "Kang Guru",
+  // Peaks on the remote-region treks added later.
+  "Dhaulagiri I", "Dhaulagiri II", "Churen Himal", "Gurja Himal",
+  "Putha Hiunchuli", "Tukuche Peak", "Sita Chuchura", "Api", "Nampa", "Saipal",
+  "Baruntse", "Chamlang", "Tengi Ragi Tau", "Pachermo", "Yalung Ri",
+  "Langshisa Ri", "Jugal Himal", "Phurbi Chyachu", "Himlung Himal",
+  "Ngadi Chuli", "Kanjiroba", "Saribung", "Damodar Himal", "Nilgiri North",
 ];
 
 const ALL_NAMES = [...FEATURES, ...PEAKS].sort((a, b) => b.length - a.length);

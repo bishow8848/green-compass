@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { Loader2 } from "lucide-react";
+import { addPeakLayers, mapboxGlyphsUrl } from "@/lib/map-peaks";
 
 interface MiniMapProps {
   geoJsonUrl?: string | null;
@@ -44,6 +45,8 @@ export function MiniMap({
 
         const miniStyle: any = {
           version: 8,
+          // Needed for the peak-name labels to render at all.
+          glyphs: mapboxGlyphsUrl(process.env.NEXT_PUBLIC_MAPBOX_TOKEN),
           sources: {
             satellite: {
               type: "raster",
@@ -93,6 +96,10 @@ export function MiniMap({
 
         map.on("load", () => {
           if (cleanup) return;
+
+          // Mountains first, so the trek line and waypoints draw on top.
+          // No hover card here — this map is not interactive.
+          addPeakLayers(map, { minElevation: 6000, labelScale: 0.85 });
 
           // Add GeoJSON data if present
           if (geoJsonData) {

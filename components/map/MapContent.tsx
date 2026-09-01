@@ -6,6 +6,7 @@ import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import { Maximize2, Minimize2 } from "lucide-react";
 import { NEPAL_MAX_BOUNDS, NEPAL_OUTLINE_GEOJSON } from "@/lib/nepal-boundary";
+import { addPeakLayers, mapboxGlyphsUrl } from "@/lib/map-peaks";
 
 interface MapContentProps {
   geoJsonUrl?: string;
@@ -113,6 +114,9 @@ export default function MapContent({
     try {
       const style: any = {
         version: 8,
+        // Symbol layers (peak names, route labels) render nothing without a
+        // glyph endpoint. Uses the same Mapbox token as the tiles.
+        glyphs: mapboxGlyphsUrl(token),
         sources: {
           satellite: {
             type: "raster",
@@ -193,6 +197,11 @@ export default function MapContent({
         } catch (e) {
           console.warn("Failed to set terrain:", e);
         }
+
+        // Nepal's mountains, viewpoints and passes — a dot each, with the
+        // name alongside and a hover card. Added before the route so the
+        // trek line always draws on top of them.
+        addPeakLayers(newMap, { popupClass: maplibregl.Popup });
 
         const hasRoute = newMap.getSource("route") || newMap.getSource("wp-route");
         if (!hasRoute) {

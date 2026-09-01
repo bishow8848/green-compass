@@ -48,6 +48,88 @@ const TARGETS: Record<string, { terms: string[]; must: RegExp }> = {
     terms: ["Helambu Nepal", "Tarkeghyang", "Sermathang", "Melamchi valley Nepal", "Chisapani Nepal trek", "Tharepati"],
     must: /helambu|tarkeghyang|tarke\s*ghyang|sermathang|melamchi|tharepati|chisapani|khutumsang|kutumsang|shivapuri/i,
   },
+
+  // --- remote-region treks added later ---
+  "dhaulagiri-circuit-trek": {
+    terms: ["Dhaulagiri", "French Pass Nepal", "Hidden Valley Dhaulagiri", "Dhaulagiri base camp", "Myagdi Khola", "Marpha Nepal", "Tukuche Nepal"],
+    must: /dhaulagiri|french\s*pass|hidden\s*valley|myagdi|marpha|tukuche|dhampus\s*pass|glacier\s*camp|kali\s*gandaki/i,
+  },
+  "churen-himal-base-camp-trek": {
+    terms: ["Churen Himal", "Dhorpatan", "Gurja Himal", "Putha Hiunchuli", "Dhaulagiri range", "Dhorpatan hunting reserve"],
+    must: /churen|dhorpatan|gurja|putha|dhaulagiri|myagdi|jaljala|baglung/i,
+  },
+  "guerrilla-trek": {
+    terms: ["Dhorpatan", "Rolpa Nepal", "Rukum Nepal", "Thabang Rolpa", "Jaljala Rolpa", "Dhorpatan hunting reserve"],
+    must: /dhorpatan|rolpa|rukum|thabang|jaljala|sulichaur|maikot|pelma|myagdi/i,
+  },
+  "larke-pass-trek": {
+    terms: ["Larkya La", "Samagaun", "Manaslu", "Bimthang", "Samdo Nepal", "Namrung Nepal"],
+    must: /larkya|larke|samagaun|sama\s*gaun|manaslu|bimthang|samdo|namrung|\blho\b|dharapani|jagat\s*nepal|philim|\bdeng\b|budhi\s*gandaki/i,
+  },
+  "lower-manaslu-trek": {
+    terms: ["Barpak", "Laprak", "Gorkha Nepal mountain", "Manaslu Gorkha", "Gumda Gorkha"],
+    must: /barpak|laprak|gorkha|manaslu|gumda|machha\s*khola|singla|himalchuli|himal\s*chuli/i,
+  },
+  "rupina-la-pass-trek": {
+    terms: ["Rupina La", "Barpak", "Laprak", "Manaslu Gorkha", "Budhi Gandaki"],
+    must: /rupina|barpak|laprak|manaslu|nyak|philim|budhi\s*gandaki|gorkha|himalchuli/i,
+  },
+  "serang-gompa-trek": {
+    terms: ["Serang Gompa", "Bihi Nepal", "Prok Manaslu", "Nubri valley", "Budhi Gandaki Manaslu"],
+    must: /serang|\bbihi\b|\bprok\b|nubri|manaslu|budhi\s*gandaki|philim|\bdeng\b|jagat\s*nepal/i,
+  },
+  "tsho-rolpa-trek": {
+    terms: ["Tsho Rolpa", "Rolwaling", "Beding Nepal", "Gaurishankar", "Simigaon", "Rolwaling valley"],
+    must: /tsho\s*rolpa|cho\s*rolpa|rolwaling|beding|bedding|simigaon|gaurishankar|dongang|trakarding/i,
+  },
+  "tashi-lapcha-pass-trek": {
+    terms: ["Tashi Lapcha", "Tashi Laptse", "Rolwaling", "Beding Nepal", "Thame Nepal", "Tsho Rolpa"],
+    must: /tashi\s*lap|tashi\s*lab|rolwaling|beding|bedding|thame|tsho\s*rolpa|simigaon|drolambau|gaurishankar/i,
+  },
+  "tilman-pass-trek": {
+    terms: ["Langshisa Kharka", "Kyanjin Gompa", "Langtang valley", "Jugal Himal", "Dorje Lakpa", "Langtang Lirung"],
+    must: /langshisa|kyanjin|langtang|jugal|dorje\s*lakpa|panch\s*pokhari|syabru|tilman|ganchenpo/i,
+  },
+  "panch-pokhari-trek": {
+    terms: ["Panch Pokhari Sindhupalchok", "Jugal Himal", "Sindhupalchok mountain", "Melamchi valley Nepal", "Dorje Lakpa"],
+    must: /panch\s*pokhari|panchpokhari|jugal|sindhupalchok|sindhupalchowk|melamchi|tempathang|dorje\s*lakpa/i,
+  },
+  "sherpani-col-passes-trek": {
+    terms: ["Makalu base camp", "Barun valley", "Amphu Labtsa", "Baruntse", "Makalu Nepal", "Makalu Barun"],
+    must: /sherpani|makalu|barun|amphu|baruntse|hongu|chamlang|yangle|langmale|seduwa|tashigaon|\bnum\b|khongma/i,
+  },
+  "shey-phoksundo-lake-trek": {
+    terms: ["Phoksundo Lake", "Ringmo Dolpa", "Shey Phoksundo National Park", "Dolpa Nepal", "Juphal Dolpa"],
+    must: /phoksundo|ringmo|dolpa|dolpo|juphal|dunai|chhepka|suli\s*gad|kanjiroba/i,
+  },
+  "jomsom-dolpo-trek": {
+    terms: ["Dolpo", "Phoksundo Lake", "Dho Tarap", "Charka Bhot", "Jomsom Nepal", "Kagbeni"],
+    must: /dolpo|dolpa|phoksundo|tarap|charka|jomsom|kagbeni|numa\s*la|baga\s*la|juphal|ringmo|kali\s*gandaki/i,
+  },
+  "saribung-pass-trek": {
+    terms: ["Lo Manthang", "Upper Mustang", "Damodar Kunda", "Nar Phu valley", "Yara Mustang", "Chhoser Mustang"],
+    must: /lo\s*manthang|mustang|damodar|nar\s*phu|phu\s*gaon|\byara\b|tange|ghami|charang|chele|kagbeni|saribung|chhoser|dhakmar/i,
+  },
+  "teri-la-pass-trek": {
+    terms: ["Lo Manthang", "Upper Mustang", "Nar Phu valley", "Tange Mustang", "Nar village Nepal", "Ghami Mustang"],
+    must: /lo\s*manthang|mustang|nar\s*phu|phu\s*gaon|nar\s*gaon|tange|\byara\b|ghami|charang|chele|kagbeni|teri\s*la|chhoser|dhakmar/i,
+  },
+  "api-himal-base-camp-trek": {
+    terms: ["Api Himal", "Api Nampa Conservation Area", "Darchula Nepal", "Nampa peak Nepal", "Api Himal base camp"],
+    must: /\bapi\b|api\s*himal|api\s*nampa|nampa|darchula|chamaliya|byas\s*rural|sudurpaschim|sudurpashchim/i,
+  },
+  "badimalika-trek": {
+    terms: ["Badimalika", "Bajura Nepal", "Saipal Himal", "Martadi Bajura", "Badimalika temple"],
+    must: /badimalika|badi\s*malika|bajura|saipal|martadi|kolti|budhiganga/i,
+  },
+  "ramaroshan-lakes-trek": {
+    terms: ["Ramaroshan", "Achham Nepal", "Mangalsen Achham", "Ramaroshan lake Achham", "Sanfebagar"],
+    must: /ramaroshan|rama\s*roshan|achham|accham|mangalsen|sanfebagar|budhiganga/i,
+  },
+  "red-panda-trail-trek": {
+    terms: ["Ilam Nepal", "Panchthar Nepal", "Ilam tea garden", "Kanyam Ilam", "Singalila Nepal", "Antu Danda Ilam"],
+    must: /\bilam\b|panchthar|red\s*panda|kanyam|singalila|maimajhuwa|chyangthapu|antu|mai\s*pokhari/i,
+  },
 };
 
 const REJECT =

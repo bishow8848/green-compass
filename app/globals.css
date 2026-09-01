@@ -436,3 +436,18 @@ main {
   mix-blend-mode: overlay;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
 }
+
+/* ==============================
+   TREK MAP — MOUNTAIN HOVER CARD
+   ============================== */
+/* The peak card is purely informational. Without pointer-events: none the
+   card slides under the cursor, the dot below it fires mouseleave, and the
+   card flickers open/closed as it fights the pointer. */
+.peak-popup {
+  pointer-events: none;
+}
+.peak-popup .maplibregl-popup-content {
+  padding: 0.6rem 0.7rem;
+  border-radius: 0.6rem;
+  box-shadow: 0 8px 24px rgb(15 23 42 / 0.22);
+}
