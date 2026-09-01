@@ -1,9 +1,9 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, updateTag } from "next/cache";
 import { auth } from "@/lib/auth";
-import { redis, cacheKeys, CACHE_TTL } from "@/lib/redis";
+import { invalidateCache, cacheKeys, nextCacheTag } from "@/lib/redis";
 import { deleteFile } from "@/lib/cloudinary";
 
 interface RegionInput {
@@ -54,24 +54,16 @@ export async function updateNavigationSettings(formData: FormData) {
     },
   });
 
-  // Write the updated site settings directly into the Redis layout cache.
-  // This is the key the root layout reads — keeping it hot means the next
-  // request always gets fresh data, regardless of revalidation timing.
-  await redis.setex(
-    cacheKeys.siteSettings,
-    CACHE_TTL.YEARLY,
-    JSON.stringify({
-      logo,
-      navigation: JSON.stringify(navigation),
-      categoryDropdownTreks: JSON.stringify(categoryDropdownTreks),
-      topBarContent,
-    })
-  );
-
-  // The dropdown-treks cache depends on categoryDropdownTreks, so it may be
-  // stale. Invalidate only that one key — NOT the full layout:* pattern
-  // (which would delete the site-settings key we just wrote above).
-  await redis.del(cacheKeys.dropdownTreks);
+  // Drop the layout caches this save invalidates so the root layout refetches
+  // them. Do NOT write the new values in directly: the root layout reads the
+  // whole site-settings row (siteName, contact details, socialLinks, …) and
+  // seeding the key with only the fields edited here would serve a truncated
+  // row until the TTL expired. Invalidate only these two keys — NOT the full
+  // layout:* pattern, which would also evict the untouched categories cache.
+  await invalidateCache(cacheKeys.siteSettings);
+  await invalidateCache(cacheKeys.dropdownTreks);
+  updateTag(nextCacheTag(cacheKeys.siteSettings));
+  updateTag(nextCacheTag(cacheKeys.dropdownTreks));
 
   // Categories themselves didn't change, so skip category:* invalidation.
   revalidatePath("/", "layout");
@@ -116,7 +108,8 @@ export async function saveCategoryRegions(regions: RegionInput[]) {
 
   // Only the regions cache is stale — invalidate that single key instead of the
   // full layout:* pattern (which would wipe site-settings unnecessarily).
-  await redis.del(cacheKeys.allRegions);
+  await invalidateCache(cacheKeys.allRegions);
+  updateTag(nextCacheTag(cacheKeys.allRegions));
   revalidatePath("/admin/navigation");
   revalidatePath("/");
 }

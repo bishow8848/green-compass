@@ -21,14 +21,80 @@ export const CACHE_TTL = {
   YEARLY: 31536000,       // 1 year
 } as const;
 
+/**
+ * Redis is an optimization, not a hard dependency — and an unreachable Upstash
+ * must not be allowed to slow a page down, which is exactly what happens by
+ * default: undici waits 10s before giving up on a connection, and the client
+ * retries five times behind that, so a single cache key can cost a minute.
+ * Two guards keep an outage cheap.
+ *
+ * 1. Every command carries its own abort signal, capping one attempt at
+ *    REDIS_TIMEOUT_MS. The signal is passed as a factory so the client mints a
+ *    fresh one per request — and, per its contract, rethrows immediately
+ *    instead of retrying once a factory-supplied signal fires.
+ * 2. A circuit breaker bypasses Redis entirely after repeated failures, so a
+ *    sustained outage costs one timeout per cooldown window rather than one
+ *    per cache key on every render.
+ */
+const REDIS_TIMEOUT_MS = Number(process.env.REDIS_TIMEOUT_MS) || 1000;
+const BREAKER_FAILURE_THRESHOLD = 3;
+const BREAKER_COOLDOWN_MS = 30_000;
+
 export const redis = new Redis({
   url: process.env.UPSTASH_REDIS_REST_URL!,
   token: process.env.UPSTASH_REDIS_REST_TOKEN!,
+  signal: () => AbortSignal.timeout(REDIS_TIMEOUT_MS),
+  retry: { retries: 1 },
 });
 
 const isRedisConfigured = Boolean(
   process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN
 );
+
+let consecutiveFailures = 0;
+let breakerOpenUntil = 0;
+
+function redisAvailable(): boolean {
+  if (!isRedisConfigured) return false;
+  if (breakerOpenUntil === 0) return true;
+  if (Date.now() < breakerOpenUntil) return false;
+
+  // Cooldown elapsed — let a single probe through. Priming the counter one
+  // short of the threshold means one more failure re-opens the breaker for a
+  // full window, while a success resets it.
+  breakerOpenUntil = 0;
+  consecutiveFailures = BREAKER_FAILURE_THRESHOLD - 1;
+  return true;
+}
+
+/**
+ * Run a Redis command behind the breaker. Never throws: a miss and a failure
+ * are the same thing to every caller here, so both come back as `ok: false`.
+ */
+async function tryRedis<T>(
+  label: string,
+  run: () => Promise<T>
+): Promise<{ ok: true; value: T } | { ok: false }> {
+  if (!redisAvailable()) return { ok: false };
+
+  try {
+    const value = await run();
+    consecutiveFailures = 0;
+    return { ok: true, value };
+  } catch (error) {
+    consecutiveFailures += 1;
+    console.error(`[redis] ${label} failed:`, error);
+    if (consecutiveFailures >= BREAKER_FAILURE_THRESHOLD && breakerOpenUntil === 0) {
+      breakerOpenUntil = Date.now() + BREAKER_COOLDOWN_MS;
+      console.error(
+        `[redis] ${consecutiveFailures} consecutive failures — bypassing Redis for ${Math.round(
+          BREAKER_COOLDOWN_MS / 1000
+        )}s`
+      );
+    }
+    return { ok: false };
+  }
+}
 
 /**
  * Cache isolation between sites that share the same Upstash instance.
@@ -219,35 +285,19 @@ export async function getCachedOrFetch<T>(
 
   return unstable_cache(
     async () => {
-      if (isRedisConfigured) {
-        try {
-          const cached = await redis.get<CacheEnvelope>(namespacedKey(key));
-          if (cached?.version === 1 && typeof cached.payload === "string") {
-            return deserializeCacheValue<T>(cached.payload);
-          }
-        } catch (error) {
-          // Redis is an optimization, not a hard dependency. A transient
-          // Upstash failure must not take down a public page.
-          console.error(`[redis] Failed to read cache key "${key}":`, error);
-        }
+      const cached = await tryRedis(`read cache key "${key}"`, () =>
+        redis.get<CacheEnvelope>(namespacedKey(key))
+      );
+      if (
+        cached.ok &&
+        cached.value?.version === 1 &&
+        typeof cached.value.payload === "string"
+      ) {
+        return deserializeCacheValue<T>(cached.value.payload);
       }
 
       const value = await fetcher();
-
-      if (isRedisConfigured) {
-        try {
-          const envelope: CacheEnvelope = {
-            version: 1,
-            payload: serializeCacheValue(value),
-          };
-          await redis.set(namespacedKey(key), envelope, {
-            ex: Math.max(1, Math.floor(ttl)),
-          });
-        } catch (error) {
-          console.error(`[redis] Failed to write cache key "${key}":`, error);
-        }
-      }
-
+      await writeCache(key, value, ttl);
       return value;
     },
     ["mardi-redis-cache", key],
@@ -255,20 +305,30 @@ export async function getCachedOrFetch<T>(
   )();
 }
 
-export async function invalidateCache(key: string): Promise<void> {
-  if (!isRedisConfigured) return;
+/**
+ * Write a value under the namespaced envelope `getCachedOrFetch` reads back.
+ * Anything that writes with `redis.set`/`redis.setex` directly lands on an
+ * un-namespaced key in a shape the reader rejects, so route writes through
+ * here.
+ */
+async function writeCache(key: string, value: unknown, ttl: number): Promise<void> {
+  const envelope: CacheEnvelope = {
+    version: 1,
+    payload: serializeCacheValue(value),
+  };
+  await tryRedis(`write cache key "${key}"`, () =>
+    redis.set(namespacedKey(key), envelope, { ex: Math.max(1, Math.floor(ttl)) })
+  );
+}
 
-  try {
-    await redis.del(namespacedKey(key));
-  } catch (error) {
-    console.error(`[redis] Failed to invalidate cache key "${key}":`, error);
-  }
+export async function invalidateCache(key: string): Promise<void> {
+  await tryRedis(`invalidate cache key "${key}"`, () =>
+    redis.del(namespacedKey(key))
+  );
 }
 
 export async function invalidateCachePattern(pattern: string): Promise<void> {
-  if (!isRedisConfigured) return;
-
-  try {
+  await tryRedis(`invalidate cache pattern "${pattern}"`, async () => {
     // Use SCAN instead of KEYS to avoid blocking Redis on large datasets
     const keys: string[] = [];
     let cursor: number | string = 0;
@@ -284,7 +344,5 @@ export async function invalidateCachePattern(pattern: string): Promise<void> {
     if (keys.length > 0) {
       await redis.del(...keys);
     }
-  } catch (error) {
-    console.error(`Failed to invalidate cache pattern "${pattern}":`, error);
-  }
+  });
 }
