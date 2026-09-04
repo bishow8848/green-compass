@@ -38,9 +38,9 @@ export async function sendVerificationEmail({
   email: string;
   token: string;
 }) {
-  // Always build the link from the configured site origin (NEXT_PUBLIC_SITE_URL /
-  // SITE_URL in .env). Deriving it from the runtime origin produced localhost
-  // links whenever the app ran in dev or behind a reverse proxy.
+  // Always build the link from the configured site origin (SITE_URL in .env).
+  // Deriving it from the runtime origin produced localhost links whenever the
+  // app ran in dev or behind a reverse proxy.
   const verificationUrl = `${SITE_URL}/api/auth/verify-email?token=${token}`;
 
   await sendEmail({

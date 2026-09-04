@@ -78,7 +78,7 @@ export function hasTrustedOrigin(request: NextRequest): boolean {
 
   // Add configured env origins
   const envOrigins = [
-    process.env.NEXT_PUBLIC_SITE_URL,
+    process.env.SITE_URL,
     process.env.AUTH_URL,
     process.env.NEXTAUTH_URL,
   ].filter((v): v is string => Boolean(v));

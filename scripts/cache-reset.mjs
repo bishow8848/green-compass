@@ -13,7 +13,7 @@
  *   mardi:cache:v2:<site-key>:*
  *
  * The site key resolves exactly like lib/redis.ts (REDIS_CACHE_NAMESPACE
- * override -> NEXT_PUBLIC_SITE_URL -> SITE_URL -> greencompasstreks.com default), so
+ * override -> SITE_URL -> greencompasstreks.com default), so
  * this tool always clears the same namespace the running site reads from.
  *
  * Not touched on purpose:
@@ -44,10 +44,7 @@ function resolveCacheSiteKey() {
       .replace(/[^a-zA-Z0-9._-]/g, "_");
   }
 
-  const siteUrl =
-    process.env.NEXT_PUBLIC_SITE_URL ||
-    process.env.SITE_URL ||
-    "https://greencompasstreks.com";
+  const siteUrl = process.env.SITE_URL || "https://greencompasstreks.com";
   try {
     return (
       new URL(siteUrl).hostname.replace(/^www\./, "").toLowerCase() || "default"

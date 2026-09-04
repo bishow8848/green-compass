@@ -32,7 +32,6 @@ const SITE = urlFlag >= 0 ? args[urlFlag + 1] : null;
 function siteKey(): string {
   const raw =
     process.env.REDIS_CACHE_NAMESPACE ||
-    process.env.NEXT_PUBLIC_SITE_URL ||
     process.env.SITE_URL ||
     "greencompasstreks.com";
   try { return new URL(raw.startsWith("http") ? raw : `https://${raw}`).hostname; }

@@ -1,14 +1,14 @@
 import { CLOUDINARY_CLOUD_NAME } from "@/lib/cloudinary-url";
 
 // Single source of truth for the site's canonical origin, driven by env so the
-// same codebase works for local dev, staging, and production. NEXT_PUBLIC_* is
-// inlined into client bundles at build time; SITE_URL is available to Node-side
-// config (e.g. next-sitemap). Falls back to the production domain.
-const envSiteUrl = (
-  process.env.NEXT_PUBLIC_SITE_URL ||
-  process.env.SITE_URL ||
-  "https://greencompasstreks.com"
-).replace(/\/+$/, "");
+// same codebase works for local dev, staging, and production. Deliberately not
+// NEXT_PUBLIC_: the origin stays server-side and is never inlined into a client
+// bundle. Every consumer of this module renders on the server (metadata,
+// JSON-LD, sitemap, robots, emails). Falls back to the production domain.
+const envSiteUrl = (process.env.SITE_URL || "https://greencompasstreks.com").replace(
+  /\/+$/,
+  "",
+);
 
 export const SITE_URL = envSiteUrl;
 export const SITE_NAME = "Green Compass Treks";

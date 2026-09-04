@@ -28,7 +28,7 @@ jobs:
       AUTH_GOOGLE_ID: test-google-client
       AUTH_GOOGLE_SECRET: test-google-secret
       PAYLOAD_SECRET: test-payload-secret-at-least-32-chars
-      NEXT_PUBLIC_SITE_URL: https://greencompasstreks.com
+      SITE_URL: https://greencompasstreks.com
       UPSTASH_REDIS_REST_URL: https://example.invalid
       UPSTASH_REDIS_REST_TOKEN: test-token
     steps:

@@ -120,10 +120,7 @@ function resolveCacheSiteKey(): string {
       .replace(/[^a-zA-Z0-9._-]/g, "_");
   }
 
-  const siteUrl =
-    process.env.NEXT_PUBLIC_SITE_URL ||
-    process.env.SITE_URL ||
-    "https://greencompasstreks.com";
+  const siteUrl = process.env.SITE_URL || "https://greencompasstreks.com";
   try {
     const host = new URL(siteUrl).hostname.replace(/^www\./, "").toLowerCase();
     return host || "default";
