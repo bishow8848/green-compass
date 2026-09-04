@@ -1,0 +1,67 @@
+{
+ "names": [
+  {
+   "name": "Kharka",
+   "treks": [
+    "lamjung-himal-trek"
+   ],
+   "anchors": [
+    [
+     84.2,
+     28.45
+    ]
+   ],
+   "generic": true
+  },
+  {
+   "name": "Valley Camp",
+   "treks": [
+    "lamjung-himal-trek"
+   ],
+   "anchors": [
+    [
+     84.2,
+     28.45
+    ],
+    [
+     84.2,
+     28.45
+    ]
+   ],
+   "generic": true
+  }
+ ],
+ "perTrek": [
+  {
+   "slug": "lamjung-himal-trek",
+   "region": "Remote Region",
+   "anchor": [
+    84.2,
+    28.45
+   ],
+   "days": [
+    {
+     "dayNumber": 4,
+     "raw": "Kharka ",
+     "name": "Kharka",
+     "place": "Kharka is a high mountain grazing area surrounded by forests, open grasslands, and peaceful Himalayan landscapes.",
+     "generic": true
+    },
+    {
+     "dayNumber": 6,
+     "raw": "Valley Camp ",
+     "name": "Valley Camp",
+     "place": "Valley Camp is a scenic alpine area surrounded by open meadows, rugged ridges, and expansive views of the Himalayan landscape.",
+     "generic": true
+    },
+    {
+     "dayNumber": 7,
+     "raw": "Valley Camp ",
+     "name": "Valley Camp",
+     "place": "Valley Camp offers a peaceful alpine setting surrounded by mountain ridges, grasslands, and spectacular high-altitude scenery.",
+     "generic": true
+    }
+   ]
+  }
+ ]
+}

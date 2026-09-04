@@ -1,0 +1,26 @@
+{
+ "resolved": {
+  "chame": {
+   "lng": 84.2423535,
+   "lat": 28.5507325,
+   "name": "Chame",
+   "source": "existing waypoint"
+  },
+  "cheram": {
+   "lng": 87.9331239,
+   "lat": 27.5437188,
+   "name": "Cheram",
+   "source": "existing waypoint"
+  },
+  "sulighat": {
+   "name": "Sulighat",
+   "lng": 82.8740027,
+   "lat": 28.9732149,
+   "source": "nominatim hamlet",
+   "candidates": 1,
+   "kmFromTrekCentre": 15.9,
+   "display": "Suligad, Tripurasundari-02, Tripurasundari, Dolpa, Karnali Province, Nepal"
+  }
+ },
+ "unresolved": []
+}

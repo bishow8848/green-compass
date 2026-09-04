@@ -6,11 +6,18 @@
  * these routes the fix is a narrow search on the peaks and places the trek
  * actually visits, plus a hard requirement that a candidate names one of them.
  *
- *   npx tsx scripts/images/refine-weak.mts <out.json>
+ *   npx tsx scripts/images/refine-weak.mts <out.json> [--slugs=<file>]
+ *
+ * --slugs limits the run to the slugs listed in that file, one per line, so a
+ * re-run for a new batch does not re-search everything already done.
  */
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 
 const OUT = process.argv[2] ?? "/tmp/refined.json";
+const SLUG_FILE = process.argv.find((a) => a.startsWith("--slugs="))?.slice(8);
+const ONLY = SLUG_FILE
+  ? new Set(readFileSync(SLUG_FILE, "utf8").split("\n").map((l) => l.trim()).filter(Boolean))
+  : null;
 const API = "https://commons.wikimedia.org/w/api.php";
 const UA = "MardiTreks-ContentBot/1.0 (trek site image sourcing)";
 
@@ -130,6 +137,198 @@ const TARGETS: Record<string, { terms: string[]; must: RegExp }> = {
     terms: ["Ilam Nepal", "Panchthar Nepal", "Ilam tea garden", "Kanyam Ilam", "Singalila Nepal", "Antu Danda Ilam"],
     must: /\bilam\b|panchthar|red\s*panda|kanyam|singalila|maimajhuwa|chyangthapu|antu|mai\s*pokhari/i,
   },
+
+  // ─────────────────── Tours category ───────────────────
+  // Kathmandu valley sites are far better covered on Commons than the remote
+  // trekking regions, so these mostly need narrowing rather than widening.
+  "kathmandu-valley-tour": {
+    terms: ["Kathmandu Durbar Square", "Patan Durbar Square", "Bhaktapur Durbar Square", "Boudhanath", "Swayambhunath", "Nagarkot Nepal"],
+    must: /durbar\s*square|boudha|bouddha|swayambhu|bhaktapur|patan|nagarkot|changunarayan|pashupatinath|nyatapola|kathmandu/i,
+  },
+  "glimpse-of-nepal-tour": {
+    terms: ["Kathmandu Durbar Square", "Bhaktapur Nepal", "Nagarkot Nepal", "Dhulikhel", "Panauti Nepal", "Boudhanath"],
+    must: /durbar\s*square|bhaktapur|nagarkot|dhulikhel|panauti|boudha|bouddha|swayambhu|changunarayan|kathmandu/i,
+  },
+  "kathmandu-pokhara-tour": {
+    terms: ["Phewa Lake Pokhara", "Sarangkot", "Kathmandu Durbar Square", "Bhaktapur Nepal", "Nagarkot Nepal", "World Peace Pagoda Pokhara"],
+    must: /phewa|pokhara|sarangkot|durbar\s*square|bhaktapur|nagarkot|boudha|peace\s*pagoda|kathmandu|annapurna|machhapuchhre|machapuchare/i,
+  },
+  "best-of-nepal-tour": {
+    terms: ["Phewa Lake Pokhara", "Chitwan National Park", "Lumbini Maya Devi", "Bhaktapur Nepal", "Boudhanath", "Nagarkot Nepal"],
+    must: /phewa|pokhara|chitwan|lumbini|maya\s*devi|bhaktapur|boudha|nagarkot|durbar\s*square|sarangkot|rhino/i,
+  },
+  "nepal-cultural-tour": {
+    terms: ["Patan Durbar Square", "Bhaktapur pottery square", "Bandipur Nepal", "Newar craft Nepal", "Khokana", "Ghalegaun"],
+    must: /patan|bhaktapur|bandipur|khokana|bungamati|ghale\s*gaun|ghalegaun|durbar\s*square|pottery|thangka|newar/i,
+  },
+  "kathmandu-day-tour": {
+    terms: ["Kathmandu Durbar Square", "Swayambhunath", "Boudhanath", "Pashupatinath", "Kumari Ghar Kathmandu"],
+    must: /durbar\s*square|swayambhu|boudha|bouddha|pashupatinath|kumari|kasthamandap|kathmandu/i,
+  },
+  "seven-world-heritage-kathmandu-day-tour": {
+    terms: ["Kathmandu Durbar Square", "Patan Durbar Square", "Bhaktapur Durbar Square", "Changunarayan", "Swayambhunath", "Boudhanath", "Pashupatinath"],
+    must: /durbar\s*square|swayambhu|boudha|bouddha|pashupatinath|changunarayan|bhaktapur|patan|nyatapola/i,
+  },
+  "bhaktapur-day-tour": {
+    terms: ["Bhaktapur Durbar Square", "Nyatapola temple", "Bhaktapur pottery square", "Changunarayan", "Bhaktapur Golden Gate"],
+    must: /bhaktapur|nyatapola|changunarayan|pottery|taumadhi|dattatreya|golden\s*gate/i,
+  },
+  "patan-day-tour": {
+    terms: ["Patan Durbar Square", "Krishna Mandir Patan", "Golden Temple Patan", "Patan Museum", "Lalitpur Nepal"],
+    must: /patan|lalitpur|krishna\s*mandir|hiranya|golden\s*temple|mahabouddha|kumbeshwar/i,
+  },
+  "chandragiri-cable-car-tour": {
+    terms: ["Chandragiri Nepal", "Chandragiri cable car", "Chandragiri hills Kathmandu", "Bhaleshwor Mahadev"],
+    must: /chandragiri|bhaleshwor|bhaleshwar|thankot/i,
+  },
+  "pharping-dakshinkali-tour": {
+    terms: ["Pharping Nepal", "Dakshinkali temple", "Asura cave Pharping", "Vajrayogini Pharping", "Sekh Narayan"],
+    must: /pharping|dakshinkali|dakshin\s*kali|asura|vajrayogini|sekh\s*narayan/i,
+  },
+  "secret-food-tour-in-kathmandu": {
+    terms: ["Ason Kathmandu", "Indra Chowk Kathmandu", "Newari food", "momo Nepal", "Kathmandu market street"],
+    must: /\bason\b|indra\s*chowk|newari|newar|momo|samay\s*baji|chatamari|bazaar\s*kathmandu|kathmandu\s*market/i,
+  },
+  "bungmati-khokana-village-tour": {
+    terms: ["Bungamati", "Khokana Nepal", "Rato Machhendranath", "Newar village Kathmandu"],
+    must: /bungamati|bungmati|khokana|machhendranath|machindranath|rudrayani/i,
+  },
+  "everest-mountain-flight": {
+    terms: ["Mount Everest aerial", "Everest from plane", "Himalaya from aircraft Nepal", "Lhotse Nuptse", "Cho Oyu"],
+    must: /everest|lhotse|nuptse|cho\s*oyu|makalu|himalaya|gaurishankar|langtang/i,
+  },
+  "pokhara-day-tour": {
+    terms: ["Phewa Lake", "World Peace Pagoda Pokhara", "Devi's Fall Pokhara", "Gupteshwor cave", "Tal Barahi temple"],
+    must: /phewa|pokhara|peace\s*pagoda|devi.?s\s*fall|gupteshwor|tal\s*barahi|begnas|sarangkot/i,
+  },
+  "pokhara-day-tour-with-sarangkot-sunrise": {
+    terms: ["Sarangkot sunrise", "Sarangkot Annapurna", "Phewa Lake sunrise", "Annapurna from Pokhara", "Machhapuchhre Pokhara"],
+    must: /sarangkot|phewa|pokhara|annapurna|machhapuchhre|machapuchare|dhaulagiri|sunrise/i,
+  },
+  "five-himalayan-viewpoints-tour-from-pokhara": {
+    terms: ["Sarangkot", "Begnas Lake", "Pumdikot", "World Peace Pagoda Pokhara", "Kahun Danda Pokhara"],
+    must: /sarangkot|begnas|pumdikot|peace\s*pagoda|kahun|phewa|pokhara|annapurna/i,
+  },
+  "hindu-pilgrimage-tour": {
+    terms: ["Pashupatinath", "Janaki Mandir Janakpur", "Muktinath temple", "Barahakshetra", "Devghat Nepal"],
+    must: /pashupatinath|janakpur|janaki|muktinath|barahakshetra|devghat|budhanilkantha|guhyeshwari|dakshinkali/i,
+  },
+  "buddhist-pilgrimage-tour-nepal": {
+    terms: ["Lumbini Maya Devi temple", "Ashoka pillar Lumbini", "Tilaurakot Kapilvastu", "Boudhanath", "Namobuddha", "Swayambhunath"],
+    must: /lumbini|maya\s*devi|ashok|tilaurakot|kapilvastu|namobuddha|namo\s*buddha|boudha|bouddha|swayambhu|ramagrama/i,
+  },
+  "muktinath-pilgrimage-tour": {
+    terms: ["Muktinath temple", "Jomsom Nepal", "Kagbeni", "Kali Gandaki", "Muktinath 108 taps"],
+    must: /muktinath|jomsom|kagbeni|kali\s*gandaki|jharkot|marpha|mustang/i,
+  },
+  "gosainkunda-holy-tour": {
+    terms: ["Gosaikunda", "Gosainkunda lake", "Dhunche Rasuwa", "Chandanbari Sing Gompa", "Langtang National Park"],
+    must: /gosaikunda|gosainkunda|dhunche|chandanbari|sing\s*gompa|lauribina|langtang|rasuwa/i,
+  },
+  "ghalegaun-ghanpokhara-village-tour": {
+    terms: ["Ghalegaun", "Ghale Gaun Lamjung", "Ghanpokhara", "Lamjung Nepal village", "Besisahar"],
+    must: /ghale\s*gaun|ghalegaun|ghanpokhara|lamjung|besisahar|gurung|marsyangdi/i,
+  },
+  "himalayan-village-tour": {
+    terms: ["Bandipur Nepal", "Ghalegaun", "Sirubari village", "Newar village Nepal", "Gurung village Nepal"],
+    must: /bandipur|ghale\s*gaun|ghalegaun|sirubari|syangja|lamjung|gurung|magar|newar/i,
+  },
+  "sirubari-village-tour": {
+    terms: ["Sirubari village Nepal", "Syangja Nepal", "Magar village Nepal", "Sirubari homestay"],
+    must: /sirubari|syangja|magar|andhikhola|walling/i,
+  },
+  "paragliding-in-pokhara": {
+    terms: ["paragliding Pokhara", "Sarangkot paragliding", "paraglider Phewa Lake", "paragliding Nepal"],
+    must: /paraglid|sarangkot|phewa|pokhara/i,
+  },
+  "zipline-in-pokhara-zip-flyer": {
+    terms: ["zipline Pokhara", "Sarangkot Nepal", "zip flyer Nepal", "Pokhara valley view"],
+    must: /zip\s*line|zipline|zip\s*flyer|sarangkot|pokhara|hyangja/i,
+  },
+  "bungee-jumping-in-pokhara": {
+    terms: ["Hemja Nepal", "Seti river gorge Nepal", "Pokhara valley Nepal", "Annapurna from Pokhara", "bungy jumping Nepal", "Seti Gandaki Pokhara"],
+    must: /bungee|bungy|hemja|pokhara|seti/i,
+  },
+  "ultra-light-flight-in-pokhara": {
+    terms: ["ultralight Pokhara", "microlight Nepal", "Pokhara aerial view", "Phewa Lake aerial"],
+    must: /ultralight|ultra\s*light|microlight|pokhara|phewa|sarangkot|annapurna/i,
+  },
+  "atv-adventure-tour-in-pokhara": {
+    terms: ["Pokhara valley Nepal", "Seti river Pokhara", "Hemja Nepal", "Pokhara countryside"],
+    must: /pokhara|seti|hemja|sarangkot|annapurna|machhapuchhre/i,
+  },
+  "seti-river-rafting-in-pokhara": {
+    terms: ["Seti river Nepal", "rafting Nepal", "Seti gorge Pokhara", "river rafting Pokhara"],
+    must: /seti|rafting|raft|pokhara|river/i,
+  },
+  "trishuli-river-rafting-1-day": {
+    terms: ["Trishuli river", "rafting Trishuli Nepal", "Trishuli gorge", "Charaudi Nepal"],
+    must: /trishuli|trisuli|rafting|raft|charaudi|kurintar|prithvi\s*highway/i,
+  },
+  "trishuli-river-rafting-2-days": {
+    terms: ["Trishuli river", "rafting Nepal camping", "Trishuli gorge", "river beach Nepal"],
+    must: /trishuli|trisuli|rafting|raft|charaudi|kurintar/i,
+  },
+  "chitwan-national-park-tour-3-days": {
+    terms: ["Chitwan National Park", "one horned rhinoceros Chitwan", "Rapti river Chitwan", "Tharu village Chitwan", "Chitwan jungle"],
+    must: /chitwan|rapti|rhino|tharu|sauraha|gharial|terai/i,
+  },
+  "chitwan-national-park-tour-4-days": {
+    terms: ["Chitwan National Park", "rhinoceros Nepal", "Chitwan elephant", "Bis Hazari Tal", "Chitwan grassland"],
+    must: /chitwan|rapti|rhino|tharu|sauraha|gharial|bis\s*hazari|terai/i,
+  },
+  "bardia-national-park-tour-4-days": {
+    terms: ["Bardia National Park", "Bardiya Nepal tiger", "Karnali river Nepal", "Bardia jungle"],
+    must: /bardia|bardiya|karnali|tiger|babai|thakurdwara/i,
+  },
+  "bardia-jungle-safari-tour-5-days": {
+    terms: ["Bardia National Park", "Bardiya tiger Nepal", "Karnali river", "Babai valley Nepal"],
+    must: /bardia|bardiya|karnali|tiger|babai|thakurdwara/i,
+  },
+  "annapurna-base-camp-helicopter-tour": {
+    terms: ["Annapurna Base Camp", "Annapurna Sanctuary", "Machhapuchhre", "Annapurna South"],
+    must: /annapurna|machhapuchhre|machapuchare|hiunchuli|sanctuary|modi\s*khola/i,
+  },
+  "everest-base-camp-helicopter-tour": {
+    terms: ["Kala Patthar", "Everest Base Camp", "Khumbu glacier", "Everest View Hotel", "Mount Everest"],
+    must: /kala\s*patthar|everest|khumbu|gorak|lhotse|nuptse|pumori|syangboche|namche/i,
+  },
+  "langtang-helicopter-tour-from-kathmandu": {
+    terms: ["Kyanjin Gompa", "Langtang valley", "Langtang Lirung", "Langtang National Park"],
+    must: /kyanjin|langtang|lirung|ganchenpo|rasuwa/i,
+  },
+  "muktinath-helicopter-tour-from-pokhara": {
+    terms: ["Muktinath temple", "Muktinath Nepal", "Kali Gandaki gorge", "Jomsom Mustang"],
+    must: /muktinath|jomsom|kagbeni|kali\s*gandaki|mustang|jharkot|nilgiri/i,
+  },
+  "muktinath-damodar-kunda-helicopter-tour": {
+    terms: ["Damodar Kunda", "Muktinath temple", "Damodar Himal", "Upper Mustang Nepal"],
+    must: /damodar|muktinath|mustang|jomsom|kagbeni|kali\s*gandaki/i,
+  },
+  "lukla-to-kathmandu-helicopter-flight": {
+    terms: ["Lukla airport", "Tenzing Hillary Airport", "Lukla Nepal", "Dudh Koshi valley"],
+    must: /lukla|tenzing|hillary\s*airport|dudh\s*koshi|khumbu|phakding/i,
+  },
+  "kathmandu-to-lukla-helicopter-flight": {
+    terms: ["Lukla airport", "Tenzing Hillary Airport", "Lukla Nepal", "Khumbu valley"],
+    must: /lukla|tenzing|hillary\s*airport|dudh\s*koshi|khumbu|phakding/i,
+  },
+  "gorakshep-to-kathmandu-helicopter-flight": {
+    terms: ["Gorakshep", "Everest Base Camp", "Khumbu glacier", "Kala Patthar"],
+    must: /gorak|everest|khumbu|kala\s*patthar|pumori|lobuche|pheriche/i,
+  },
+  "gorakshep-to-lukla-helicopter-flight": {
+    terms: ["Gorakshep", "Khumbu glacier", "Lobuche Nepal", "Everest Base Camp"],
+    must: /gorak|everest|khumbu|kala\s*patthar|lobuche|pheriche|lukla/i,
+  },
+  "kalapatthar-to-kathmandu-helicopter-flight": {
+    terms: ["Kala Patthar", "Everest from Kala Patthar", "Khumbu glacier", "Pumori"],
+    must: /kala\s*patthar|everest|khumbu|gorak|pumori|nuptse|lhotse/i,
+  },
+  "namche-to-kathmandu-helicopter-flight": {
+    terms: ["Namche Bazaar", "Namche Nepal", "Khumbu Namche", "Kongde Ri"],
+    must: /namche|khumbu|kongde|thamserku|syangboche|dudh\s*koshi/i,
+  },
 };
 
 const REJECT =
@@ -190,6 +389,7 @@ async function search(term: string) {
 async function main() {
   const found: Record<string, any[]> = existsSync(OUT) ? JSON.parse(readFileSync(OUT, "utf8")) : {};
   for (const [slug, cfg] of Object.entries(TARGETS)) {
+    if (ONLY && !ONLY.has(slug)) continue;
     if (found[slug]?.length >= 7) { console.log(`${slug} — already have ${found[slug].length}`); continue; }
     const seen = new Set<string>();
     const keep: any[] = [];

@@ -100,7 +100,10 @@ export async function generateMetadata(): Promise<Metadata> {
       follow: true,
     },
     verification: {
-      google: "3g8ld_Z_hk7Fz6wMkMzRKvDHlDN1WhudtQdb0yi9j54",
+      google: [
+        "3g8ld_Z_hk7Fz6wMkMzRKvDHlDN1WhudtQdb0yi9j54",
+        "BZ1rmPBIC5KctAkorFrZiXz6qcSZJJ3kuKcZQzz9iZw",
+      ],
     },
   };
 }
