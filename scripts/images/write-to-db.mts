@@ -20,9 +20,12 @@ import { prisma } from "../../lib/prisma";
 const IN = process.argv[2] ?? "/tmp/uploaded.json";
 const APPLY = process.argv.includes("--apply");
 
-/** Treks and tours need different wording — "trekking route" suits neither a
- * Kathmandu day tour nor a helicopter flight. */
-type Noun = "trek" | "tour";
+/** Treks, tours and climbs need different wording — "trekking route" suits
+ * neither a Kathmandu day tour nor a helicopter flight, and a climbing party on
+ * Ama Dablam is not "trekkers". Climbing splits in two because the trips
+ * themselves do: a 6,000 m peak is sold as a climb, an 8,000 m as an
+ * expedition, and the copy on each page already uses that word. */
+type Noun = "trek" | "tour" | "climb" | "expedition" | "trip";
 
 /** Named features worth calling out in alt text, longest first so phrases win. */
 const FEATURES = [
@@ -38,10 +41,11 @@ const FEATURES = [
   "Namche Bazaar", "Kyanjin Gompa", "Mu Gompa", "Rachen Gompa", "Tengboche",
   "Dingboche", "Pheriche", "Lobuche", "Gorakshep", "Machhermo", "Khumjung",
   "Lukla", "Phakding", "Monjo", "Thame", "Dole", "Chhukung", "Dzongla",
-  "Lo Manthang", "Kagbeni", "Jomsom", "Marpha", "Muktinath", "Chhoser", "Ghami",
+  "Lo Manthang", "LoManthang", "Tsum Valley", "Upper Mustang", "Kagbeni", "Jomsom", "Marpha",
+  "Muktinath", "Chhoser", "Ghami",
   "Charang", "Dhakmar", "Ghiling", "Chele", "Chhusang", "Syangboche",
   "Manang", "Chame", "Pisang", "Besisahar", "Yak Kharka", "Thorong Phedi",
-  "Jhinu Danda", "Chhomrong", "Sinuwa", "Bamboo", "Deurali", "Ghandruk",
+  "Jhinu Danda", "Jhinudanda", "Chhomrong", "Sinuwa", "Bamboo", "Deurali", "Ghandruk",
   "Ghorepani", "Tadapani", "Kande", "Forest Camp", "Low Camp", "High Camp",
   "Sama Gaun", "Samdo", "Bimthang", "Namrung", "Lho", "Shyala", "Jagat",
   "Machha Khola", "Chumling", "Chekampar", "Lokpa", "Philim", "Nile",
@@ -91,6 +95,14 @@ const FEATURES = [
   "Sauraha", "Thakurdwara", "Rapti River", "Karnali River", "Trishuli River",
   "Seti River", "Babai Valley", "Ason", "Indra Chowk", "Thamel", "Hemja",
   "Thankot", "Bhairahawa", "Jharkot", "Everest View Hotel",
+  // Places and glaciers on the climbing approaches, added with the Climbing
+  // category. The base camps and high camps are already covered by the
+  // "Base Camp" suffix rule in kindOf.
+  "Khumbu Icefall", "Khumbu Glacier", "Ngozumpa Glacier", "Imja Glacier",
+  "Barun Glacier", "Western Cwm", "South Col", "Lhotse Face", "Hillary Step",
+  "Nangkartshang", "Chhukung Ri", "Amphu Lapcha", "Mera La", "Sherpani Col",
+  "Pangboche", "Deboche", "Khare", "Thagnak", "Kothe", "Chhutanga",
+  "Dharamsala", "Bimtang", "Dhampus Pass",
 ];
 
 /** The animals a Chitwan or Bardia safari is actually sold on. Naming the one
@@ -152,6 +164,17 @@ const PEAKS = [
   "Baruntse", "Chamlang", "Tengi Ragi Tau", "Pachermo", "Yalung Ri",
   "Langshisa Ri", "Jugal Himal", "Phurbi Chyachu", "Himlung Himal",
   "Ngadi Chuli", "Kanjiroba", "Saribung", "Damodar Himal", "Nilgiri North",
+  // Peaks the Climbing category sells. Commons spells several of them
+  // differently from the site — Imja Tse for Island Peak, Parchamo for
+  // Pachermo, Kongde Ri for Kwangde — and SYNONYM below folds those together
+  // so one mountain is never listed twice in a single caption.
+  "Island Peak", "Imja Tse", "Mera Peak", "Lobuche East", "Lobuche Peak",
+  "Pokalde", "Kongma Tse", "Kyajo Ri", "Kongde Ri", "Kwangde Ri",
+  "Kusum Kangguru", "Kusum Kanguru", "Parchamo", "Nirekha", "Phari Lapcha",
+  "Cholatse", "Taboche", "Lingtren", "Khumbutse", "Changtse", "Nangpai Gosum",
+  "Chulu Far East", "Chulu East", "Chulu West", "Chulu", "Pisang Peak",
+  "Tharpu Chuli", "Singu Chuli", "Dhampus Peak", "Larkya Peak", "Samdo Peak",
+  "Bokta", "Abi Peak", "Gyalzen Peak", "Kanjirowa", "Api Himal", "Putha",
 ];
 
 /** Different names for one mountain — listing both reads as two peaks. */
@@ -168,6 +191,17 @@ const SYNONYM: Record<string, string> = {
   bungmati: "Bungamati",
   lalitpur: "Patan",
   bardiya: "Bardia",
+  "imja tse": "Island Peak",
+  "lobuche peak": "Lobuche East",
+  parchamo: "Pachermo",
+  "kusum kangguru": "Kusum Kanguru",
+  "kongde ri": "Kwangde Ri",
+  kongde: "Kwangde Ri",
+  kanjirowa: "Kanjiroba",
+  "api himal": "Api",
+  putha: "Putha Hiunchuli",
+  lomanthang: "Lo Manthang",
+  jhinudanda: "Jhinu Danda",
 };
 
 const ALL_NAMES = [...FEATURES, ...PEAKS].sort((a, b) => b.length - a.length);
@@ -177,21 +211,25 @@ const PEAK_SET = new Set(PEAKS.map((p) => p.toLowerCase()));
 function cleanName(file: string): string {
   return file
     .replace(/\.[a-z0-9]+$/i, "")
+    .replace(/([a-z])([A-Z])/g, "$1 $2")                 // "TsumValleyGorkha"
     .replace(/\b(19|20)\d{2}(\d{4})?\b/g, " ")          // years and yyyymmdd stamps
     .replace(/\b(IMG|DSC|DSCN|P|ZH|IMGP)[-_ ]?\d+\b/gi, " ")
     .replace(/\b(cropped|unedited|edited|retouched|stitch|panorama of|version)\b/gi, " ")
     .replace(/\b[a-z]{2,4}\d{3,}\b/gi, " ")             // camera/photographer codes
     .replace(/([a-z]{3,})\d{3,}/gi, "$1 ")               // "Trisuli0168" -> "Trisuli"
+    .replace(/([a-z]{4,})\d{1,2}(?![a-z0-9])/gi, "$1 ")  // "Panorama1" -> "Panorama"
+    // Panoramio trip-diary prefixes: "13th Day of the hike. Taksindu ..."
+    .replace(/^\s*\d+\s*(st|nd|rd|th)?\s*Day\b[^.]*\.\s*/i, "")
     // Photo-contest and archive tags.
-    .replace(/\b(WLV|WLM|WLE|WLA)\b/g, " ")
+    .replace(/\b(WLV|WLM|WLE|WLA|VDC|KTWR)\b/g, " ")
     // German and French words from the big Commons donations read as nonsense
     // in an English caption.
-    .replace(/\b(Morgendaemmerung|Morgend[aä]mmerung|Abendd[aä]mmerung|Sonnenaufgang|Sonnenuntergang|Berge|Blick|Aussicht|Gipfel|Kloster|Br[uü]cke|Dorf|Landschaft|Tempel|Kirche|vue|coucher|lever de soleil|paysage)\b/gi, " ")
+    .replace(/\b(Morgendaemmerung|Morgend[aä]mmerung|Abendd[aä]mmerung|Sonnenaufgang|Sonnenuntergang|Berge|Blick|Aussicht|Gipfel|Kloster|Br(?:ue|[uü])cke|Dorf|Landschaft|Tempel|Kirche|vue|coucher|lever de soleil|paysage)\b/gi, " ")
     // Where the photo was hosted is not part of the scene. These leak straight
     // into a caption otherwise ("An approach to the pass tashi laptse panoramio").
     .replace(/\b(panoramio|flickr|geograph|wikimedia|commons|gje)\b/gi, " ")
     // Bare frame numbers ("Tukuche Village-0662"), but not an altitude ("4186m").
-    .replace(/(?<![a-z0-9])\d{3,6}(?![a-z0-9])/gi, " ")
+    .replace(/(?<![a-z0-9])\d{2,6}(?![a-z0-9])/gi, " ")
     .replace(/[_"']/g, " ")
     .replace(/\([^)]*\)/g, " ")
     .replace(/[-–—]/g, " ")
@@ -262,7 +300,7 @@ const list = (items: string[]) =>
 /** What kind of thing a name refers to, so the wording suits it. */
 type Kind =
   | "peak" | "lake" | "pass" | "viewpoint" | "basecamp" | "monastery" | "place"
-  | "temple" | "square" | "park" | "river";
+  | "temple" | "square" | "park" | "river" | "glacier";
 
 /** Tour sites whose type cannot be read off the name. */
 const KIND_BY_NAME: Record<string, Kind> = {
@@ -288,6 +326,7 @@ function kindOf(name: string, isPeak: boolean): Kind {
   if (isPeak) return "peak";
   const mapped = KIND_BY_NAME[name.toLowerCase()];
   if (mapped) return mapped;
+  if (/\bGlacier$|Icefall$|\bCwm$|\bCol$|\bFace$/i.test(name)) return "glacier";
   if (/\bLake$|^Tsho|Pokhari/i.test(name)) return "lake";
   if (/\bRiver$|\bKhola$|Gandaki$|Koshi$|Kosi$/i.test(name)) return "river";
   if (/\bLa( Pass)?$|\bPass$/i.test(name)) return "pass";
@@ -303,9 +342,12 @@ function kindOf(name: string, isPeak: boolean): Kind {
 function shortTrek(title: string): string {
   return title
     .replace(/\s*[-–—|].*$/, "")
-    .replace(/\s+from (Pokhara|Kathmandu)\b/i, "")
-    .replace(/\s+Trek(king)?\b/i, "")
-    .replace(/\s+Tour\b/i, "")
+    .replace(/\s+with Helicopter Return\b/i, "")
+    .replace(/\s+from (Pokhara|Kathmandu|Chhukung)\b/i, "")
+    .replace(/^Short\s+/i, "")
+    .replace(/\s+Trek(king)?\b/gi, "")
+    .replace(/\s+Tour\b/gi, "")
+    .replace(/\s+(Climbing|Expedition|Climb)\b/gi, "")
     .replace(/,?\s+in Nepal$|,\s*Nepal$/i, "")
     .replace(/\s{2,}/g, " ")
     .trim();
@@ -321,8 +363,10 @@ function altFor(file: string, trekTitle: string, role: string, slot: number, nou
   const peaks = subs.filter((s) => s.isPeak).map((s) => s.name);
   const places = dropCity(subs.filter((s) => !s.isPeak).map((s) => s.name));
   const trek = shortTrek(trekTitle);
-  const isTour = noun === "tour";
-  const route = isTour ? "sightseeing route" : "trekking route";
+  const isTour = noun === "tour" || noun === "trip";
+  const isClimb = noun === "climb" || noun === "expedition";
+  const route =
+    noun === "trip" ? "route" : isTour ? "sightseeing route" : isClimb ? "climbing route" : "trekking route";
   const primary = places[0] ?? peaks[0];
   const kind = primary ? kindOf(primary, !places.length) : "place";
 
@@ -330,17 +374,31 @@ function altFor(file: string, trekTitle: string, role: string, slot: number, nou
     const views = [
       `${list(peaks)} seen from ${list(places)} on the ${trek} ${noun} in Nepal.`,
       `The view of ${list(peaks)} from ${list(places)}, ${trek} ${noun}, Nepal.`,
-      `${isTour ? "A view" : "Trekkers' view"} of ${list(peaks)} above ${list(places)} in the Nepal Himalaya.`,
+      `${isTour ? "A view" : isClimb ? "Climbers' view" : "Trekkers' view"} of ${list(peaks)} above ${list(places)} in the Nepal Himalaya.`,
     ];
     return views[slot % views.length];
   }
 
   if (peaks.length) {
-    const views = [
-      `${list(peaks)} rising above the ${trek} ${route} in Nepal.`,
-      `The snow-covered summit of ${list(peaks)} in the Nepal Himalaya.`,
-      `${list(peaks)} seen ${isTour ? `on the ${trek} tour` : `from the trail on the ${trek} trek`}.`,
-    ];
+    // A climb is named after its mountain, so the default phrasing says the
+    // name twice: "Ama Dablam rising above the Ama Dablam climbing route".
+    // Where the title already contains the peak, the sentence drops it.
+    const named = peaks.some((pk) => trek.toLowerCase().includes(pk.toLowerCase()));
+    const views = named
+      ? [
+          `${list(peaks)} rising above the ${route} in the Nepal Himalaya.`,
+          `The snow-covered summit of ${list(peaks)} in Nepal.`,
+          `${list(peaks)} seen from the ${route} in Nepal.`,
+        ]
+      : [
+          `${list(peaks)} rising above the ${trek} ${route} in Nepal.`,
+          `The snow-covered summit of ${list(peaks)} in the Nepal Himalaya.`,
+          `${list(peaks)} seen ${
+            isTour ? `on the ${trek} ${noun}`
+            : isClimb ? `from the route on the ${trek} ${noun}`
+            : `from the trail on the ${trek} trek`
+          }.`,
+        ];
     return views[slot % views.length];
   }
 
@@ -365,8 +423,8 @@ function altFor(file: string, trekTitle: string, role: string, slot: number, nou
       const on = ["river", "lake"].includes(kind) ? "on" : "at";
       const shots = [
         `${activity} ${on} ${where}, Nepal.`,
-        `${activity} ${on} ${where} on the ${trek} tour in Nepal.`,
-        `${activity} on the ${trek} tour, ${where}, Nepal.`,
+        `${activity} ${on} ${where} on the ${trek} ${noun} in Nepal.`,
+        `${activity} on the ${trek} ${noun}, ${where}, Nepal.`,
       ];
       return role === "hero" ? shots[0] : shots[slot % shots.length];
     }
@@ -383,8 +441,11 @@ function altFor(file: string, trekTitle: string, role: string, slot: number, nou
     }
     const byKind: Record<Kind, string[]> = {
       lake: isTour ? [
-        `The water of ${where} on the ${trek} tour in Nepal.`,
-        `${where}, seen on the ${trek} tour in Nepal.`,
+        `The water of ${where} on the ${trek} ${noun} in Nepal.`,
+        `${where}, seen on the ${trek} ${noun} in Nepal.`,
+      ] : isClimb ? [
+        `The turquoise water of ${where} on the ${trek} ${noun} in Nepal.`,
+        `${where} held in a bowl of bare rock below the peaks, Nepal.`,
       ] : [
         `The turquoise water of ${where} on the ${trek} trek in Nepal.`,
         `${where} held in a bowl of bare rock, ${trek} trek, Nepal.`,
@@ -400,8 +461,11 @@ function altFor(file: string, trekTitle: string, role: string, slot: number, nou
         `${where} and the ridges around it, ${trek} ${noun}, Nepal.`,
       ],
       basecamp: isTour ? [
-        `${where} ringed by Himalayan peaks, seen on the ${trek} tour in Nepal.`,
+        `${where} ringed by Himalayan peaks, seen on the ${trek} ${noun} in Nepal.`,
         `The peaks above ${where} in the Nepal Himalaya.`,
+      ] : isClimb ? [
+        `${where} ringed by Himalayan peaks on the ${trek} ${noun} in Nepal.`,
+        `Expedition tents on the glacial moraine at ${where}, Nepal Himalaya.`,
       ] : [
         `${where} ringed by Himalayan peaks on the ${trek} trek in Nepal.`,
         `Teahouses and glacial moraine at ${where}, Nepal Himalaya.`,
@@ -416,9 +480,13 @@ function altFor(file: string, trekTitle: string, role: string, slot: number, nou
         `Prayer flags and monastery buildings at ${where}, Nepal.`,
       ],
       place: isTour ? [
-        `${where}, one of the stops on the ${trek} tour in Nepal.`,
+        `${where}, one of the stops on the ${trek} ${noun} in Nepal.`,
         `Streets and local life at ${where} in Nepal.`,
-        `${where} seen on the ${trek} tour, Nepal.`,
+        `${where} seen on the ${trek} ${noun}, Nepal.`,
+      ] : isClimb ? [
+        `Stone houses and mountain scenery at ${where} on the walk in to the ${trek} ${noun}.`,
+        `The approach trail passing through ${where} in the Nepal Himalaya.`,
+        `Teahouses and terraced hillsides at ${where}, ${trek} ${noun}, Nepal.`,
       ] : [
         `Stone houses and mountain scenery at ${where} on the ${trek} trek.`,
         `The trail passing through ${where} in the Nepal Himalaya.`,
@@ -438,6 +506,11 @@ function altFor(file: string, trekTitle: string, role: string, slot: number, nou
         `Grassland and sal forest in ${where}, southern Nepal.`,
         `Wildlife habitat in ${where} on the ${trek} ${noun}.`,
         `Jungle scenery in ${where}, Nepal.`,
+      ],
+      glacier: [
+        `The broken ice of ${where} on the ${trek} ${noun} in Nepal.`,
+        `${where} below the peaks of the Nepal Himalaya.`,
+        `Crevasses and seracs on ${where}, ${trek} ${noun}, Nepal.`,
       ],
       peak: [`${where} in the Nepal Himalaya.`],
     };
@@ -460,9 +533,13 @@ function altFor(file: string, trekTitle: string, role: string, slot: number, nou
   }
 
   const generic = isTour ? [
-    `Scenery on the ${trek} tour in Nepal.`,
+    `Scenery on the ${trek} ${noun} in Nepal.`,
     `A view along the ${trek} ${route} in Nepal.`,
-    `Landscape seen on the ${trek} tour, Nepal.`,
+    `Landscape seen on the ${trek} ${noun}, Nepal.`,
+  ] : isClimb ? [
+    `Himalayan mountain scenery on the ${trek} ${noun} in Nepal.`,
+    `Snow peaks and glacier along the ${trek} ${route}, Nepal.`,
+    `High mountain landscape on the ${trek} ${noun} in the Nepal Himalaya.`,
   ] : [
     `Himalayan mountain scenery on the ${trek} trek in Nepal.`,
     `Snow peaks and open trail on the ${trek} trekking route, Nepal.`,
@@ -480,7 +557,7 @@ function captionFor(file: string, trekTitle: string, slot: number, noun: Noun = 
   const kind = primary ? kindOf(primary, !places.length) : "place";
 
   const animal = places.length && kindOf(places[0], false) === "park" ? wildlifeIn(file) : undefined;
-  const activity = noun === "tour" && places.length ? activityIn(file) : undefined;
+  const activity = (noun === "tour" || noun === "trip") && places.length ? activityIn(file) : undefined;
   const who = places.length ? peopleIn(file) : undefined;
 
   let sentence: string;
@@ -514,6 +591,7 @@ function captionFor(file: string, trekTitle: string, slot: number, noun: Noun = 
       square: slot % 2 ? `Temples around ${where}.` : `${where}.`,
       park: slot % 2 ? `Inside ${where}.` : `${where}.`,
       river: slot % 2 ? `Along the ${where}.` : `The ${where}.`,
+      glacier: [`On ${where}.`, `The ice of ${where}.`, `${where}.`][slot % 3],
       peak: `${where}.`,
     };
     sentence = byKind[kind];
@@ -542,7 +620,16 @@ async function main() {
     const trek = bySlug.get(rec.slug);
     if (!trek) { errors.push(`no trek with slug ${rec.slug}`); continue; }
     if (rec.images.length < 7) { errors.push(`[${rec.slug}] only ${rec.images.length} images — skipped`); continue; }
-    const noun: Noun = trek.category?.slug === "tours" ? "tour" : "trek";
+    // A climb and an expedition are sold under those words on the page itself,
+    // and the title is what says which: "Ama Dablam Expedition" against
+    // "Island Peak Climbing". Matching it keeps the alt text in the same
+    // vocabulary as the copy beside it.
+    const noun: Noun =
+      trek.category?.slug === "tours" ? "tour"
+      : trek.category?.slug === "activities" ? "trip"
+      : trek.category?.slug === "climbing"
+        ? (/\bexpedition\b/i.test(trek.title) ? "expedition" : "climb")
+        : "trek";
 
     const hero = rec.images.find((i: any) => i.role === "hero") ?? rec.images[0];
     const gallery = rec.images.filter((i: any) => i !== hero).slice(0, 6);

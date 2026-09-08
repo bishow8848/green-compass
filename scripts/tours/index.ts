@@ -7,6 +7,7 @@ import { helicopterTours } from "./helicopter";
 import { pilgrimageTours } from "./pilgrimage";
 import { villageTours } from "./village";
 import { wildlifeTours } from "./wildlife";
+import { valleyRimTours } from "./valley-rim";
 
 /**
  * Every tour, in region order. A slug already in the database is skipped by
@@ -21,4 +22,5 @@ export const ALL_TOURS: Tour[] = [
   ...adventureTours,
   ...kathmanduDayTours,
   ...pokharaDayTours,
+  ...valleyRimTours,
 ];

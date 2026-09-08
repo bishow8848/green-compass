@@ -7,10 +7,20 @@
  * mapped to the categories that cover the ground it actually walks.
  *
  *   npx tsx scripts/images/commons-categories.mts [out.json]
+ *   npx tsx scripts/images/commons-categories.mts [out.json] --only=slug-a,slug-b
+ *
+ * --only=<a,b,c> restricts the run to those slugs. Every trek and tour already
+ * carries its images, so re-fetching their categories costs several hundred
+ * Commons requests to produce a manifest nothing downstream reads.
  */
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 
-const OUT = process.argv[2] ?? "/tmp/commons-cat-candidates.json";
+const args = process.argv.slice(2);
+const OUT = args.find((a) => !a.startsWith("--")) ?? "/tmp/commons-cat-candidates.json";
+const ONLY = new Set(
+  (args.find((a) => a.startsWith("--only="))?.slice(7) ?? "")
+    .split(",").map((v) => v.trim()).filter(Boolean),
+);
 const API = "https://commons.wikimedia.org/w/api.php";
 const UA = "MardiTreks-ContentBot/1.0 (trek site image sourcing) node";
 
@@ -23,7 +33,7 @@ const CATEGORIES: Record<string, string[]> = {
   "rolwaling-valley-trek": ["Rolwaling", "Tsho Rolpa", "Gaurishankar", "Thame", "Namche Bazaar", "Khumbu"],
 
   "annapurna-circuit-trek": ["Annapurna Circuit", "Thorong La", "Manang", "Tilicho Lake", "Muktinath", "Annapurna"],
-  "annapurna-cicuit-with-tilicho-lake-trek": ["Tilicho Lake", "Annapurna Circuit", "Thorong La", "Manang", "Muktinath"],
+  "annapurna-circuit-with-tilicho-lake-trek": ["Tilicho Lake", "Annapurna Circuit", "Thorong La", "Manang", "Muktinath"],
   "short-annapurna-circuit-trek": ["Annapurna Circuit", "Thorong La", "Manang", "Muktinath", "Annapurna"],
   "tilicho-lake-trek": ["Tilicho Lake", "Manang", "Annapurna Circuit", "Annapurna"],
   "short-tilicho-lake-trek": ["Tilicho Lake", "Manang", "Annapurna Circuit", "Annapurna"],
@@ -61,7 +71,7 @@ const CATEGORIES: Record<string, string[]> = {
   "kanchenjunga-circuit-trek": ["Kangchenjunga", "Taplejung District", "Ghunsa"],
   "Kanchenjunga-north-base-camp-trek": ["Kangchenjunga", "Taplejung District", "Ghunsa"],
   "kanchenjunga-south-base-camp-trek": ["Kangchenjunga", "Taplejung District"],
-  "makalu-base-camp-trek": ["Makalu", "Makalu Barun National Park", "Sankhuwasabha District"],
+  "makalu-base-camp-trek": ["Makalu", "Barun Valley", "Makalu Barun National Park", "Sankhuwasabha District"],
   "mundum-trek": ["Khotang District", "Bhojpur District", "Solukhumbu District"],
 
   "lower-dolpo-trek": ["Dolpo", "Phoksundo Lake", "Shey Phoksundo National Park", "Dolpa District"],
@@ -89,6 +99,123 @@ const CATEGORIES: Record<string, string[]> = {
   "badimalika-trek": ["Bajura District", "Saipal", "Sudurpashchim Province", "Karnali Province"],
   "ramaroshan-lakes-trek": ["Achham District", "Sudurpashchim Province", "Karnali Province"],
   "red-panda-trail-trek": ["Ilam District", "Panchthar District", "Red panda", "Sandakphu", "Kangchenjunga"],
+
+  // --- the hand-written reference treks, re-sourced off their original
+  // hand-uploaded photos. Machhapuchchhre is the spelling Commons files the
+  // Fishtail under; "Machapuchare", used by the older entries above, is empty.
+  "annapurna-base-camp-trek": ["Annapurna Base Camp", "Machhapuchchhre", "Annapurna South", "Hiunchuli", "Modi Khola", "Annapurna Conservation Area"],
+  "annapurna-base-camp-trek-from-pokhara": ["Annapurna Base Camp", "Machhapuchchhre", "Annapurna South", "Hiunchuli", "Modi Khola"],
+  "abc-trek-nepal": ["Annapurna Base Camp", "Machhapuchchhre", "Annapurna South", "Hiunchuli", "Annapurna Conservation Area"],
+  "annapurna-base-camp-trek-with-ghorepani-poonhill-trek": ["Annapurna Base Camp", "Poon Hill", "Ghorepani", "Ghandruk", "Machhapuchchhre", "Annapurna South"],
+  "annapurna-base-camp-with-ghorepani-poonhill-from-pokhara": ["Annapurna Base Camp", "Poon Hill", "Ghorepani", "Ghandruk", "Machhapuchchhre", "Hiunchuli"],
+  "mardi-himal-trek-with-annapurna-base-camp": ["Mardi Himal", "Machhapuchchhre", "Annapurna Base Camp", "Annapurna South", "Annapurna Conservation Area"],
+  "manaslu-circuit-trek": ["Manaslu", "Larkya La", "Samagaun", "Manaslu Conservation Area", "Gorkha District"],
+  "tsum-valley-trek": ["Tsum Valley", "Manaslu Conservation Area", "Manaslu", "Gorkha District"],
+  "tsum-valley-and-manaslu-circuit-trek": ["Tsum Valley", "Manaslu", "Larkya La", "Samagaun", "Manaslu Conservation Area", "Gorkha District"],
+
+  // --- products added to fill the ranking gaps: new treks, peaks and tours ---
+  "everest-base-camp-trek-with-helicopter-return": ["Kala Patthar", "Khumbu Glacier", "Mount Everest", "Dingboche", "Tengboche", "Namche Bazaar"],
+  "everest-base-camp-trek-with-gokyo-lakes-and-cho-la-pass": ["Gokyo", "Ngozumpa Glacier", "Kala Patthar", "Khumbu Glacier", "Machhermo", "Namche Bazaar"],
+  "nar-phu-valley-trek": ["Manang District, Nepal", "Manang", "Pisang Peak", "Annapurna Conservation Area"],
+  "pikey-peak-trek": ["Numbur", "Solukhumbu District", "Junbesi", "Mount Everest"],
+  "rara-lake-trek": ["Rara Lake", "Rara National Park", "Mugu District", "Jumla District"],
+  "yala-peak-climbing": ["Kyanjin Gompa", "Langtang Lirung", "Langtang National Park", "Langtang"],
+  "naya-kanga-peak-climbing": ["Kyanjin Gompa", "Langtang Lirung", "Langtang National Park", "Langtang"],
+  "paldor-peak-climbing": ["Ganesh Himal", "Rasuwa District", "Gatlang", "Langtang National Park"],
+  "nagarkot-sunrise-tour": ["Nagarkot", "Changunarayan", "Bhaktapur Durbar Square", "Bhaktapur"],
+  "dhulikhel-namobuddha-hike": ["Dhulikhel", "Panauti", "Namobuddha", "Kavrepalanchok District"],
+  "lumbini-tour": ["Lumbini", "Tilaurakot", "Rupandehi District"],
+
+  // --- the Activities category ---
+  // Several rivers and hills have no Commons category of their own, so these
+  // fall back to the district, the activity, or the range the trip looks at.
+  "rafting-in-kali-gandaki-river": ["Whitewater rafting", "Rafting in Nepal", "Myagdi District", "Dhaulagiri"],
+  "rafting-in-marsyangdi-river": ["Marsyangdi River", "Whitewater rafting", "Rafting in Nepal", "Lamjung District"],
+  "rafting-in-bhote-koshi-river": ["Whitewater rafting", "Rafting in Nepal", "Sindhupalchok District"],
+  "bungee-jump-in-bhote-koshi": ["Bungee jumping", "Sindhupalchok District"],
+  "bungee-jump-in-kushma": ["Bungee jumping", "Parbat District"],
+  "zip-flyer-in-kushma": ["Parbat District", "Bungee jumping"],
+  "cross-country-paragliding-in-pokhara": ["Paragliding in Nepal", "Phewa Lake", "Machhapuchchhre"],
+  "parahawking-in-pokhara": ["Parahawking", "Paragliding in Nepal", "Phewa Lake"],
+  "mountain-flight-from-pokhara": ["Machhapuchchhre", "Annapurna I", "Dhaulagiri", "Annapurna South"],
+  "pokhara-helicopter-sightseeing-tour": ["Phewa Lake", "Machhapuchchhre", "Annapurna South", "Annapurna Conservation Area"],
+  "1-night-2-days-chitwan-trip": ["Chitwan National Park", "Sauraha", "Rhinoceros unicornis"],
+  "2-night-3-days-bardia-tour": ["Bardiya National Park", "Rhinoceros unicornis"],
+  "koshi-tappu-wildlife-reserve-tour": ["Koshi Tappu Wildlife Reserve", "Bubalus arnee"],
+  "bird-watching-in-kathmandu-valley": ["Birds of Nepal", "Lalitpur District"],
+  "bird-watching-in-chitwan-national-park": ["Birds of Nepal", "Chitwan National Park", "Sauraha"],
+  "bird-watching-in-pokhara-lakes": ["Begnas Lake", "Phewa Lake", "Rupa Lake", "Birds of Nepal"],
+
+  // --- climbing peaks and expeditions ---
+  // Every category below was checked against the Commons API for a non-empty
+  // file listing before it was written down. Several peaks the site sells have
+  // no category of their own — Chulu, Dhampus Peak, Tharpu Chuli, Saribung —
+  // so those fall back to the valley or the massif they stand in, which is the
+  // ground the trip actually walks.
+  "ama-dablam-expedition": ["Ama Dablam", "Dingboche", "Tengboche", "Namche Bazaar", "Khumbu"],
+  "short-ama-dablam-expedition": ["Ama Dablam", "Dingboche", "Namche Bazaar", "Khumbu"],
+  "ama-dablam-expedition-with-helicopter-return": ["Ama Dablam", "Tengboche", "Dingboche", "Namche Bazaar"],
+  "ama-dablam-expedition-and-island-peak-climbing": ["Ama Dablam", "Island Peak", "Dingboche", "Namche Bazaar"],
+  "everest-expedition": ["Mount Everest", "Kala Patthar", "Khumbu Glacier", "Lhotse", "Namche Bazaar"],
+  "everest-and-lhotse-expedition": ["Mount Everest", "Lhotse", "Kala Patthar", "Khumbu Glacier", "Namche Bazaar"],
+  "lhotse-expedition": ["Lhotse", "Mount Everest", "Kala Patthar", "Khumbu Glacier", "Namche Bazaar"],
+  "pumori-expedition": ["Pumori", "Kala Patthar", "Khumbu Glacier", "Mount Everest", "Namche Bazaar"],
+  "cholatse-expedition": ["Cholatse", "Gokyo", "Namche Bazaar", "Tengboche", "Khumbu"],
+  "thamserku-expedition": ["Thamserku", "Namche Bazaar", "Tengboche", "Khumbu"],
+  "island-peak-climbing": ["Island Peak", "Imja Tse", "Dingboche", "Tengboche", "Namche Bazaar"],
+  "island-peak-climbing-from-chhukung": ["Island Peak", "Imja Tse", "Dingboche", "Namche Bazaar"],
+  "island-peak-climbing-with-helicopter-return": ["Island Peak", "Imja Tse", "Dingboche", "Namche Bazaar"],
+  "lobuche-east-peak-climbing": ["Lobuche", "Kala Patthar", "Dingboche", "Khumbu Glacier", "Namche Bazaar"],
+  "lobuche-peak-and-island-peak-climbing": ["Lobuche", "Island Peak", "Kala Patthar", "Dingboche", "Namche Bazaar"],
+  "pokalde-peak-climbing": ["Pokalde", "Kala Patthar", "Dingboche", "Khumbu Glacier", "Namche Bazaar"],
+  "pokalde-island-and-lobuche-climbing": ["Pokalde", "Island Peak", "Lobuche", "Kala Patthar", "Dingboche"],
+  "three-peaks-climbing-island-lobuche-kyajo-ri": ["Island Peak", "Lobuche", "Kyajo Ri", "Namche Bazaar", "Khumbu"],
+  "kyajo-ri-peak-climbing": ["Kyajo Ri", "Namche Bazaar", "Thame", "Khumbu"],
+  "kwangde-peak-climbing": ["Kongde Ri", "Namche Bazaar", "Thame", "Khumbu"],
+  "kusum-kanguru-peak-climbing": ["Kusum Kangguru", "Lukla", "Namche Bazaar", "Khumbu"],
+  "nirekha-peak-climbing": ["Nirekha", "Gokyo", "Cholatse", "Namche Bazaar"],
+  "phari-lapcha-peak-climbing": ["Kyajo Ri", "Gokyo", "Namche Bazaar", "Khumbu"],
+  "mera-peak-climbing": ["Mera Peak", "Lukla", "Khumbu"],
+  "short-mera-peak-climbing": ["Mera Peak", "Lukla", "Khumbu"],
+  "mera-peak-amphu-lapcha": ["Mera Peak", "Island Peak", "Baruntse", "Dingboche"],
+  "mera-and-island-peak-climbing": ["Mera Peak", "Island Peak", "Lukla", "Namche Bazaar"],
+  "mera-island-and-lobuche-peak-climbing": ["Mera Peak", "Island Peak", "Lobuche", "Kala Patthar"],
+  "island-mera-peak-climbing-with-gokyo-ebc": ["Island Peak", "Mera Peak", "Gokyo", "Kala Patthar", "Khumbu Glacier"],
+  "baruntse-expedition": ["Baruntse", "Mera Peak", "Chamlang", "Makalu Barun National Park"],
+  "baruntse-expedition-with-mera-peak-climbing": ["Baruntse", "Mera Peak", "Chamlang", "Makalu Barun National Park"],
+  "chamlang-expedition": ["Chamlang", "Makalu", "Baruntse", "Makalu Barun National Park"],
+  "makalu-expedition": ["Makalu", "Makalu Barun National Park", "Sankhuwasabha District"],
+  "makalu-base-camp-with-sherpani-col-and-mera-peak-climbing": ["Makalu", "Mera Peak", "Baruntse", "Makalu Barun National Park", "Sankhuwasabha District"],
+  "pachermo-peak-climbing": ["Parchamo", "Rolwaling Himal", "Tengi Ragi Tau", "Gaurishankar", "Thame"],
+  "pachermo-and-kyajo-ri-peak-climbing": ["Parchamo", "Kyajo Ri", "Rolwaling Himal", "Tengi Ragi Tau", "Thame"],
+  "yalung-ri-and-pachermo-peak-climbing": ["Rolwaling Himal", "Parchamo", "Gaurishankar", "Tengi Ragi Tau"],
+  "annapurna-expedition": ["Annapurna I", "Annapurna Base Camp", "Annapurna South", "Annapurna Conservation Area"],
+  "annapurna-south-expedition": ["Annapurna South", "Annapurna Base Camp", "Annapurna I", "Annapurna Conservation Area"],
+  "singu-chuli-peak-climbing": ["Annapurna Base Camp", "Annapurna South", "Annapurna I", "Annapurna Conservation Area"],
+  "tharpu-chuli-and-singu-chuli-two-peaks-climbing": ["Annapurna Base Camp", "Annapurna South", "Annapurna I", "Annapurna Conservation Area"],
+  "gangapurna-expedition": ["Gangapurna", "Manang", "Annapurna I", "Tilicho Lake"],
+  "tilicho-peak-expedition": ["Tilicho Peak", "Tilicho Lake", "Manang", "Gangapurna"],
+  "chulu-east-peak-climbing": ["Manang", "Gangapurna", "Manang District, Nepal", "Annapurna Conservation Area"],
+  "chulu-west-peak-climbing": ["Manang", "Gangapurna", "Manang District, Nepal", "Annapurna Conservation Area"],
+  "chulu-far-east-climbing": ["Manang", "Gangapurna", "Manang District, Nepal", "Annapurna Conservation Area"],
+  "pisang-peak-climbing": ["Pisang Peak", "Manang", "Manang District, Nepal", "Annapurna Conservation Area"],
+  "manaslu-expedition": ["Manaslu", "Samagaun", "Larkya La", "Manaslu Conservation Area", "Gorkha District"],
+  "larkya-peak-climbing": ["Larkya La", "Manaslu", "Samagaun", "Manaslu Conservation Area"],
+  "samdo-peak-climbing": ["Samagaun", "Manaslu", "Larkya La", "Manaslu Conservation Area"],
+  "himlung-himal-expedition": ["Manang District, Nepal", "Manaslu Conservation Area", "Manang", "Manaslu"],
+  "kang-guru-expedition": ["Manang District, Nepal", "Manaslu Conservation Area", "Manang", "Manaslu"],
+  "langtang-lirung-expedition": ["Langtang Lirung", "Langtang", "Langtang National Park"],
+  "langshisha-ri-expedition": ["Langshisa Ri", "Langtang", "Langtang National Park", "Langtang Lirung"],
+  "dorje-lakpa-expedition": ["Jugal Himal", "Langtang National Park", "Langtang", "Sindhupalchok District"],
+  "jugal-himal-gyalzen-peak-climbing": ["Jugal Himal", "Sindhupalchok District", "Langtang National Park", "Helambu"],
+  "tukuche-peak-expedition": ["Tukuche Peak", "Dhaulagiri", "Myagdi District"],
+  "dhampus-peak-climbing": ["Tukuche Peak", "Dhaulagiri", "Myagdi District"],
+  "putha-hiunchuli-expedition": ["Putha Hiunchuli", "Dhaulagiri", "Myagdi District"],
+  "abi-peak-climbing": ["Upper Mustang", "Lo Manthang", "Mustang District"],
+  "saribung-peak-climbing": ["Upper Mustang", "Lo Manthang", "Mustang District"],
+  "bokta-peak-climbing": ["Kangchenjunga", "Ghunsa", "Taplejung District"],
+  "kanjirowa-expedition": ["Kanjiroba", "Phoksundo Lake", "Dolpo", "Dolpa District"],
+  "api-himal-expedition": ["Darchula District", "Api Nampa Conservation Area"],
 };
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
@@ -147,6 +274,7 @@ async function main() {
   const catCache: Record<string, any[]> = {};
 
   for (const [slug, cats] of Object.entries(CATEGORIES)) {
+    if (ONLY.size && !ONLY.has(slug)) continue;
     if (manifest[slug]) { console.log(`${slug} — cached`); continue; }
     const seen = new Set<string>();
     const found: any[] = [];

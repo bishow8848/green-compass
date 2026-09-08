@@ -51,7 +51,7 @@ const ADVENTURE_FAQS = (activity: string) => [
   { question: "What if I change my mind at the top?", answer: "Nobody is pushed. If you back out before the activity begins, most operators refund a portion of the fee less the fixed costs already incurred, and the exact terms are in the waiver you sign. It happens more often than you would think and no one makes a fuss." },
 ];
 
-const pokharaTransport = ["Return transfer between your Pokhara hotel and the activity site."];
+const pokharaTransport = ["Private vehicle transfer between your Pokhara hotel and the activity site."];
 
 export const paraglidingPokhara: Tour = {
   region: REGION,
@@ -75,20 +75,19 @@ export const paraglidingPokhara: Tour = {
     sections: ADVENTURE_SECTIONS("paragliding"),
     faqs: ADVENTURE_FAQS("a paragliding flight"),
     inclusions: {
-      transport: ["Return transfer between your Pokhara hotel and the Sarangkot launch site.", "Transfer from the landing site back to the lakeside."],
+      transport: ["Private vehicle transfer between your Pokhara hotel and the Sarangkot launch site.", "Private vehicle from the landing site back to the lakeside."],
       entrance: "Sarangkot launch fee and civil aviation charges.",
       guide: "Certified tandem paragliding pilot with current licensing.",
       extra: ["All flying equipment, helmet and harness.", "Pre-flight safety briefing."],
     },
     exclusions: { domestic: true, extra: ["Photo and video package shot by the pilot's mounted camera.", "Cross-country or acrobatic flight upgrades."] },
-    privateVehicleAddon: false,
     addons: [
       { title: "Photo and Video Package", description: "Stills and video shot on the pilot's mounted camera throughout the flight, delivered the same day.", unit: "person", pricePerUnit: 25 },
       { title: "Cross-Country Flight Upgrade", description: "Extend to a one-hour cross-country flight covering more of the valley, for those who want longer in the air.", unit: "person", pricePerUnit: 90 },
     ],
     fixedDepartureDay: "sunday",
     itineraryDescription: "A half-day tandem paragliding flight from Sarangkot over Phewa Lake, with 25 to 35 minutes in the air.",
-    inExDescription: "Hotel transfers, the launch fee, all flying equipment and a certified tandem pilot are included, while insurance, the photo package and flight upgrades are excluded.",
+    inExDescription: "Private vehicle transfers, the launch fee, all flying equipment and a certified tandem pilot are included, while insurance, the photo package and flight upgrades are excluded.",
     bestTime: "Sep-Nov, Feb-Apr",
     meta: {
       title: "Paragliding in Pokhara, Nepal – Tandem Flight from Sarangkot",
@@ -137,20 +136,19 @@ export const zipflyerPokhara: Tour = {
     sections: ADVENTURE_SECTIONS("the zipline"),
     faqs: ADVENTURE_FAQS("the zipline"),
     inclusions: {
-      transport: ["Return transfer between your Pokhara hotel and the Zip Flyer base station.", "Shuttle from the base station up to the Sarangkot launch tower."],
+      transport: ["Private vehicle transfer between your Pokhara hotel and the Zip Flyer base station.", "Shuttle from the base station up to the Sarangkot launch tower."],
       entrance: "Zip Flyer ride fee.",
       guide: "Trained operating crew at both the launch tower and the landing station.",
       extra: ["Full-body harness, helmet and gloves.", "Safety briefing and weigh-in before the ride."],
     },
     exclusions: { domestic: true, extra: ["Photo and video package.", "Additional rides beyond the one included."] },
-    privateVehicleAddon: false,
     addons: [
       { title: "Second Ride", description: "A second run down the cable on the same visit, booked at the base station on the day.", unit: "person", pricePerUnit: 45 },
       { title: "Photo and Video Package", description: "Footage from the launch tower and the on-cable cameras, delivered on the day.", unit: "person", pricePerUnit: 20 },
     ],
     fixedDepartureDay: "monday",
     itineraryDescription: "A half-day trip to the Sarangkot Zip Flyer, with the shuttle to the tower and one 1.8 km ride to the valley floor.",
-    inExDescription: "Hotel transfers, the shuttle to the launch tower, the ride fee, all equipment and the operating crew are included, while insurance, photos and extra rides are excluded.",
+    inExDescription: "Private vehicle transfers, the shuttle to the launch tower, the ride fee, all equipment and the operating crew are included, while insurance, photos and extra rides are excluded.",
     bestTime: "Sep-Nov, Feb-Apr",
     meta: {
       title: "Zipline in Pokhara – Zip Flyer from Sarangkot",
@@ -205,14 +203,13 @@ export const bungeePokhara: Tour = {
       extra: ["Full body and ankle harness, and all jump equipment.", "Safety briefing and weigh-in before the jump."],
     },
     exclusions: { domestic: true, extra: ["Photo and video package.", "The tower swing, if taken in addition to the jump."] },
-    privateVehicleAddon: false,
     addons: [
       { title: "Tower Swing", description: "Add the 70 m pendulum swing from the same tower alongside your bungee jump.", unit: "person", pricePerUnit: 60 },
       { title: "Photo and Video Package", description: "Stills and video of your jump from the platform and ground cameras.", unit: "person", pricePerUnit: 20 },
     ],
     fixedDepartureDay: "tuesday",
     itineraryDescription: "A half-day trip to the Hemja bungee tower near Pokhara for a 70 m jump, with the option of the swing.",
-    inExDescription: "Hotel transfers, the jump fee, all equipment and trained jump masters are included, while insurance, photos and the additional swing are excluded.",
+    inExDescription: "Private vehicle transfers, the jump fee, all equipment and trained jump masters are included, while insurance, photos and the additional swing are excluded.",
     bestTime: "Sep-Nov, Feb-Apr",
     meta: {
       title: "Bungee Jumping in Pokhara – 70 m Tower Jump",
@@ -262,21 +259,20 @@ export const ultralightPokhara: Tour = {
     sections: ADVENTURE_SECTIONS("the ultralight flight"),
     faqs: ADVENTURE_FAQS("the flight"),
     inclusions: {
-      transport: ["Return transfer between your Pokhara hotel and Pokhara airport."],
+      transport: ["Private vehicle transfer between your Pokhara hotel and Pokhara airport."],
       flights: ["A 30-minute ultralight flight over the Pokhara valley and the Sarangkot ridge."],
       entrance: "Airport and civil aviation charges.",
       guide: "Licensed ultralight pilot with commercial certification.",
       extra: ["Helmet with intercom to the pilot.", "Pre-flight safety briefing."],
     },
     exclusions: { domestic: true, extra: ["Photo and video package.", "Upgrade to the 60-minute mountain flight."] },
-    privateVehicleAddon: false,
     addons: [
       { title: "60-Minute Mountain Flight", description: "Extend the flight north towards Machhapuchhre and the Annapurna wall, climbing to around 3,500 m.", unit: "person", pricePerUnit: 145 },
       { title: "Photo and Video Package", description: "Footage from the wing-mounted camera for the whole flight.", unit: "person", pricePerUnit: 25 },
     ],
     fixedDepartureDay: "wednesday",
     itineraryDescription: "A morning ultralight flight from Pokhara airport over Phewa Lake and the Sarangkot ridge, with a mountain upgrade available.",
-    inExDescription: "Hotel transfers, the 30-minute flight, airport charges, helmet and intercom and a licensed pilot are included, while insurance, photos and the mountain upgrade are excluded.",
+    inExDescription: "Private vehicle transfers, the 30-minute flight, airport charges, helmet and intercom and a licensed pilot are included, while insurance, photos and the mountain upgrade are excluded.",
     bestTime: "Sep-Nov, Feb-Apr",
     meta: {
       title: "Ultra Light Flight in Pokhara Nepal – Microlight over Phewa Lake",
@@ -332,13 +328,12 @@ export const atvPokhara: Tour = {
       extra: ["Helmet, gloves, goggles and protective gear.", "Practice session and safety briefing before departure.", "Tea stop at a village on the route."],
     },
     exclusions: { domestic: true, extra: ["Photo and video package.", "Damage waiver excess if the machine is damaged."] },
-    privateVehicleAddon: false,
     addons: [
       { title: "Half-Day Extension", description: "Extend to a longer route taking in the upper Seti gorge and a Gurung village lunch.", unit: "person", pricePerUnit: 55 },
     ],
     fixedDepartureDay: "thursday",
     itineraryDescription: "A half-day guided ATV ride on farm tracks and riverbeds around Hemja and the Seti gorge outside Pokhara.",
-    inExDescription: "Hotel transfers, ATV hire and fuel, protective gear, the briefing, guides and a village tea stop are included, while insurance, photos and any damage excess are excluded.",
+    inExDescription: "Private vehicle transfers, ATV hire and fuel, protective gear, the briefing, guides and a village tea stop are included, while insurance, photos and any damage excess are excluded.",
     bestTime: "Sep-Nov, Feb-May",
     meta: {
       title: "ATV Adventure Tour in Pokhara – 1 Day Quad Bike Ride",
@@ -387,17 +382,16 @@ export const setiRafting: Tour = {
     sections: ADVENTURE_SECTIONS("rafting"),
     faqs: ADVENTURE_FAQS("the rafting trip"),
     inclusions: {
-      transport: ["Return transfer between your Pokhara hotel, the put-in point and the take-out."],
+      transport: ["Private vehicle transfer between your Pokhara hotel, the put-in point and the take-out."],
       meals: ["Cooked lunch on the riverbank, with vegetarian options."],
       entrance: "River permits and rafting fees.",
       guide: "Certified river guide in every raft, with a safety kayaker accompanying the group.",
       extra: ["Raft, paddle, helmet, life jacket and dry bag.", "Safety briefing and paddle practice before launching."],
     },
     exclusions: { domestic: true, extra: ["Photo and video package.", "Towels and a change of clothes."] },
-    privateVehicleAddon: false,
     fixedDepartureDay: "friday",
     itineraryDescription: "A one-day class II–III rafting trip on the Seti north of Pokhara, covering around 15 km with a beach lunch.",
-    inExDescription: "Hotel transfers, all rafting equipment, river permits, a certified guide, a safety kayaker and lunch on the bank are included, while insurance, photos and personal items are excluded.",
+    inExDescription: "Private vehicle transfers, all rafting equipment, river permits, a certified guide, a safety kayaker and lunch on the bank are included, while insurance, photos and personal items are excluded.",
     bestTime: "Sep-Nov, Feb-May",
     meta: {
       title: "Seti River Rafting in Pokhara – 1 Day Class II-III",
@@ -447,17 +441,16 @@ export const trishuli1Day: Tour = {
     sections: ADVENTURE_SECTIONS("rafting"),
     faqs: ADVENTURE_FAQS("the rafting trip"),
     inclusions: {
-      transport: ["Transfer from Kathmandu or Pokhara to the Charaudi put-in, and onward from the take-out to your destination.", "Luggage carried in the vehicle to the take-out."],
+      transport: ["Private vehicle from Kathmandu or Pokhara to the Charaudi put-in, and onward from the take-out to your destination.", "Luggage carried in the vehicle to the take-out."],
       meals: ["Cooked lunch on the riverbank, with vegetarian options."],
       entrance: "River permits and rafting fees.",
       guide: "Certified river guide in every raft, with a safety kayaker accompanying the group.",
       extra: ["Raft, paddle, helmet, life jacket and dry bag.", "Safety briefing and paddle practice before launching."],
     },
     exclusions: { domestic: true, extra: ["Photo and video package.", "Towels and a change of clothes."] },
-    privateVehicleAddon: false,
     fixedDepartureDay: "saturday",
     itineraryDescription: "A one-day class III rafting trip on the Trishuli from Charaudi, run as part of the Kathmandu–Pokhara transfer.",
-    inExDescription: "Transfers to and from the river with luggage carried, all rafting equipment, permits, a certified guide, a safety kayaker and lunch on the bank are included, while insurance, photos and personal items are excluded.",
+    inExDescription: "Private vehicle transfers to and from the river with luggage carried, all rafting equipment, permits, a certified guide, a safety kayaker and lunch on the bank are included, while insurance, photos and personal items are excluded.",
     bestTime: "Sep-Nov, Feb-May",
     meta: {
       title: "Trishuli River Rafting – 1 Day Class III from Charaudi",
@@ -507,7 +500,7 @@ export const trishuli2Day: Tour = {
     sections: ADVENTURE_SECTIONS("rafting"),
     faqs: ADVENTURE_FAQS("the rafting trip"),
     inclusions: {
-      transport: ["Transfer from Kathmandu or Pokhara to the Charaudi put-in, and onward from the take-out to your destination.", "Luggage carried in the vehicle to the take-out."],
+      transport: ["Private vehicle from Kathmandu or Pokhara to the Charaudi put-in, and onward from the take-out to your destination.", "Luggage carried in the vehicle to the take-out."],
       accommodation: ["One night camping on a river beach in two-person tents."],
       meals: ["All meals from lunch on day one to lunch on day two, cooked by the river crew."],
       entrance: "River permits and rafting fees.",
@@ -515,13 +508,12 @@ export const trishuli2Day: Tour = {
       extra: ["Raft, paddle, helmet, life jacket and dry bag.", "Tents, sleeping mats and camp equipment."],
     },
     exclusions: { domestic: true, extra: ["Sleeping bag hire.", "Photo and video package.", "Alcoholic drinks at camp."] },
-    privateVehicleAddon: false,
     addons: [
       { title: "Sleeping Bag Hire", description: "A clean sleeping bag for the night on the beach, if you are not carrying your own.", unit: "person", pricePerUnit: 10 },
     ],
     fixedDepartureDay: "saturday",
     itineraryDescription: "Two days and around 50 km on the Trishuli from Charaudi to Kuringhat, camping on a river beach between them.",
-    inExDescription: "Transfers with luggage carried, all rafting and camping equipment, permits, all meals on the river, certified guides, a safety kayaker and a camp crew are included, while insurance, sleeping bag hire, photos and drinks are excluded.",
+    inExDescription: "Private vehicle transfers with luggage carried, all rafting and camping equipment, permits, all meals on the river, certified guides, a safety kayaker and a camp crew are included, while insurance, sleeping bag hire, photos and drinks are excluded.",
     bestTime: "Sep-Nov, Feb-May",
     meta: {
       title: "Trishuli River Rafting – 1 Night 2 Days with Beach Camping",

@@ -2,8 +2,13 @@ import type { NewTrek } from "./types";
 import { apiHimalTrek } from "./api-himal";
 import { badimalikaTrek } from "./badimalika";
 import { churenHimalTrek } from "./churen-himal";
+import { ebcHelicopterReturnTrek } from "./ebc-helicopter-return";
 import { dhaulagiriCircuitTrek } from "./dhaulagiri-circuit";
+import { ebcGokyoChoLaTrek } from "./ebc-gokyo-cho-la";
 import { guerrillaTrek } from "./guerrilla";
+import { narPhuValleyTrek } from "./nar-phu-valley";
+import { pikeyPeakTrek } from "./pikey-peak";
+import { raraLakeTrek } from "./rara-lake";
 import { jomsomDolpoTrek } from "./jomsom-dolpo";
 import { larkePassTrek } from "./larke-pass";
 import { lowerManasluTrek } from "./lower-manaslu";
@@ -30,6 +35,11 @@ export const ALL_NEW_TREKS: NewTrek[] = [
   badimalikaTrek,
   churenHimalTrek,
   dhaulagiriCircuitTrek,
+  ebcHelicopterReturnTrek,
+  ebcGokyoChoLaTrek,
+  narPhuValleyTrek,
+  pikeyPeakTrek,
+  raraLakeTrek,
   guerrillaTrek,
   jomsomDolpoTrek,
   larkePassTrek,

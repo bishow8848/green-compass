@@ -50,7 +50,7 @@ const faqs = (park: "Chitwan" | "Bardia") => [
     ? "Rhino, almost certainly — Chitwan's population is large and habituated, and most visitors see several over two days of activities. Tiger, no. They are here in numbers but the cover is thick and sightings are uncommon. Anyone promising you a tiger is selling something."
     : "Rhino and deer are likely. Tiger is why most people come to Bardia and the odds here are the best in Nepal, particularly in March and April, but it remains a wild animal in a large park. Plan the trip around the place rather than around one species and you will not be disappointed." },
   { question: "How do we get there and how long does it take?", answer: park === "Chitwan"
-    ? "A tourist bus or private vehicle from Kathmandu takes five to six hours on the Prithvi and Mugling highways, or two to three hours from Pokhara. There is also a short domestic flight to Bharatpur, twenty minutes from the park, which we can arrange as an add-on."
+    ? "By private vehicle from Kathmandu it is five to six hours on the Prithvi and Mugling highways, or two to three hours from Pokhara — the drive is included and the vehicle is yours alone, never a tourist bus. There is also a short domestic flight to Bharatpur, twenty minutes from the park, which we can arrange as an add-on."
     : "Bardia is in the far west. The practical route is a one-hour flight from Kathmandu to Nepalgunj followed by a two to three hour drive, which is what this itinerary uses. The alternative is a long day of driving — around fifteen hours — which we do not recommend." },
   { question: "Is the jungle walk safe?", answer: "It is run with two trained naturalists, one leading and one at the back, and they brief you properly before you set off: how to stand still, where to move if an animal is encountered, and which trees to get behind. Rhino and sloth bear are the animals treated with most caution. Follow the guides and the walk is safe; wander off and it is not." },
   { question: "Do you use elephant-back safaris?", answer: "No. We stopped offering elephant rides because of the welfare conditions involved in keeping and training the animals. Jeep, canoe and foot cover the park better in any case. If you want to see elephants there is a government breeding centre in Chitwan that can be visited on the itinerary." },
@@ -63,7 +63,7 @@ const faqs = (park: "Chitwan" | "Bardia") => [
 const jungleInclusions = (park: string, nights: number) => ({
   transport: [
     park === "Chitwan"
-      ? "Tourist bus or private vehicle transfer from Kathmandu or Pokhara to Chitwan and back."
+      ? "Private vehicle transfer from Kathmandu or Pokhara to Chitwan and back."
       : "Private vehicle transfer between Nepalgunj airport and Bardia National Park.",
     "All park transfers and jeep safari transport inside the national park.",
   ],
@@ -96,7 +96,9 @@ export const chitwan3Day: Tour = {
     sections: sections("Chitwan"),
     faqs: faqs("Chitwan"),
     inclusions: jungleInclusions("Chitwan", 2),
-    exclusions: { extra: ["Optional elephant breeding centre entry fee.", "Alcoholic drinks at the lodge."] },
+    exclusions: {
+      domestic: true,
+ extra: ["Optional elephant breeding centre entry fee.", "Alcoholic drinks at the lodge."] },
     addons: [
       {
         title: "Flight to Bharatpur",
@@ -107,7 +109,7 @@ export const chitwan3Day: Tour = {
     ],
     fixedDepartureDay: "friday",
     itineraryDescription: "Three days on the Terai with two full blocks of jeep, canoe and walking safari inside Chitwan National Park.",
-    inExDescription: "Road transfers, two nights at a jungle lodge, all meals, park permits, every activity fee and licensed naturalist guides are included, while international flights, visa, insurance, drinks and tips are excluded.",
+    inExDescription: "Private vehicle transfers, two nights at a jungle lodge, all meals, park permits, every activity fee and licensed naturalist guides are included, while international flights, visa, insurance, drinks and tips are excluded.",
     bestTime: "Oct-Mar",
     meta: {
       title: "Chitwan National Park Tour – 3 Days Jungle Safari in Nepal",
@@ -179,7 +181,9 @@ export const chitwan4Day: Tour = {
     sections: sections("Chitwan"),
     faqs: faqs("Chitwan"),
     inclusions: jungleInclusions("Chitwan", 3),
-    exclusions: { extra: ["Alcoholic drinks at the lodge."] },
+    exclusions: {
+      domestic: true,
+ extra: ["Alcoholic drinks at the lodge."] },
     addons: [
       {
         title: "Flight to Bharatpur",
@@ -190,7 +194,7 @@ export const chitwan4Day: Tour = {
     ],
     fixedDepartureDay: "friday",
     itineraryDescription: "Four days on the Terai with three full blocks of jeep, canoe and walking safari inside Chitwan National Park.",
-    inExDescription: "Road transfers, three nights at a jungle lodge, all meals, park permits, every activity fee and licensed naturalist guides are included, while international flights, visa, insurance, drinks and tips are excluded.",
+    inExDescription: "Private vehicle transfers, three nights at a jungle lodge, all meals, park permits, every activity fee and licensed naturalist guides are included, while international flights, visa, insurance, drinks and tips are excluded.",
     bestTime: "Oct-Mar",
     meta: {
       title: "Chitwan National Park Tour – 4 Days Jungle Safari in Nepal",
@@ -278,10 +282,12 @@ export const bardia4Day: Tour = {
       flights: ["Kathmandu – Nepalgunj return domestic flights, including airport transfers."],
       ...jungleInclusions("Bardia", 3),
     },
-    exclusions: { extra: ["Alcoholic drinks at the lodge.", "Optional Gangetic dolphin excursion on the Karnali."] },
+    exclusions: {
+      domestic: true,
+ extra: ["Alcoholic drinks at the lodge.", "Optional Gangetic dolphin excursion on the Karnali."] },
     fixedDepartureDay: "saturday",
     itineraryDescription: "Four days in Nepal's largest Terai park, flying via Nepalgunj, with two full days of jeep, walking and river safari in Bardia.",
-    inExDescription: "Domestic flights, road transfers, three nights at a jungle lodge, all meals, park permits, every activity fee and licensed naturalist guides are included, while international flights, visa, insurance, drinks and tips are excluded.",
+    inExDescription: "Domestic flights, private vehicle transfers, three nights at a jungle lodge, all meals, park permits, every activity fee and licensed naturalist guides are included, while international flights, visa, insurance, drinks and tips are excluded.",
     bestTime: "Oct-Apr",
     meta: {
       title: "Bardia National Park Tour – 4 Days Tiger Safari in Nepal",
@@ -370,10 +376,12 @@ export const bardia5Day: Tour = {
       flights: ["Kathmandu – Nepalgunj return domestic flights, including airport transfers."],
       ...jungleInclusions("Bardia", 4),
     },
-    exclusions: { extra: ["Alcoholic drinks at the lodge."] },
+    exclusions: {
+      domestic: true,
+ extra: ["Alcoholic drinks at the lodge."] },
     fixedDepartureDay: "saturday",
     itineraryDescription: "Five days in Bardia with three full days inside the park, the Babai valley and a river safari on the Karnali.",
-    inExDescription: "Domestic flights, road transfers, four nights at a jungle lodge, all meals, park permits, every activity fee and licensed naturalist guides are included, while international flights, visa, insurance, drinks and tips are excluded.",
+    inExDescription: "Domestic flights, private vehicle transfers, four nights at a jungle lodge, all meals, park permits, every activity fee and licensed naturalist guides are included, while international flights, visa, insurance, drinks and tips are excluded.",
     bestTime: "Oct-Apr",
     meta: {
       title: "Bardia Jungle Safari Tour – 5 Days in Far-West Nepal",

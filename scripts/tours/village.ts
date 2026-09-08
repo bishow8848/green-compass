@@ -77,7 +77,9 @@ export const ghalegaunTour: Tour = {
       entrance: "Village entry contribution and the Gurung museum fee.",
       extra: ["Gurung cultural dance evening in the village square.", "Guided walks on the ridge and terrace trails."],
     },
-    exclusions: { extra: ["Locally brewed raksi and other alcoholic drinks."] },
+    exclusions: {
+      domestic: true,
+ extra: ["Locally brewed raksi and other alcoholic drinks."] },
     fixedDepartureDay: "friday",
     itineraryDescription: "Four days on the Lamjung ridge staying with Gurung families in Ghalegaun and Ghanpokhara, facing the Annapurna range.",
     inExDescription: "Private vehicle transfers, homestay and hotel nights, all village meals, entry contributions, the cultural evening and a licensed guide are included, while international flights, visa, insurance, drinks and tips are excluded.",
@@ -172,7 +174,9 @@ export const himalayanVillageTour: Tour = {
       entrance: "Village entry contributions and museum fees along the route.",
       extra: ["Gurung and Magar cultural evenings in the villages.", "Guided walks in each village."],
     },
-    exclusions: { extra: ["Lunch and dinner in Bandipur and Pokhara.", "Locally brewed raksi and other alcoholic drinks."] },
+    exclusions: {
+      domestic: true,
+ extra: ["Lunch and dinner in Bandipur and Pokhara.", "Locally brewed raksi and other alcoholic drinks."] },
     fixedDepartureDay: "saturday",
     itineraryDescription: "Six days through three hill communities — Gurung Ghalegaun, Newar Bandipur and Magar Sirubari — finishing in Pokhara.",
     inExDescription: "Private vehicle for the whole route, homestay and hotel nights, village meals, entry contributions, cultural evenings and a licensed guide are included, while international flights, visa, insurance, town meals, drinks and tips are excluded.",
@@ -293,7 +297,9 @@ export const sirubariTour: Tour = {
       entrance: "Village entry contribution to the community fund.",
       extra: ["Formal Magar welcome and cultural dance evening.", "Guided walks in the community forest and on the ridge."],
     },
-    exclusions: { extra: ["Locally brewed raksi and other alcoholic drinks."] },
+    exclusions: {
+      domestic: true,
+ extra: ["Locally brewed raksi and other alcoholic drinks."] },
     fixedDepartureDay: "sunday",
     itineraryDescription: "Three days in a Magar homestay village in Syangja, the community that pioneered village tourism in Nepal.",
     inExDescription: "Private vehicle transfers from Pokhara, homestay accommodation, all village meals, the community contribution, cultural evening and a licensed guide are included, while international flights, visa, insurance, drinks and tips are excluded.",

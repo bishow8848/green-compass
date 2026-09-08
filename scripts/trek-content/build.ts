@@ -49,6 +49,15 @@ export type TrekContent = {
     cityMeals: string;
     /** Overrides the closing "unforeseen circumstances" line. */
     unforeseen?: string;
+    /** Extra exclusion lines specific to this trek, as tours and climbs allow. */
+    extra?: string[];
+    /**
+     * Drops the international-flight and visa lines. Set it on a trek that
+     * starts by leaving a city — someone booking a walk out of Pokhara is
+     * already in Nepal, so neither line tells them anything. Mirrors the same
+     * flag on the tours in scripts/tours/build.ts.
+     */
+    domestic?: boolean;
   };
 
   /**
@@ -102,13 +111,15 @@ export function buildInclusions(c: TrekContent): string {
 
 export function buildExclusions(c: TrekContent): string {
   return li([
-    "International flight tickets to and from Nepal.",
-    "Nepal entry visa fees.",
+    ...(c.exclusions.domestic
+      ? []
+      : ["International flight tickets to and from Nepal.", "Nepal entry visa fees."]),
     "Travel insurance, including emergency helicopter evacuation coverage.",
     "Personal trekking equipment and clothing.",
     "Porter services (available at an additional cost).",
     c.exclusions.cityMeals,
     "Snacks, bottled water, hot showers, Wi-Fi, charging fees, and alcoholic or soft drinks.",
+    ...(c.exclusions.extra ?? []),
     "Personal expenses such as laundry, phone calls, and souvenirs.",
     "Tips for guides, drivers, and support staff.",
     c.exclusions.unforeseen ??

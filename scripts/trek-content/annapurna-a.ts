@@ -60,7 +60,9 @@ export const annapurnaTreksA: TrekContent[] = [
       transport: ["Private transportation from Pokhara to Kande and from Jhinu Danda back to Pokhara as per the itinerary."],
       permits: ACAP,
     },
-    exclusions: { cityMeals: "Accommodation and meals in Kathmandu or Pokhara unless mentioned in the itinerary." },
+    exclusions: {
+      domestic: true,
+ cityMeals: "Accommodation and meals in Kathmandu or Pokhara unless mentioned in the itinerary." },
     porterDays: 10,
     fixedDepartureDay: "tuesday",
     itineraryDescription: "A 10-day Pokhara-to-Pokhara circuit taking in Mardi Himal Base Camp (4,500 m) and Annapurna Base Camp (4,130 m) with the Jhinu Danda hot springs in between.",
@@ -358,7 +360,9 @@ export const annapurnaTreksA: TrekContent[] = [
       transport: ["Private transportation from Pokhara to Nayapul and from Birethanti back to Pokhara as per the itinerary."],
       permits: ACAP,
     },
-    exclusions: { cityMeals: "Accommodation and meals in Kathmandu or Pokhara unless mentioned in the itinerary." },
+    exclusions: {
+      domestic: true,
+ cityMeals: "Accommodation and meals in Kathmandu or Pokhara unless mentioned in the itinerary." },
     porterDays: 9,
     fixedDepartureDay: "monday",
     itineraryDescription: "A 9-day Pokhara-to-Pokhara trek to Khopra Danda (4,020 m) via Ghandruk, Dobato, and Muldai, with the Khayer Lake hike and a Poon Hill sunrise.",
@@ -504,7 +508,9 @@ export const annapurnaTreksA: TrekContent[] = [
       transport: ["Private transportation from Pokhara to Sikles and from Sikles back to Pokhara as per the itinerary."],
       permits: ACAP,
     },
-    exclusions: { cityMeals: "Accommodation and meals in Kathmandu or Pokhara unless mentioned in the itinerary." },
+    exclusions: {
+      domestic: true,
+ cityMeals: "Accommodation and meals in Kathmandu or Pokhara unless mentioned in the itinerary." },
     porterDays: 6,
     fixedDepartureDay: "thursday",
     itineraryDescription: "A 6-day Pokhara-to-Pokhara trek from the Gurung village of Sikles to the Kori Danda ridge at 3,850 m, facing Annapurna II and Lamjung Himal.",

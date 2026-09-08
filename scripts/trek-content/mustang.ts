@@ -143,6 +143,8 @@ export const mustangTreks: TrekContent[] = [
       permits: ACAP,
     },
     exclusions: {
+      domestic: true,
+
       cityMeals: "Accommodation and meals in Kathmandu or Pokhara unless mentioned in the itinerary.",
       unforeseen: "Any additional accommodation, transportation, or expenses caused by domestic flight delays, bad weather, or other unforeseen circumstances beyond the itinerary.",
     },
@@ -272,7 +274,7 @@ export const mustangTreks: TrekContent[] = [
       {
         heading: "Accommodation, Food & Drinking Water",
         content:
-          "<p>You stay in teahouses at Kagbeni, Muktinath, Marpha, and Jomsom, plus a night in a Pokhara hotel on the free day at the end. Lodges in the Kali Gandaki benefit from road access and mains electricity and are among the most comfortable in Nepal — twin rooms, many with attached bathrooms, dependable hot showers, and heated dining rooms. Marpha has several characterful lodges in converted Thakali houses.</p><p>Three meals a day are included on the trek. The food here is a highlight rather than a necessity: the classic <em>Thakali khana set</em> is widely regarded as the best regional cooking in Nepal, and menus also cover Tibetan bread, momos, thukpa, noodles, fried rice, and pasta, with apple dishes throughout the valley. Refill your bottle at the lodges and treat it with tablets, a filter, or a UV pen; the dry air means you will drink far more than usual.</p>",
+          "<p>The five trek nights are spent in teahouses at Kagbeni, Muktinath, Marpha, and Jomsom. The trip begins and ends in Pokhara, and your hotel there is not included — this itinerary is sold to travellers already in the city, so the Pokhara nights are yours to arrange. Lodges in the Kali Gandaki benefit from road access and mains electricity and are among the most comfortable in Nepal — twin rooms, many with attached bathrooms, dependable hot showers, and heated dining rooms. Marpha has several characterful lodges in converted Thakali houses.</p><p>Three meals a day are included on the trek. The food here is a highlight rather than a necessity: the classic <em>Thakali khana set</em> is widely regarded as the best regional cooking in Nepal, and menus also cover Tibetan bread, momos, thukpa, noodles, fried rice, and pasta, with apple dishes throughout the valley. Refill your bottle at the lodges and treat it with tablets, a filter, or a UV pen; the dry air means you will drink far more than usual.</p>",
       },
     ],
     faqs: [
@@ -291,10 +293,11 @@ export const mustangTreks: TrekContent[] = [
       airportTransfer: false,
       flights: ["Domestic flights from Pokhara to Jomsom and Jomsom to Pokhara as per the itinerary."],
       transport: [],
-      cityAccommodation: ["Accommodation in Pokhara with breakfast."],
       permits: ACAP,
     },
     exclusions: {
+      domestic: true,
+
       cityMeals: "Lunch and dinner in Pokhara.",
       unforeseen: "Any additional accommodation, transportation, or expenses caused by domestic flight delays, bad weather, or other unforeseen circumstances beyond the itinerary.",
     },
@@ -446,6 +449,8 @@ export const mustangTreks: TrekContent[] = [
       permits: UPPER_MUSTANG_PERMIT,
     },
     exclusions: {
+      domestic: true,
+
       cityMeals: "Accommodation and meals in Kathmandu or Pokhara unless mentioned in the itinerary.",
       unforeseen: "Any additional accommodation, transportation, or expenses caused by domestic flight delays, bad weather, or other unforeseen circumstances beyond the itinerary.",
     },

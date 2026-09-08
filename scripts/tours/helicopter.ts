@@ -64,7 +64,10 @@ const heliInclusions = (park: string | null, extra: string[] = []) => ({
   extra: ["Supplementary oxygen and a first aid kit carried on board.", ...extra],
 });
 
-const heliExclusions = { domestic: false as const, extra: ["Personal travel and evacuation insurance covering helicopter activity.", "Any additional night's accommodation caused by a weather postponement."] };
+// Every flight here starts and ends inside Nepal — a Lukla to Kathmandu
+// charter has no business listing an international ticket or a visa as
+// something the customer must pay for separately.
+const heliExclusions = { domestic: true as const, extra: ["Personal travel and evacuation insurance covering helicopter activity.", "Any additional night's accommodation caused by a weather postponement."] };
 
 /** A one-flight tour has a single day entry; this keeps the shape consistent. */
 const flightDay = (o: { title: string; elevation: string; accommodation: string; placeDescription: string; lng: number; lat: number; html: string }): TourDay => o;
@@ -92,7 +95,7 @@ export const abcHelicopterTour: Tour = {
     faqs: HELI_FAQS,
     inclusions: heliInclusions("Annapurna Conservation Area", ["Light refreshment at the landing site."]),
     exclusions: heliExclusions,
-    privateVehicleAddon: false,
+    luxuryVehicleAddon: false,
     addons: [
       {
         title: "Private Charter Upgrade",
@@ -103,7 +106,7 @@ export const abcHelicopterTour: Tour = {
     ],
     fixedDepartureDay: "sunday",
     itineraryDescription: "A two-hour morning round trip from Pokhara into the Annapurna Sanctuary, with a landing at Annapurna Base Camp (4,130 m).",
-    inExDescription: "Hotel transfers, the helicopter flight, conservation area permit, landing fees and on-board oxygen are included, while insurance, personal expenses and any cost from a weather postponement are excluded.",
+    inExDescription: "Private vehicle transfers, the helicopter flight, conservation area permit, landing fees and on-board oxygen are included, while insurance, personal expenses and any cost from a weather postponement are excluded.",
     bestTime: "Oct-Dec, Mar-May",
     meta: {
       title: "Annapurna Base Camp Helicopter Tour – 2 Hours from Pokhara",
@@ -152,10 +155,10 @@ export const muktinathDamodarHeli: Tour = {
     faqs: HELI_FAQS,
     inclusions: heliInclusions("Annapurna Conservation Area", ["Restricted area permit for the Damodar Kunda sector.", "Time on the ground at both Muktinath and Damodar Kunda."]),
     exclusions: heliExclusions,
-    privateVehicleAddon: false,
+    luxuryVehicleAddon: false,
     fixedDepartureDay: "monday",
     itineraryDescription: "A one-day flight from Pokhara landing at Muktinath (3,760 m) and Damodar Kunda (4,890 m) on the Tibetan plateau.",
-    inExDescription: "Hotel transfers, the helicopter flight, conservation and restricted area permits, landing fees and on-board oxygen are included, while insurance, offerings, personal expenses and any cost from a weather postponement are excluded.",
+    inExDescription: "Private vehicle transfers, the helicopter flight, conservation and restricted area permits, landing fees and on-board oxygen are included, while insurance, offerings, personal expenses and any cost from a weather postponement are excluded.",
     bestTime: "Oct-Nov, Apr-Jun",
     meta: {
       title: "Muktinath Damodar Kunda Helicopter Tour – 1 Day",
@@ -204,10 +207,10 @@ export const muktinathHeliPokhara: Tour = {
     faqs: HELI_FAQS,
     inclusions: heliInclusions("Annapurna Conservation Area", ["Around one hour on the ground at the Muktinath temple complex."]),
     exclusions: heliExclusions,
-    privateVehicleAddon: false,
+    luxuryVehicleAddon: false,
     fixedDepartureDay: "tuesday",
     itineraryDescription: "A morning flight from Pokhara up the Kali Gandaki to Muktinath (3,760 m), with time on the ground for darshan.",
-    inExDescription: "Hotel transfers, the helicopter flight, conservation area permit, landing fees and on-board oxygen are included, while insurance, offerings, personal expenses and any cost from a weather postponement are excluded.",
+    inExDescription: "Private vehicle transfers, the helicopter flight, conservation area permit, landing fees and on-board oxygen are included, while insurance, offerings, personal expenses and any cost from a weather postponement are excluded.",
     bestTime: "Oct-Dec, Mar-May",
     meta: {
       title: "Muktinath Helicopter Tour from Pokhara – Same Day Darshan",
@@ -256,7 +259,7 @@ export const ebcHelicopterTour: Tour = {
     faqs: HELI_FAQS,
     inclusions: heliInclusions("Sagarmatha", ["Breakfast on the terrace of the Everest View Hotel at Syangboche.", "Khumbu Pasang Lhamu Rural Municipality permit."]),
     exclusions: heliExclusions,
-    privateVehicleAddon: false,
+    luxuryVehicleAddon: false,
     addons: [
       {
         title: "Private Charter Upgrade",
@@ -267,7 +270,7 @@ export const ebcHelicopterTour: Tour = {
     ],
     fixedDepartureDay: "wednesday",
     itineraryDescription: "A four-hour morning flight from Kathmandu with a landing on Kala Patthar (5,545 m) and breakfast at the Everest View Hotel.",
-    inExDescription: "Hotel transfers, the helicopter flight, national park and municipality permits, landing fees, breakfast at Syangboche and on-board oxygen are included, while insurance, personal expenses and any cost from a weather postponement are excluded.",
+    inExDescription: "Private vehicle transfers, the helicopter flight, national park and municipality permits, landing fees, breakfast at Syangboche and on-board oxygen are included, while insurance, personal expenses and any cost from a weather postponement are excluded.",
     bestTime: "Oct-Dec, Mar-May",
     meta: {
       title: "Everest Base Camp Helicopter Tour with Kala Patthar Landing",
@@ -317,10 +320,10 @@ export const langtangHelicopterTour: Tour = {
     faqs: HELI_FAQS,
     inclusions: heliInclusions("Langtang", ["Around thirty minutes on the ground at Kyanjin Gompa."]),
     exclusions: heliExclusions,
-    privateVehicleAddon: false,
+    luxuryVehicleAddon: false,
     fixedDepartureDay: "thursday",
     itineraryDescription: "A one-day flight from Kathmandu into the Langtang valley, landing at Kyanjin Gompa (3,870 m) beneath Langtang Lirung.",
-    inExDescription: "Hotel transfers, the helicopter flight, national park permit, landing fees and on-board oxygen are included, while insurance, personal expenses and any cost from a weather postponement are excluded.",
+    inExDescription: "Private vehicle transfers, the helicopter flight, national park permit, landing fees and on-board oxygen are included, while insurance, personal expenses and any cost from a weather postponement are excluded.",
     bestTime: "Oct-Dec, Mar-May",
     meta: {
       title: "Langtang Helicopter Tour from Kathmandu – 1 Day",
@@ -512,13 +515,13 @@ const legTour = (l: Leg): Tour => ({
     sections: HELI_SECTIONS,
     faqs: HELI_FAQS,
     inclusions: {
-      transport: [`Helicopter flight from ${l.from} to ${l.to}, ${l.minutes}.`, "Ground transfer between the helipad and your hotel at the Kathmandu end."],
+      transport: [`Helicopter flight from ${l.from} to ${l.to}, ${l.minutes}.`, "Private vehicle transfer between the helipad and your hotel at the Kathmandu end."],
       entrance: "Sagarmatha National Park and Khumbu Pasang Lhamu Rural Municipality permits where required.",
       guide: "Experienced mountain pilot and ground handling at both ends.",
       extra: ["Supplementary oxygen and a first aid kit carried on board.", "Coordination with the fixed-wing schedule where a connection is involved."],
     },
     exclusions: heliExclusions,
-    privateVehicleAddon: false,
+    luxuryVehicleAddon: false,
     addons: [
       {
         title: "Private Charter Upgrade",
@@ -529,7 +532,7 @@ const legTour = (l: Leg): Tour => ({
     ],
     fixedDepartureDay: "friday",
     itineraryDescription: `A ${l.minutes} helicopter transfer from ${l.from} to ${l.to}, flown in the morning weather window.`,
-    inExDescription: "The helicopter leg, national park permits, landing fees, ground transfer at the Kathmandu end and on-board oxygen are included, while insurance, meals, personal expenses and any cost from a weather postponement are excluded.",
+    inExDescription: "The helicopter leg, national park permits, landing fees, the private vehicle transfer at the Kathmandu end and on-board oxygen are included, while insurance, meals, personal expenses and any cost from a weather postponement are excluded.",
     bestTime: "Oct-Dec, Mar-May",
     meta: { ...l.meta, tags: "Helicopter Flights, Everest, Khumbu, Transfer, Nepal Tours" },
   },

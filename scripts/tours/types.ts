@@ -33,7 +33,12 @@ export type TourContent = {
     airportTransfer?: boolean;
     /** Domestic flights or helicopter legs that appear in the itinerary. */
     flights?: string[];
-    /** Vehicle lines, in itinerary order. */
+    /**
+     * Vehicle lines, in itinerary order. Every tour runs on private transport,
+     * and the builder states that on its own line ahead of these — so these
+     * carry the itinerary detail (which legs, which vehicle) rather than
+     * repeating the promise.
+     */
     transport: string[];
     /** Hotel nights, e.g. "Two nights at a 3-star hotel in Pokhara with breakfast." */
     accommodation?: string[];
@@ -59,10 +64,14 @@ export type TourContent = {
     domestic?: boolean;
   };
 
-  /** Optional per-tour add-ons, on top of the private-vehicle upgrade. */
+  /** Optional per-tour add-ons, on top of the luxury-vehicle upgrade. */
   addons?: TourAddon[];
-  /** Set false where a private vehicle is already the only way the tour runs. */
-  privateVehicleAddon?: boolean;
+  /**
+   * Set false where the journey itself is a flight or an activity and the only
+   * road leg is a short hotel transfer — private transport is still included,
+   * there is simply no vehicle day worth upgrading.
+   */
+  luxuryVehicleAddon?: boolean;
 
   /** Single weekday for the weekly fixed departure. */
   fixedDepartureDay: string;

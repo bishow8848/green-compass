@@ -557,7 +557,9 @@ export const gosainkundaTour: Tour = {
       guide: "Licensed trekking guide familiar with the pilgrimage route and the festival.",
       extra: ["Porter support for one shared bag between two pilgrims."],
     },
-    exclusions: { extra: ["Offerings and donations at the lakeside shrines.", "Hot showers and charging at the lodges."] },
+    exclusions: {
+      domestic: true,
+ extra: ["Offerings and donations at the lakeside shrines.", "Hot showers and charging at the lodges."] },
     fixedDepartureDay: "thursday",
     itineraryDescription: "Six days walking to the sacred lakes of Gosaikunda at 4,380 m in Langtang National Park, via Dhunche and Chandanbari.",
     inExDescription: "Private vehicle transfers, lodge and hotel nights, all meals on the walking days, the national park permit, a licensed guide and shared porter support are included, while international flights, visa, insurance, offerings and tips are excluded.",

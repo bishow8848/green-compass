@@ -6,12 +6,21 @@
  * like usable landscape photography. Writes a manifest; downloads nothing.
  *
  *   npx tsx scripts/images/commons-search.mts [out.json]
+ *   npx tsx scripts/images/commons-search.mts [out.json] --slugs=<file>
+ *
+ * By default this collects for every product that still has no hero or gallery.
+ * --slugs limits the run to the slugs in that file, one per line, which is how
+ * a product that already has images gets re-sourced.
  */
 import "dotenv/config";
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { prisma } from "../../lib/prisma";
 
-const OUT = process.argv[2] ?? "/tmp/commons-candidates.json";
+const OUT = process.argv.slice(2).find((a) => !a.startsWith("--")) ?? "/tmp/commons-candidates.json";
+const SLUG_FILE = process.argv.find((a) => a.startsWith("--slugs="))?.slice(8);
+const ONLY = SLUG_FILE
+  ? readFileSync(SLUG_FILE, "utf8").split("\n").map((l) => l.trim()).filter(Boolean)
+  : null;
 const API = "https://commons.wikimedia.org/w/api.php";
 const UA = "MardiTreks-ContentBot/1.0 (https://marditreks.com; contact via site) node-fetch";
 
@@ -104,7 +113,7 @@ function placesOf(titles: string[]): string[] {
 
 async function main() {
   const treks = await prisma.trek.findMany({
-    where: { OR: [{ heroImage: null }, { galleryImages: { none: {} } }] },
+    where: ONLY ? { slug: { in: ONLY } } : { OR: [{ heroImage: null }, { galleryImages: { none: {} } }] },
     select: {
       id: true, slug: true, title: true, region: true,
       heroImage: true,
@@ -124,7 +133,16 @@ async function main() {
     const places = placesOf(t.itinerary.map((d) => d.title));
     // Trek title first (best single shot at a hero), then the distinctive places.
     const terms = [
-      t.title.replace(/\btrek(king)?\b/gi, "").replace(/\bfrom Pokhara\b/gi, "").trim(),
+      // The title names the subject, but only once the product wrapper is off
+      // it. "Island Peak Climbing With Helicopter Return" searches badly;
+      // "Island Peak" is the mountain the photographs are actually of.
+      t.title
+        .replace(/\btrek(king)?\b/gi, "")
+        .replace(/\b(climbing|expedition|climb)\b/gi, "")
+        .replace(/\bwith Helicopter Return\b/gi, "")
+        .replace(/\bfrom (Pokhara|Chhukung)\b/gi, "")
+        .replace(/\s{2,}/g, " ")
+        .trim(),
       ...places.slice(0, 10).map((p) => `${p} Nepal`),
       t.region ? `${t.region} Nepal mountains` : "Nepal Himalaya trekking",
     ];

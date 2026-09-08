@@ -1248,11 +1248,13 @@ sectionMap["gallery"] = () => trek.galleryImages?.length > 0 ? <GallerySection
       <ScrollToHash />
 
       <SectionNav
+        slug={slug}
         hasItinerary={itinerary.length > 0}
         hasInclusions={inclusions.length > 0 || exclusions.length > 0}
         hasPricing={pricingTiers.length > 0}
         hasFaqs={faqs.length > 0}
         hasFixedDepartures={fixedDepartureDays.length > 0 || customStartDates.length > 0}
+        hasGallery={(trek.galleryImages?.length ?? 0) > 0}
         sectionOrder={sectionOrderList}
       />
 

@@ -30,7 +30,8 @@ const PUBLISH = args.includes("--publish");
 const only = new Set(args.filter((a) => !a.startsWith("--")));
 
 const CATEGORY_SLUG = "treks";
-const REGION = "Remote Region";
+/** Used where a definition does not name its own region. */
+const DEFAULT_REGION = "Remote Region";
 const MAX_GROUP_SIZE = 12;
 
 /** Per-person price steps above the base, matching every other trek in the catalogue. */
@@ -131,7 +132,7 @@ async function main() {
         title: c.title,
         slug: c.slug,
         categoryId: category.id,
-        region: REGION,
+        region: t.region ?? DEFAULT_REGION,
         price: t.price,
         duration: t.days.length,
         difficulty: t.difficulty,

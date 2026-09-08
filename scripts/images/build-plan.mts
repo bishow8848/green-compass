@@ -42,6 +42,12 @@ const SCENIC_TOUR = /\b(temple|square|stupa|pagoda|palace|courtyard|shrine|monas
  * tour — a Kathmandu day tour is about Kathmandu. */
 const TOUR_KEEP = new Set(["Kathmandu","Pokhara","Village","Valley","Lake","Hill","Peak","Himal","Sunrise","Sunset","Danda","Gompa","Bazar","Bazaar","Nepal"]);
 
+/** A climbing itinerary is mostly procedure — rotations, puja, a summit push,
+ * an equipment check. None of those name a place, and left in they score a
+ * filename that merely contains "tower" or "training" as if it named the peak.
+ * The product wrapper words go too: "Ama Dablam Expedition" is about Dablam. */
+const CLIMB_NOISE = new Set(["Summit","Rotation","Rotations","Push","Puja","Ceremony","Briefing","Permits","Permit","Equipment","Check","Technical","Training","Assessment","Spare","Contingency","Reserve","Climb","Climbing","Climbers","Move","High","Low","Yellow","Tower","Area","Restricted","Expedition","Peaks","Three","Two","Short","With","Helicopter","Return","Descent","Descend","Ascent","Practice","Skills","Load","Ferry","Fixing","Ropes","Rope","Weather","Window","Buffer","Contingencies","Recovery","Pack","Packing","Farewell","Celebration","Debrief","Certificate"]);
+
 const NOISE = new Set(["Day","Trek","Trekking","Drive","Fly","Flight","Hike","Walk","Arrival","Arrive","Departure","Depart","Final","Early","Morning","Afternoon","Evening","Rest","Acclimatization","Acclimatisation","Exploration","Explore","Visit","Return","Back","Trip","Tour","Sightseeing","Preparation","From","To","And","Via","In","At","Or","The","Of","Transfer","Hotel","Free","Over","Toward","Towards","Your","Cross","Crossing","Descend","Continue","Begin","Start","Today","Night","Overnight","Stay","Nepal","Sunrise","Sunset","Tribhuvan","International","Airport","Jeep","Bus","Car","Village","Camp","Base","Lake","Pass","Danda","Kharka","Gompa","Bazar","Bazaar","Himal","Hill","Peak","Valley","Kathmandu","Pokhara"]);
 
 async function main() {
@@ -63,7 +69,31 @@ async function main() {
   });
 
   const plan: any[] = [];
+
+  /**
+   * The public id upload.mts will give this file. Heroes are deduplicated by
+   * stem rather than by Commons filename so the check survives across runs:
+   * what the database holds is the uploaded id, not the name it came from.
+   */
+  const stemOf = (file: string) =>
+    file.replace(/\.[a-z0-9]+$/i, "").toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 60);
+
+  // Heroes already fronting a product that this run is not replanning. Without
+  // this, re-sourcing one trek can hand it the photograph that already leads
+  // another, and the two sit side by side in a "Similar Treks" row.
   const usedHeroes = new Set<string>();
+  const planning = new Set(treks.map((t) => t.slug));
+  const existing = await prisma.trek.findMany({
+    where: { heroImage: { not: null } },
+    select: { slug: true, heroImage: true },
+  });
+  for (const t of existing) {
+    if (planning.has(t.slug)) continue;
+    const tail = t.heroImage!.split("/").pop()!;
+    usedHeroes.add(tail.replace(new RegExp(`^${t.slug}-\\d+-`), ""));
+  }
+  console.log(`Reserved ${usedHeroes.size} hero(es) already in use by other products.\n`);
   const entry = (t: any, picked: any[]) => ({
     id: t.id, slug: t.slug, title: t.title,
     shortfall: Math.max(0, 7 - picked.length),
@@ -77,14 +107,18 @@ async function main() {
   });
   for (const t of treks) {
     const isTour = t.category?.slug === "tours";
+    const isClimb = t.category?.slug === "climbing";
     const places = new Set<string>();
     // The tour title names the subject as reliably as the day titles do
-    // ("Bhaktapur Day Tour"), and a one-day tour has only one day title.
-    const sources = isTour ? [{ title: t.title }, ...t.itinerary] : t.itinerary;
+    // ("Bhaktapur Day Tour"), and a one-day tour has only one day title. A climb
+    // is named after its peak, and on an expedition most day titles are camps
+    // and rotations rather than places — so there too the title carries it.
+    const sources = isTour || isClimb ? [{ title: t.title }, ...t.itinerary] : t.itinerary;
     for (const d of sources) {
       for (const w of d.title.replace(/\([^)]*\)/g, " ").split(/[^A-Za-z']+/)) {
         if (w.length <= 3 || !/^[A-Z]/.test(w)) continue;
         if (NOISE.has(w) && !(isTour && TOUR_KEEP.has(w))) continue;
+        if (isClimb && CLIMB_NOISE.has(w)) continue;
         places.add(w.toLowerCase());
       }
     }
@@ -156,16 +190,16 @@ async function main() {
         if (c) picked.unshift(c);
         else console.log(`  !! ${t.slug}: hero override "${wanted}" is not a candidate`);
       }
-      usedHeroes.add(picked[0].file);
+      usedHeroes.add(stemOf(picked[0].file));
       plan.push(entry(t, picked));
       continue;
     }
 
     // A hero already used by another trek is demoted into the gallery, so no two
     // trek cards on a "Similar Treks" row show the same photograph.
-    const heroIdx = picked.findIndex((c) => !usedHeroes.has(c.file));
+    const heroIdx = picked.findIndex((c) => !usedHeroes.has(stemOf(c.file)));
     if (heroIdx > 0) picked.unshift(...picked.splice(heroIdx, 1));
-    if (picked[0]) usedHeroes.add(picked[0].file);
+    if (picked[0]) usedHeroes.add(stemOf(picked[0].file));
 
     plan.push(entry(t, picked));
   }

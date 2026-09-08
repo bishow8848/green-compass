@@ -10,6 +10,12 @@ import type { TrekContent } from "../trek-content/build";
  */
 export type NewTrek = {
   content: TrekContent;
+  /**
+   * Region name shown on the card and used by the region filter. Must match one
+   * of the regions on the "treks" category. Defaults to "Remote Region", which
+   * is what the first batch of these treks all were.
+   */
+  region?: string;
   /** Base per-person price for the largest group; the tiers are derived from it. */
   price: number;
   /** easy | moderate | challenging | difficult | extreme */

@@ -9,12 +9,21 @@ import type { Tour, TourAddon, TourContent } from "./types";
 const li = (items: string[]) =>
   `<ul>${items.map((t) => `<li><p>${t}</p></li>`).join("")}</ul><p></p>`;
 
+/**
+ * Every tour runs on private transport — this line goes into the inclusions of
+ * all of them, ahead of the itinerary-specific vehicle lines, so the promise is
+ * stated once in the same words everywhere.
+ */
+export const PRIVATE_TRANSPORT_LINE =
+  "Private transportation throughout: a vehicle and driver reserved for your party alone, never a shared or public service.";
+
 export function buildInclusions(c: TourContent): string {
   const items: string[] = [];
   if (c.inclusions.airportTransfer) {
     items.push("Airport pickup and drop-off services in Kathmandu.");
   }
   items.push(...(c.inclusions.flights ?? []));
+  items.push(PRIVATE_TRANSPORT_LINE);
   items.push(...c.inclusions.transport);
   items.push(...(c.inclusions.accommodation ?? []));
   items.push(...(c.inclusions.meals ?? []));
@@ -35,6 +44,11 @@ export function buildExclusions(c: TourContent): string {
   items.push("Travel insurance covering medical treatment and emergency evacuation.");
   items.push(c.exclusions.meals ?? "Meals not specified in the itinerary.");
   items.push(...(c.exclusions.extra ?? []));
+  if (c.luxuryVehicleAddon !== false) {
+    items.push(
+      "Luxury vehicle upgrade — private transport is included as standard, the luxury vehicle is an optional add-on.",
+    );
+  }
   items.push("Drinks, snacks, and personal expenses such as laundry, phone calls and souvenirs.");
   items.push("Tips for the guide and driver.");
   items.push(
@@ -71,15 +85,19 @@ export function buildPricingTiers(price: number) {
   }));
 }
 
-/** Private-vehicle upgrade, priced off the length of the trip. */
-function privateVehicleAddon(days: number): TourAddon {
-  const perDay = 45;
+/**
+ * Luxury-vehicle upgrade, priced off the length of the trip. A private vehicle
+ * is included in every tour, so what is sold here is the class of vehicle —
+ * a premium SUV or van instead of the standard car — not the privacy.
+ */
+function luxuryVehicleAddon(days: number): TourAddon {
+  const perDay = 60;
   return {
-    title: "Private Vehicle Upgrade",
+    title: "Luxury Vehicle Upgrade",
     description:
       days === 1
-        ? "Run the tour in a private car or van reserved for your party alone, with the itinerary timed around you rather than a shared departure."
-        : `Reserve a private vehicle and driver for all ${days} days, so the group travels on its own schedule with room for luggage and stops on request.`,
+        ? "Your tour already runs in a private vehicle. This upgrades it to a luxury SUV or premium van — leather seats, extra legroom, climate control and a senior driver — for the day."
+        : `Your tour already runs in a private vehicle. This upgrades it to a luxury SUV or premium van for all ${days} days, with extra legroom, climate control, room for luggage and a senior driver throughout.`,
     unit: "vehicle",
     pricePerUnit: perDay * days,
   };
@@ -87,8 +105,8 @@ function privateVehicleAddon(days: number): TourAddon {
 
 export function buildAddons(t: Tour): TourAddon[] {
   const addons: TourAddon[] = [];
-  if (t.content.privateVehicleAddon !== false) {
-    addons.push(privateVehicleAddon(t.days.length));
+  if (t.content.luxuryVehicleAddon !== false) {
+    addons.push(luxuryVehicleAddon(t.days.length));
   }
   addons.push(...(t.content.addons ?? []));
   return addons;
@@ -149,7 +167,9 @@ export function buildSectionData(c: TourContent, days: number) {
     addons: {
       heading: "Add-ons",
       description:
-        "Customize your tour with optional services such as a private vehicle and other personalized arrangements at an additional cost.",
+        c.luxuryVehicleAddon === false
+          ? "Private transportation with a driver is included in every tour. Add optional services and personalized arrangements at an additional cost."
+          : "Private transportation with a driver is included in every tour. Upgrade to a luxury vehicle or add other personalized arrangements at an additional cost.",
     },
     faqs: {
       heading: "Frequently Asked Questions",
