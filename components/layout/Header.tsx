@@ -44,6 +44,12 @@ function titleCaseName(name: string | null | undefined): string {
     .join(" ");
 }
 
+/** First word of the name, title-cased. The header shows only this — never the
+ *  full name or the email — so the account row stays narrow in the top bar. */
+function firstNameOnly(name: string | null | undefined): string {
+  return titleCaseName(name).split(" ")[0] || "";
+}
+
 export function Header({
   categories,
   siteLogo,
@@ -416,6 +422,13 @@ export function Header({
     />
   ) : null;
 
+  // Initial shown in the avatar circle, taken from the first name so it matches
+  // the label beside it; the email is only a fallback for a nameless account.
+  const userInitial = (firstNameOnly(session?.user?.name) || session?.user?.email || "?")
+    .trim()
+    .charAt(0)
+    .toUpperCase();
+
   const authActions = (
     <div ref={authRef} className="ml-auto hidden items-center gap-4 lg:flex">
       {session?.user ? (
@@ -425,17 +438,10 @@ export function Header({
             className="flex items-center gap-3 rounded-xl px-1.5 py-1.5 transition-colors hover:bg-surface-alt focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
           >
             <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10 text-[15px] font-bold text-primary">
-              {(session.user.name || session.user.email || "?").trim().charAt(0).toUpperCase()}
+              {userInitial}
             </span>
-            <span className="min-w-0 text-left">
-              <span className="block max-w-[160px] truncate text-[15px] font-semibold text-foreground">
-                {titleCaseName(session.user.name) || "Your account"}
-              </span>
-              {session.user.email && (
-                <span className="block max-w-[160px] truncate text-[13px] text-text-muted">
-                  {session.user.email}
-                </span>
-              )}
+            <span className="block max-w-[120px] truncate text-left text-[15px] font-semibold text-foreground">
+              {firstNameOnly(session.user.name) || "Your account"}
             </span>
           </Link>
           <button
@@ -481,9 +487,6 @@ export function Header({
       </span>
     </button>
   );
-
-  // Initials shown in the mobile drawer's account row when signed in.
-  const userInitial = (session?.user?.name || session?.user?.email || "?").trim().charAt(0).toUpperCase();
 
   return (
     <div
@@ -590,13 +593,8 @@ export function Header({
             <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10 text-[15px] font-bold text-primary">
               {userInitial}
             </span>
-            <span className="min-w-0 flex-1">
-              <span className="block truncate text-[15px] font-semibold text-foreground">
-                {titleCaseName(session.user.name) || "Your account"}
-              </span>
-              {session.user.email && (
-                <span className="block truncate text-[13px] text-text-muted">{session.user.email}</span>
-              )}
+            <span className="min-w-0 flex-1 truncate text-[15px] font-semibold text-foreground">
+              {firstNameOnly(session.user.name) || "Your account"}
             </span>
           </Link>
         )}
