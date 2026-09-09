@@ -42,6 +42,12 @@ export async function generateMetadata(): Promise<Metadata> {
     CACHE_TTL.YEARLY
   );
 
+  // This Cloudinary account runs with strict transformations: `f_auto,q_auto`
+  // is the only permitted transform on the logo — sizing/padding variants 404.
+  // So these entries stay unsized and carry no `type`, since f_auto negotiates
+  // the format per client (WebP for most browsers) and any fixed type would be
+  // a lie. Search engines don't rely on them: the real app/favicon.ico is the
+  // primary icon, prepended ahead of these by Next's file convention.
   const logoUrl = settings?.logo
     ? `${CLOUDINARY_BASE}f_auto,q_auto/${settings.logo}`
     : undefined;
@@ -70,11 +76,8 @@ export async function generateMetadata(): Promise<Metadata> {
     keywords: settings?.defaultKeywords || undefined,
     icons: logoUrl
       ? {
-          icon: [
-            { url: logoUrl, sizes: "any", type: "image/x-icon" },
-            { url: logoUrl, sizes: "192x192", type: "image/png" },
-          ],
-          apple: { url: logoUrl, sizes: "180x180", type: "image/png" },
+          icon: [{ url: logoUrl, sizes: "192x192" }],
+          apple: { url: logoUrl, sizes: "180x180" },
         }
       : undefined,
     openGraph: {
