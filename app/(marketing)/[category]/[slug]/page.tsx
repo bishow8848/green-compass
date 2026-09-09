@@ -14,6 +14,7 @@ import { TrekMapWrapper } from "@/components/map/TrekMapWrapper";
 import { PricingCalculator } from "@/components/trek/PricingCalculator";
 import { AltitudeProfile } from "@/components/trek/AltitudeProfile";
 import { ReviewForm } from "@/components/trek/ReviewForm";
+import { ReviewCarousel } from "@/components/home/ReviewCarousel";
 import { FixDepartureTable } from "@/components/trek/FixDepartureTable";
 import { SectionNav } from "@/components/trek/SectionNav";
 import GallerySection from "@/components/trek/GallerySection";
@@ -1023,49 +1024,10 @@ sectionMap["reviews"] = () => {
     )}
 
     {approvedReviews.length > 0 && (
-      <div className="grid gap-4 sm:grid-cols-2">
-        {approvedReviews.map((review: any, i: number) => (
-          <div
-            key={i}
-            className="relative overflow-hidden rounded-2xl border p-5 pl-6"
-            style={{ backgroundColor: "var(--color-surface)", borderColor: "var(--color-border)" }}
-          >
-            <span
-              className="absolute left-0 top-0 h-full w-1"
-              style={{ backgroundColor: "var(--color-primary)" }}
-            />
-            <div className="flex items-center justify-between gap-3">
-              <div className="flex items-center gap-2.5">
-                <span
-                  className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xs font-bold"
-                  style={{ backgroundColor: "var(--color-surface-alt)", color: "var(--color-primary)" }}
-                >
-                  {review.author?.charAt(0)?.toUpperCase() || "?"}
-                </span>
-                <span className="text-sm font-semibold" style={{ color: "var(--color-foreground)" }}>{review.author}</span>
-              </div>
-              <div className="flex shrink-0">
-                {Array.from({ length: 5 }).map((_, j) => (
-                  <Star
-                    key={j}
-                    className="h-3.5 w-3.5"
-                    style={{
-                      fill: j < review.rating ? "var(--color-warning)" : "var(--color-border)",
-                      color: j < review.rating ? "var(--color-warning)" : "var(--color-border)",
-                    }}
-                  />
-                ))}
-              </div>
-            </div>
-            {review.heading && (
-              <h3 className="mt-3 text-base font-semibold" style={{ color: "var(--color-foreground)" }}>
-                {review.heading}
-              </h3>
-            )}
-            <p className="mt-3 text-sm leading-relaxed" style={{ color: "var(--color-text)" }}>{review.text}</p>
-          </div>
-        ))}
-      </div>
+      <ReviewCarousel
+        reviews={JSON.parse(JSON.stringify(approvedReviews))}
+        variant="bare"
+      />
     )}
 
     <div className="mt-8">
