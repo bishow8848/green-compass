@@ -7,7 +7,7 @@ import { FixDeparturePageShell, buildFixDepartureConfig } from "../fix-departure
 
 export const revalidate = 86400; // refreshed on-demand after CMS edits
 
-/** Pre-render fix-departure pages for every published trek (static + indexable). */
+/** Pre-render fix-departure pages for every published trek. */
 export async function generateStaticParams() {
   const treks = await prisma.trek.findMany({
     where: { status: "published", categoryId: { not: null } },
@@ -52,6 +52,11 @@ export async function generateMetadata({
     title,
     description: `Guaranteed fixed departure dates for ${trek.title}. Pick your preferred date — every trip listed runs as scheduled.`,
     alternates: { canonical: `${SITE_URL}/${catSlug}/${slug}/fix-departure` },
+    // Kept out of the index: every one of these pages repeats the departure
+    // table already on its product page, so 200+ near-identical URLs would
+    // only compete with — and dilute — the product pages. `follow` keeps
+    // crawlers moving through the links.
+    robots: { index: false, follow: true },
     openGraph: {
       title: `${title} | Green Compass Treks`,
       description: `Guaranteed fixed departure dates for ${trek.title}.`,

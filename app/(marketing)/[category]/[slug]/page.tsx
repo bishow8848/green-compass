@@ -25,7 +25,7 @@ import { SearchBar } from "@/components/search/SearchBar";
 
 import { FAQAccordion } from "@/components/ui/FAQAccordion";
 import { sanitizeRichText } from "@/lib/sanitize";
-import { SITE_URL, brandedTitle, seoDescription, seoImageUrl, serializeJsonLd } from "@/lib/seo";
+import { SITE_NAME, SITE_URL, brandedTitle, ogImages, seoDescription, seoImageUrl, serializeJsonLd } from "@/lib/seo";
 
 export const revalidate = 604800; // Trek detail cached 7 days; refreshed on-demand after CMS edits
 
@@ -85,9 +85,9 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
       description,
       type: "article",
       url: `${SITE_URL}/${catSlug}/${slug}`,
-      images: trekImage
-        ? [{ url: trekImage, width: 1200, height: 630, alt: `${trek.title} in Nepal` }]
-        : undefined,
+      siteName: SITE_NAME,
+      locale: "en_US",
+      images: ogImages(trekImage, `${trek.title} in Nepal`),
     },
     twitter: {
       card: "summary_large_image",
@@ -347,11 +347,22 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
               availability: "https://schema.org/InStock",
               url: `${SITE_URL}/${catSlug}/${slug}`,
             },
-            itinerary: itinerary?.map((day: any) => ({
-              "@type": "Itinerary",
-              name: `Day ${day.dayNumber}: ${day.title}`,
-              description: day.description?.replace(/<[^>]*>/g, "").slice(0, 200),
-            })),
+            // schema.org has no "Itinerary" type: TouristTrip.itinerary takes
+            // an ItemList (or a Place), so each day is a positioned ListItem.
+            ...(itinerary.length > 0
+              ? {
+                  itinerary: {
+                    "@type": "ItemList",
+                    numberOfItems: itinerary.length,
+                    itemListElement: itinerary.map((day: any) => ({
+                      "@type": "ListItem",
+                      position: day.dayNumber,
+                      name: `Day ${day.dayNumber}: ${day.title}`,
+                      description: day.description?.replace(/<[^>]*>/g, "").slice(0, 200),
+                    })),
+                  },
+                }
+              : {}),
           }),
         }}
       />

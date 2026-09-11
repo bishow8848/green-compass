@@ -29,21 +29,45 @@ export const CACHE_TTL = {
  * Two guards keep an outage cheap.
  *
  * 1. Every command carries its own abort signal, capping one attempt at
- *    REDIS_TIMEOUT_MS. The signal is passed as a factory so the client mints a
- *    fresh one per request — and, per its contract, rethrows immediately
+ *    `commandTimeoutMs()`. The signal is passed as a factory so the client mints
+ *    a fresh one per request — and, per its contract, rethrows immediately
  *    instead of retrying once a factory-supplied signal fires.
  * 2. A circuit breaker bypasses Redis entirely after repeated failures, so a
  *    sustained outage costs one timeout per cooldown window rather than one
  *    per cache key on every render.
+ *
+ * The budget is wall-clock, not network time, which is why it cannot be as
+ * tight as the round trip alone suggests. An abort signal keeps counting while
+ * the event loop is blocked, so time spent compiling modules or deserializing a
+ * large Prisma result is charged to the Redis command that happens to be in
+ * flight. A cold `next dev` render is the worst case: every cache key on the
+ * page is read in parallel behind a few hundred milliseconds of compilation,
+ * and a 1s budget expired before the (healthy, ~300ms) responses were ever
+ * read — every key timed out, the breaker opened, and the cache stayed empty.
+ *
+ * Hence two budgets. Until the first command succeeds, COLD_TIMEOUT_MS covers
+ * DNS, the TLS handshake and start-up contention; afterwards a warm connection
+ * makes the tighter steady-state budget safe. Development keeps more headroom
+ * throughout, because Turbopack recompiles on every route change.
  */
-const REDIS_TIMEOUT_MS = Number(process.env.REDIS_TIMEOUT_MS) || 1000;
+const isDev = process.env.NODE_ENV !== "production";
+const COLD_TIMEOUT_MS = Number(process.env.REDIS_COLD_TIMEOUT_MS) || 5000;
+const REDIS_TIMEOUT_MS =
+  Number(process.env.REDIS_TIMEOUT_MS) || (isDev ? 3000 : 1000);
 const BREAKER_FAILURE_THRESHOLD = 3;
 const BREAKER_COOLDOWN_MS = 30_000;
+
+/** Cleared by the first successful command, which proves the pool is warm. */
+let isColdStart = true;
+
+function commandTimeoutMs(): number {
+  return isColdStart ? Math.max(COLD_TIMEOUT_MS, REDIS_TIMEOUT_MS) : REDIS_TIMEOUT_MS;
+}
 
 export const redis = new Redis({
   url: process.env.UPSTASH_REDIS_REST_URL!,
   token: process.env.UPSTASH_REDIS_REST_TOKEN!,
-  signal: () => AbortSignal.timeout(REDIS_TIMEOUT_MS),
+  signal: () => AbortSignal.timeout(commandTimeoutMs()),
   retry: { retries: 1 },
 });
 
@@ -80,6 +104,7 @@ async function tryRedis<T>(
   try {
     const value = await run();
     consecutiveFailures = 0;
+    isColdStart = false;
     return { ok: true, value };
   } catch (error) {
     consecutiveFailures += 1;

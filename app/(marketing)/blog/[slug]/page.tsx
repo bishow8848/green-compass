@@ -7,14 +7,14 @@ import { Calendar, Clock, ArrowLeft, ArrowRight, Mountain } from "lucide-react";
 import { prisma } from "@/lib/prisma";
 import { getCachedOrFetch, cacheKeys, CACHE_TTL } from "@/lib/redis";
 import { SearchBar } from "@/components/search/SearchBar";
-import { injectHeadingIds } from "@/lib/headings";
+import { demoteH1, injectHeadingIds } from "@/lib/headings";
 import { sanitizeRichText } from "@/lib/sanitize";
 import { extractFaqsFromHtml } from "@/lib/faq-block";
 import BlogSidebar from "@/components/blog/BlogSidebar";
 import { RichTextContent } from "@/components/blog/RichTextContent";
 import { FAQAccordion } from "@/components/ui/FAQAccordion";
 import { ContactFormSection } from "@/components/home/ContactFormSection";
-import { SITE_URL, brandedTitle, seoDescription, seoImageUrl, serializeJsonLd } from "@/lib/seo";
+import { SITE_URL, brandedTitle, ogImages, seoDescription, seoImageUrl, serializeJsonLd } from "@/lib/seo";
 
 // Blog post is cached for 7 days and refreshed on-demand after CMS edits (revalidatePath)
 export const revalidate = 604800;
@@ -64,9 +64,7 @@ export async function generateMetadata({
       publishedTime: post.publishedDate ? new Date(post.publishedDate).toISOString() : undefined,
       modifiedTime: post.updatedAt ? new Date(post.updatedAt).toISOString() : undefined,
       authors: [post.author || "Green Compass Treks"],
-      images: socialImageUrl
-        ? [{ url: socialImageUrl, width: 1200, height: 630, alt: post.title }]
-        : undefined,
+      images: ogImages(socialImageUrl, post.title),
     },
     twitter: {
       card: "summary_large_image",
@@ -156,7 +154,14 @@ export default async function BlogPostPage({
     post.metaDescription || post.excerpt,
     `Read ${post.title} and get practical advice for trekking in Nepal.`
   );
-  const articleSocialImageUrl = seoImageUrl(post.ogImage || post.heroImage);
+  // Google asks for Article images in 16:9, 4:3 and 1:1, each at least 1200px
+  // wide — the size Discover's large cards require.
+  const articleImageSource = post.heroImage || post.ogImage;
+  const articleImages = articleImageSource
+    ? [...new Set(["w_1200,h_675", "w_1200,h_900", "w_1200,h_1200"].map(
+        (size) => seoImageUrl(articleImageSource, `c_fill,${size},q_auto,f_auto`) as string
+      ))]
+    : undefined;
 
   const overlayStyle = {
     background: `
@@ -192,12 +197,15 @@ export default async function BlogPostPage({
             description: articleDescription,
             author: {
               "@type": "Person",
+              // The same entity the author page declares, so every byline
+              // resolves to one person.
+              ...(post.authorSlug ? { "@id": `${SITE_URL}/author/${post.authorSlug}#person` } : {}),
               name: post.author || "Green Compass Treks",
               url: post.authorSlug ? `${SITE_URL}/author/${post.authorSlug}` : SITE_URL,
             },
             datePublished: post.publishedDate,
             dateModified: post.updatedAt || post.publishedDate,
-            image: heroImageUrl || articleSocialImageUrl || undefined,
+            image: articleImages,
             url: `${SITE_URL}/blog/${slug}`,
             inLanguage: "en",
             keywords: tags.length > 0 ? tags.join(", ") : undefined,
@@ -339,7 +347,7 @@ export default async function BlogPostPage({
           <div className="flex flex-col space-y-0 lg:col-span-2">
             {/* Content */}
             <article className="blog-content">
-              <RichTextContent html={sanitizeRichText(injectHeadingIds(post.content || ""))} />
+              <RichTextContent html={sanitizeRichText(injectHeadingIds(demoteH1(post.content || "")))} />
             </article>
 
             {/* FAQs (like the trek detail page) */}

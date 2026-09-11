@@ -53,6 +53,15 @@ export function injectHeadingIds(html: string): string {
   return result;
 }
 
+/**
+ * Rich text renders beneath the page's own <h1>, so any h1 authored in the
+ * editor is demoted to h2 — two h1s on a page blur its topic for search
+ * engines and screen readers alike.
+ */
+export function demoteH1(html: string): string {
+  return html.replace(/<(\/?)h1(?=[\s>])/gi, "<$1h2");
+}
+
 function escapeRegex(str: string): string {
   return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }

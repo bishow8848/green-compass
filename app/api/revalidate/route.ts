@@ -28,7 +28,7 @@ export async function POST(request: NextRequest) {
     // Verify secret
     const authHeader = request.headers.get("authorization");
     const body = await request.json().catch(() => ({}));
-    const { secret, path, tag } = body;
+    const { secret, path, tag, type } = body;
 
     const providedSecret = authHeader?.replace("Bearer ", "") || secret;
 
@@ -36,9 +36,13 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Invalid secret" }, { status: 401 });
     }
 
-    // Revalidate by path
+    // Revalidate by path. A literal URL (/blog/post-1) must go without a type:
+    // "page" turns it into the tag of a route file named /blog/post-1/page,
+    // which no cached page carries, so the call silently did nothing. Route
+    // patterns (/blog/[slug]) still need one.
     if (path) {
-      revalidatePath(path, "page");
+      const pathType = type === "page" || type === "layout" ? type : path.includes("[") ? "page" : undefined;
+      revalidatePath(path, pathType);
       return NextResponse.json({
         revalidated: true,
         path,
@@ -46,9 +50,11 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    // Revalidate by tag
+    // Revalidate by tag. Callers are scripts that just wrote to the database,
+    // so the old data must go now: { expire: 0 } makes the next request fetch
+    // fresh instead of being served the stale copy while it revalidates.
     if (tag) {
-      revalidateTag(tag, "default");
+      revalidateTag(tag, { expire: 0 });
       return NextResponse.json({
         revalidated: true,
         tag,
