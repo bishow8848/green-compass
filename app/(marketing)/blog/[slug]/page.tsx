@@ -92,7 +92,7 @@ function CardSection({
   heading: string;
   description: string; 
   className?: string;
-  children: ReactNode;  
+  children: ReactNode;
 }) {
   return (
     // data-toc lists the section in the sidebar's contents
