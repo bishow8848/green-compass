@@ -85,7 +85,7 @@ function CardSection({
   id,
   heading,
   description,
-  className = "py-10 sm:py-12",
+  className = "pt-12 sm:pt-16",
   children,
 }: {
   id: string;
@@ -457,19 +457,6 @@ export default async function BlogPostPage({
               </div>
             )}
 
-            {/* Trips this article covers — before the contact form */}
-            {relatedTreks.length > 0 && (
-              <CardSection
-                id="blog-related-treks"
-                heading="Related Treks"
-                description={relations.note || "Trips we run that this article covers."}
-              >
-                {relatedTreks.map((trek) => (
-                  <TrekCard key={trek.id} trek={trek} href={`/${trek.category?.slug}/${trek.slug}`} />
-                ))}
-              </CardSection>
-            )}
-
             {/* Section ids carry a blog- prefix so they can't collide with the
                 ids injectHeadingIds gives the article's own h2s. */}
             <div id="blog-contact" data-toc="Contact Us">
@@ -482,13 +469,25 @@ export default async function BlogPostPage({
               />
             </div>
 
-            {/* Further reading — after the contact form, like Similar Treks on a trek page */}
+            {/* Trips this article covers — after the contact form */}
+            {relatedTreks.length > 0 && (
+              <CardSection
+                id="blog-related-treks"
+                heading="Related Treks"
+                description={relations.note || "Trips we run that this article covers."}
+              >
+                {relatedTreks.map((trek) => (
+                  <TrekCard key={trek.id} trek={trek} href={`/${trek.category?.slug}/${trek.slug}`} />
+                ))}
+              </CardSection>
+            )}
+
+            {/* Further reading — last, like Similar Treks on a trek page */}
             {relatedPosts.length > 0 && (
               <CardSection
                 id="blog-keep-reading"
                 heading="Keep Reading"
                 description="More guides to help you plan your trip."
-                className="pt-12 sm:pt-16"
               >
                 {relatedPosts.map((related) => (
                   <BlogCard
