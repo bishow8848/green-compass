@@ -88,7 +88,7 @@ function CardSection({
   className = "pt-12 sm:pt-16",
   children,
 }: {
-  id: string;
+  id: string; 
   heading: string;
   description: string; 
   className?: string;
