@@ -12,6 +12,13 @@ const nextConfig: NextConfig = {
         destination: "/contact",
         permanent: true,
       },
+      {
+        // llms.txt is the convention's filename; the old singular copy was
+        // folded into it.
+        source: "/llm.txt",
+        destination: "/llms.txt",
+        permanent: true,
+      },
     ];
   },
   async headers() {

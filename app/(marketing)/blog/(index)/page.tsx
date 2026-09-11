@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { getCachedOrFetch, cacheKeys, CACHE_TTL } from "@/lib/redis";
-import { SITE_URL, brandedTitle, seoDescription, seoImageUrl, serializeJsonLd } from "@/lib/seo";
+import { SITE_URL, brandedTitle, ogImages, seoDescription, seoImageUrl, serializeJsonLd } from "@/lib/seo";
 import { PageHero } from "@/components/layout/PageHero";
 import { BlogClient } from "./blog-client";
 import { getPageContent, requirePageSection } from "@/lib/page-content";
@@ -50,9 +50,7 @@ export async function generateMetadata({
       siteName: "Green Compass Treks",
       locale: "en_US",
       type: "website",
-      images: heroImage
-        ? [{ url: heroImage, width: 1200, height: 630, alt: "Nepal trekking and Himalayan travel guides" }]
-        : undefined,
+      images: ogImages(heroImage, "Nepal trekking and Himalayan travel guides"),
     },
     twitter: {
       card: "summary_large_image",
