@@ -90,7 +90,7 @@ function CardSection({
 }: {
   id: string;
   heading: string;
-  description: string;
+  description: string; 
   className?: string;
   children: ReactNode;
 }) {
