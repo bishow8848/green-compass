@@ -1,14 +1,22 @@
 /**
  * Write the Nepal travel blog: one published BlogPost per entry in
- * scripts/blog-content/*, all under the author "Bishow", plus the matching
- * "Trekking Guides & Articles" section on every product page an article
- * actually relates to.
+ * scripts/blog-content/*, all under the author "Bishow", plus the links
+ * between the articles and the product pages they relate to.
  *
  * Internal linking is generated from one source of truth — each article's
  * `relatedTreks` list:
- *   article -> product   the trips block inside the article (+ inline links)
- *   product -> article   a custom section on that trek/tour/climb page
+ *   article -> product   the Related Treks cards under the article (+ inline links)
+ *   product -> article   a "Trekking Guides & Articles" section on that page
  * A product with no genuinely related article gets no section at all.
+ *
+ * Product sections whose topic matches a planning article also get one
+ * closing sentence linking to it (a Packing List section -> the packing list
+ * guide). The rules are in blog-content/topic-links.ts.
+ *
+ * Each article's related trips and further reading are written to
+ * lib/blog-related.json, which the blog page renders as card sections. That
+ * file is rewritten on every successful run, dry runs included — commit it
+ * together with the content change.
  *
  * Validates before writing: every link token resolves to a real trek or
  * article, every image ID exists in Cloudinary data, no duplicate slugs, and
@@ -19,9 +27,11 @@
  *   npx tsx scripts/apply-blog-content.mts --apply    # write to the database
  */
 import "dotenv/config";
+import { writeFileSync } from "node:fs";
 import { prisma } from "../lib/prisma";
 import {
   GUIDES_HEADING,
+  buildRelations,
   guidesSectionId,
   renderArticle,
   renderGuidesSection,
@@ -30,8 +40,10 @@ import {
   type TrekIndex,
 } from "./blog-content/build";
 import { ALL_POSTS } from "./blog-content/index";
+import { TOPIC_ARTICLES, addTopicLinks } from "./blog-content/topic-links";
 
 const APPLY = process.argv.includes("--apply");
+const RELATIONS_FILE = new URL("../lib/blog-related.json", import.meta.url);
 
 const AUTHOR = {
   name: "Bishow",
@@ -47,8 +59,12 @@ const AUTHOR = {
     "or you need advice on a specific itinerary, get in touch — the team replies within 24 hours.</p>",
 };
 
-/** Minimum depth for an article to count as a detailed guide. */
-const MIN_WORDS = 900;
+/**
+ * Minimum depth for an article to count as a detailed guide. Words are counted
+ * on the article body alone — the related trips and further reading are card
+ * sections rendered by the page, not part of the body.
+ */
+const MIN_WORDS = 700;
 const MIN_SECTIONS = 4;
 const MIN_FAQS = 5;
 /** Most articles linked from a single product page. */
@@ -62,6 +78,7 @@ function validate(
   errors: string[],
   warnings: string[],
 ) {
+  const allSlugs = new Set(posts.map((p) => p.slug));
   const seenSlug = new Set<string>();
   const seenTitle = new Set<string>();
   for (const p of posts) {
@@ -108,11 +125,17 @@ function validate(
     if (new Set(p.relatedPosts).size !== p.relatedPosts.length) {
       errors.push(`${at} duplicate entry in relatedPosts`);
     }
+    for (const slug of p.relatedPosts) {
+      if (!allSlugs.has(slug)) errors.push(`${at} relatedPosts has unknown article "${slug}"`);
+    }
     if (new Set(p.relatedTreks).size !== p.relatedTreks.length) {
       errors.push(`${at} duplicate entry in relatedTreks`);
     }
     for (const slug of p.relatedTreks) {
       if (!treks.has(slug)) errors.push(`${at} relatedTreks has unknown trek "${slug}"`);
+    }
+    if (p.tripsNote?.includes("[[")) {
+      errors.push(`${at} tripsNote is shown as plain text and cannot hold link tokens`);
     }
   }
 }
@@ -124,8 +147,7 @@ async function main() {
   // ── Live catalogue: trek index, valid Cloudinary IDs ──
   const trekRows = await prisma.trek.findMany({
     select: {
-      id: true, slug: true, title: true, duration: true, difficulty: true,
-      region: true, maxAltitude: true, status: true, heroImage: true,
+      id: true, slug: true, region: true, maxAltitude: true, heroImage: true,
       customSections: true, sectionOrder: true,
       category: { select: { slug: true } },
       galleryImages: { select: { imageId: true } },
@@ -139,25 +161,20 @@ async function main() {
       warnings.push(`[trek:${t.slug}] has no category — cannot be linked from an article`);
       continue;
     }
-    treks.set(t.slug, {
-      title: t.title,
-      categorySlug: t.category.slug,
-      duration: t.duration,
-      difficulty: t.difficulty,
-      region: t.region,
-      maxAltitude: t.maxAltitude,
-    });
+    treks.set(t.slug, { categorySlug: t.category.slug });
     if (t.heroImage) images.add(t.heroImage);
     for (const g of t.galleryImages) images.add(g.imageId);
   }
 
   const postSlugs = new Set(ALL_POSTS.map((p) => p.slug));
-  const postTitles = new Map(ALL_POSTS.map((p) => [p.slug, p.title]));
+  for (const slug of TOPIC_ARTICLES) {
+    if (!postSlugs.has(slug)) errors.push(`[topic-links] points at unknown article "${slug}"`);
+  }
 
   // ── Render every article (collects link/image errors as it goes) ──
   const rendered = new Map<string, string>();
   for (const p of ALL_POSTS) {
-    rendered.set(p.slug, renderArticle(p, treks, postSlugs, postTitles, images, errors));
+    rendered.set(p.slug, renderArticle(p, treks, postSlugs, images, errors));
   }
 
   validate(ALL_POSTS, treks, rendered, images, errors, warnings);
@@ -192,6 +209,75 @@ async function main() {
     guidesByTrek.set(slug, list.slice(0, MAX_GUIDES_PER_TREK));
   }
 
+  // ── Product pages: topic links in content sections, plus the guides list ──
+  const productUpdates: { id: string; data: { customSections: string; sectionOrder?: string } }[] = [];
+  const topicLinks: { product: string; heading: string; article: string }[] = [];
+  let guidesSections = 0;
+  for (const row of trekRows) {
+    if (!row.category?.slug) continue;
+
+    let custom: any[];
+    try {
+      const parsed = JSON.parse(row.customSections || "[]");
+      if (!Array.isArray(parsed)) throw new Error("not an array");
+      custom = parsed;
+    } catch {
+      warnings.push(`[trek:${row.slug}] customSections is not valid JSON — skipped`);
+      continue;
+    }
+    let order: string[] = [];
+    try {
+      const parsed = JSON.parse(row.sectionOrder || "[]");
+      if (Array.isArray(parsed)) order = parsed.filter((i: unknown) => typeof i === "string");
+    } catch {
+      order = [];
+    }
+    const orderBefore = JSON.stringify(order);
+
+    const linked = addTopicLinks(
+      custom,
+      { slug: row.slug, category: row.category.slug, region: row.region, maxAltitude: row.maxAltitude },
+      GUIDES_HEADING,
+    );
+    custom = linked.sections;
+    for (const l of linked.links) topicLinks.push({ product: row.slug, ...l });
+
+    const posts = guidesByTrek.get(row.slug);
+    if (posts) {
+      const id = guidesSectionId(row.slug);
+      const section = {
+        id,
+        type: "custom",
+        visible: false,
+        label: "Custom Section",
+        data: { heading: GUIDES_HEADING, content: renderGuidesSection(posts) },
+      };
+
+      const idx = custom.findIndex((s) => s?.id === id);
+      if (idx >= 0) custom[idx] = section;
+      else custom.push(section);
+
+      if (!order.includes(id)) {
+        // Sit the guides list after the gallery, so it closes the page content
+        // just before the contact form and similar-trips blocks.
+        const anchor = order.indexOf("gallery");
+        if (anchor >= 0) order.splice(anchor + 1, 0, id);
+        else order.push(id);
+      }
+      guidesSections++;
+    }
+
+    const customSections = JSON.stringify(custom);
+    const sectionOrder = JSON.stringify(order);
+    const orderChanged = sectionOrder !== orderBefore;
+    if (customSections !== (row.customSections || "[]") || orderChanged) {
+      productUpdates.push({
+        id: row.id,
+        data: { customSections, ...(orderChanged ? { sectionOrder } : {}) },
+      });
+    }
+  }
+
   // ── Report ──
   const words = [...rendered.values()].map(wordCount);
   const total = words.reduce((a, b) => a + b, 0);
@@ -199,7 +285,19 @@ async function main() {
   console.log(`Words:           ${total.toLocaleString("en-US")} total, ${Math.round(total / ALL_POSTS.length)} average, ${Math.min(...words)} shortest`);
   console.log(`FAQs:            ${ALL_POSTS.reduce((n, p) => n + p.faqs.length, 0)}`);
   console.log(`Article -> trip links: ${ALL_POSTS.reduce((n, p) => n + p.relatedTreks.length, 0)}`);
-  console.log(`Product pages receiving a guides section: ${guidesByTrek.size} of ${treks.size}`);
+  console.log(`Product pages receiving a guides section: ${guidesSections} of ${treks.size}`);
+  console.log(
+    `Topic links in product sections: ${topicLinks.length} across ${new Set(topicLinks.map((l) => l.product)).size} pages`,
+  );
+  const byTopic = new Map<string, number>();
+  for (const l of topicLinks) {
+    const key = `${l.heading} -> ${l.article}`;
+    byTopic.set(key, (byTopic.get(key) ?? 0) + 1);
+  }
+  for (const [key, n] of [...byTopic].sort((a, b) => b[1] - a[1])) {
+    console.log(`  ${String(n).padStart(4)}  ${key}`);
+  }
+  console.log(`Product pages with changes to write: ${productUpdates.length}`);
 
   const byCluster = new Map<string, number>();
   for (const p of ALL_POSTS) byCluster.set(p.cluster, (byCluster.get(p.cluster) ?? 0) + 1);
@@ -217,6 +315,11 @@ async function main() {
     console.error("\nNothing was written.");
     process.exit(1);
   }
+
+  // ── Related trips and reading for the blog page (a repo file, not the DB) ──
+  const relations = buildRelations(ALL_POSTS);
+  writeFileSync(RELATIONS_FILE, `${JSON.stringify(relations, null, 2)}\n`);
+  console.log(`\nWrote lib/blog-related.json (${Object.keys(relations).length} articles).`);
 
   if (!APPLY) {
     console.log("\nDry run — pass --apply to write to the database.");
@@ -263,56 +366,13 @@ async function main() {
   }
   console.log(`Articles: ${created} created, ${updated} updated`);
 
-  // ── Product-page guides sections ──
-  let sectionsWritten = 0;
-  for (const [slug, posts] of guidesByTrek) {
-    const row = trekRows.find((t) => t.slug === slug);
-    if (!row) continue;
-
-    let custom: any[] = [];
-    try {
-      const parsed = JSON.parse(row.customSections || "[]");
-      if (Array.isArray(parsed)) custom = parsed;
-    } catch {
-      warnings.push(`[trek:${slug}] customSections is not valid JSON — skipped`);
-      continue;
-    }
-    let order: string[] = [];
-    try {
-      const parsed = JSON.parse(row.sectionOrder || "[]");
-      if (Array.isArray(parsed)) order = parsed.filter((i: unknown) => typeof i === "string");
-    } catch {
-      order = [];
-    }
-
-    const id = guidesSectionId(slug);
-    const section = {
-      id,
-      type: "custom",
-      visible: false,
-      label: "Custom Section",
-      data: { heading: GUIDES_HEADING, content: renderGuidesSection(posts) },
-    };
-
-    const idx = custom.findIndex((s) => s?.id === id);
-    if (idx >= 0) custom[idx] = section;
-    else custom.push(section);
-
-    if (!order.includes(id)) {
-      // Sit the guides list after the gallery, so it closes the page content
-      // just before the contact form and similar-trips blocks.
-      const anchor = order.indexOf("gallery");
-      if (anchor >= 0) order.splice(anchor + 1, 0, id);
-      else order.push(id);
-    }
-
-    await prisma.trek.update({
-      where: { id: row.id },
-      data: { customSections: JSON.stringify(custom), sectionOrder: JSON.stringify(order) },
-    });
-    sectionsWritten++;
+  // ── Product pages ──
+  for (const u of productUpdates) {
+    await prisma.trek.update({ where: { id: u.id }, data: u.data });
   }
-  console.log(`Product pages updated with a guides section: ${sectionsWritten}`);
+  console.log(
+    `Product pages updated: ${productUpdates.length} (${guidesSections} with a guides section, ${topicLinks.length} topic links)`,
+  );
 
   await prisma.$disconnect();
   console.log("\nDone. Run `npm run cache:reset` so the site serves the new content.");

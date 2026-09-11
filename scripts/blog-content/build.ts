@@ -65,26 +65,22 @@ export type BlogContent = {
   /** Rendered by the blog page as a server-rendered accordion + FAQPage schema. */
   faqs: { question: string; answer: string }[];
   /**
-   * Product pages genuinely relevant to this article. Rendered as a trips
-   * block at the end of the article AND used in reverse to build the
-   * "Related Guides" section on each of those product pages.
+   * Product pages genuinely relevant to this article, most relevant first.
+   * Rendered by the blog page as the Related Treks cards AND used in reverse
+   * to build the "Trekking Guides & Articles" section on each of those
+   * product pages.
    */
   relatedTreks: string[];
-  /** One-line lead-in above the trips block. */
+  /** One-line lead-in shown under the Related Treks heading. Plain text. */
   tripsNote?: string;
-  /** Articles a reader of this one would actually want next. */
+  /** Articles a reader of this one would actually want next — the Keep Reading cards. */
   relatedPosts: string[];
   tags: string[];
   meta: { title: string; description: string; keywords: string };
 };
 
 export type TrekInfo = {
-  title: string;
   categorySlug: string;
-  duration: number;
-  difficulty: string;
-  region: string | null;
-  maxAltitude: number | null;
 };
 
 export type TrekIndex = Map<string, TrekInfo>;
@@ -130,18 +126,6 @@ export function wordCount(html: string): number {
     .trim()
     .split(/\s+/)
     .filter(Boolean).length;
-}
-
-const DIFFICULTY_LABEL: Record<string, string> = {
-  easy: "easy",
-  moderate: "moderate",
-  challenging: "challenging",
-  difficult: "difficult",
-  extreme: "extreme",
-};
-
-function dayLabel(days: number): string {
-  return days === 1 ? "1 day" : `${days} days`;
 }
 
 // ─── Block rendering ─────────────────────────────────────────────────
@@ -205,19 +189,17 @@ function renderBlock(block: Block, ctx: Ctx): string {
 // ─── Article rendering ───────────────────────────────────────────────
 
 /**
- * Render one article to rich-text HTML.
+ * Render one article body to rich-text HTML: the intro blocks, then the
+ * authored h2 sections.
  *
- * Structure: intro blocks, the authored h2 sections, a trips block linking the
- * product pages this article is actually about, then a short further-reading
- * list. The trips block is generated from live trek data (title, duration,
- * difficulty, region) so it can never drift from the catalogue — and it
- * deliberately carries no price, which would go stale in article copy.
+ * The related trips and further reading are deliberately not part of the
+ * body. The blog page renders them as card sections from the lists
+ * buildRelations() writes, so the trip cards always carry live catalogue data.
  */
 export function renderArticle(
   c: BlogContent,
   treks: TrekIndex,
   postSlugs: Set<string>,
-  postTitles: Map<string, string>,
   images: Set<string>,
   errors: string[],
 ): string {
@@ -231,42 +213,35 @@ export function renderArticle(
     for (const block of section.blocks) parts.push(renderBlock(block, ctx));
   }
 
-  if (c.relatedTreks.length > 0) {
-    parts.push(`<h2>Trips We Run on This Route</h2>`);
-    if (c.tripsNote) parts.push(`<p>${inline(c.tripsNote, ctx)}</p>`);
-    const items = c.relatedTreks.map((slug) => {
-      const trek = treks.get(slug);
-      if (!trek) {
-        errors.push(`${ctx.at} relatedTreks contains unknown trek "${slug}"`);
-        return "";
-      }
-      const facts = [
-        dayLabel(trek.duration),
-        DIFFICULTY_LABEL[trek.difficulty] ?? trek.difficulty,
-        trek.region,
-        trek.maxAltitude ? `max ${trek.maxAltitude.toLocaleString("en-US")} m` : null,
-      ]
-        .filter(Boolean)
-        .join(" · ");
-      return `<li><a href="/${trek.categorySlug}/${slug}"><strong>${trek.title}</strong></a> — ${facts}</li>`;
-    });
-    parts.push(`<ul>${items.join("")}</ul>`);
-  }
-
-  if (c.relatedPosts.length > 0) {
-    parts.push(`<h2>Keep Reading</h2>`);
-    const items = c.relatedPosts.map((slug) => {
-      const title = postTitles.get(slug);
-      if (!title) {
-        errors.push(`${ctx.at} relatedPosts contains unknown article "${slug}"`);
-        return "";
-      }
-      return `<li><a href="/blog/${slug}">${title}</a></li>`;
-    });
-    parts.push(`<ul>${items.join("")}</ul>`);
-  }
-
   return parts.join("");
+}
+
+// ─── Related trips and reading ───────────────────────────────────────
+
+/** What the blog page shows after an article: trip cards and further reading. */
+export type BlogRelation = {
+  /** Trek slugs, most relevant first. */
+  treks: string[];
+  /** Article slugs, most relevant first. */
+  posts: string[];
+  /** Lead-in under the Related Treks heading. */
+  note?: string;
+};
+
+/**
+ * Every article's related trips and reading, keyed by slug. Written to
+ * lib/blog-related.json for the blog page, sorted so the file diffs cleanly.
+ */
+export function buildRelations(posts: BlogContent[]): Record<string, BlogRelation> {
+  const out: Record<string, BlogRelation> = {};
+  for (const p of [...posts].sort((a, b) => a.slug.localeCompare(b.slug))) {
+    out[p.slug] = {
+      treks: p.relatedTreks,
+      posts: p.relatedPosts,
+      ...(p.tripsNote ? { note: p.tripsNote } : {}),
+    };
+  }
+  return out;
 }
 
 // ─── Product-page back-links ─────────────────────────────────────────

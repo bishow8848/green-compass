@@ -17,20 +17,20 @@ export default function BlogSidebar({ tocItems: providedItems }: BlogSidebarProp
   const [isOpen, setIsOpen] = useState(false);
   const [activeId, setActiveId] = useState<string>("");
 
-  // If no tocItems prop is passed, build the TOC from the article's own headings
+  // If no tocItems prop is passed, build the TOC from the article's own
+  // headings plus the page sections that opt in with data-toc (FAQs, related
+  // treks, contact form, further reading), in page order.
   useEffect(() => {
     if (providedItems) return;
 
-    const article = document.querySelector("article");
-    if (!article) return;
-
-    const elements = article.querySelectorAll("h2");
+    const elements = document.querySelectorAll<HTMLElement>("article.blog-content h2, [data-toc]");
     const items: TocItem[] = [];
 
     elements.forEach((el) => {
-      const id = el.id || el.textContent?.toLowerCase().replace(/\s+/g, "-") || "";
+      const title = el.dataset.toc || el.textContent || "";
+      const id = el.id || title.toLowerCase().replace(/\s+/g, "-");
       if (!el.id) el.id = id;
-      items.push({ id, title: el.textContent || "" });
+      items.push({ id, title });
     });
 
     startTransition(() => setAutoItems(items));
