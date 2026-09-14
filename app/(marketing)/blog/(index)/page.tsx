@@ -61,11 +61,11 @@ export async function generateMetadata({
   };
 }
 
-const POSTS_PER_PAGE = 6;
+const POSTS_PER_PAGE = 12;
 
 async function getBlogPosts(page: number) {
   return getCachedOrFetch(
-    cacheKeys.blogPostsPage(page),
+    cacheKeys.blogPostsPage(page, POSTS_PER_PAGE),
     () =>
       prisma.blogPost.findMany({
         where: { status: "published" },
