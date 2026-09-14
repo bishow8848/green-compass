@@ -23,12 +23,12 @@ const defaultContent = [
   {
     title: "Who We Are",
     description:
-      "Green Compass Treks is a premier trekking and tour agency based in Pokhara, Nepal. Founded by local trekking experts with a passion for the Himalayas, we specialize in guided trekking expeditions, cultural tours, and climbing adventures across Nepal's most stunning landscapes. Our team of certified guides brings decades of combined high-altitude experience, ensuring every journey is safe, memorable, and authentic.",
+      "A trekking and tour operator based in Pokhara, founded by local guides. We run guided treks, cultural tours and climbs across Nepal's Himalaya.",
   },
   {
     title: "What Makes Us Different",
     description:
-      "Unlike large, impersonal tour operators, we keep our groups small, our service personal, and our commitment to sustainable tourism unwavering. Every trek with Green Compass Treks directly supports local communities — from fair wages for porters and guides to school contributions in mountain villages. We practice Leave No Trace principles, offset carbon where possible, and partner with eco-friendly lodges. When you trek with us, you're not just exploring the Himalayas — you're making a positive impact.",
+      "Small groups, personal service, and fair wages for every guide and porter. Trekking with us supports the mountain villages you walk through.",
   },
 ];
 

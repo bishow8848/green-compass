@@ -126,21 +126,30 @@ export async function Footer() {
         <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-5 px-4">
           {partners.map((partner) => {
             const partnerSrc = imgSrc(partner.src, 112);
-            if (!partnerSrc) return null;
 
             return (
               <div
                 key={partner.name}
-                className="group flex h-20 w-20 items-center justify-center rounded-2xl border border-border bg-surface p-3 shadow-sm grayscale transition-all duration-300 hover:-translate-y-1 hover:grayscale-0 hover:shadow-md"
+                className={`group flex h-20 items-center justify-center rounded-2xl border border-border bg-surface p-3 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md ${
+                  partnerSrc ? "w-20 grayscale hover:grayscale-0" : "max-w-[170px] px-4"
+                }`}
                 style={{ borderColor: "var(--color-border)" }}
               >
-                <img
-                  src={partnerSrc}
-                  alt={partner.name}
-                  width={56}
-                  height={56}
-                  className="h-14 w-14 object-contain transition-transform duration-300 group-hover:scale-105"
-                />
+                {partnerSrc ? (
+                  <img
+                    src={partnerSrc}
+                    alt={partner.name}
+                    width={56}
+                    height={56}
+                    className="h-14 w-14 object-contain transition-transform duration-300 group-hover:scale-105"
+                  />
+                ) : (
+                  // No logo uploaded for this accreditation yet — name it rather
+                  // than dropping the badge from the strip entirely.
+                  <span className="text-center text-xs font-semibold leading-tight text-foreground">
+                    {partner.name}
+                  </span>
+                )}
               </div>
             );
           })}
@@ -324,22 +333,32 @@ export async function Footer() {
               <div className="flex items-center gap-4">
                 {recommendedOn.map((item) => {
                   const logoSrc = imgSrc(item.src, 150);
-                  if (!logoSrc) return null;
 
                   return (
                     <div
                       key={item.name}
-                      className="flex h-10 items-center justify-center rounded-md px-3 opacity-70 grayscale transition-all duration-300 hover:opacity-100 hover:grayscale-0"
+                      className={`flex h-10 items-center justify-center rounded-md px-3 opacity-70 transition-all duration-300 hover:opacity-100 ${
+                        logoSrc ? "grayscale hover:grayscale-0" : ""
+                      }`}
                       style={{ backgroundColor: "rgba(255,255,255,0.06)" }}
                     >
-                      <img
-                        src={logoSrc}
-                        alt={item.name}
-                        width={150}
-                        height={48}
-                        decoding="async"
-                        className="h-6 w-auto object-contain"
-                      />
+                      {logoSrc ? (
+                        <img
+                          src={logoSrc}
+                          alt={item.name}
+                          width={150}
+                          height={48}
+                          decoding="async"
+                          className="h-6 w-auto object-contain"
+                        />
+                      ) : (
+                        <span
+                          className="whitespace-nowrap text-xs font-semibold"
+                          style={{ color: "var(--color-footer-text)" }}
+                        >
+                          {item.name}
+                        </span>
+                      )}
                     </div>
                   );
                 })}

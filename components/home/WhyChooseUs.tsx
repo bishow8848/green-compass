@@ -8,12 +8,12 @@ const iconComponentMap: Record<string, React.ElementType> = {
 const defaultIcon = Shield;
 
 const defaultItems = [
-  { icon: "Shield", title: "Safety First", description: "All our guides are certified, first-aid trained, and carry satellite communication. Your safety is our top priority." },
-  { icon: "Users", title: "Expert Local Guides", description: "Our guides have decades of combined experience across Nepal's trekking regions. They know every trail intimately." },
-  { icon: "Leaf", title: "Responsible Tourism", description: "We're committed to responsible travel — supporting local communities, minimizing environmental impact, and preserving Nepal's heritage." },
-  { icon: "Heart", title: "Supporting Local Communities", description: "We are a purely nurtured and owned native trekking company in Nepal, giving back to the communities we explore." },
-  { icon: "Tag", title: "No Hidden Charges", description: "There are no hidden charges — everything is transparent as mentioned in the itinerary, so you can plan with confidence." },
-  { icon: "CreditCard", title: "We Cater to All Budgets", description: "Our custom modification options help trekkers of all budget types find the perfect adventure experience." },
+  { icon: "Shield", title: "Safety First", description: "Certified, first-aid trained guides carrying satellite communication." },
+  { icon: "Users", title: "Expert Local Guides", description: "Decades of combined experience across Nepal's trekking regions." },
+  { icon: "Leaf", title: "Responsible Tourism", description: "Low-impact trekking that supports local communities and Nepal's heritage." },
+  { icon: "Heart", title: "Supporting Local Communities", description: "A Nepali-owned company giving back to the villages we walk through." },
+  { icon: "Tag", title: "No Hidden Charges", description: "What the itinerary lists is what you pay — nothing added later." },
+  { icon: "CreditCard", title: "We Cater to All Budgets", description: "Custom options so every trekker finds a trip that fits their budget." },
 ];
 
 const iconColors = ["text-primary", "text-secondary", "text-success", "text-primary", "text-secondary", "text-success"];
