@@ -87,6 +87,52 @@ export const manasluA: BlogContent[] = [
               "<strong>Snow closes the pass.</strong> There is no alternative once you are past Samdo except turning back down the whole valley, so the decision is made with information from both sides.",
             ],
           },
+          { h3: "The altitude profile, night by night" },
+          {
+            table: {
+              head: ["Day", "Stage", "Sleep at", "Change"],
+              rows: [
+                ["2", "Drive Kathmandu to Machha Khola", "930 m", "—"],
+                ["3", "Machha Khola to Jagat — restricted area begins", "1,340 m", "+410 m"],
+                ["4", "Jagat to Deng", "1,804 m", "+464 m"],
+                ["5", "Deng to Namrung", "2,630 m", "+826 m"],
+                ["6", "Namrung to Shyala", "3,575 m", "+945 m"],
+                ["7", "Shyala to Sama Gaun", "3,530 m", "-45 m"],
+                ["8", "<strong>Acclimatisation day</strong> — Manaslu Base Camp 4,800 m or Pungyen Gompa", "3,530 m", "0"],
+                ["9", "Sama Gaun to Samdo", "3,865 m", "+335 m"],
+                ["10", "<strong>Acclimatisation day</strong> — toward the Tibet border, ~5,000 m", "3,865 m", "0"],
+                ["11", "Samdo to Dharmasala", "4,460 m", "+595 m"],
+                ["12", "<strong>Larke La 5,106 m</strong>, descend to Bimthang", "3,590 m", "-870 m net"],
+                ["13", "Bimthang to Dharapani", "1,860 m", "-1,730 m"],
+              ],
+              note: "Two acclimatisation days rather than one, at 3,530 m and 3,865 m. That is a better-built profile than most operators sell on this route.",
+            },
+          },
+          { p: "The thing to notice is the pair of rest days. Many Manaslu itineraries include only the Sama Gaun day, and the second at Samdo is what turns a marginal pass day into a comfortable one — a walk to around 5,000 m toward the Tibet border, sleeping back at 3,865 m. It is also the most interesting day on the trek: a genuine trade route, still used, with the border a few hours above you." },
+          { h3: "Dharmasala: the night before the pass" },
+          { p: "It deserves its own warning. <strong>Dharmasala is a single basic lodge at 4,460 m</strong> with limited beds, limited food and no reliable heating. In October it is crowded, and groups sometimes sleep in the dining room. It is the least comfortable night on any teahouse trek we run." },
+          { p: "What helps: arrive early to secure a bed, eat whatever is available rather than waiting for a menu choice, fill flasks the night before, and accept that you will not sleep well at 4,460 m the night before an eight-hour pass day. Everybody is in the same position, and the pass is walked on adrenaline rather than rest." },
+        ],
+      },
+      {
+        h2: "When to Go, Month by Month",
+        blocks: [
+          {
+            table: {
+              head: ["Month", "Conditions", "Verdict"],
+              rows: [
+                ["<strong>March</strong>", "Larke La often still snowbound early in the month, gorge pleasant", "Late March onward"],
+                ["<strong>April</strong>", "Reliable pass conditions, rhododendron in the gorge, moderate numbers", "Excellent"],
+                ["<strong>May</strong>", "Warm, hazier, quiet on the trail", "Good early in the month"],
+                ["<strong>June to August</strong>", "Monsoon. The Budhi Gandaki gorge is landslide-prone and the trail closes in places", "Not run"],
+                ["<strong>September</strong>", "Clearing from mid-month; restricted permit costs more from 1 September", "Good from the third week"],
+                ["<strong>October</strong>", "Clearest views and most reliable pass. Dharmasala at its most crowded", "The best month, and the busiest"],
+                ["<strong>November</strong>", "Very clear, cold at Dharmasala, thinning numbers", "Our pick — October's conditions without the beds problem"],
+                ["<strong>December to February</strong>", "Larke La closes with snow and may stay shut for weeks", "Not recommended"],
+              ],
+            },
+          },
+          { p: "Note the permit pricing: the restricted-area permit costs <strong>USD 100 per week from September to November</strong> and <strong>USD 75 from December to August</strong>, so an early-September or late-May departure is cheaper as well as quieter." },
         ],
       },
       {
@@ -117,6 +163,36 @@ export const manasluA: BlogContent[] = [
           { p: "Adding it takes the trek to [[trek:tsum-valley-and-manaslu-circuit-trek|20 days]], or it can be walked alone as [[trek:tsum-valley-trek|a 13-day trek]]. If you have the time, the combined route is the best three weeks of teahouse trekking in Nepal. Our [[post:tsum-valley-trek-guide|Tsum Valley guide]] covers it in detail." },
         ],
       },
+      {
+        h2: "What to Pack for Manaslu",
+        blocks: [
+          { p: "Manaslu spans 930 m to 5,106 m, and the lodges are simpler than Annapurna's, which shifts the kit list. The full list is in our [[post:nepal-trekking-packing-list|packing list]]; these are the route-specific items." },
+          {
+            table: {
+              head: ["Item", "Specification", "Why it matters here"],
+              rows: [
+                ["<strong>Sleeping bag</strong>", "Comfort rated to -15 °C", "Dharmasala at 4,460 m with thin blankets and no heating. This is not the place to under-spec"],
+                ["<strong>Down jacket</strong>", "Hooded", "For Dharmasala and the pre-dawn start on the Larke La"],
+                ["<strong>Windproof shell</strong>", "Full zip, hood", "The Larke La is exposed for its whole length"],
+                ["<strong>Trekking poles</strong>", "A pair", "1,500 m of descent off the pass, then 1,730 m more to Dharapani the next day"],
+                ["<strong>Head torch</strong>", "Plus spare batteries", "The pass day starts in the dark and Dharmasala has no reliable lighting"],
+                ["<strong>Water treatment</strong>", "Filter or tablets", "Bottled water is scarce and expensive above Namrung"],
+                ["<strong>Snacks</strong>", "More than you think", "Dharmasala's food runs out in peak season. Carry your own pass-day calories"],
+                ["<strong>Power bank</strong>", "20,000 mAh", "Charging is solar and scarce above Sama Gaun, and expensive where it exists"],
+              ],
+            },
+          },
+          { h3: "Money and connectivity" },
+          {
+            ul: [
+              "<strong>No ATMs anywhere on the route.</strong> Draw all your rupees in Kathmandu — this is stricter than Annapurna or Everest, where Namche and Manang have machines.",
+              "<strong>Signal</strong> is patchy through the gorge, reasonable at Namrung, Sama Gaun and Samdo, and absent on the pass.",
+              "<strong>Trail extras</strong> run USD 8 to 15 a day, cheaper than Everest but with less to spend it on.",
+              "<strong>Permits are issued in Kathmandu only</strong> and cannot be arranged on arrival at Jagat, which is why booking lead time matters here.",
+            ],
+          },
+        ],
+      },
     ],
     faqs: [
       { question: "How long is the Manaslu Circuit trek?", answer: "Fifteen days from Kathmandu, including road transfers at each end and an acclimatisation day at Samagaun. Adding the Tsum Valley makes it twenty days, and a shorter fourteen-day Larke Pass itinerary focuses on the upper valley and the crossing." },
@@ -127,6 +203,12 @@ export const manasluA: BlogContent[] = [
       { question: "What are the lodges like?", answer: "Teahouses throughout, simpler than Annapurna or Everest but perfectly adequate — twin rooms, blankets, a dining room stove, and a full menu. The exception is Dharmasala before the pass: a single basic lodge at 4,460 m that is cold, crowded in season and short on food." },
       { question: "Is Manaslu less crowded than Annapurna?", answer: "Substantially, because the restricted permit and the two-person minimum limit numbers. You will still meet other groups in October, particularly at Samagaun and Dharmasala where there are few beds, but the gorge stages are often empty." },
       { question: "Can I combine Manaslu with the Annapurna Circuit?", answer: "Yes. The Manaslu Circuit finishes at Dharapani, which is on the Annapurna Circuit, so you can continue up the Marsyangdi toward Manang and Thorong La instead of driving out. That makes a very long trip of around four weeks and is one of the great Himalayan traverses." },
+      { question: "How fit do I need to be for the Manaslu Circuit?", answer: "Fitter than for Annapurna Base Camp. Five consecutive six-to-seven hour gorge days before you even reach the acclimatisation stops, then a pass day of eight to ten hours with 650 m up and 1,500 m down, followed by another 1,730 m of descent the next day. Back-to-back long walks and descent training are what prepare you." },
+      { question: "What is Dharmasala actually like?", answer: "A single basic lodge at 4,460 m with limited beds, limited food and no reliable heating. In October groups sometimes sleep in the dining room. Arrive early, eat what is available rather than waiting for a choice, fill your flask the night before, and expect a poor night's sleep." },
+      { question: "How much does the Manaslu restricted permit cost?", answer: "USD 100 per week from September to November and USD 75 per week from December to August, on top of the Manaslu and Annapurna conservation area permits. It requires a licensed guide, a minimum of two trekkers and a registered agency, and it is issued only in Kathmandu — never at the checkpoint." },
+      { question: "Are there ATMs on the Manaslu Circuit?", answer: "None anywhere on the route. This is stricter than Annapurna or Everest, where Manang and Namche have machines. Draw all the rupees you will need in Kathmandu, in small denominations, before you leave." },
+      { question: "What happens if the Larke La is closed by snow?", answer: "The group turns round and walks back down the Budhi Gandaki to the roadhead, which adds about three days and means losing the second half of the circuit. The decision is made at Samdo or Dharmasala with information from both sides of the pass, and it is the guide's call." },
+      { question: "Is the Manaslu Circuit good for a first Himalayan trek?", answer: "It can be, for a fit walker, but it is not the gentlest introduction. The simpler lodges, the longer gorge stages and the Dharmasala night all ask more than Annapurna Base Camp or the Everest trail. If it is your first trek at altitude, be honest with yourself about the pass day before booking." },
     ],
     relatedTreks: [
       "manaslu-circuit-trek",

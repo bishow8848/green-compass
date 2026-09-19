@@ -251,6 +251,7 @@ export const toursC: BlogContent[] = [
       "everest-base-camp-helicopter-tour",
       "kalapatthar-to-kathmandu-helicopter-flight",
       "gorakshep-to-kathmandu-helicopter-flight",
+      "gorakshep-to-lukla-helicopter-flight",
       "everest-base-camp-trek-with-helicopter-return",
       "everest-mountain-flight",
     ],

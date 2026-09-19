@@ -216,6 +216,45 @@ export const annapurnaB: BlogContent[] = [
             ],
           },
           { p: "Altitude risk is low — 3,580 m for the highest sleep, with a day walk to 4,500 m. Mild symptoms at High Camp happen; serious illness is rare, and descent is quick." },
+          { h3: "The altitude profile, night by night" },
+          {
+            table: {
+              head: ["Day", "Stage", "Sleep at", "Change"],
+              rows: [
+                ["3", "Drive to Kande (1,770 m), walk to Pitam Deurali", "2,100 m", "+330 m"],
+                ["4", "Pitam Deurali to Forest Camp, through rhododendron", "2,600 m", "+500 m"],
+                ["5", "Forest Camp to High Camp — out of the trees onto the ridge", "3,580 m", "+980 m"],
+                ["6", "<strong>Base Camp 4,500 m at dawn</strong>, then down to Badal Danda", "3,210 m", "-370 m net"],
+                ["7", "Badal Danda to Siding, drive to Pokhara", "822 m", "-2,388 m"],
+              ],
+              note: "Five walking days, highest sleep 3,580 m, highest point 4,500 m. The last day loses nearly 2,400 m, which is the hardest thing about the trek.",
+            },
+          },
+          { p: "The number that catches people out is not the ascent — it is the <strong>2,388 m descent on the final day</strong>, from Badal Danda through Siding to the road. It is long, steep and largely on steps and forest trail. Poles are not optional on this trek if your knees have any history at all." },
+          { h3: "The Base Camp morning" },
+          { p: "The 4,500 m viewpoint is reached as a pre-dawn out-and-back from High Camp — three to four hours up, on a narrowing ridge with no shelter. It is the highest point of the trek and the reason for it: <strong>Machhapuchhre's fluted south face fills the sky directly ahead</strong>, close enough that the scale stops making sense, with Annapurna South and Hiunchuli beside it." },
+          { p: "Two practical notes. It is cold — considerably colder than High Camp, in the dark, with wind on the ridge. And in cloud the whole point disappears, which is why the itinerary keeps the morning flexible: if the forecast is poor your guide will hold you at High Camp and go the following dawn instead." },
+        ],
+      },
+      {
+        h2: "When to Go, Month by Month",
+        blocks: [
+          {
+            table: {
+              head: ["Month", "Conditions", "Verdict"],
+              rows: [
+                ["<strong>March</strong>", "Rhododendron beginning in the forest belt, cold on the ridge, quiet", "Good"],
+                ["<strong>April</strong>", "Rhododendron at its peak through Forest Camp — the most beautiful month", "Best for the forest"],
+                ["<strong>May</strong>", "Warm, hazier, cloud building on the ridge by mid-morning", "Fair — go early in the day"],
+                ["<strong>June to August</strong>", "Monsoon. The ridge is in cloud, the forest is leech country, and the trail is slippery", "Not recommended"],
+                ["<strong>September</strong>", "Clearing from mid-month, very green", "Good from late in the month"],
+                ["<strong>October</strong>", "Clearest Machhapuchhre views of the year, High Camp fills", "Best for the mountains"],
+                ["<strong>November</strong>", "Very clear, cold at High Camp, thinning numbers", "Excellent"],
+                ["<strong>December to February</strong>", "Snow on the upper ridge, some High Camp lodges closed, superb visibility", "Possible with a warm bag and a flexible plan"],
+              ],
+            },
+          },
+          { p: "April and October are the two months, for different reasons — <strong>April for the rhododendron forest</strong> on the way up, <strong>October for the ridge</strong>. If the mountain is what you came for, October and November are the safer bet, because the ridge is above the cloud line more reliably." },
         ],
       },
       {
@@ -230,6 +269,46 @@ export const annapurnaB: BlogContent[] = [
               caption: "Badal Danda on the descent. The ridge walk above the treeline is the whole reason to do this trek.",
             },
           },
+        ],
+      },
+      {
+        h2: "Practicalities: Lodges, Water and Kit",
+        blocks: [
+          { p: "Mardi Himal is a newer trail than its neighbours and the infrastructure reflects that — fewer lodges, simpler rooms, and a supply chain that runs up the ridge on porters' backs. None of that is a problem if you plan for it." },
+          { h3: "Lodges along the ridge" },
+          {
+            ul: [
+              "<strong>Pitam Deurali and Forest Camp</strong> — simple but comfortable, in the trees, with reliable water and reasonable menus.",
+              "<strong>Low Camp and Badal Danda</strong> — a handful of lodges each, and the first places the view opens up.",
+              "<strong>High Camp (3,580 m)</strong> — the bottleneck. A few lodges only, unheated rooms, a dining-room stove lit in the evening, and a menu that narrows as the season goes on. <strong>Book ahead.</strong>",
+              "<strong>Siding</strong> — a real village at the bottom of the descent, and a welcome one after 2,388 m of downhill.",
+            ],
+          },
+          { h3: "Water, power and money" },
+          {
+            ul: [
+              "<strong>Water is the standout issue.</strong> There is very little between camps above the treeline. Carry two litres, fill at every lodge, and bring a filter or tablets rather than paying rising bottled prices up the ridge.",
+              "<strong>Charging</strong> is solar above Forest Camp and costs NPR 200 to 400 an hour. A power bank covers the whole trek.",
+              "<strong>No ATMs</strong> anywhere after Pokhara. Draw rupees before you drive to Kande.",
+              "<strong>Signal</strong> is patchy in the forest and surprisingly good on the open ridge, where there is a line of sight to the valley.",
+            ],
+          },
+          { h3: "What to pack" },
+          {
+            table: {
+              head: ["Item", "Specification", "Why it matters here"],
+              rows: [
+                ["<strong>Trekking poles</strong>", "A pair", "The 2,388 m descent to Siding. The single most useful item on this trek"],
+                ["<strong>Sleeping bag</strong>", "-10 °C with a liner", "High Camp at 3,580 m in unheated rooms"],
+                ["<strong>Warm layers for dawn</strong>", "Down jacket, hat, gloves", "The Base Camp morning is the coldest hour, on an exposed ridge before sunrise"],
+                ["<strong>Head torch</strong>", "Plus spares", "The 4,500 m out-and-back starts in the dark"],
+                ["<strong>Two-litre water capacity</strong>", "Bottles or bladder, plus treatment", "The ridge has no reliable water between camps"],
+                ["<strong>Waterproof jacket</strong>", "Properly waterproof", "The forest belt is wet and the ridge catches cloud"],
+                ["<strong>Insect repellent</strong>", "DEET-based", "Leeches in the forest from late spring to early autumn"],
+              ],
+            },
+          },
+          { p: "The general list is in our [[post:nepal-trekking-packing-list|Nepal packing list]]. Everything here can be bought or hired in Pokhara the day before you start." },
         ],
       },
       {
@@ -261,6 +340,12 @@ export const annapurnaB: BlogContent[] = [
       { question: "How cold is High Camp?", answer: "Around -5 to -10 °C at night in the main seasons, in simple unheated rooms at 3,580 m. A sleeping bag rated to -10 °C with a liner is right, and the lodge stove is lit in the dining room only in the evening." },
       { question: "Do I need to book High Camp in advance?", answer: "In peak season, yes. There are only a handful of lodges at High Camp and Mardi Himal is now the fastest-growing trek in the Annapurna region. Our guides hold rooms in advance and call ahead each morning, which is the practical protection against arriving at a full lodge at 3,580 m." },
       { question: "Can I combine Mardi Himal with Annapurna Base Camp?", answer: "Yes, and it is the best two weeks available in the region — the Mardi ridge first, then down to the Jhinu Danda hot springs, then up the Modi Khola into the Sanctuary. Fourteen days from Kathmandu or ten from Pokhara." },
+      { question: "How hard is the final descent to Siding?", answer: "It is the hardest part of the trek. From Badal Danda to Siding loses about 2,388 m in a single day, on steep forest trail and steps, and it is what people remember in their knees a week later. Trekking poles are not optional on this route if you have any history of knee trouble." },
+      { question: "Is the Mardi Himal ridge exposed?", answer: "Above Low Camp the trail follows a narrow ridge with ground falling away on both sides. It is not dangerous in good conditions and there is no scrambling, but it is genuinely airy and it needs care in wind or cloud. If exposure troubles you, this is worth knowing before you book." },
+      { question: "What is at Mardi Himal Base Camp?", answer: "A viewpoint at 4,500 m, not a settlement — there is no lodge and nothing to do there but look. Machhapuchhre's fluted south face fills the sky directly ahead with Annapurna South and Hiunchuli beside it. It is reached as a pre-dawn out-and-back from High Camp, three to four hours up." },
+      { question: "How fit do I need to be for Mardi Himal?", answer: "Fit enough for five walking days with one 980 m climb, one 900 m pre-dawn out-and-back at altitude, and a 2,388 m descent on the last day. It is moderate rather than hard, but the descent day asks more of untrained legs than the ascent does." },
+      { question: "Is there water on the ridge?", answer: "Very little between camps once you are above the treeline. Carry two litres and fill at every lodge you pass. Bottled water is sold at the camps at rising prices, and a filter or tablets are cheaper and better." },
+      { question: "Can I do Mardi Himal in winter?", answer: "Yes, with a warm bag and a flexible plan. The upper ridge holds snow from December, some High Camp lodges close, and the Base Camp morning may not be possible. In exchange you get the sharpest visibility of the year and an almost empty trail." },
     ],
     relatedTreks: [
       "mardi-himal-trek",
@@ -380,6 +465,84 @@ export const annapurnaB: BlogContent[] = [
           { p: "Who should look elsewhere: trekkers who want solitude, who want to get genuinely high, or who have two weeks. For those, see [[post:mardi-himal-trek-complete-guide|Mardi Himal]], [[post:annapurna-base-camp-trek-complete-guide|Annapurna Base Camp]], or the quieter community ridges." },
         ],
       },
+      {
+        h2: "The Route, Day by Day",
+        blocks: [
+          { p: "Three walking days on our standard itinerary, and the profile is gentle enough that no acclimatisation day is needed anywhere." },
+          {
+            table: {
+              head: ["Day", "Stage", "Sleep at", "Walking"],
+              rows: [
+                ["3", "Drive Pokhara to Ulleri (2,050 m), walk to Ghorepani", "2,885 m", "4 to 5 hours"],
+                ["4", "<strong>Poon Hill 3,210 m at dawn</strong>, then Tadapani", "2,640 m", "5 to 6 hours"],
+                ["5", "Tadapani to Ghandruk, drive to Pokhara", "822 m", "4 to 5 hours"],
+              ],
+              note: "Starting from Ulleri rather than Nayapul skips the notorious 3,300-step staircase and removes a full day.",
+            },
+          },
+          { h3: "Day 3 — Ulleri to Ghorepani" },
+          { p: "A jeep up the rough road to <strong>Ulleri at 2,050 m</strong>, which is the single most useful shortcut in the Annapurna foothills: it bypasses the stone staircase from Birethanti that used to be the first day and is universally disliked. From Ulleri the trail climbs steadily through oak and rhododendron forest to <strong>Ghorepani</strong>, a lodge village straddling a pass at 2,885 m." },
+          { h3: "Day 4 — Poon Hill and the traverse to Tadapani" },
+          { p: "Up at 4.30 a.m. for the forty-five minute climb to <strong>Poon Hill (3,210 m)</strong>, a viewing platform on a bare hilltop, for sunrise over Dhaulagiri, Annapurna South, Nilgiri and Machhapuchhre. Back for breakfast, then a long undulating traverse east through forest to <strong>Tadapani</strong> — the best walking of the trek and the part almost nobody photographs." },
+          { h3: "Day 5 — Tadapani to Ghandruk" },
+          { p: "A descent through rhododendron to <strong>Ghandruk</strong>, one of the largest and best-preserved Gurung villages in Nepal, with a small museum, slate roofs stacked up the hillside and a full-frontal view of Annapurna South. A jeep from there returns you to Pokhara by mid-afternoon." },
+        ],
+      },
+      {
+        h2: "When to Go, Month by Month",
+        blocks: [
+          {
+            table: {
+              head: ["Month", "Conditions", "Verdict"],
+              rows: [
+                ["<strong>March</strong>", "Rhododendron beginning, mild, moderate numbers", "Very good"],
+                ["<strong>April</strong>", "The rhododendron forest between Ghorepani and Tadapani at full bloom", "The best month on this trek"],
+                ["<strong>May</strong>", "Warm, hazy mornings, cloud building early", "Fair — the view is less reliable"],
+                ["<strong>June to August</strong>", "Monsoon. Cloud at dawn, leeches in the forest", "Not recommended"],
+                ["<strong>September</strong>", "Clearing, very green, quiet", "Good from the third week"],
+                ["<strong>October</strong>", "Clearest sunrise of the year, and the most crowded platform", "Best views, worst crowds"],
+                ["<strong>November</strong>", "Still very clear, cooling, thinning numbers", "Excellent"],
+                ["<strong>December to February</strong>", "Cold dawns, occasional snow at Ghorepani, superb visibility, empty trail", "One of Nepal's best winter treks"],
+              ],
+            },
+          },
+          { p: "This is one of the few Nepali treks that is genuinely <strong>better in winter</strong>. Nothing on the route goes above 3,210 m, the lodges stay open and heated, the air in December and January is the clearest of the year, and the Poon Hill platform that holds two hundred people in October holds twenty in January." },
+        ],
+      },
+      {
+        h2: "Practicalities: Lodges, Costs and Kit",
+        blocks: [
+          { h3: "The lodges" },
+          { p: "Among the best on any Nepali trail, and a large part of why this route suits families and first-timers. <strong>Ghorepani</strong> has two-storey lodges with attached bathrooms, hot showers, wifi, bakeries and dining rooms heated by a central stove. <strong>Tadapani</strong> and <strong>Ghandruk</strong> are similar; Ghandruk in particular has genuinely comfortable rooms and a couple of places that would pass as small hotels." },
+          { p: "Nothing here is remote. You are never more than a day from a road, every lodge has a menu in English, and the food is varied by trekking standards — dal bhat, pizza, pasta, momo, apple pie. All meals on the trail are included on our trips." },
+          { h3: "What it costs" },
+          {
+            ul: [
+              "<strong>Permits</strong> — the Annapurna Conservation Area Permit at NPR 3,000 and trekking registration, both included in the trip price.",
+              "<strong>Trail extras</strong> run USD 6 to 12 a day, the cheapest of any trek in this catalogue. Hot showers NPR 150 to 300, charging NPR 100 to 200, wifi a few hundred rupees.",
+              "<strong>Cash.</strong> Draw rupees in Pokhara. There are no ATMs on the trail, though Ghorepani and Ghandruk are large enough that some lodges will take a card in an emergency.",
+              "<strong>Signal</strong> is good throughout — Ncell and NTC both reach Ghorepani, Tadapani and Ghandruk, and wifi is sold at most lodges.",
+            ],
+          },
+          { h3: "What to pack" },
+          { p: "This is a light trek and the list reflects it. No -20 °C bag, no crampons, no technical anything." },
+          {
+            table: {
+              head: ["Item", "Specification", "Why"],
+              rows: [
+                ["<strong>Sleeping bag</strong>", "0 to -5 °C, or skip it entirely", "Lodge blankets are adequate at 2,885 m in the main seasons. A liner is often enough"],
+                ["<strong>Warm jacket, hat, gloves</strong>", "Light down or synthetic", "Purely for the pre-dawn hour on the Poon Hill platform"],
+                ["<strong>Head torch</strong>", "Any", "The 4.30 a.m. climb to the viewpoint"],
+                ["<strong>Trekking poles</strong>", "Optional but useful", "The descent from Tadapani to Ghandruk is steep and stepped"],
+                ["<strong>Waterproof jacket</strong>", "Light", "Forest cloud and spring showers"],
+                ["<strong>Boots or trail shoes</strong>", "Broken in", "Stone steps, wet in places. Trail runners are genuinely fine here"],
+                ["<strong>Insect repellent</strong>", "DEET-based", "Leeches in the forest belt in and around the monsoon"],
+              ],
+            },
+          },
+          { p: "The general list is in our [[post:nepal-trekking-packing-list|Nepal packing list]], and everything can be bought or hired in Pokhara the day before you start." },
+        ],
+      },
     ],
     faqs: [
       { question: "How long is the Poon Hill trek?", answer: "Three days from Pokhara, or seven days from Kathmandu including transfers and a longer loop through Tadapani and Ghandruk. The walking is two to four days depending on the version, with short stages of four to five hours." },
@@ -387,8 +550,18 @@ export const annapurnaB: BlogContent[] = [
       { question: "Is Poon Hill suitable for children and older trekkers?", answer: "Yes — it is the trek we recommend most often for families and for guests in their seventies. Short days, comfortable lodges with hot showers, and no altitude risk. The Ulleri staircase on day one is the only genuinely demanding section." },
       { question: "Is Poon Hill too crowded to be worth it?", answer: "It is the busiest short trail in Nepal, and in mid-October the summit platform holds several hundred people at dawn. It is still worth doing — and going in December, February or late March, starting the summit climb early, and descending via Tadapani and Ghandruk all reduce the crowding substantially." },
       { question: "Can I see Everest from Poon Hill?", answer: "No — Everest is 200 km east and not visible. What you see is Dhaulagiri I at 8,167 m, Annapurna I at 8,091 m, Annapurna South, Hiunchuli, Machhapuchhre and the Nilgiri peaks. Two eight-thousanders from a 3,210 m hill is a fair trade." },
-      { question: "What is the Ulleri staircase?", answer: "Around 3,300 stone steps climbing about 500 m in a single continuous flight on the first afternoon. It is the hardest hour of the trek and there is no way around it. Go slowly, and remember that the trek gets easier from there." },
+      { question: "What is the Ulleri staircase, and do I have to climb it?", answer: "Around 3,300 stone steps climbing about 500 m in a single continuous flight above Birethanti. It is the part of the Poon Hill trek people complain about most — and on our itinerary you skip it entirely, because we drive to Ulleri at 2,050 m and start the walk from there. Older itineraries still walk it." },
       { question: "Which quieter treks have a similar view?", answer: "Mohare Danda and Khopra Danda both look at Dhaulagiri and Annapurna South from ridges west of Ghorepani, with community-owned lodges and a fraction of the traffic. Both take longer — ten and thirteen days from Kathmandu — and both are better treks if solitude matters more than the famous name." },
+      { question: "How cold is the Poon Hill sunrise?", answer: "Cold enough to matter. Ghorepani at 2,885 m sits around freezing on autumn and winter nights, and the platform at 3,210 m before dawn is colder and often windy. Bring a warm jacket, hat and gloves for a forty-five minute climb and a half-hour wait in the dark." },
+      { question: "What will I actually see from the top?", answer: "Dhaulagiri at 8,167 m to the west, Annapurna South and Hiunchuli ahead, Nilgiri and Annapurna I to the north-east, and Machhapuchhre's fishtail off to the right. The light hits Dhaulagiri first, which is why everyone faces west at the start and swings round as the sun comes up." },
+      { question: "Is the trail crowded?", answer: "In October and April the Poon Hill platform genuinely is — a hundred or more people at dawn. The trail itself is much less so, and the Ghorepani to Tadapani traverse on day 4 is often quiet. Going in late November or December removes the problem almost entirely." },
+      { question: "Can I do Poon Hill as part of a longer trek?", answer: "Yes, and many people do. It combines naturally with Annapurna Base Camp, adding three days to reach the Sanctuary via Tadapani and Chhomrong, and it also links to Mohare Danda and Khopra Danda on the ridges to the west." },
+      { question: "Is there any altitude risk on the Poon Hill trek?", answer: "Effectively none. The highest you sleep is Ghorepani at 2,885 m and the highest point is the Poon Hill platform at 3,210 m, reached as a short morning walk. That is below the altitude at which acute mountain sickness normally becomes a concern." },
+      { question: "What time does the Poon Hill sunrise climb start?", answer: "Around 4.30 a.m. in autumn and winter, a little later in spring, for a forty-five minute climb in the dark. Your guide sets the time the night before based on the season and the forecast. Bring a head torch, and wear more than you think you need for the wait at the top." },
+      { question: "Do I need a guide for the Poon Hill trek?", answer: "Yes. Nepal now requires a licensed guide for trekking in the Annapurna Conservation Area, so independent trekking is no longer permitted on this route. It also removes the lodge-booking problem in October, when Ghorepani fills." },
+      { question: "Is Ghandruk worth the extra day?", answer: "Yes, and it is the part of the trek most people underrate. Ghandruk is one of the largest and best-preserved Gurung villages in Nepal — slate roofs stacked up a hillside, a small museum, and a full-frontal view of Annapurna South. The descent from Tadapani through rhododendron is also the prettiest walking on the route." },
+      { question: "How does Poon Hill compare with Mardi Himal?", answer: "Poon Hill is shorter, lower, easier and busier, with much better lodges; Mardi Himal is a five-day ridge walk to 4,500 m with a fraction of the traffic and far closer mountains. Poon Hill for a first trek, families or a short window; Mardi Himal if you have a week and want the ridge to yourself." },
+      { question: "Can I combine Poon Hill with Annapurna Base Camp?", answer: "Yes, and it is the most popular combination in the region. From Tadapani the trail continues to Chhomrong and up the Modi Khola into the Sanctuary, adding about three days. That makes twelve days from Kathmandu or eight from Pokhara, and gives you both the sunrise viewpoint and the glacial amphitheatre." },
     ],
     relatedTreks: [
       "poonhill-trek",

@@ -1,4 +1,21 @@
 {
+  "abi-peak-climbing-guide": {
+    "treks": [
+      "abi-peak-climbing",
+      "saribung-peak-climbing",
+      "upper-mustang-trek",
+      "saribung-pass-trek",
+      "teri-la-pass-trek"
+    ],
+    "posts": [
+      "saribung-peak-climbing-guide",
+      "upper-mustang-trek-complete-guide",
+      "saribung-pass-trek-guide",
+      "restricted-area-trekking-permits-in-nepal",
+      "peak-climbing-in-nepal-beginners-guide"
+    ],
+    "note": "The Damodar Himal and the Upper Mustang routes that reach it."
+  },
   "altitude-sickness-in-nepal-prevention-and-treatment": {
     "treks": [
       "everest-base-camp-trek",
@@ -68,7 +85,8 @@
       "annapurna-base-camp-trek-from-pokhara",
       "annapurna-base-camp-trek-with-ghorepani-poonhill-trek",
       "mardi-himal-trek-with-annapurna-base-camp",
-      "abc-trek-nepal"
+      "abc-trek-nepal",
+      "annapurna-base-camp-with-ghorepani-poonhill-from-pokhara"
     ],
     "posts": [
       "annapurna-base-camp-trek-itinerary",
@@ -127,6 +145,23 @@
     ],
     "note": "Every version of the circuit we run, plus the side trips and half-routes that branch off it."
   },
+  "annapurna-expedition-guide": {
+    "treks": [
+      "annapurna-expedition",
+      "lhotse-expedition",
+      "makalu-expedition",
+      "everest-expedition",
+      "annapurna-south-expedition"
+    ],
+    "posts": [
+      "eight-thousand-metre-peaks-in-nepal",
+      "lhotse-expedition-guide",
+      "makalu-expedition-guide",
+      "everest-expedition-guide",
+      "fixed-rope-and-jumar-skills-for-nepal-peaks"
+    ],
+    "note": "The 8,000 m peaks, and the Annapurna massif's other major objectives."
+  },
   "annapurna-region-permits-acap-guide": {
     "treks": [
       "annapurna-base-camp-trek",
@@ -142,6 +177,23 @@
       "responsible-trekking-in-nepal"
     ],
     "note": "Annapurna trips where we arrange every permit before you start walking."
+  },
+  "annapurna-south-expedition-guide": {
+    "treks": [
+      "annapurna-south-expedition",
+      "singu-chuli-peak-climbing",
+      "gangapurna-expedition",
+      "annapurna-base-camp-trek",
+      "annapurna-expedition"
+    ],
+    "posts": [
+      "singu-chuli-peak-climbing-guide",
+      "gangapurna-expedition-guide",
+      "annapurna-base-camp-trek-complete-guide",
+      "annapurna-expedition-guide",
+      "fixed-rope-and-jumar-skills-for-nepal-peaks"
+    ],
+    "note": "The Annapurna Sanctuary, walked and climbed."
   },
   "api-himal-base-camp-trek-guide": {
     "treks": [
@@ -159,6 +211,23 @@
     ],
     "note": "Far-western routes, including Api as both a trek and a climbing expedition."
   },
+  "api-himal-expedition-guide": {
+    "treks": [
+      "api-himal-expedition",
+      "api-himal-base-camp-trek",
+      "kanjirowa-expedition",
+      "humla-limi-valley-trek",
+      "badimalika-trek"
+    ],
+    "posts": [
+      "api-himal-base-camp-trek-guide",
+      "kanjirowa-expedition-guide",
+      "humla-limi-valley-trek-guide",
+      "badimalika-trek-guide",
+      "off-the-beaten-path-treks-in-nepal"
+    ],
+    "note": "Far-western Nepal — the emptiest climbing and trekking country in the country."
+  },
   "arriving-in-kathmandu-first-48-hours": {
     "treks": [
       "kathmandu-day-tour",
@@ -175,6 +244,40 @@
     ],
     "note": "Short tours that fit a spare day in Kathmandu before or after a trek."
   },
+  "atv-adventure-tour-in-pokhara-guide": {
+    "treks": [
+      "atv-adventure-tour-in-pokhara",
+      "paragliding-in-pokhara",
+      "ultra-light-flight-in-pokhara",
+      "seti-river-rafting-in-pokhara",
+      "zipline-in-pokhara-zip-flyer"
+    ],
+    "posts": [
+      "nepal-adventure-activities-for-non-trekkers",
+      "paragliding-in-pokhara-guide",
+      "pokhara-travel-guide",
+      "seti-river-rafting-in-pokhara-guide",
+      "bungee-and-zip-flyer-in-nepal"
+    ],
+    "note": "Pokhara's adventure activities, all within a short drive of the lakeside."
+  },
+  "badimalika-trek-guide": {
+    "treks": [
+      "badimalika-trek",
+      "ramaroshan-lakes-trek",
+      "api-himal-base-camp-trek",
+      "rara-lake-trek",
+      "guerrilla-trek"
+    ],
+    "posts": [
+      "ramaroshan-lakes-trek-guide",
+      "api-himal-base-camp-trek-guide",
+      "off-the-beaten-path-treks-in-nepal",
+      "nepal-festival-calendar",
+      "domestic-flights-in-nepal-for-trekkers"
+    ],
+    "note": "Far-western Nepal — the least-visited trekking region in the country."
+  },
   "bardia-national-park-guide": {
     "treks": [
       "bardia-national-park-tour-4-days",
@@ -190,6 +293,40 @@
       "rara-lake-trek-guide"
     ],
     "note": "Bardia itineraries from three to five days, plus Nepal's other wildlife reserves."
+  },
+  "baruntse-expedition-guide": {
+    "treks": [
+      "baruntse-expedition",
+      "baruntse-expedition-with-mera-peak-climbing",
+      "himlung-himal-expedition",
+      "mera-peak-climbing",
+      "chamlang-expedition"
+    ],
+    "posts": [
+      "himlung-himal-expedition-guide",
+      "eight-thousand-metre-peaks-in-nepal",
+      "mera-peak-climbing-guide",
+      "chamlang-expedition-guide",
+      "fixed-rope-and-jumar-skills-for-nepal-peaks"
+    ],
+    "note": "The 7,000 m proving grounds, and the peaks around them."
+  },
+  "best-of-nepal-tour-guide": {
+    "treks": [
+      "best-of-nepal-tour",
+      "kathmandu-pokhara-tour",
+      "chitwan-national-park-tour-3-days",
+      "lumbini-tour",
+      "nepal-cultural-tour"
+    ],
+    "posts": [
+      "nepal-cultural-tour-itineraries",
+      "chitwan-national-park-guide",
+      "lumbini-travel-guide",
+      "kathmandu-valley-unesco-sites-guide",
+      "pokhara-travel-guide"
+    ],
+    "note": "The full circuit, and the shorter tours that cover parts of it."
   },
   "best-time-for-everest-base-camp-trek": {
     "treks": [
@@ -255,6 +392,40 @@
     ],
     "note": "Dedicated birding trips and the wildlife reserves with the richest species lists."
   },
+  "bokta-peak-climbing-guide": {
+    "treks": [
+      "bokta-peak-climbing",
+      "kanchenjunga-south-base-camp-trek",
+      "kanchenjunga-circuit-trek",
+      "kanchenjunga-north-base-camp-trek",
+      "makalu-base-camp-trek"
+    ],
+    "posts": [
+      "kanchenjunga-south-base-camp-trek-guide",
+      "kanchenjunga-circuit-trek-guide",
+      "restricted-area-trekking-permits-in-nepal",
+      "nma-peak-permits-and-fees",
+      "red-panda-trail-trek-guide"
+    ],
+    "note": "The Kanchenjunga region, trekked and climbed."
+  },
+  "buddhist-pilgrimage-tour-nepal-guide": {
+    "treks": [
+      "buddhist-pilgrimage-tour-nepal",
+      "lumbini-tour",
+      "hindu-pilgrimage-tour",
+      "nepal-cultural-tour",
+      "seven-world-heritage-kathmandu-day-tour"
+    ],
+    "posts": [
+      "lumbini-travel-guide",
+      "hindu-pilgrimage-tour-guide",
+      "kathmandu-valley-unesco-sites-guide",
+      "nepal-festival-calendar",
+      "nepal-cultural-tour-itineraries"
+    ],
+    "note": "Pilgrimage routes and the cultural tours that overlap with them."
+  },
   "bungee-and-zip-flyer-in-nepal": {
     "treks": [
       "bungee-jump-in-kushma",
@@ -270,6 +441,74 @@
       "pokhara-travel-guide"
     ],
     "note": "Nepal's bungee and zipline sites, plus the whitewater that runs beneath one of them."
+  },
+  "bungee-jump-in-bhote-koshi-guide": {
+    "treks": [
+      "bungee-jump-in-bhote-koshi",
+      "rafting-in-bhote-koshi-river",
+      "bungee-jump-in-kushma",
+      "bungee-jumping-in-pokhara",
+      "zip-flyer-in-kushma"
+    ],
+    "posts": [
+      "bungee-and-zip-flyer-in-nepal",
+      "rafting-in-bhote-koshi-river-guide",
+      "nepal-adventure-activities-for-non-trekkers",
+      "rafting-in-nepal-rivers-compared",
+      "arriving-in-kathmandu-first-48-hours"
+    ],
+    "note": "Nepal's bungee sites and the whitewater that runs under them."
+  },
+  "bungmati-khokana-village-tour-guide": {
+    "treks": [
+      "bungmati-khokana-village-tour",
+      "patan-day-tour",
+      "pharping-dakshinkali-tour",
+      "kathmandu-valley-tour",
+      "seven-world-heritage-kathmandu-day-tour"
+    ],
+    "posts": [
+      "patan-travel-guide",
+      "kathmandu-valley-unesco-sites-guide",
+      "pharping-dakshinkali-tour-guide",
+      "nepal-festival-calendar",
+      "short-treks-near-kathmandu"
+    ],
+    "note": "Kathmandu valley day tours that go beyond the three Durbar Squares."
+  },
+  "chamlang-expedition-guide": {
+    "treks": [
+      "chamlang-expedition",
+      "makalu-expedition",
+      "baruntse-expedition",
+      "makalu-base-camp-trek",
+      "sherpani-col-passes-trek"
+    ],
+    "posts": [
+      "makalu-expedition-guide",
+      "baruntse-expedition-guide",
+      "makalu-base-camp-trek-guide",
+      "sherpani-col-passes-trek-guide",
+      "fixed-rope-and-jumar-skills-for-nepal-peaks"
+    ],
+    "note": "The Barun valley's peaks, and the walk that reaches all of them."
+  },
+  "chandragiri-cable-car-tour-guide": {
+    "treks": [
+      "chandragiri-cable-car-tour",
+      "nagarkot-sunrise-tour",
+      "kathmandu-valley-tour",
+      "everest-mountain-flight",
+      "dhulikhel-namobuddha-hike"
+    ],
+    "posts": [
+      "nagarkot-and-sunrise-viewpoints-near-kathmandu",
+      "mountain-flights-in-nepal-guide",
+      "short-treks-near-kathmandu",
+      "kathmandu-valley-unesco-sites-guide",
+      "arriving-in-kathmandu-first-48-hours"
+    ],
+    "note": "The easy ways to see the Himalaya from the Kathmandu valley."
   },
   "chitwan-national-park-guide": {
     "treks": [
@@ -287,6 +526,142 @@
     ],
     "note": "Chitwan itineraries from two to four days, and the circuits that include it."
   },
+  "cholatse-expedition-guide": {
+    "treks": [
+      "cholatse-expedition",
+      "thamserku-expedition",
+      "kusum-kanguru-peak-climbing",
+      "ama-dablam-expedition",
+      "kyajo-ri-peak-climbing"
+    ],
+    "posts": [
+      "thamserku-expedition-guide",
+      "kusum-kanguru-peak-climbing-guide",
+      "ama-dablam-expedition-guide",
+      "fixed-rope-and-jumar-skills-for-nepal-peaks",
+      "peak-climbing-gear-list"
+    ],
+    "note": "The technical Khumbu expeditions, in order of seriousness."
+  },
+  "chulu-east-peak-climbing-guide": {
+    "treks": [
+      "chulu-east-peak-climbing",
+      "chulu-west-peak-climbing",
+      "chulu-far-east-climbing",
+      "pisang-peak-climbing",
+      "annapurna-circuit-trek"
+    ],
+    "posts": [
+      "chulu-west-peak-climbing-guide",
+      "chulu-far-east-climbing-guide",
+      "fixed-rope-and-jumar-skills-for-nepal-peaks",
+      "travel-insurance-for-trekking-in-nepal",
+      "nma-peak-permits-and-fees"
+    ],
+    "note": "The three Chulu summits, in order of difficulty."
+  },
+  "chulu-far-east-climbing-guide": {
+    "treks": [
+      "chulu-far-east-climbing",
+      "chulu-west-peak-climbing",
+      "chulu-east-peak-climbing",
+      "pisang-peak-climbing",
+      "annapurna-circuit-trek"
+    ],
+    "posts": [
+      "peak-climbing-in-nepal-beginners-guide",
+      "chulu-west-peak-climbing-guide",
+      "chulu-east-peak-climbing-guide",
+      "peak-climbing-gear-list",
+      "nma-peak-permits-and-fees"
+    ],
+    "note": "Start here, then step up through the Chulu group."
+  },
+  "chulu-west-peak-climbing-guide": {
+    "treks": [
+      "chulu-west-peak-climbing",
+      "chulu-east-peak-climbing",
+      "chulu-far-east-climbing",
+      "pisang-peak-climbing",
+      "annapurna-circuit-trek"
+    ],
+    "posts": [
+      "chulu-east-peak-climbing-guide",
+      "chulu-far-east-climbing-guide",
+      "peak-climbing-in-nepal-beginners-guide",
+      "nma-peak-permits-and-fees",
+      "thorong-la-pass-crossing-guide"
+    ],
+    "note": "The Chulu group and the other Annapurna-side climbing peaks."
+  },
+  "churen-himal-base-camp-trek-guide": {
+    "treks": [
+      "churen-himal-base-camp-trek",
+      "dhaulagiri-circuit-trek",
+      "guerrilla-trek",
+      "putha-hiunchuli-expedition",
+      "khopra-danda-trek"
+    ],
+    "posts": [
+      "dhaulagiri-circuit-trek-guide",
+      "off-the-beaten-path-treks-in-nepal",
+      "guerrilla-trek-guide",
+      "nepal-trekking-permits-explained",
+      "nepal-trek-difficulty-grades-explained"
+    ],
+    "note": "Western Dhaulagiri and the routes that connect to it from Dhorpatan."
+  },
+  "dhampus-peak-climbing-guide": {
+    "treks": [
+      "dhampus-peak-climbing",
+      "tukuche-peak-expedition",
+      "dhaulagiri-circuit-trek",
+      "lower-mustang-trek",
+      "chulu-far-east-climbing"
+    ],
+    "posts": [
+      "tukuche-peak-expedition-guide",
+      "peak-climbing-in-nepal-beginners-guide",
+      "dhaulagiri-circuit-trek-guide",
+      "nma-peak-permits-and-fees",
+      "peak-climbing-gear-list"
+    ],
+    "note": "The Dhaulagiri side, from a first 6,000 m peak to the serious objectives."
+  },
+  "dhaulagiri-circuit-trek-guide": {
+    "treks": [
+      "dhaulagiri-circuit-trek",
+      "churen-himal-base-camp-trek",
+      "putha-hiunchuli-expedition",
+      "khopra-danda-trek",
+      "jomsom-muktinath-trek"
+    ],
+    "posts": [
+      "churen-himal-base-camp-trek-guide",
+      "off-the-beaten-path-treks-in-nepal",
+      "nepal-trek-difficulty-grades-explained",
+      "altitude-sickness-in-nepal-prevention-and-treatment",
+      "khopra-danda-trek-guide"
+    ],
+    "note": "The full circuit, plus the shorter and less committing ways to see the same mountain."
+  },
+  "dhulikhel-namobuddha-hike-guide": {
+    "treks": [
+      "dhulikhel-namobuddha-hike",
+      "nagarkot-sunrise-tour",
+      "ama-yangri-trek",
+      "helambu-trek",
+      "chandragiri-cable-car-tour"
+    ],
+    "posts": [
+      "short-treks-near-kathmandu",
+      "helambu-trek-guide",
+      "ama-yangri-trek-guide",
+      "nagarkot-and-sunrise-viewpoints-near-kathmandu",
+      "kathmandu-valley-unesco-sites-guide"
+    ],
+    "note": "Day walks and short treks within reach of Kathmandu."
+  },
   "domestic-flights-in-nepal-for-trekkers": {
     "treks": [
       "everest-base-camp-trek",
@@ -301,6 +676,23 @@
       "helicopter-tours-in-nepal-guide"
     ],
     "note": "Trips that begin or end with a mountain flight, where we build the buffer days into the itinerary."
+  },
+  "dorje-lakpa-expedition-guide": {
+    "treks": [
+      "dorje-lakpa-expedition",
+      "langtang-lirung-expedition",
+      "langshisha-ri-expedition",
+      "jugal-himal-gyalzen-peak-climbing",
+      "tilman-pass-trek"
+    ],
+    "posts": [
+      "langtang-lirung-expedition-guide",
+      "langshisha-ri-expedition-guide",
+      "jugal-himal-gyalzen-peak-climbing-guide",
+      "fixed-rope-and-jumar-skills-for-nepal-peaks",
+      "langtang-valley-trek-complete-guide"
+    ],
+    "note": "The serious objectives at the head of the Langtang valley."
   },
   "drinking-water-while-trekking-in-nepal": {
     "treks": [
@@ -354,6 +746,7 @@
       "everest-base-camp-helicopter-tour",
       "kalapatthar-to-kathmandu-helicopter-flight",
       "gorakshep-to-kathmandu-helicopter-flight",
+      "gorakshep-to-lukla-helicopter-flight",
       "everest-base-camp-trek-with-helicopter-return",
       "everest-mountain-flight"
     ],
@@ -505,6 +898,23 @@
     ],
     "note": "The routes we most often recommend for a first trek in Nepal, in rough order of commitment."
   },
+  "five-himalayan-viewpoints-tour-guide": {
+    "treks": [
+      "five-himalayan-viewpoints-tour-from-pokhara",
+      "pokhara-day-tour",
+      "pokhara-day-tour-with-sarangkot-sunrise",
+      "paragliding-in-pokhara",
+      "ultra-light-flight-in-pokhara"
+    ],
+    "posts": [
+      "pokhara-travel-guide",
+      "paragliding-in-pokhara-guide",
+      "short-treks-from-pokhara",
+      "nepal-adventure-activities-for-non-trekkers",
+      "ultra-light-flight-in-pokhara-guide"
+    ],
+    "note": "Pokhara from every angle — viewpoints, lakes and the air above them."
+  },
   "fixed-rope-and-jumar-skills-for-nepal-peaks": {
     "treks": [
       "island-peak-climbing",
@@ -534,6 +944,57 @@
       "altitude-sickness-in-nepal-prevention-and-treatment"
     ],
     "note": "Teahouse routes where all three daily meals on the trail are included in the trip price."
+  },
+  "ganesh-himal-trek-guide": {
+    "treks": [
+      "ganesh-himal-trek",
+      "tamang-heritage-trek",
+      "langtang-valley-trek",
+      "ruby-valley-circuit-trek",
+      "paldor-peak-climbing"
+    ],
+    "posts": [
+      "tamang-heritage-trail-guide",
+      "langtang-valley-trek-complete-guide",
+      "off-the-beaten-path-treks-in-nepal",
+      "ruby-valley-trek-guide",
+      "altitude-sickness-in-nepal-prevention-and-treatment"
+    ],
+    "note": "The Ganesh range and the Langtang-side routes that share its roadhead."
+  },
+  "gangapurna-expedition-guide": {
+    "treks": [
+      "gangapurna-expedition",
+      "tilicho-peak-expedition",
+      "annapurna-south-expedition",
+      "annapurna-circuit-trek",
+      "chulu-east-peak-climbing"
+    ],
+    "posts": [
+      "tilicho-peak-expedition-guide",
+      "annapurna-south-expedition-guide",
+      "annapurna-circuit-trek-complete-guide",
+      "eight-thousand-metre-peaks-in-nepal",
+      "fixed-rope-and-jumar-skills-for-nepal-peaks"
+    ],
+    "note": "The Annapurna massif's hard peaks, and the Circuit that approaches them."
+  },
+  "ghalegaun-ghanpokhara-village-tour-guide": {
+    "treks": [
+      "ghalegaun-ghanpokhara-village-tour",
+      "himalayan-village-tour",
+      "sirubari-village-tour",
+      "lamjung-himal-trek",
+      "annapurna-circuit-trek"
+    ],
+    "posts": [
+      "sirubari-village-tour-guide",
+      "himalayan-village-tour-guide",
+      "lamjung-himal-trek-guide",
+      "responsible-trekking-in-nepal",
+      "nepal-cultural-tour-itineraries"
+    ],
+    "note": "Gurung ridge villages and the treks that start from the same country."
   },
   "gokyo-lakes-trek-guide": {
     "treks": [
@@ -566,6 +1027,23 @@
     ],
     "note": "The lakes on their own, combined with the Langtang valley, or as a pilgrimage tour."
   },
+  "guerrilla-trek-guide": {
+    "treks": [
+      "guerrilla-trek",
+      "churen-himal-base-camp-trek",
+      "dhaulagiri-circuit-trek",
+      "ramaroshan-lakes-trek",
+      "badimalika-trek"
+    ],
+    "posts": [
+      "churen-himal-base-camp-trek-guide",
+      "off-the-beaten-path-treks-in-nepal",
+      "badimalika-trek-guide",
+      "responsible-trekking-in-nepal",
+      "domestic-flights-in-nepal-for-trekkers"
+    ],
+    "note": "The mid-western hills and the routes that reach them from Dhorpatan."
+  },
   "guides-and-porters-in-nepal-rules-and-costs": {
     "treks": [
       "everest-base-camp-trek",
@@ -580,6 +1058,23 @@
       "solo-female-trekking-in-nepal"
     ],
     "note": "Every trip we run includes a licensed guide; porters are available as an add-on on each trip page."
+  },
+  "helambu-trek-guide": {
+    "treks": [
+      "helambu-trek",
+      "ama-yangri-trek",
+      "gosaikunda-lake-trek",
+      "langtang-valley-trek",
+      "tamang-heritage-trek"
+    ],
+    "posts": [
+      "short-treks-near-kathmandu",
+      "ama-yangri-trek-guide",
+      "gosaikunda-lake-trek-guide",
+      "first-time-trekking-in-nepal-what-to-know",
+      "langtang-valley-trek-complete-guide"
+    ],
+    "note": "Helambu and the other Langtang-region routes that need no domestic flight."
   },
   "helicopter-tours-in-nepal-guide": {
     "treks": [
@@ -597,6 +1092,57 @@
       "mountain-flights-in-nepal-guide"
     ],
     "note": "Every helicopter route we operate, from a four-hour Everest tour to transfer flights and trek-out legs."
+  },
+  "himalayan-village-tour-guide": {
+    "treks": [
+      "himalayan-village-tour",
+      "ghalegaun-ghanpokhara-village-tour",
+      "sirubari-village-tour",
+      "kathmandu-pokhara-tour",
+      "nepal-cultural-tour"
+    ],
+    "posts": [
+      "ghalegaun-ghanpokhara-village-tour-guide",
+      "sirubari-village-tour-guide",
+      "nepal-cultural-tour-itineraries",
+      "responsible-trekking-in-nepal",
+      "pokhara-travel-guide"
+    ],
+    "note": "The three-village circuit, and each village on its own."
+  },
+  "himlung-himal-expedition-guide": {
+    "treks": [
+      "himlung-himal-expedition",
+      "baruntse-expedition",
+      "nar-phu-valley-trek",
+      "manaslu-expedition",
+      "larkya-peak-climbing"
+    ],
+    "posts": [
+      "baruntse-expedition-guide",
+      "nar-phu-valley-trek-guide",
+      "eight-thousand-metre-peaks-in-nepal",
+      "manaslu-expedition-guide",
+      "restricted-area-trekking-permits-in-nepal"
+    ],
+    "note": "Nar Phu and the 7,000 m peaks at the head of it."
+  },
+  "hindu-pilgrimage-tour-guide": {
+    "treks": [
+      "hindu-pilgrimage-tour",
+      "muktinath-pilgrimage-tour",
+      "buddhist-pilgrimage-tour-nepal",
+      "muktinath-helicopter-tour-from-pokhara",
+      "nepal-cultural-tour"
+    ],
+    "posts": [
+      "muktinath-pilgrimage-guide",
+      "buddhist-pilgrimage-tour-nepal-guide",
+      "nepal-festival-calendar",
+      "nepal-cultural-tour-itineraries",
+      "kathmandu-valley-unesco-sites-guide"
+    ],
+    "note": "Pilgrimage routes across Nepal, by road, air and helicopter."
   },
   "how-hard-is-the-everest-base-camp-trek": {
     "treks": [
@@ -644,13 +1190,31 @@
     ],
     "note": "Routes whose training demands are described above, with itineraries paced for acclimatisation rather than speed."
   },
+  "humla-limi-valley-trek-guide": {
+    "treks": [
+      "humla-limi-valley-trek",
+      "rara-lake-trek",
+      "upper-dolpo-trek",
+      "api-himal-base-camp-trek",
+      "badimalika-trek"
+    ],
+    "posts": [
+      "restricted-area-trekking-permits-in-nepal",
+      "rara-lake-trek-guide",
+      "upper-dolpo-trek-guide",
+      "monsoon-trekking-in-nepal-where-to-go",
+      "off-the-beaten-path-treks-in-nepal"
+    ],
+    "note": "The far north-west — the most isolated trekking country in Nepal."
+  },
   "island-peak-climbing-guide": {
     "treks": [
       "island-peak-climbing",
       "island-peak-climbing-from-chhukung",
       "island-peak-climbing-with-helicopter-return",
       "mera-and-island-peak-climbing",
-      "lobuche-peak-and-island-peak-climbing"
+      "lobuche-peak-and-island-peak-climbing",
+      "island-mera-peak-climbing-with-gokyo-ebc"
     ],
     "posts": [
       "peak-climbing-in-nepal-beginners-guide",
@@ -659,6 +1223,23 @@
       "fixed-rope-and-jumar-skills-for-nepal-peaks"
     ],
     "note": "Island Peak on its own, from Chhukung, with a helicopter return, or combined with Mera and Lobuche."
+  },
+  "jomsom-dolpo-trek-guide": {
+    "treks": [
+      "jomsom-dolpo-trek",
+      "upper-dolpo-trek",
+      "shey-phoksundo-lake-trek",
+      "lower-dolpo-trek",
+      "upper-mustang-trek"
+    ],
+    "posts": [
+      "upper-dolpo-trek-guide",
+      "shey-phoksundo-lake-trek-guide",
+      "lower-dolpo-trek-guide",
+      "restricted-area-trekking-permits-in-nepal",
+      "monsoon-trekking-in-nepal-where-to-go"
+    ],
+    "note": "Dolpo, from the full traverse down to the shorter routes into the same country."
   },
   "jomsom-muktinath-trek-guide": {
     "treks": [
@@ -675,6 +1256,23 @@
       "annapurna-circuit-trek-complete-guide"
     ],
     "note": "The Kali Gandaki and Muktinath on foot, by road, and by helicopter."
+  },
+  "jugal-himal-gyalzen-peak-climbing-guide": {
+    "treks": [
+      "jugal-himal-gyalzen-peak-climbing",
+      "panch-pokhari-trek",
+      "dorje-lakpa-expedition",
+      "tilman-pass-trek",
+      "helambu-trek"
+    ],
+    "posts": [
+      "panch-pokhari-trek-guide",
+      "tilman-pass-trek-guide",
+      "dorje-lakpa-expedition-guide",
+      "off-the-beaten-path-treks-in-nepal",
+      "short-treks-near-kathmandu"
+    ],
+    "note": "The Jugal Himal and the routes that reach it from the Kathmandu side."
   },
   "jungle-safari-in-nepal-guide": {
     "treks": [
@@ -722,6 +1320,91 @@
     ],
     "note": "The full circuit and the shorter routes to each base camp, all run with restricted permits we arrange."
   },
+  "kanchenjunga-north-base-camp-trek-guide": {
+    "treks": [
+      "kanchenjunga-north-base-camp-trek",
+      "kanchenjunga-circuit-trek",
+      "kanchenjunga-south-base-camp-trek",
+      "makalu-base-camp-trek",
+      "bokta-peak-climbing"
+    ],
+    "posts": [
+      "kanchenjunga-circuit-trek-guide",
+      "kanchenjunga-south-base-camp-trek-guide",
+      "restricted-area-trekking-permits-in-nepal",
+      "makalu-base-camp-trek-guide",
+      "altitude-sickness-in-nepal-prevention-and-treatment"
+    ],
+    "note": "Kanchenjunga from every side, plus the neighbouring eastern routes."
+  },
+  "kanchenjunga-south-base-camp-trek-guide": {
+    "treks": [
+      "kanchenjunga-south-base-camp-trek",
+      "kanchenjunga-north-base-camp-trek",
+      "kanchenjunga-circuit-trek",
+      "red-panda-trail-trek",
+      "makalu-base-camp-trek"
+    ],
+    "posts": [
+      "kanchenjunga-north-base-camp-trek-guide",
+      "kanchenjunga-circuit-trek-guide",
+      "red-panda-trail-trek-guide",
+      "restricted-area-trekking-permits-in-nepal",
+      "off-the-beaten-path-treks-in-nepal"
+    ],
+    "note": "The southern side of Kanchenjunga and the other eastern Nepal routes."
+  },
+  "kang-guru-expedition-guide": {
+    "treks": [
+      "kang-guru-expedition",
+      "himlung-himal-expedition",
+      "nar-phu-valley-trek",
+      "teri-la-pass-trek",
+      "manaslu-expedition"
+    ],
+    "posts": [
+      "himlung-himal-expedition-guide",
+      "nar-phu-valley-trek-guide",
+      "restricted-area-trekking-permits-in-nepal",
+      "manaslu-expedition-guide",
+      "fixed-rope-and-jumar-skills-for-nepal-peaks"
+    ],
+    "note": "The Nar Phu valleys and the peaks at the head of them."
+  },
+  "kanjirowa-expedition-guide": {
+    "treks": [
+      "kanjirowa-expedition",
+      "shey-phoksundo-lake-trek",
+      "upper-dolpo-trek",
+      "lower-dolpo-trek",
+      "api-himal-expedition"
+    ],
+    "posts": [
+      "shey-phoksundo-lake-trek-guide",
+      "upper-dolpo-trek-guide",
+      "lower-dolpo-trek-guide",
+      "api-himal-expedition-guide",
+      "off-the-beaten-path-treks-in-nepal"
+    ],
+    "note": "Dolpo, from the lake trek to the range behind it."
+  },
+  "kathmandu-pokhara-tour-guide": {
+    "treks": [
+      "kathmandu-pokhara-tour",
+      "glimpse-of-nepal-tour",
+      "best-of-nepal-tour",
+      "nagarkot-sunrise-tour",
+      "pokhara-day-tour"
+    ],
+    "posts": [
+      "kathmandu-valley-unesco-sites-guide",
+      "pokhara-travel-guide",
+      "nagarkot-and-sunrise-viewpoints-near-kathmandu",
+      "nepal-cultural-tour-itineraries",
+      "arriving-in-kathmandu-first-48-hours"
+    ],
+    "note": "The two-city week, plus the shorter and longer versions of it."
+  },
   "kathmandu-valley-unesco-sites-guide": {
     "treks": [
       "seven-world-heritage-kathmandu-day-tour",
@@ -754,6 +1437,108 @@
     ],
     "note": "Khopra Danda in both lengths, and the sister community-lodge trek at Mohare Danda."
   },
+  "khori-himal-trek-guide": {
+    "treks": [
+      "khori-himal-trek",
+      "khori-himal-trek-from-pokhara",
+      "mardi-himal-trek",
+      "poonhill-trek",
+      "lamjung-himal-trek"
+    ],
+    "posts": [
+      "short-treks-from-pokhara",
+      "mardi-himal-vs-poon-hill-vs-annapurna-base-camp",
+      "lamjung-himal-trek-guide",
+      "off-the-beaten-path-treks-in-nepal",
+      "first-time-trekking-in-nepal-what-to-know"
+    ],
+    "note": "Kori Danda, and the other short Annapurna ridges worth walking from Pokhara."
+  },
+  "kusum-kanguru-peak-climbing-guide": {
+    "treks": [
+      "kusum-kanguru-peak-climbing",
+      "kyajo-ri-peak-climbing",
+      "kwangde-peak-climbing",
+      "lobuche-east-peak-climbing",
+      "cholatse-expedition"
+    ],
+    "posts": [
+      "kyajo-ri-peak-climbing-guide",
+      "cholatse-expedition-guide",
+      "fixed-rope-and-jumar-skills-for-nepal-peaks",
+      "nma-peak-permits-and-fees",
+      "peak-climbing-gear-list"
+    ],
+    "note": "The hard end of the Khumbu, and the peaks that lead up to it."
+  },
+  "kwangde-peak-climbing-guide": {
+    "treks": [
+      "kwangde-peak-climbing",
+      "kyajo-ri-peak-climbing",
+      "phari-lapcha-peak-climbing",
+      "island-peak-climbing",
+      "everest-view-trek"
+    ],
+    "posts": [
+      "kyajo-ri-peak-climbing-guide",
+      "phari-lapcha-peak-climbing-guide",
+      "fixed-rope-and-jumar-skills-for-nepal-peaks",
+      "namche-bazaar-acclimatisation-guide",
+      "peak-climbing-gear-list"
+    ],
+    "note": "Technical Khumbu peaks, and the valleys they are climbed from."
+  },
+  "kyajo-ri-peak-climbing-guide": {
+    "treks": [
+      "kyajo-ri-peak-climbing",
+      "kwangde-peak-climbing",
+      "phari-lapcha-peak-climbing",
+      "island-peak-climbing",
+      "pachermo-and-kyajo-ri-peak-climbing"
+    ],
+    "posts": [
+      "kwangde-peak-climbing-guide",
+      "phari-lapcha-peak-climbing-guide",
+      "fixed-rope-and-jumar-skills-for-nepal-peaks",
+      "island-peak-climbing-guide",
+      "peak-climbing-gear-list"
+    ],
+    "note": "The technical Khumbu peaks, and the trekking peaks below them."
+  },
+  "lamjung-himal-trek-guide": {
+    "treks": [
+      "lamjung-himal-trek",
+      "khori-himal-trek",
+      "mardi-himal-trek",
+      "ganesh-himal-trek",
+      "annapurna-circuit-trek"
+    ],
+    "posts": [
+      "khori-himal-trek-guide",
+      "short-treks-from-pokhara",
+      "off-the-beaten-path-treks-in-nepal",
+      "mardi-himal-trek-complete-guide",
+      "how-to-train-for-a-nepal-trek"
+    ],
+    "note": "The quiet eastern edge of the Annapurnas, and the ridges worth walking there."
+  },
+  "langshisha-ri-expedition-guide": {
+    "treks": [
+      "langshisha-ri-expedition",
+      "naya-kanga-peak-climbing",
+      "tilman-pass-trek",
+      "langtang-valley-trek",
+      "dorje-lakpa-expedition"
+    ],
+    "posts": [
+      "naya-kanga-peak-climbing-guide",
+      "tilman-pass-trek-guide",
+      "langtang-valley-trek-complete-guide",
+      "langtang-after-the-2015-earthquake",
+      "fixed-rope-and-jumar-skills-for-nepal-peaks"
+    ],
+    "note": "The head of the Langtang valley, on foot and on the glacier."
+  },
   "langtang-after-the-2015-earthquake": {
     "treks": [
       "langtang-valley-trek",
@@ -768,6 +1553,57 @@
       "gosaikunda-lake-trek-guide"
     ],
     "note": "Routes through the rebuilt Langtang region, where lodge income goes directly to families who returned."
+  },
+  "langtang-ganja-la-pass-trek-guide": {
+    "treks": [
+      "langtang-ganja-la-pass-trek",
+      "langtang-valley-trek",
+      "langtang-gosaikunda-lake-trek",
+      "helambu-trek",
+      "naya-kanga-peak-climbing"
+    ],
+    "posts": [
+      "langtang-valley-trek-complete-guide",
+      "helambu-trek-guide",
+      "gosaikunda-lake-trek-guide",
+      "nepal-trek-difficulty-grades-explained",
+      "langtang-after-the-2015-earthquake"
+    ],
+    "note": "Langtang to Helambu — with the pass, and without it."
+  },
+  "langtang-helicopter-tour-guide": {
+    "treks": [
+      "langtang-helicopter-tour-from-kathmandu",
+      "langtang-valley-trek",
+      "everest-base-camp-helicopter-tour",
+      "gosaikunda-lake-trek",
+      "tamang-heritage-trek"
+    ],
+    "posts": [
+      "helicopter-tours-in-nepal-guide",
+      "langtang-valley-trek-complete-guide",
+      "langtang-after-the-2015-earthquake",
+      "everest-base-camp-helicopter-tour-guide",
+      "altitude-sickness-in-nepal-prevention-and-treatment"
+    ],
+    "note": "The Langtang valley by air and on foot, plus the other helicopter days."
+  },
+  "langtang-lirung-expedition-guide": {
+    "treks": [
+      "langtang-lirung-expedition",
+      "dorje-lakpa-expedition",
+      "langshisha-ri-expedition",
+      "langtang-valley-trek",
+      "naya-kanga-peak-climbing"
+    ],
+    "posts": [
+      "dorje-lakpa-expedition-guide",
+      "langshisha-ri-expedition-guide",
+      "langtang-valley-trek-complete-guide",
+      "eight-thousand-metre-peaks-in-nepal",
+      "fixed-rope-and-jumar-skills-for-nepal-peaks"
+    ],
+    "note": "The Langtang Himal, from the valley walk to its hardest peak."
   },
   "langtang-valley-trek-complete-guide": {
     "treks": [
@@ -800,6 +1636,40 @@
     ],
     "note": "Itineraries that cross the Larke La, all with the Samagaun acclimatisation day built in."
   },
+  "larkya-peak-climbing-guide": {
+    "treks": [
+      "larkya-peak-climbing",
+      "samdo-peak-climbing",
+      "manaslu-circuit-trek",
+      "himlung-himal-expedition",
+      "larke-pass-trek"
+    ],
+    "posts": [
+      "samdo-peak-climbing-guide",
+      "larke-la-pass-crossing-guide",
+      "manaslu-circuit-trek-complete-guide",
+      "nepal-trekking-permits-explained",
+      "peak-climbing-in-nepal-beginners-guide"
+    ],
+    "note": "Manaslu-region climbing peaks and the Circuit they sit on."
+  },
+  "lhotse-expedition-guide": {
+    "treks": [
+      "lhotse-expedition",
+      "everest-expedition",
+      "everest-and-lhotse-expedition",
+      "makalu-expedition",
+      "ama-dablam-expedition"
+    ],
+    "posts": [
+      "eight-thousand-metre-peaks-in-nepal",
+      "everest-expedition-guide",
+      "makalu-expedition-guide",
+      "fixed-rope-and-jumar-skills-for-nepal-peaks",
+      "everest-base-camp-trek-complete-guide"
+    ],
+    "note": "Nepal's 8,000 m peaks and the technical objectives below them."
+  },
   "lobuche-east-peak-climbing-guide": {
     "treks": [
       "lobuche-east-peak-climbing",
@@ -830,6 +1700,40 @@
       "off-the-beaten-path-treks-in-nepal"
     ],
     "note": "Dolpo circuits at every length, all with the Immigration paperwork handled for you."
+  },
+  "lower-manaslu-trek-guide": {
+    "treks": [
+      "lower-manaslu-trek",
+      "manaslu-circuit-trek",
+      "rupina-la-pass-trek",
+      "serang-gompa-trek",
+      "tsum-valley-trek"
+    ],
+    "posts": [
+      "manaslu-circuit-trek-complete-guide",
+      "rupina-la-pass-trek-guide",
+      "responsible-trekking-in-nepal",
+      "serang-gompa-trek-guide",
+      "first-time-trekking-in-nepal-what-to-know"
+    ],
+    "note": "The Manaslu region from the foothills up to the circuit."
+  },
+  "lower-mustang-trek-guide": {
+    "treks": [
+      "lower-mustang-trek",
+      "lower-mustang-trek-from-pokhara",
+      "upper-mustang-trek",
+      "jomsom-muktinath-trek",
+      "muktinath-pilgrimage-tour"
+    ],
+    "posts": [
+      "upper-mustang-trek-complete-guide",
+      "jomsom-muktinath-trek-guide",
+      "muktinath-pilgrimage-guide",
+      "domestic-flights-in-nepal-for-trekkers",
+      "restricted-area-trekking-permits-in-nepal"
+    ],
+    "note": "Mustang, from the open lower valley to the restricted north."
   },
   "lukla-flight-guide": {
     "treks": [
@@ -877,6 +1781,23 @@
       "mundum-trail-trek-guide"
     ],
     "note": "The Barun valley as a trek, and the technical routes that cross from it into the Khumbu."
+  },
+  "makalu-expedition-guide": {
+    "treks": [
+      "makalu-expedition",
+      "makalu-base-camp-trek",
+      "lhotse-expedition",
+      "everest-expedition",
+      "sherpani-col-passes-trek"
+    ],
+    "posts": [
+      "makalu-base-camp-trek-guide",
+      "eight-thousand-metre-peaks-in-nepal",
+      "lhotse-expedition-guide",
+      "sherpani-col-passes-trek-guide",
+      "fixed-rope-and-jumar-skills-for-nepal-peaks"
+    ],
+    "note": "Makalu and the Barun valley, climbed and walked."
   },
   "manaslu-circuit-trek-complete-guide": {
     "treks": [
@@ -1037,6 +1958,23 @@
     ],
     "note": "Scenic flights from Kathmandu and Pokhara, plus the helicopter alternatives."
   },
+  "muktinath-damodar-kunda-helicopter-tour-guide": {
+    "treks": [
+      "muktinath-damodar-kunda-helicopter-tour",
+      "muktinath-helicopter-tour-from-pokhara",
+      "muktinath-pilgrimage-tour",
+      "hindu-pilgrimage-tour",
+      "upper-mustang-trek"
+    ],
+    "posts": [
+      "muktinath-pilgrimage-guide",
+      "helicopter-tours-in-nepal-guide",
+      "hindu-pilgrimage-tour-guide",
+      "upper-mustang-trek-complete-guide",
+      "altitude-sickness-in-nepal-prevention-and-treatment"
+    ],
+    "note": "Muktinath and the Mustang plateau, by helicopter and on the ground."
+  },
   "muktinath-pilgrimage-guide": {
     "treks": [
       "muktinath-pilgrimage-tour",
@@ -1113,6 +2051,23 @@
       "off-the-beaten-path-treks-in-nepal"
     ],
     "note": "Nar Phu on its own or linked to the Annapurna Circuit, plus the other restricted valleys nearby."
+  },
+  "naya-kanga-peak-climbing-guide": {
+    "treks": [
+      "naya-kanga-peak-climbing",
+      "yala-peak-climbing",
+      "langshisha-ri-expedition",
+      "langtang-valley-trek",
+      "langtang-ganja-la-pass-trek"
+    ],
+    "posts": [
+      "yala-peak-climbing-guide",
+      "peak-climbing-in-nepal-beginners-guide",
+      "langshisha-ri-expedition-guide",
+      "langtang-valley-trek-complete-guide",
+      "peak-climbing-gear-list"
+    ],
+    "note": "The Langtang climbing peaks, from the gentlest upward."
   },
   "nepal-adventure-activities-for-non-trekkers": {
     "treks": [
@@ -1225,6 +2180,23 @@
     ],
     "note": "Trips that start in Kathmandu, where our representative meets you at the arrivals barrier."
   },
+  "nirekha-peak-climbing-guide": {
+    "treks": [
+      "nirekha-peak-climbing",
+      "lobuche-east-peak-climbing",
+      "island-peak-climbing",
+      "gokyo-lake-trek",
+      "everest-three-pass-trek"
+    ],
+    "posts": [
+      "lobuche-east-peak-climbing-guide",
+      "gokyo-lakes-trek-guide",
+      "island-peak-climbing-guide",
+      "fixed-rope-and-jumar-skills-for-nepal-peaks",
+      "nma-peak-permits-and-fees"
+    ],
+    "note": "The Cho La cirque peaks and the valleys either side of them."
+  },
   "nma-peak-permits-and-fees": {
     "treks": [
       "island-peak-climbing",
@@ -1258,6 +2230,40 @@
     ],
     "note": "A route from each tier above, from an easy community ridge to the remotest valleys in the country."
   },
+  "pachermo-peak-climbing-guide": {
+    "treks": [
+      "pachermo-peak-climbing",
+      "tashi-lapcha-pass-trek",
+      "tsho-rolpa-trek",
+      "rolwaling-valley-trek",
+      "yalung-ri-and-pachermo-peak-climbing"
+    ],
+    "posts": [
+      "rolwaling-valley-and-tashi-lapcha-guide",
+      "tsho-rolpa-trek-guide",
+      "fixed-rope-and-jumar-skills-for-nepal-peaks",
+      "lukla-flight-guide",
+      "nma-peak-permits-and-fees"
+    ],
+    "note": "Rolwaling and the Tashi Lapcha, with and without the summit."
+  },
+  "paldor-peak-climbing-guide": {
+    "treks": [
+      "paldor-peak-climbing",
+      "ganesh-himal-trek",
+      "tamang-heritage-trek",
+      "naya-kanga-peak-climbing",
+      "ruby-valley-circuit-trek"
+    ],
+    "posts": [
+      "ganesh-himal-trek-guide",
+      "naya-kanga-peak-climbing-guide",
+      "tamang-heritage-trail-guide",
+      "off-the-beaten-path-treks-in-nepal",
+      "peak-climbing-in-nepal-beginners-guide"
+    ],
+    "note": "The Ganesh Himal — climbed and walked."
+  },
   "panch-pokhari-trek-guide": {
     "treks": [
       "panch-pokhari-trek",
@@ -1288,6 +2294,23 @@
       "mountain-flights-in-nepal-guide"
     ],
     "note": "Every way to get airborne in Pokhara, from a 20-minute tandem to a cross-country flight."
+  },
+  "parahawking-in-pokhara-guide": {
+    "treks": [
+      "parahawking-in-pokhara",
+      "paragliding-in-pokhara",
+      "cross-country-paragliding-in-pokhara",
+      "ultra-light-flight-in-pokhara",
+      "pokhara-helicopter-sightseeing-tour"
+    ],
+    "posts": [
+      "paragliding-in-pokhara-guide",
+      "bird-watching-in-nepal-guide",
+      "nepal-adventure-activities-for-non-trekkers",
+      "pokhara-travel-guide",
+      "responsible-trekking-in-nepal"
+    ],
+    "note": "Flying over Pokhara, with and without birds."
   },
   "patan-travel-guide": {
     "treks": [
@@ -1337,6 +2360,40 @@
     ],
     "note": "Trekking peaks suitable for a first Himalayan climb, all with training days and a licensed climbing guide included."
   },
+  "phari-lapcha-peak-climbing-guide": {
+    "treks": [
+      "phari-lapcha-peak-climbing",
+      "kyajo-ri-peak-climbing",
+      "kwangde-peak-climbing",
+      "island-peak-climbing",
+      "gokyo-lake-trek"
+    ],
+    "posts": [
+      "kyajo-ri-peak-climbing-guide",
+      "kwangde-peak-climbing-guide",
+      "gokyo-lakes-trek-guide",
+      "island-peak-climbing-guide",
+      "fixed-rope-and-jumar-skills-for-nepal-peaks"
+    ],
+    "note": "The Gokyo valley and the technical peaks above it."
+  },
+  "pharping-dakshinkali-tour-guide": {
+    "treks": [
+      "pharping-dakshinkali-tour",
+      "bungmati-khokana-village-tour",
+      "kathmandu-valley-tour",
+      "seven-world-heritage-kathmandu-day-tour",
+      "patan-day-tour"
+    ],
+    "posts": [
+      "kathmandu-valley-unesco-sites-guide",
+      "bungmati-khokana-village-tour-guide",
+      "nepal-festival-calendar",
+      "patan-travel-guide",
+      "arriving-in-kathmandu-first-48-hours"
+    ],
+    "note": "Kathmandu valley day tours beyond the main Durbar Squares."
+  },
   "pikey-peak-trek-guide": {
     "treks": [
       "pikey-peak-trek",
@@ -1351,6 +2408,57 @@
       "off-the-beaten-path-treks-in-nepal"
     ],
     "note": "Pikey Peak and the other ways into the Everest region, with and without a mountain flight."
+  },
+  "pisang-peak-climbing-guide": {
+    "treks": [
+      "pisang-peak-climbing",
+      "chulu-west-peak-climbing",
+      "chulu-far-east-climbing",
+      "chulu-east-peak-climbing",
+      "annapurna-circuit-trek"
+    ],
+    "posts": [
+      "chulu-west-peak-climbing-guide",
+      "island-peak-climbing-guide",
+      "peak-climbing-in-nepal-beginners-guide",
+      "thorong-la-pass-crossing-guide",
+      "fixed-rope-and-jumar-skills-for-nepal-peaks"
+    ],
+    "note": "Annapurna-side climbing peaks, and the Circuit they all sit inside."
+  },
+  "pokalde-peak-climbing-guide": {
+    "treks": [
+      "pokalde-peak-climbing",
+      "island-peak-climbing",
+      "everest-three-pass-trek",
+      "everest-base-camp-trek",
+      "yala-peak-climbing"
+    ],
+    "posts": [
+      "peak-climbing-in-nepal-beginners-guide",
+      "island-peak-climbing-guide",
+      "everest-three-passes-trek-guide",
+      "nma-peak-permits-and-fees",
+      "lukla-flight-guide"
+    ],
+    "note": "Khumbu climbing peaks, from the most approachable upward."
+  },
+  "pokhara-helicopter-sightseeing-tour-guide": {
+    "treks": [
+      "pokhara-helicopter-sightseeing-tour",
+      "annapurna-base-camp-helicopter-tour",
+      "ultra-light-flight-in-pokhara",
+      "mountain-flight-from-pokhara",
+      "muktinath-helicopter-tour-from-pokhara"
+    ],
+    "posts": [
+      "helicopter-tours-in-nepal-guide",
+      "annapurna-base-camp-helicopter-tour-guide",
+      "ultra-light-flight-in-pokhara-guide",
+      "mountain-flights-in-nepal-guide",
+      "pokhara-travel-guide"
+    ],
+    "note": "Every way to get into the air from Pokhara, cheapest to most spectacular."
   },
   "pokhara-travel-guide": {
     "treks": [
@@ -1384,6 +2492,74 @@
     ],
     "note": "Poon Hill in both lengths, plus the quieter ridges with the same mountains in view."
   },
+  "pumori-expedition-guide": {
+    "treks": [
+      "pumori-expedition",
+      "ama-dablam-expedition",
+      "baruntse-expedition",
+      "everest-base-camp-trek",
+      "lhotse-expedition"
+    ],
+    "posts": [
+      "ama-dablam-expedition-guide",
+      "baruntse-expedition-guide",
+      "kala-patthar-vs-everest-base-camp",
+      "everest-base-camp-trek-complete-guide",
+      "eight-thousand-metre-peaks-in-nepal"
+    ],
+    "note": "The Khumbu's serious peaks, and the trail they share."
+  },
+  "putha-hiunchuli-expedition-guide": {
+    "treks": [
+      "putha-hiunchuli-expedition",
+      "churen-himal-base-camp-trek",
+      "dhaulagiri-circuit-trek",
+      "himlung-himal-expedition",
+      "lower-dolpo-trek"
+    ],
+    "posts": [
+      "churen-himal-base-camp-trek-guide",
+      "dhaulagiri-circuit-trek-guide",
+      "himlung-himal-expedition-guide",
+      "lower-dolpo-trek-guide",
+      "eight-thousand-metre-peaks-in-nepal"
+    ],
+    "note": "The western Dhaulagiri chain and the Dolpo country behind it."
+  },
+  "rafting-in-bhote-koshi-river-guide": {
+    "treks": [
+      "rafting-in-bhote-koshi-river",
+      "bungee-jump-in-bhote-koshi",
+      "rafting-in-marsyangdi-river",
+      "trishuli-river-rafting-2-days",
+      "rafting-in-kali-gandaki-river"
+    ],
+    "posts": [
+      "rafting-in-nepal-rivers-compared",
+      "bungee-jump-in-bhote-koshi-guide",
+      "rafting-in-marsyangdi-river-guide",
+      "trishuli-river-rafting-2-days-guide",
+      "nepal-adventure-activities-for-non-trekkers"
+    ],
+    "note": "Nepal's harder rivers, and the bungee that shares the Bhote Koshi gorge."
+  },
+  "rafting-in-marsyangdi-river-guide": {
+    "treks": [
+      "rafting-in-marsyangdi-river",
+      "rafting-in-bhote-koshi-river",
+      "rafting-in-kali-gandaki-river",
+      "trishuli-river-rafting-2-days",
+      "seti-river-rafting-in-pokhara"
+    ],
+    "posts": [
+      "rafting-in-nepal-rivers-compared",
+      "rafting-in-bhote-koshi-river-guide",
+      "trishuli-river-rafting-2-days-guide",
+      "seti-river-rafting-in-pokhara-guide",
+      "nepal-adventure-activities-for-non-trekkers"
+    ],
+    "note": "Nepal's rivers ranked by difficulty, hardest first."
+  },
   "rafting-in-nepal-rivers-compared": {
     "treks": [
       "rafting-in-kali-gandaki-river",
@@ -1399,6 +2575,23 @@
       "bungee-and-zip-flyer-in-nepal"
     ],
     "note": "Every river we run, from a gentle half day near Pokhara to four days of Class V."
+  },
+  "ramaroshan-lakes-trek-guide": {
+    "treks": [
+      "ramaroshan-lakes-trek",
+      "badimalika-trek",
+      "api-himal-base-camp-trek",
+      "rara-lake-trek",
+      "guerrilla-trek"
+    ],
+    "posts": [
+      "badimalika-trek-guide",
+      "api-himal-base-camp-trek-guide",
+      "off-the-beaten-path-treks-in-nepal",
+      "responsible-trekking-in-nepal",
+      "rara-lake-trek-guide"
+    ],
+    "note": "Far-western Nepal, from the gentlest route to the most committing."
   },
   "rara-lake-trek-guide": {
     "treks": [
@@ -1510,6 +2703,142 @@
     ],
     "note": "The Ruby Valley circuit and the neighbouring routes it links to."
   },
+  "rupina-la-pass-trek-guide": {
+    "treks": [
+      "rupina-la-pass-trek",
+      "manaslu-circuit-trek",
+      "lower-manaslu-trek",
+      "serang-gompa-trek",
+      "tsum-valley-trek"
+    ],
+    "posts": [
+      "lower-manaslu-trek-guide",
+      "manaslu-circuit-trek-complete-guide",
+      "larke-la-pass-crossing-guide",
+      "nepal-trek-difficulty-grades-explained",
+      "off-the-beaten-path-treks-in-nepal"
+    ],
+    "note": "Manaslu-region passes and the valleys they connect."
+  },
+  "samdo-peak-climbing-guide": {
+    "treks": [
+      "samdo-peak-climbing",
+      "larkya-peak-climbing",
+      "manaslu-circuit-trek",
+      "himlung-himal-expedition",
+      "tsum-valley-trek"
+    ],
+    "posts": [
+      "larkya-peak-climbing-guide",
+      "manaslu-circuit-trek-complete-guide",
+      "larke-la-pass-crossing-guide",
+      "peak-climbing-in-nepal-beginners-guide",
+      "nepal-trekking-permits-explained"
+    ],
+    "note": "The Manaslu Circuit, with and without a summit at the top of it."
+  },
+  "saribung-pass-trek-guide": {
+    "treks": [
+      "saribung-pass-trek",
+      "teri-la-pass-trek",
+      "upper-mustang-trek",
+      "nar-phu-valley-trek",
+      "saribung-peak-climbing"
+    ],
+    "posts": [
+      "teri-la-pass-trek-guide",
+      "upper-mustang-trek-complete-guide",
+      "nar-phu-valley-trek-guide",
+      "restricted-area-trekking-permits-in-nepal",
+      "fixed-rope-and-jumar-skills-for-nepal-peaks"
+    ],
+    "note": "The Mustang to Nar Phu crossings, glaciated and not."
+  },
+  "saribung-peak-climbing-guide": {
+    "treks": [
+      "saribung-peak-climbing",
+      "abi-peak-climbing",
+      "saribung-pass-trek",
+      "upper-mustang-trek",
+      "teri-la-pass-trek"
+    ],
+    "posts": [
+      "abi-peak-climbing-guide",
+      "saribung-pass-trek-guide",
+      "upper-mustang-trek-complete-guide",
+      "restricted-area-trekking-permits-in-nepal",
+      "monsoon-trekking-in-nepal-where-to-go"
+    ],
+    "note": "Saribung as a summit, as a pass, and the Mustang journey that reaches both."
+  },
+  "secret-food-tour-in-kathmandu-guide": {
+    "treks": [
+      "secret-food-tour-in-kathmandu",
+      "kathmandu-valley-tour",
+      "kathmandu-day-tour",
+      "patan-day-tour",
+      "seven-world-heritage-kathmandu-day-tour"
+    ],
+    "posts": [
+      "food-on-the-trail-in-nepal",
+      "arriving-in-kathmandu-first-48-hours",
+      "kathmandu-valley-unesco-sites-guide",
+      "patan-travel-guide",
+      "nepal-cultural-tour-itineraries"
+    ],
+    "note": "Kathmandu on foot — food, monuments and the old city."
+  },
+  "serang-gompa-trek-guide": {
+    "treks": [
+      "serang-gompa-trek",
+      "manaslu-circuit-trek",
+      "tsum-valley-trek",
+      "lower-manaslu-trek",
+      "rupina-la-pass-trek"
+    ],
+    "posts": [
+      "tsum-valley-trek-guide",
+      "manaslu-circuit-trek-complete-guide",
+      "nepal-trekking-permits-explained",
+      "lower-manaslu-trek-guide",
+      "responsible-trekking-in-nepal"
+    ],
+    "note": "The Manaslu region beyond the circuit — monasteries, side valleys and the lower gorge."
+  },
+  "seti-river-rafting-in-pokhara-guide": {
+    "treks": [
+      "seti-river-rafting-in-pokhara",
+      "trishuli-river-rafting-2-days",
+      "rafting-in-kali-gandaki-river",
+      "rafting-in-marsyangdi-river",
+      "paragliding-in-pokhara"
+    ],
+    "posts": [
+      "rafting-in-nepal-rivers-compared",
+      "trishuli-river-rafting-2-days-guide",
+      "nepal-adventure-activities-for-non-trekkers",
+      "pokhara-travel-guide",
+      "paragliding-in-pokhara-guide"
+    ],
+    "note": "Rivers and the other Pokhara activities that fit the same day."
+  },
+  "sherpani-col-passes-trek-guide": {
+    "treks": [
+      "sherpani-col-passes-trek",
+      "makalu-base-camp-trek",
+      "everest-three-pass-trek",
+      "baruntse-expedition",
+      "mera-peak-climbing"
+    ],
+    "posts": [
+      "makalu-base-camp-trek-guide",
+      "everest-three-passes-trek-guide",
+      "fixed-rope-and-jumar-skills-for-nepal-peaks",
+      "nepal-trek-difficulty-grades-explained",
+      "lukla-flight-guide"
+    ],
+    "note": "The Makalu–Khumbu traverse and the routes that share its ground."
+  },
   "shey-phoksundo-lake-trek-guide": {
     "treks": [
       "shey-phoksundo-lake-trek",
@@ -1576,6 +2905,40 @@
     ],
     "note": "Walks and treks reachable by road from Kathmandu, from a single morning to a fortnight."
   },
+  "singu-chuli-peak-climbing-guide": {
+    "treks": [
+      "singu-chuli-peak-climbing",
+      "tharpu-chuli-and-singu-chuli-two-peaks-climbing",
+      "annapurna-base-camp-trek",
+      "chulu-east-peak-climbing",
+      "kyajo-ri-peak-climbing"
+    ],
+    "posts": [
+      "fixed-rope-and-jumar-skills-for-nepal-peaks",
+      "annapurna-base-camp-trek-complete-guide",
+      "travel-insurance-for-trekking-in-nepal",
+      "chulu-east-peak-climbing-guide",
+      "nma-peak-permits-and-fees"
+    ],
+    "note": "The Sanctuary peaks, and the progression that leads to them."
+  },
+  "sirubari-village-tour-guide": {
+    "treks": [
+      "sirubari-village-tour",
+      "himalayan-village-tour",
+      "ghalegaun-ghanpokhara-village-tour",
+      "pokhara-day-tour",
+      "mohare-danda-trek"
+    ],
+    "posts": [
+      "ghalegaun-ghanpokhara-village-tour-guide",
+      "himalayan-village-tour-guide",
+      "responsible-trekking-in-nepal",
+      "mohare-danda-community-trek-guide",
+      "pokhara-travel-guide"
+    ],
+    "note": "Community homestay villages, individually and on the longer circuit."
+  },
   "solo-female-trekking-in-nepal": {
     "treks": [
       "poonhill-trek",
@@ -1638,6 +3001,40 @@
     ],
     "note": "Khumbu treks that include Tengboche, and the shorter routes through the Sherpa villages below it."
   },
+  "teri-la-pass-trek-guide": {
+    "treks": [
+      "teri-la-pass-trek",
+      "saribung-pass-trek",
+      "upper-mustang-trek",
+      "nar-phu-valley-trek",
+      "annapurna-circuit-trek"
+    ],
+    "posts": [
+      "saribung-pass-trek-guide",
+      "upper-mustang-trek-complete-guide",
+      "nar-phu-valley-trek-guide",
+      "restricted-area-trekking-permits-in-nepal",
+      "off-the-beaten-path-treks-in-nepal"
+    ],
+    "note": "Mustang to Nar Phu, and the routes at either end of the crossing."
+  },
+  "thamserku-expedition-guide": {
+    "treks": [
+      "thamserku-expedition",
+      "cholatse-expedition",
+      "ama-dablam-expedition",
+      "kusum-kanguru-peak-climbing",
+      "kyajo-ri-peak-climbing"
+    ],
+    "posts": [
+      "cholatse-expedition-guide",
+      "ama-dablam-expedition-guide",
+      "kusum-kanguru-peak-climbing-guide",
+      "fixed-rope-and-jumar-skills-for-nepal-peaks",
+      "peak-climbing-gear-list"
+    ],
+    "note": "The hardest technical objectives in the Khumbu."
+  },
   "thorong-la-pass-crossing-guide": {
     "treks": [
       "annapurna-circuit-trek",
@@ -1683,6 +3080,40 @@
     ],
     "note": "Tilicho on its own, the short version, and the circuit itinerary that includes it."
   },
+  "tilicho-peak-expedition-guide": {
+    "treks": [
+      "tilicho-peak-expedition",
+      "tilicho-lake-trek",
+      "annapurna-circuit-with-tilicho-lake-trek",
+      "baruntse-expedition",
+      "chulu-east-peak-climbing"
+    ],
+    "posts": [
+      "tilicho-lake-trek-guide",
+      "eight-thousand-metre-peaks-in-nepal",
+      "baruntse-expedition-guide",
+      "fixed-rope-and-jumar-skills-for-nepal-peaks",
+      "annapurna-circuit-trek-complete-guide"
+    ],
+    "note": "Tilicho by climb and by trek, plus the comparable 7,000 m objectives."
+  },
+  "tilman-pass-trek-guide": {
+    "treks": [
+      "tilman-pass-trek",
+      "langtang-ganja-la-pass-trek",
+      "panch-pokhari-trek",
+      "langtang-valley-trek",
+      "dorje-lakpa-expedition"
+    ],
+    "posts": [
+      "langtang-ganja-la-pass-trek-guide",
+      "panch-pokhari-trek-guide",
+      "langtang-valley-trek-complete-guide",
+      "langtang-after-the-2015-earthquake",
+      "nepal-trek-difficulty-grades-explained"
+    ],
+    "note": "The Langtang crossings, from the hardest to the most accessible."
+  },
   "travel-insurance-for-trekking-in-nepal": {
     "treks": [
       "everest-base-camp-trek",
@@ -1698,6 +3129,40 @@
     ],
     "note": "Trips where the altitude clause in your policy needs particular attention before departure."
   },
+  "trishuli-river-rafting-2-days-guide": {
+    "treks": [
+      "trishuli-river-rafting-2-days",
+      "trishuli-river-rafting-1-day",
+      "seti-river-rafting-in-pokhara",
+      "rafting-in-bhote-koshi-river",
+      "rafting-in-kali-gandaki-river"
+    ],
+    "posts": [
+      "rafting-in-nepal-rivers-compared",
+      "seti-river-rafting-in-pokhara-guide",
+      "nepal-adventure-activities-for-non-trekkers",
+      "chitwan-national-park-guide",
+      "pokhara-travel-guide"
+    ],
+    "note": "Nepal's commercial rivers, from the gentlest to the hardest."
+  },
+  "tsho-rolpa-trek-guide": {
+    "treks": [
+      "tsho-rolpa-trek",
+      "rolwaling-valley-trek",
+      "tashi-lapcha-pass-trek",
+      "yala-peak-climbing",
+      "pikey-peak-trek"
+    ],
+    "posts": [
+      "rolwaling-valley-and-tashi-lapcha-guide",
+      "off-the-beaten-path-treks-in-nepal",
+      "altitude-sickness-in-nepal-prevention-and-treatment",
+      "short-everest-treks-without-base-camp",
+      "responsible-trekking-in-nepal"
+    ],
+    "note": "Rolwaling — the lake on its own, and the routes that continue over the pass."
+  },
   "tsum-valley-trek-guide": {
     "treks": [
       "tsum-valley-trek",
@@ -1712,6 +3177,40 @@
       "off-the-beaten-path-treks-in-nepal"
     ],
     "note": "The Tsum Valley alone or combined with the Manaslu Circuit — both need restricted permits we arrange."
+  },
+  "tukuche-peak-expedition-guide": {
+    "treks": [
+      "tukuche-peak-expedition",
+      "dhampus-peak-climbing",
+      "dhaulagiri-circuit-trek",
+      "putha-hiunchuli-expedition",
+      "tilicho-peak-expedition"
+    ],
+    "posts": [
+      "dhampus-peak-climbing-guide",
+      "dhaulagiri-circuit-trek-guide",
+      "fixed-rope-and-jumar-skills-for-nepal-peaks",
+      "eight-thousand-metre-peaks-in-nepal",
+      "peak-climbing-gear-list"
+    ],
+    "note": "The Dhaulagiri massif, from trekking peaks to royalty expeditions."
+  },
+  "ultra-light-flight-in-pokhara-guide": {
+    "treks": [
+      "ultra-light-flight-in-pokhara",
+      "paragliding-in-pokhara",
+      "mountain-flight-from-pokhara",
+      "pokhara-helicopter-sightseeing-tour",
+      "pokhara-day-tour"
+    ],
+    "posts": [
+      "paragliding-in-pokhara-guide",
+      "nepal-adventure-activities-for-non-trekkers",
+      "mountain-flights-in-nepal-guide",
+      "pokhara-travel-guide",
+      "helicopter-tours-in-nepal-guide"
+    ],
+    "note": "The ways to get above Pokhara, from cheapest to most spectacular."
   },
   "upper-dolpo-trek-guide": {
     "treks": [

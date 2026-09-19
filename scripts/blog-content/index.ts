@@ -36,6 +36,30 @@ import { toursD } from "./tours-d";
 import { activitiesA } from "./activities-a";
 import { activitiesB } from "./activities-b";
 import { activitiesC } from "./activities-c";
+import { remoteA } from "./remote-a";
+import { remoteB } from "./remote-b";
+import { remoteC } from "./remote-c";
+import { remoteD } from "./remote-d";
+import { remoteE } from "./remote-e";
+import { remoteF } from "./remote-f";
+import { toursE } from "./tours-e";
+import { toursF } from "./tours-f";
+import { toursG } from "./tours-g";
+import { toursH } from "./tours-h";
+import { toursI } from "./tours-i";
+import { activitiesD } from "./activities-d";
+import { activitiesE } from "./activities-e";
+import { peaksA } from "./peaks-a";
+import { peaksB } from "./peaks-b";
+import { peaksC } from "./peaks-c";
+import { peaksD } from "./peaks-d";
+import { peaksE } from "./peaks-e";
+import { peaksF } from "./peaks-f";
+import { peaksG } from "./peaks-g";
+import { peaksH } from "./peaks-h";
+import { peaksI } from "./peaks-i";
+import { peaksJ } from "./peaks-j";
+import { peaksK } from "./peaks-k";
 
 /** Every article on the site, in no particular order — `date` drives ordering. */
 export const ALL_POSTS: BlogContent[] = [
@@ -76,4 +100,28 @@ export const ALL_POSTS: BlogContent[] = [
   ...activitiesA,
   ...activitiesB,
   ...activitiesC,
+  ...remoteA,
+  ...remoteB,
+  ...remoteC,
+  ...remoteD,
+  ...remoteE,
+  ...remoteF,
+  ...toursE,
+  ...toursF,
+  ...toursG,
+  ...toursH,
+  ...toursI,
+  ...activitiesD,
+  ...activitiesE,
+  ...peaksA,
+  ...peaksB,
+  ...peaksC,
+  ...peaksD,
+  ...peaksE,
+  ...peaksF,
+  ...peaksG,
+  ...peaksH,
+  ...peaksI,
+  ...peaksJ,
+  ...peaksK,
 ];

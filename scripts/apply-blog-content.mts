@@ -67,6 +67,15 @@ const AUTHOR = {
 const MIN_WORDS = 700;
 const MIN_SECTIONS = 4;
 const MIN_FAQS = 5;
+/**
+ * Depth we actually want on a guide that has to compete in search: roughly
+ * 2,500-3,500 words on the page, counting the body and the FAQ accordion
+ * together, because that is what a reader and a crawler both see. Below this
+ * is a warning rather than an error so a partially expanded set can still be
+ * published.
+ */
+const TARGET_WORDS = 2500;
+const TARGET_FAQS = 12;
 /** Most articles linked from a single product page. */
 const MAX_GUIDES_PER_TREK = 6;
 
@@ -78,6 +87,8 @@ function validate(
   errors: string[],
   warnings: string[],
 ) {
+  const shallow: string[] = [];
+  const thinFaqs: string[] = [];
   const allSlugs = new Set(posts.map((p) => p.slug));
   const seenSlug = new Set<string>();
   const seenTitle = new Set<string>();
@@ -108,7 +119,11 @@ function validate(
     }
 
     const words = wordCount(rendered.get(p.slug) ?? "");
+    const faqWords = wordCount(p.faqs.map((f) => `${f.question} ${f.answer}`).join(" "));
+    const onPage = words + faqWords;
     if (words < MIN_WORDS) errors.push(`${at} only ${words} words, expected at least ${MIN_WORDS}`);
+    else if (onPage < TARGET_WORDS) shallow.push(`${at} ${onPage} words on page (target ${TARGET_WORDS})`);
+    if (p.faqs.length < TARGET_FAQS) thinFaqs.push(`${at} ${p.faqs.length} FAQs (target ${TARGET_FAQS})`);
 
     if (p.excerpt.length < 80) errors.push(`${at} excerpt is too short (${p.excerpt.length} chars)`);
     if (p.excerpt.length > 320) warnings.push(`${at} excerpt is ${p.excerpt.length} chars (long)`);
@@ -137,6 +152,18 @@ function validate(
     if (p.tripsNote?.includes("[[")) {
       errors.push(`${at} tripsNote is shown as plain text and cannot hold link tokens`);
     }
+  }
+
+  // Depth progress: not a failure, but the number that matters while the
+  // catalogue is being brought up to search-competitive length.
+  console.log(
+    `\nDepth:           ${posts.length - shallow.length}/${posts.length} at ${TARGET_WORDS}+ words on page, ` +
+      `${posts.length - thinFaqs.length}/${posts.length} at ${TARGET_FAQS}+ FAQs`,
+  );
+  if (shallow.length > 0) {
+    console.log(`  below target (${shallow.length}):`);
+    for (const line of shallow.slice(0, 12)) console.log(`    ${line}`);
+    if (shallow.length > 12) console.log(`    ... ${shallow.length - 12} more`);
   }
 }
 

@@ -230,11 +230,10 @@ const blogHeroImage = "mardi-treks/ruzwqzqbrckh3a7mkse6";
 // CompanyStory renders TEXT and splits on blank lines, so markup here would be
 // shown to visitors as literal "<p>" tags. Plain paragraphs only.
 // ─────────────────────────────────────────────────────────────────────────────
+// Shortened copy — keep in step with scripts/shorten-about-story.mts.
 const companyStoryDescription = [
-  "Green Compass Treks was registered in Pokhara in 2026, but almost none of it started that year. The guides and porters who make up the team have been working Nepal's trails for as long as two decades, most of them under Big Sky Treks — the government-registered company that is still our parent today. Green Compass Treks is what happened when that team decided to run trips under its own name, at its own pace.",
-  "We are based in Lakeside, Pokhara, about an hour from the Annapurna trailheads, and we are deliberately small. There is no call centre and no chain of agents: the person who answers your first email is one of the people who will be on the mountain with you. We run guided treks, peak climbs, cultural tours and short adventures across the Annapurna, Everest, Langtang, Manaslu, Mustang, Dolpo and Kanchenjunga regions.",
-  "Staying small is also how we keep the price down. We hold our own permits, book the lodges ourselves and run our own transport, so the margin a reseller would add is simply not in the quote. What we will not cut is the part that matters: porters are insured, weight-limited and properly equipped, guides are paid a fair wage, and itineraries are built around acclimatisation rather than around the shortest schedule that will fit in a brochure.",
-  "That is the whole idea, really — the Himalaya walked properly, by people who live at the foot of it, at a price that is exactly what it says it is.",
+  "Green Compass Treks was registered in Lakeside, Pokhara in 2026, but our team is not new. Our guides and porters have walked Nepal's trails for up to two decades, most of them with Big Sky Treks, the government-registered company that is still our parent.",
+  "We stay small on purpose. The person who answers your first email walks the mountain with you, and with no agents in between, the price stays honest. What we never cut: insured porters, fair wages for guides, and itineraries paced for acclimatisation.",
 ].join("\n\n");
 
 // ─────────────────────────────────────────────────────────────────────────────

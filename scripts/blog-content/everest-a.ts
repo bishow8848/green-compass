@@ -63,16 +63,83 @@ export const everestA: BlogContent[] = [
         ],
       },
       {
-        h2: "Altitude: The Part That Decides Everything",
+        h2: "The Altitude Profile, Night by Night",
         blocks: [
-          { p: "The trek's only real risk is altitude, and it is managed by the shape of the itinerary rather than by fitness. Above 3,000 m, our schedule raises your sleeping altitude by 300 to 500 m a night, with two full rest days where you climb high and sleep low." },
+          { p: "The number that matters on any high trek is not the highest point you touch but the highest place you sleep, and how fast that figure rises. Here is the whole trek in one table." },
+          {
+            table: {
+              head: ["Day", "Stage", "Sleep at", "Gain"],
+              rows: [
+                ["2", "Fly to Lukla (2,860 m), walk to Phakding", "2,651 m", "Net descent"],
+                ["3", "Phakding to Namche Bazaar", "3,440 m", "+789 m"],
+                ["4", "<strong>Acclimatisation day</strong> — climb to ~3,880 m", "3,440 m", "0"],
+                ["5", "Namche to Tengboche", "3,956 m", "+516 m"],
+                ["6", "Tengboche to Dingboche", "4,380 m", "+424 m"],
+                ["7", "<strong>Acclimatisation day</strong> — Nangkartshang ~5,080 m", "4,380 m", "0"],
+                ["8", "Dingboche to Lobuche", "4,938 m", "+558 m"],
+                ["9", "Lobuche to Gorak Shep, then Kala Patthar (5,545 m)", "5,160 m", "+222 m"],
+                ["10", "Base Camp (5,364 m), then descend to Pheriche", "4,371 m", "-789 m"],
+                ["11", "Pheriche to Namche Bazaar", "3,440 m", "-931 m"],
+                ["12", "Namche to Lukla", "2,860 m", "-580 m"],
+              ],
+              note: "Sleeping altitude is what acclimatisation responds to. Note that no night above Namche raises it by more than 558 m, and that two nights raise it by nothing at all.",
+            },
+          },
+          { p: "That shape is deliberate. Above 3,000 m the accepted guidance is to raise your sleeping altitude by <strong>300 to 500 m a night</strong> with a rest day every 1,000 m or so, and this itinerary sits inside that envelope with one exception — the 789 m climb into Namche on day 3, which is immediately followed by a rest day for exactly that reason." },
+          { h3: "What the two rest days actually do" },
+          { p: "Neither is a day off. Both are <em>climb high, sleep low</em> days, which is the mechanism that drives acclimatisation rather than merely permitting it." },
           {
             ul: [
-              "<strong>Namche (3,440 m), day 4</strong> — an acclimatisation walk up to Khumjung or the Everest View Hotel at around 3,880 m, then back down.",
-              "<strong>Dingboche (4,380 m), day 7</strong> — a climb to Nangkartshang at about 5,080 m, which is both the best acclimatisation on the route and a superb viewpoint.",
+              "<strong>Namche (3,440 m), day 4</strong> — a walk up to Khumjung or the Everest View Hotel at around 3,880 m, then back down to sleep. Your first sight of Everest is from this walk, not from the main trail.",
+              "<strong>Dingboche (4,380 m), day 7</strong> — a climb to Nangkartshang at about 5,080 m, which is both the single best acclimatisation day on the route and a superb viewpoint for Makalu, Lhotse and Ama Dablam's rarely photographed north side.",
             ],
           },
           { p: "Those two days are the reason our itinerary is 14 days rather than 11. Cutting them raises the failure rate sharply, and a trekker who turns back at Lobuche has paid for a trek they did not do. Our [[post:altitude-sickness-in-nepal-prevention-and-treatment|altitude sickness guide]] explains the mechanism, and [[post:everest-base-camp-trek-altitude-profile|the altitude profile guide]] walks through the numbers night by night." },
+          { h3: "Symptoms, and the rule that matters" },
+          { p: "Mild headache, poor sleep, odd dreams and a flat appetite are ordinary above 4,000 m and are not in themselves a reason to descend. What matters is the direction of travel. The rule your guide works to is simple: <strong>do not ascend with symptoms, and descend if they worsen</strong>. Ataxia — unsteadiness on your feet in a straight-line test — and breathlessness at rest are the two signs that end a trek immediately, because they indicate the serious forms of altitude illness rather than the nuisance form." },
+          { p: "Tell your guide about a headache on the day it appears rather than the day after. Nobody is sent down for saying so, and almost everybody who ends up on a helicopter waited." },
+        ],
+      },
+      {
+        h2: "Training: What Actually Prepares You",
+        blocks: [
+          { p: "Fitness is not what turns people back on this trek — altitude is — but being fit changes the experience from an endurance problem into a walk with a view. The specific demand is <strong>consecutive days</strong>, not peak effort: five to seven hours of walking, twelve days running, carrying a daypack." },
+          { p: "Three months out, the training that transfers best is unglamorous:" },
+          {
+            ul: [
+              "<strong>Back-to-back long walks.</strong> One six-hour hill walk on Saturday and another on Sunday teaches your body more about this trek than any single hard session. Build to that; it is the closest simulation available at sea level.",
+              "<strong>Descent training.</strong> The Khumbu gives back roughly 6,000 m of descent, and quadriceps and knees are the commonest complaint on the walk out. Eccentric loading — controlled downhill, step-downs, split squats — is the fix.",
+              "<strong>Carrying a pack.</strong> Walk with the 6 to 8 kg daypack you will actually carry, including water. Shoulders and hip belts need breaking in as much as boots do.",
+              "<strong>Steady cardio.</strong> Three to four sessions a week at a pace where you could hold a conversation. Zone 2 volume, not intervals, is what improves how you feel at 4,500 m.",
+              "<strong>Boots.</strong> A hundred kilometres in them before you fly. Blisters on day 3 shape the next nine days.",
+            ],
+          },
+          { p: "What does not help much: heavy gym work, altitude tents and sprint training. None of them meaningfully change how you acclimatise. See our [[post:how-to-train-for-a-nepal-trek|training plan]] for a week-by-week build." },
+        ],
+      },
+      {
+        h2: "When to Go, Month by Month",
+        blocks: [
+          { p: "Two seasons carry almost all the traffic, and they are genuinely different experiences rather than interchangeable slots." },
+          {
+            table: {
+              head: ["Month", "Conditions", "Verdict"],
+              rows: [
+                ["<strong>March</strong>", "Cold still, thinning crowds, rhododendron beginning below Namche", "Good. Quieter than April with most of the same weather"],
+                ["<strong>April</strong>", "The peak of spring. Warm days, Base Camp full of expedition tents, hazier afternoons", "Best month for atmosphere, busiest trail"],
+                ["<strong>Early May</strong>", "Warmest walking of the year, building afternoon cloud, summit season at its height", "Good, but book lodges early"],
+                ["<strong>Late May to August</strong>", "Monsoon. Cloud, rain, leeches low down, flights cancelled for days", "Not recommended"],
+                ["<strong>September</strong>", "Monsoon clearing, green valleys, unsettled early in the month", "Improving through the month"],
+                ["<strong>October</strong>", "The clearest air of the year and the most stable weather", "The best month overall, and the busiest"],
+                ["<strong>November</strong>", "Still very clear, colder each week, thinning crowds", "Our own favourite — October's views without October's queues"],
+                ["<strong>December to February</strong>", "Cold and clear, some lodges closed above Dingboche, -25 °C nights", "For experienced trekkers with proper kit"],
+              ],
+            },
+          },
+          { h3: "Spring or autumn?" },
+          { p: "<strong>Autumn (late September to November)</strong> gives the sharpest visibility of the year. The monsoon has washed the atmosphere clean and the air holds less dust, so the mountains are crisper and the photography is better. It is also the busiest window, and Namche and Gorak Shep lodges fill." },
+          { p: "<strong>Spring (March to mid May)</strong> is warmer, greener low down, and it is the only time Base Camp is a working tent city — several hundred climbers and their support teams preparing for Everest, which changes the destination from a patch of moraine into something with a pulse. The trade-off is haze: by mid-morning in April the distant views soften." },
+          { p: "Our [[post:best-time-for-everest-base-camp-trek|season guide for Everest]] goes deeper, and the [[post:best-time-to-visit-nepal-trekking-seasons|general seasons guide]] covers the rest of the country." },
         ],
       },
       {
@@ -97,6 +164,39 @@ export const everestA: BlogContent[] = [
           { p: "You sleep in teahouses every night. Lodges at Phakding, Namche, and Tengboche are comfortable — twin rooms, thick blankets, hot showers, bakeries, and in Namche something close to a town. Above Dingboche they get progressively simpler and colder: plywood partitions, a single blanket, a stove in the dining room only, and at Gorak Shep a basic room at 5,160 m." },
           { p: "Bring a sleeping bag rated to <strong>-20 °C</strong> for this route; lodge blankets are not enough above Lobuche. Meals come from the lodge menu and are included — dal bhat, fried rice, noodles, soups, potato dishes, porridge, eggs. Above 3,500 m, eat vegetarian: meat is carried up unrefrigerated, and many Khumbu lodges do not serve it at all." },
           { p: "Expect the Khumbu cough — dry, cold air irritates almost everyone's airway above 4,000 m. Lozenges and a buff over your mouth help more than anything else." },
+          { h3: "Money, charging and connectivity" },
+          {
+            ul: [
+              "<strong>Cash.</strong> Namche has ATMs; they are unreliable and charge heavily. Draw your rupees in Kathmandu and carry the lot. Nothing above Namche takes a card.",
+              "<strong>Budget</strong> USD 10 to 15 a day for trail extras — hot showers (NPR 400 to 800), device charging (NPR 200 to 600 per hour, rising with altitude), Wi-Fi, bottled drinks and snacks.",
+              "<strong>Charging</strong> is solar or generator above Namche and is priced per device per hour. A 20,000 mAh power bank is cheaper than paying for it and works at four in the morning when the lodge system is off.",
+              "<strong>Signal.</strong> Ncell and NTC reach most villages to Gorak Shep with gaps between. A Nepali SIM from Kathmandu is far better value than lodge Wi-Fi.",
+              "<strong>Water.</strong> Bottled water is sold to 5,000 m and is both expensive and an environmental problem. Bring a filter or purification tablets and refill — see our [[post:drinking-water-while-trekking-in-nepal|water guide]].",
+            ],
+          },
+        ],
+      },
+      {
+        h2: "What to Pack for the Khumbu",
+        blocks: [
+          { p: "The full list is in our [[post:everest-base-camp-packing-list|Everest Base Camp packing list]]. These are the items that specifically decide whether this trek is comfortable or grim, and the ones people most often get wrong." },
+          {
+            table: {
+              head: ["Item", "Specification", "Why it matters here"],
+              rows: [
+                ["<strong>Sleeping bag</strong>", "Comfort rated to -20 °C", "Lodge blankets are inadequate above Lobuche. This is the single most important item on the list"],
+                ["<strong>Down jacket</strong>", "Expedition weight, hooded", "For evenings in unheated rooms and the pre-dawn Kala Patthar climb, not for walking"],
+                ["<strong>Boots</strong>", "Broken in, ankle support, waterproof", "A hundred kilometres before you fly. Blisters on day 3 shape the rest of the trek"],
+                ["<strong>Trekking poles</strong>", "A pair, adjustable", "For the 6,000 m of descent, not the ascent. Knees are the commonest complaint on the walk out"],
+                ["<strong>Gloves</strong>", "Liner plus insulated outer", "Kala Patthar at dawn is the coldest hour of the trek"],
+                ["<strong>Buff or neck gaiter</strong>", "Two", "The single best defence against the Khumbu cough"],
+                ["<strong>Sunglasses</strong>", "Category 4 or glacier glasses", "Snow glare above Lobuche is genuinely hazardous"],
+                ["<strong>Power bank</strong>", "20,000 mAh", "Cheaper than lodge charging and works before dawn"],
+                ["<strong>Water treatment</strong>", "Filter or tablets", "Avoids buying bottled water at 5,000 m prices"],
+              ],
+            },
+          },
+          { p: "Your duffel goes on a porter and is normally capped at <strong>15 kg</strong>; you carry a daypack of 6 to 8 kg with water, layers, camera and the day's snacks. Everything on the list above can be hired or bought in Kathmandu at a fraction of Western prices, and the quality of the better Thamel shops is genuinely adequate — down jackets and sleeping bags especially." },
         ],
       },
       {
@@ -129,6 +229,12 @@ export const everestA: BlogContent[] = [
       { question: "How cold does it get?", answer: "Daytime walking in sun is comfortable, often 10 to 15 °C at lower altitudes. Nights fall below freezing from Namche upward and reach -15 to -20 °C at Lobuche and Gorak Shep in the main seasons. Lodge bedrooms are unheated, so your sleeping bag does the work." },
       { question: "Is there phone signal and Wi-Fi?", answer: "Ncell and NTC reach most villages up to Gorak Shep, with gaps in between. Lodges sell Wi-Fi by the device and day, and it is slow. A Nepali SIM bought in Kathmandu is better value, and you should tell people at home to expect silence for stretches." },
       { question: "What happens if I cannot continue?", answer: "Your guide arranges the descent with an assistant guide while the rest of the group continues — which is why groups above a certain size have two guides. If it is a medical emergency, a helicopter evacuation is organised through our Kathmandu office and your insurer, which is why the altitude clause in your policy matters so much." },
+      { question: "How fit do I need to be for Everest Base Camp?", answer: "Fit enough to walk six hours on hilly ground two days running, comfortably, carrying a 7 kg pack. That is the honest benchmark. The demand is consecutive days rather than peak effort, so back-to-back long walks are the training that transfers best, along with descent work for the 6,000 m of downhill on the way out." },
+      { question: "Do I need a porter, or can I carry my own pack?", answer: "You can carry your own, and some trekkers do. Most do not, and the reason is acclimatisation rather than laziness — carrying 15 kg at 4,500 m raises your effort level materially and makes altitude harder to manage. A porter carries a 15 kg duffel for two trekkers; you carry a 6 to 8 kg daypack." },
+      { question: "What is the age limit for the Everest Base Camp trek?", answer: "There is no formal limit at either end. We have taken trekkers in their seventies to Base Camp and children of ten. What matters is cardiovascular health and a realistic view of the altitude, so we ask anyone over sixty-five or with a heart or lung condition to get a doctor's clearance before booking." },
+      { question: "Can I use Diamox on the trek?", answer: "Many trekkers do, at 125 mg twice daily started a day before going high. It genuinely accelerates acclimatisation rather than masking symptoms. It is a prescription drug with side effects — tingling fingers, frequent urination, flat-tasting fizzy drinks — so discuss it with your own doctor before you travel rather than buying it in Thamel." },
+      { question: "How much should I budget beyond the trip price?", answer: "The Lukla flights, your visa, insurance, tips and trail extras sit outside the package. Trail extras run USD 10 to 15 a day for showers, charging, Wi-Fi and snacks. Tips are customary and typically USD 150 to 250 per trekker for the guide and porter combined on a 14-day trip." },
+      { question: "Is there a risk of the trek being cancelled by weather?", answer: "The trek itself, rarely — the Khumbu trail is walkable in almost any conditions the main seasons produce. The Lukla flight is the vulnerable part, and delays of one to three days happen in both directions. Build two buffer days in Kathmandu before your international flight home." },
     ],
     relatedTreks: [
       "everest-base-camp-trek",

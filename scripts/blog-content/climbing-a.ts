@@ -263,6 +263,7 @@ export const climbingA: BlogContent[] = [
       "island-peak-climbing-with-helicopter-return",
       "mera-and-island-peak-climbing",
       "lobuche-peak-and-island-peak-climbing",
+      "island-mera-peak-climbing-with-gokyo-ebc",
     ],
     tripsNote: "Island Peak on its own, from Chhukung, with a helicopter return, or combined with Mera and Lobuche.",
     relatedPosts: [

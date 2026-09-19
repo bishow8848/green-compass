@@ -87,6 +87,53 @@ export const langtangA: BlogContent[] = [
               "<strong>Cold:</strong> Kyanjin nights run to -5 to -12 °C in the main seasons. A -10 °C bag with a liner is right.",
             ],
           },
+          { h3: "The altitude profile, night by night" },
+          {
+            table: {
+              head: ["Day", "Stage", "Sleep at", "Change"],
+              rows: [
+                ["2", "Drive Kathmandu to Syabrubesi — 7 to 8 hours", "1,460 m", "—"],
+                ["3", "Syabrubesi to Lama Hotel, through the gorge forest", "2,470 m", "+1,010 m"],
+                ["4", "Lama Hotel to Langtang village — the hardest day", "3,550 m", "+1,080 m"],
+                ["5", "Langtang to Kyanjin Gompa — gentle, 2 to 3 hours", "3,870 m", "+320 m"],
+                ["6", "<strong>Acclimatisation day</strong> — Kyanjin Ri 4,773 m", "3,870 m", "0"],
+                ["7", "Tserko Ri 5,033 m at dawn, then descend to Lama Hotel", "2,470 m", "-1,400 m"],
+                ["8", "Lama Hotel to Syabrubesi", "1,460 m", "-1,010 m"],
+              ],
+              note: "Highest sleep 3,870 m, highest point 5,033 m. A 1,163 m gap between them is close to a textbook climb-high, sleep-low profile.",
+            },
+          },
+          { p: "Two gains above 1,000 m in consecutive days look aggressive on paper, and they would be on a trek that kept climbing. Here they are not, because the profile then <strong>flattens completely</strong>: the upper valley to Kyanjin is a stroll, and the two nights there at 3,870 m with day climbs to 4,773 m and 5,033 m do the acclimatisation work while you sleep at a comfortable altitude." },
+          { h3: "Kyanjin Ri or Tserko Ri?" },
+          { p: "Both, if you can — they are the two reasons to spend two nights at Kyanjin, and they are different walks." },
+          {
+            ul: [
+              "<strong>Kyanjin Ri (4,773 m)</strong> — steep and short, two to three hours up from the lodge door. The classic view straight up the valley to Langtang Lirung. Do it on the acclimatisation day.",
+              "<strong>Tserko Ri (5,033 m)</strong> — longer at four to five hours up, done at dawn on the departure day. The wider panorama, taking in the Langtang glacier and the peaks along the Tibetan border. Harder, and the better of the two.",
+            ],
+          },
+          { p: "Neither needs technical equipment. Both are steep, loose in places, and cold before sunrise — a head torch and gloves matter. Kyanjin also has a <strong>yak cheese factory</strong>, established with Swiss help in the 1950s, which is worth an hour and sells the only good cheese on any Nepali trail." },
+        ],
+      },
+      {
+        h2: "When to Go, Month by Month",
+        blocks: [
+          { p: "Langtang has a wider usable window than most Nepali treks, because it is low enough to avoid the worst of the winter and road-accessible in every month." },
+          {
+            table: {
+              head: ["Month", "Conditions", "Verdict"],
+              rows: [
+                ["<strong>March to April</strong>", "Rhododendron through the gorge forest, warming, clear mornings", "Excellent — the best spring trek in the region"],
+                ["<strong>May</strong>", "Warm, hazier, green", "Good early in the month"],
+                ["<strong>June to August</strong>", "Monsoon. Leeches in the forest, cloud on the peaks, landslide risk on the Syabrubesi road", "Not recommended"],
+                ["<strong>September</strong>", "Clearing from mid-month", "Good from the third week"],
+                ["<strong>October</strong>", "The clearest air of the year", "Best month, and still quiet by Annapurna standards"],
+                ["<strong>November</strong>", "Very clear, colder at Kyanjin, very quiet", "Excellent"],
+                ["<strong>December to February</strong>", "Cold nights at Kyanjin, sheltered valley, lodges open, best visibility of the year", "One of Nepal's best winter treks"],
+              ],
+            },
+          },
+          { p: "The winter case is genuinely strong here and worth taking seriously. The valley is sheltered and largely south-facing, there is no flight to cancel, the lodges stay open, and December gives the sharpest views of the year. You need a warmer bag and you get a Himalayan valley almost to yourself — see our [[post:winter-trekking-in-nepal-best-routes|winter trekking guide]]." },
         ],
       },
       {
@@ -108,6 +155,37 @@ export const langtangA: BlogContent[] = [
           { p: "The best two-week option in the region is the Langtang valley plus Gosaikunda, which walks up one valley, crosses the Laurebina La at 4,610 m to the sacred lakes, and descends through Helambu to a road an hour from Kathmandu. No flights, no restricted permits, and two very different landscapes." },
         ],
       },
+      {
+        h2: "Practicalities: Costs, Kit and the Road",
+        blocks: [
+          { h3: "The Syabrubesi road" },
+          { p: "Seven to eight hours from Kathmandu via Trishuli Bazaar and Dhunche, on a road that is paved for the first half and rough for the second. It is a long day and the single least pleasant part of the trek — but it is a <strong>road</strong>, which means nothing about this trek can be cancelled by cloud. On Everest or Dolpo a weather day costs you the trip; here it costs you nothing." },
+          { h3: "What it costs" },
+          {
+            ul: [
+              "<strong>Permits</strong> — Langtang National Park entry at NPR 3,000 plus trekking registration, both included. No restricted-area permit, which keeps this well below the Manaslu and Mustang treks.",
+              "<strong>Trail extras</strong> run USD 8 to 12 a day — cheaper than Everest, with hot showers at NPR 200 to 400 and charging at NPR 100 to 300.",
+              "<strong>Cash.</strong> Dhunche has an unreliable ATM and there is nothing above it. Draw rupees in Kathmandu.",
+              "<strong>Signal</strong> is good at Syabrubesi, patchy through the gorge and reasonable again at Langtang and Kyanjin.",
+            ],
+          },
+          { h3: "What to pack" },
+          {
+            table: {
+              head: ["Item", "Specification", "Why it matters here"],
+              rows: [
+                ["<strong>Sleeping bag</strong>", "-10 °C with a liner, or -15 °C in winter", "Kyanjin runs -5 to -12 °C in the main seasons and colder in December"],
+                ["<strong>Head torch</strong>", "Plus spares", "The Tserko Ri start is well before dawn"],
+                ["<strong>Trekking poles</strong>", "A pair", "The 1,400 m descent from Kyanjin to Lama Hotel in one day"],
+                ["<strong>Waterproof</strong>", "Jacket and pack cover", "The gorge forest is wet in most seasons"],
+                ["<strong>Insect repellent</strong>", "DEET-based", "Leeches in the forest belt from late spring into autumn"],
+                ["<strong>Warm gloves and hat</strong>", "For the ri climbs", "Both summits are cold and windy before the sun reaches them"],
+              ],
+            },
+          },
+          { p: "The general list is in our [[post:nepal-trekking-packing-list|Nepal packing list]]. Because there is no flight, the 15 kg baggage limit that constrains Everest and Dolpo trips does not apply here — you can afford a warmer bag." },
+        ],
+      },
     ],
     faqs: [
       { question: "How long is the Langtang Valley trek?", answer: "Ten days from Kathmandu, including a road day at each end and seven days of walking with two nights at Kyanjin Gompa. Adding Gosaikunda makes it fifteen days, and the Ganja La crossing makes it fourteen." },
@@ -118,6 +196,12 @@ export const langtangA: BlogContent[] = [
       { question: "Do I need a special permit for Langtang?", answer: "No restricted permit — just Langtang National Park entry at NPR 3,000 and trekking registration, both of which we arrange and include. That keeps the cost well below the Everest and restricted-area treks." },
       { question: "Is Langtang good in winter?", answer: "Yes, one of the better winter treks in Nepal. The valley is sheltered and largely south-facing, it is road-accessible, and lodges stay open. Kyanjin at 3,870 m is cold at night but manageable with the right sleeping bag, and December visibility is the best of the year." },
       { question: "Why is Langtang quieter than Annapurna or Everest?", answer: "Visitor numbers dropped sharply after the 2015 earthquake and have never fully recovered, even though the valley has been rebuilt. That is unfortunate for the communities and good for trekkers — you get a major Himalayan valley with a fraction of the traffic." },
+      { question: "Should I climb Kyanjin Ri or Tserko Ri?", answer: "Both if you can — they are why you spend two nights at Kyanjin. Kyanjin Ri at 4,773 m is two to three hours up and gives the classic view to Langtang Lirung. Tserko Ri at 5,033 m is four to five hours, done at dawn, and gives the wider panorama including the Tibetan border peaks. Tserko Ri is the better of the two." },
+      { question: "How fit do I need to be for the Langtang trek?", answer: "Fit enough for five to six hours of walking with about 1,000 m of ascent on each of two consecutive forest days. After that the trek eases considerably. The optional ri climbs are steep but done from a lodge you return to, so you can judge them on the day rather than committing in advance." },
+      { question: "How long is the drive to the trailhead?", answer: "Seven to eight hours from Kathmandu to Syabrubesi via Trishuli Bazaar and Dhunche, paved for the first half and rough for the second. It is the least pleasant part of the trip and also its greatest practical strength — no flight means no weather cancellation." },
+      { question: "Are there ATMs on the Langtang trek?", answer: "Dhunche has one and it is unreliable; there is nothing above it. Draw all the rupees you need in Kathmandu before you leave. Trail extras run USD 8 to 12 a day, which is cheaper than Everest or Annapurna." },
+      { question: "Is Langtang a good first Himalayan trek?", answer: "One of the best. The altitude profile is close to textbook, there is no pass to cross, the hardest days come early while you are fresh, and the road access removes the flight risk that complicates Everest. The only demanding element is two consecutive 1,000 m forest days." },
+      { question: "What is the yak cheese factory at Kyanjin?", answer: "A small dairy established with Swiss assistance in the 1950s, still producing hard yak cheese in the village at 3,870 m. It is worth an hour of your acclimatisation day and it sells the only genuinely good cheese you will find on a Nepali trail." },
     ],
     relatedTreks: [
       "langtang-valley-trek",
