@@ -4,6 +4,13 @@ import { SITE_URL, seoImageUrl } from "@/lib/seo";
 
 const baseUrl = SITE_URL;
 
+// Regenerated at least hourly; trek and blog saves also revalidate it at once.
+// Without this the sitemap was a build-time snapshot: anything published after
+// a deploy — or written straight to the database by the content scripts —
+// never reached it, and the live file listed one blog post while six were
+// published.
+export const revalidate = 3600;
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const [categories, treks, blogPosts, siteSettings, homeSettings, pageSettings, pages, teamMembers, authors] = await Promise.all([
     prisma.category.findMany({
@@ -17,8 +24,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         category: { select: { slug: true } },
         heroImage: true,
         updatedAt: true,
-        fixedDepartureDays: true,
-        customStartDates: true,
       },
     }),
     prisma.blogPost.findMany({
@@ -114,7 +119,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     images: [seoImageUrl(cat.heroImage)].filter(Boolean) as string[],
   }));
 
-  // Product detail pages (e.g., /treks/everest-base-camp)
+  // Product detail pages (e.g., /treks/everest-base-camp). The per-trek
+  // /fix-departure pages are left out on purpose: they are noindex (each one
+  // repeats its product page's departure table), and a sitemap should list
+  // only URLs meant for the index.
   const trekRoutes = treks.map((trek) => ({
     url: `${baseUrl}/${trek.category?.slug || "treks"}/${trek.slug}`,
     lastModified: trek.updatedAt,
@@ -122,21 +130,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.8,
     images: [seoImageUrl(trek.heroImage)].filter(Boolean) as string[],
   }));
-
-  // Fix Departure pages — per-trek only (e.g. /treks/mardi-himal-trek/fix-departure),
-  // and only for treks that actually have a fix-departure config.
-  const fixDepartureRoutes = treks
-    .filter((trek: any) => {
-      const days = trek.fixedDepartureDays;
-      const dates = trek.customStartDates;
-      return (days && days !== "[]") || (dates && dates !== "[]");
-    })
-    .map((trek: any) => ({
-      url: `${baseUrl}/${trek.category?.slug || "treks"}/${trek.slug}/fix-departure`,
-      lastModified: trek.updatedAt,
-      changeFrequency: "weekly" as const,
-      priority: 0.7,
-    }));
 
   // Blog routes
   const blogRoutes = blogPosts.map((post) => ({
@@ -186,7 +179,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...staticRoutes,
     ...categoryRoutes,
     ...trekRoutes,
-    ...fixDepartureRoutes,
     ...blogRoutes,
     ...pageRoutes,
     ...teamRoutes,

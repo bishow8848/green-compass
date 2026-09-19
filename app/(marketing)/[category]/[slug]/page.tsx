@@ -20,12 +20,13 @@ import { SectionNav } from "@/components/trek/SectionNav";
 import GallerySection from "@/components/trek/GallerySection";
 import { GalleryProvider } from "@/components/trek/GalleryContext";
 import { ScrollToHash } from "@/components/trek/ScrollToHash";
+import { TrekCard, trekCardSelect } from "@/components/trek/TrekCard";
 import { ContactFormSection } from "@/components/home/ContactFormSection";
 import { SearchBar } from "@/components/search/SearchBar";
 
 import { FAQAccordion } from "@/components/ui/FAQAccordion";
 import { sanitizeRichText } from "@/lib/sanitize";
-import { SITE_URL, brandedTitle, seoDescription, seoImageUrl, serializeJsonLd } from "@/lib/seo";
+import { SITE_NAME, SITE_URL, brandedTitle, ogImages, seoDescription, seoImageUrl, serializeJsonLd } from "@/lib/seo";
 
 export const revalidate = 604800; // Trek detail cached 7 days; refreshed on-demand after CMS edits
 
@@ -85,9 +86,9 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
       description,
       type: "article",
       url: `${SITE_URL}/${catSlug}/${slug}`,
-      images: trekImage
-        ? [{ url: trekImage, width: 1200, height: 630, alt: `${trek.title} in Nepal` }]
-        : undefined,
+      siteName: SITE_NAME,
+      locale: "en_US",
+      images: ogImages(trekImage, `${trek.title} in Nepal`),
     },
     twitter: {
       card: "summary_large_image",
@@ -204,11 +205,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
           `treks:similar:${trek.id}`,
           () => prisma.trek.findMany({
             where: { id: { in: ids }, status: "published" },
-            select: {
-              id: true, title: true, slug: true, heroImage: true,
-              difficulty: true, duration: true, price: true,
-              category: { select: { slug: true } },
-            },
+            select: trekCardSelect,
           }),
           CACHE_TTL.MODERATE
         );
@@ -347,11 +344,22 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
               availability: "https://schema.org/InStock",
               url: `${SITE_URL}/${catSlug}/${slug}`,
             },
-            itinerary: itinerary?.map((day: any) => ({
-              "@type": "Itinerary",
-              name: `Day ${day.dayNumber}: ${day.title}`,
-              description: day.description?.replace(/<[^>]*>/g, "").slice(0, 200),
-            })),
+            // schema.org has no "Itinerary" type: TouristTrip.itinerary takes
+            // an ItemList (or a Place), so each day is a positioned ListItem.
+            ...(itinerary.length > 0
+              ? {
+                  itinerary: {
+                    "@type": "ItemList",
+                    numberOfItems: itinerary.length,
+                    itemListElement: itinerary.map((day: any) => ({
+                      "@type": "ListItem",
+                      position: day.dayNumber,
+                      name: `Day ${day.dayNumber}: ${day.title}`,
+                      description: day.description?.replace(/<[^>]*>/g, "").slice(0, 200),
+                    })),
+                  },
+                }
+              : {}),
           }),
         }}
       />
@@ -1131,54 +1139,13 @@ sectionMap["gallery"] = () => trek.galleryImages?.length > 0 ? <GallerySection
                   </p>
                 </div>
                 <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
-                  {similarTreks.map((st) => {
-                    const similarCatSlug = st.category?.slug || catSlug;
-                    return (
-                      <Link
-                        key={st.id}
-                        href={`/${similarCatSlug}/${st.slug}`}
-                        className="group relative flex h-full flex-col overflow-hidden rounded-3xl bg-surface shadow-[0_4px_20px_-4px_rgba(0,0,0,0.1)] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_20px_40px_-10px_rgba(234,88,12,0.25)]"
-                      >
-                        {st.heroImage ? (
-                          <div className="relative aspect-[4/3] overflow-hidden">
-                            <img
-                              src={`https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/c_fill,w_600,q_auto,f_auto/${st.heroImage}`}
-                              alt={st.title}
-                              width={600}
-                              height={450}
-                              className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-                          </div>
-                        ) : (
-                          <div className="flex aspect-[4/3] items-center justify-center bg-surface">
-                            <Mountain className="h-12 w-12 text-text-muted" />
-                          </div>
-                        )}
-                        <div className="flex flex-1 flex-col p-6">
-                          <div className="flex items-center gap-2 mb-4">
-                            <span className="rounded-full bg-primary/10 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-primary transition-colors group-hover:bg-primary group-hover:text-white">
-                              {st.difficulty}
-                            </span>
-                          </div>
-                          <h3 className="text-xl font-bold leading-tight text-foreground transition-colors group-hover:text-primary">
-                            {st.title}
-                          </h3>
-                          <div className="mt-auto pt-6 flex items-end justify-between">
-                            <div className="flex flex-col gap-1 text-xs text-text-muted font-medium">
-                              <span className="flex items-center gap-1.5">
-                                <Clock className="h-3.5 w-3.5" /> {st.duration} Days
-                              </span>
-                            </div>
-                            <div className="flex flex-col items-end">
-                              <span className="text-[10px] uppercase tracking-widest text-text-muted font-bold">From</span>
-                              <span className="text-xl font-black text-foreground">${st.price.toLocaleString()}</span>
-                            </div>
-                          </div>
-                        </div>
-                      </Link>
-                    );
-                  })}
+                  {similarTreks.map((st) => (
+                    <TrekCard
+                      key={st.id}
+                      trek={st}
+                      href={`/${st.category?.slug || catSlug}/${st.slug}`}
+                    />
+                  ))}
                 </div>
               </section>
             )}

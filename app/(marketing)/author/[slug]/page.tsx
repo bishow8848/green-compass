@@ -5,7 +5,7 @@ import { notFound } from "next/navigation";
 import { Calendar, Clock, ArrowLeft, Mountain } from "lucide-react";
 import { prisma } from "@/lib/prisma";
 import { getCachedOrFetch, cacheKeys, CACHE_TTL } from "@/lib/redis";
-import { SITE_URL } from "@/lib/seo";
+import { DEFAULT_OG_IMAGE, SITE_NAME, SITE_URL, brandedTitle, seoDescription, serializeJsonLd } from "@/lib/seo";
 
 // Author bio is cached for 7 days and refreshed on-demand after CMS edits (revalidatePath)
 export const revalidate = 604800;
@@ -31,19 +31,31 @@ export async function generateMetadata({
     ? `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/c_fill,w_300,h_300,q_auto,f_auto/${author.avatar}`
     : undefined;
 
+  const canonical = `${SITE_URL}/author/${slug}`;
+  const title = brandedTitle(`${author.name} – ${author.role || "Author"}`).absolute;
+  const description = seoDescription(
+    author.bio,
+    `Nepal trekking guides and travel articles by ${author.name}${author.role ? `, ${author.role}` : ""} at ${SITE_NAME}.`
+  );
+
   return {
-    title: `${author.name} - Author | Green Compass Treks`,
-    description: author.bio
-      ? author.bio.replace(/<[^>]*>/g, "").slice(0, 160)
-      : `Articles written by ${author.name}${author.role ? `, ${author.role}` : ""}`,
-    alternates: { canonical: `${SITE_URL}/author/${slug}` },
+    title: { absolute: title },
+    description,
+    alternates: { canonical },
     openGraph: {
-      title: `${author.name} | Green Compass Treks`,
-      description: author.role || `Articles by ${author.name}`,
-      url: `${SITE_URL}/author/${slug}`,
-      siteName: "Green Compass Treks",
+      title,
+      description,
+      url: canonical,
+      siteName: SITE_NAME,
+      locale: "en_US",
       type: "profile",
-      images: avatarUrl ? [{ url: avatarUrl, width: 300, height: 300 }] : undefined,
+      images: avatarUrl ? [{ url: avatarUrl, width: 300, height: 300, alt: author.name }] : [DEFAULT_OG_IMAGE],
+    },
+    twitter: {
+      // A square avatar suits the small card; the branded fallback is 1200×630.
+      card: avatarUrl ? "summary" : "summary_large_image",
+      title,
+      description,
     },
   };
 }
@@ -89,20 +101,44 @@ export default async function AuthorPage({
     try { return JSON.parse(author.socialLinks || "[]"); }
     catch { return []; }
   })();
+  const profileUrls = socialLinks.map((link) => link.url).filter((url) => /^https?:\/\//i.test(url || ""));
 
   return (
     <>
-      {/* Breadcrumb schema */}
+      {/* ProfilePage + Person make this page the one entity every article
+          byline points at (E-E-A-T); the breadcrumb gives a readable trail. */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
+          __html: serializeJsonLd({
             "@context": "https://schema.org",
-            "@type": "BreadcrumbList",
-            itemListElement: [
-              { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
-              { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE_URL}/blog` },
-              { "@type": "ListItem", position: 3, name: author.name, item: `${SITE_URL}/author/${slug}` },
+            "@graph": [
+              {
+                "@type": "ProfilePage",
+                "@id": `${SITE_URL}/author/${slug}#profile`,
+                url: `${SITE_URL}/author/${slug}`,
+                name: `${author.name} – ${author.role || "Author"}`,
+                isPartOf: { "@id": `${SITE_URL}/#website` },
+                mainEntity: {
+                  "@type": "Person",
+                  "@id": `${SITE_URL}/author/${slug}#person`,
+                  name: author.name,
+                  url: `${SITE_URL}/author/${slug}`,
+                  ...(author.role ? { jobTitle: author.role } : {}),
+                  ...(author.bio ? { description: seoDescription(author.bio, author.name, 300) } : {}),
+                  ...(avatarUrl ? { image: avatarUrl } : {}),
+                  worksFor: { "@id": `${SITE_URL}/#organization` },
+                  ...(profileUrls.length > 0 ? { sameAs: profileUrls } : {}),
+                },
+              },
+              {
+                "@type": "BreadcrumbList",
+                itemListElement: [
+                  { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
+                  { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE_URL}/blog` },
+                  { "@type": "ListItem", position: 3, name: author.name, item: `${SITE_URL}/author/${slug}` },
+                ],
+              },
             ],
           }),
         }}

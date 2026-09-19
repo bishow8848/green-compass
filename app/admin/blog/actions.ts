@@ -3,9 +3,11 @@
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { after } from "next/server";
 import { auth } from "@/lib/auth";
 import { invalidateCachePattern, cacheKeys } from "@/lib/redis";
 import { deleteFile } from "@/lib/cloudinary";
+import { submitToIndexNow } from "@/lib/indexnow";
 
 async function invalidateBlogCache(slug?: string) {
   await Promise.all([
@@ -13,9 +15,19 @@ async function invalidateBlogCache(slug?: string) {
     invalidateCachePattern(cacheKeys.pattern.home),
   ]);
   revalidatePath("/", "layout");
+  revalidatePath("/sitemap.xml");
   if (slug) {
     revalidatePath(`/blog/${slug}`, "page");
+    // Once the admin has their response, tell Bing & co. the post changed.
+    after(() => announcePost(slug));
   }
+}
+
+/** Announce a published post and the blog index to IndexNow. */
+async function announcePost(slug: string) {
+  const post = await prisma.blogPost.findUnique({ where: { slug }, select: { status: true } });
+  if (post?.status !== "published") return;
+  await submitToIndexNow([`/blog/${slug}`, "/blog"]);
 }
 
 export async function createPost(formData: FormData) {

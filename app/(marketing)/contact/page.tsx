@@ -4,7 +4,7 @@ import { Mail, Phone, MapPin, Clock } from "lucide-react";
 import { ContactFormSection } from "@/components/home/ContactFormSection";
 import { PageHero } from "@/components/layout/PageHero";
 import { getCachedOrFetch, cacheKeys, CACHE_TTL } from "@/lib/redis";
-import { SITE_URL, brandedTitle, seoDescription, seoImageUrl, serializeJsonLd } from "@/lib/seo";
+import { SITE_URL, brandedTitle, ogImages, seoDescription, seoImageUrl, serializeJsonLd } from "@/lib/seo";
 import { sanitizeIframeHtml } from "@/lib/sanitize";
 
 // Contact content is cached for 7 days and refreshed on-demand after CMS edits (revalidatePath)
@@ -44,7 +44,7 @@ export async function generateMetadata(): Promise<Metadata> {
       siteName: "Green Compass Treks",
       locale: "en_US",
       type: "website",
-      images: heroImage ? [{ url: heroImage, width: 1200, height: 630, alt: "Contact Green Compass Treks about a Nepal trek" }] : undefined,
+      images: ogImages(heroImage, "Contact Green Compass Treks about a Nepal trek"),
     },
     twitter: {
       card: "summary_large_image",
