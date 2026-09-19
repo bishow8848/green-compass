@@ -16,6 +16,9 @@
  * deleting the cache directory and restarting; in production it means calling
  * /api/revalidate, which is what --revalidate-url does.
  *
+ * Paths refreshed: the home page, every published trek page, the blog index,
+ * the /blog/[slug] route and every author page.
+ *
  *   npx tsx scripts/refresh-site-cache.mts
  *   npx tsx scripts/refresh-site-cache.mts --revalidate-url https://example.com
  */
@@ -77,15 +80,30 @@ async function revalidateRemote(base: string) {
     where: { status: "published" },
     select: { slug: true, category: { select: { slug: true } } },
   });
-  const paths = ["/", ...treks.map((t) => `/${t.category?.slug ?? "treks"}/${t.slug}`)];
+  // Blog routes were missing here, which meant a script that wrote articles
+  // straight to Postgres left /blog serving a stale list for up to its
+  // revalidate window (86,400s) with no way to tell it had worked. The index
+  // and author pages are literal paths; /blog/[slug] is a route pattern and
+  // needs type "page", which is what the endpoint uses to match cached pages.
+  const authors = await prisma.author.findMany({ select: { slug: true } });
+  const blogPaths: { path: string; type?: "page" }[] = [
+    { path: "/blog" },
+    { path: "/blog/[slug]", type: "page" },
+    ...authors.map((a) => ({ path: `/author/${a.slug}` })),
+  ];
+  const paths = [
+    { path: "/" },
+    ...treks.map((t) => ({ path: `/${t.category?.slug ?? "treks"}/${t.slug}` })),
+    ...blogPaths,
+  ];
 
   let ok = 0;
-  for (const path of paths) {
+  for (const { path, type } of paths) {
     try {
       const r = await fetch(`${base.replace(/\/$/, "")}/api/revalidate`, {
         method: "POST",
         headers: { "content-type": "application/json", authorization: `Bearer ${secret}` },
-        body: JSON.stringify({ path }),
+        body: JSON.stringify(type ? { path, type } : { path }),
       });
       if (r.ok) ok++;
       else console.log(`  ! ${path} -> ${r.status}`);
