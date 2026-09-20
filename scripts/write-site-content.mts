@@ -656,8 +656,7 @@ async function main() {
   console.log("  npm run cache:refresh                                  # local");
   console.log("  npx tsx scripts/refresh-site-cache.mts \\");
   console.log("    --revalidate-url https://greencompasstreks.com      # deployed");
-  console.log("  (that script revalidates / and the trek pages — also revalidate");
-  console.log("   /about, /contact and /blog, which this content touches.)\n");
+  console.log("  (that script refreshes the whole site, /about and /contact included.)\n");
 }
 
 main()
