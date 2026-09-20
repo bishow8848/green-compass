@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { after } from "next/server";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { createBookingSchema } from "@/lib/validations";
@@ -303,8 +304,12 @@ export async function POST(request: NextRequest) {
     });
     const { booking, createdTemporaryAccount, linkedExistingAccount } = result;
 
-    // Send email notification (non-blocking)
-    try {
+    // Send email notification without holding up the response. `after()` is
+    // what makes that safe: a bare floating promise is not guaranteed to run to
+    // completion, because the serverless function can be frozen or torn down
+    // the moment the response is sent — so the request to Resend was started
+    // and then abandoned, and the booking alert never reached the inbox.
+    after(async () => {
       const customer = userExists || {
         name: travelers[0].fullName,
         email: travelers[0].email,
@@ -340,11 +345,9 @@ export async function POST(request: NextRequest) {
               : undefined,
           linkedExistingAccount,
         }).catch((err) => console.error("Failed to send customer booking email:", err));
-        void Promise.allSettled([adminNotification, customerConfirmation]);
+        await Promise.allSettled([adminNotification, customerConfirmation]);
       }
-    } catch (err) {
-      console.error("Failed to send booking notification:", err);
-    }
+    });
 
     // Invalidate homepage stats cache since booking counts changed
     await invalidateCachePattern(cacheKeys.pattern.home);
