@@ -228,6 +228,7 @@ export const cacheKeys = {
   blogPostsCount: "blog:count",
   // Page size is part of the key so changing it never serves pages cached at the old size.
   blogPostsPage: (page: number, perPage: number) => `blog:list:page:${perPage}:${page}`,
+  blogSearchIndex: (authorSlug?: string) => (authorSlug ? `blog:search-index:${authorSlug}` : "blog:search-index"),
   blogPost: (slug: string) => `blog:${slug}`,
   blogPostMeta: (slug: string) => `blog:${slug}:meta`,
 

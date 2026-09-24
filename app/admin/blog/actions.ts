@@ -13,6 +13,7 @@ async function invalidateBlogCache(slug?: string) {
   await Promise.all([
     invalidateCachePattern(cacheKeys.pattern.blog),
     invalidateCachePattern(cacheKeys.pattern.home),
+    invalidateCachePattern(cacheKeys.pattern.author),
   ]);
   revalidatePath("/", "layout");
   revalidatePath("/sitemap.xml");
