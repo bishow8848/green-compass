@@ -1,9 +1,25 @@
 import { SITE_URL } from "@/lib/seo";
-import { sendEmail, escapeHtml, EMAIL_NOTIFICATIONS_FROM, TEAM_INBOX } from "@/lib/resend";
+import { sendEmail, EMAIL_NOTIFICATIONS_FROM } from "@/lib/resend";
 
-// Internal notifications go to the team inbox (see TEAM_INBOX for why the
-// fallback must be a real mailbox). Customer emails are copied there by sendEmail.
-const ADMIN_EMAIL = TEAM_INBOX;
+function escapeHtml(text: string): string {
+  return text
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+// Recipient for internal notifications (booking alerts, contact form messages).
+//
+// The fallback has to be the real inbox. It used to be admin@greencompasstreks.com,
+// which is not a mailbox: whenever ADMIN_EMAIL was missing from the host's
+// environment, every booking alert and contact message went there, hard-bounced,
+// and put that address on Resend's suppression list — after which Resend stopped
+// attempting delivery altogether and simply marked each send "Suppressed".
+// Nothing surfaced any of it, because the API call itself keeps succeeding.
+const ADMIN_EMAIL =
+  process.env.ADMIN_EMAIL || process.env.SMTP_USER || "info@greencompasstreks.com";
 
 export type TravelerInfo = {
   fullName: string;
@@ -37,7 +53,6 @@ export async function sendVerificationEmail({
   await sendEmail({
     to: email,
     subject: "Verify your email address - Green Compass Treks",
-    secrets: [token],
     html: `
       <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;line-height:1.65;color:#334155;">
         <div style="text-align:center;padding:20px 0;">
@@ -102,7 +117,6 @@ export async function sendBookingReceivedEmail({
   await sendEmail({
     to: email,
     subject: `We received your ${trekTitle} booking request`,
-    secrets: [temporaryAccount?.password],
     html: `
       <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;line-height:1.65;color:#334155;">
         <h2 style="color:#0f766e;">Your booking request has been received</h2>
@@ -143,7 +157,6 @@ export async function sendTemporaryPasswordEmail({
   await sendEmail({
     to: email,
     subject: "Your temporary Green Compass Treks password",
-    secrets: [temporaryPassword],
     html: `
       <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;line-height:1.65;color:#334155;">
         <h2 style="color:#0f766e;">Temporary password requested</h2>

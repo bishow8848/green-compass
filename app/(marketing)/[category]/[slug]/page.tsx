@@ -184,7 +184,6 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
 
   const minPrice = getMinPrice(pricingTiers);
   const offerLowPrice = minPrice > 0 ? minPrice : trek.price;
-  const offerHighPrice = Math.max(offerLowPrice, trek.price);
   const maxAltitude = trek.maxAltitude || getMaxAltitude(itinerary);
   const avgRating = getAvgRating(reviews);
 
@@ -259,14 +258,18 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
             provider: {
               "@id": `${SITE_URL}/#organization`,
             },
+            // A single Offer, not AggregateOffer: Google only shows price for
+            // merchant listings, which require an Offer sold by us. The price is
+            // the "Min Price" shown on the page, so schema and page stay in sync.
             offers: {
-              "@type": "AggregateOffer",
+              "@type": "Offer",
+              price: offerLowPrice,
               priceCurrency: "USD",
-              lowPrice: offerLowPrice,
-              highPrice: offerHighPrice,
-              offerCount: pricingTiers.length || 1,
               availability: "https://schema.org/InStock",
               url: `${SITE_URL}/${catSlug}/${slug}`,
+              seller: {
+                "@id": `${SITE_URL}/#organization`,
+              },
             },
             ...(avgRating > 0
               ? {
