@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import type { ReactNode } from "react";
 import { CLOUDINARY_CLOUD_NAME } from "@/lib/cloudinary-url";
 import Image from "next/image";
 import Link from "next/link";
@@ -7,17 +8,107 @@ import { Calendar, Clock, ArrowLeft, ArrowRight, Mountain } from "lucide-react";
 import { prisma } from "@/lib/prisma";
 import { getCachedOrFetch, cacheKeys, CACHE_TTL } from "@/lib/redis";
 import { SearchBar } from "@/components/search/SearchBar";
-import { injectHeadingIds } from "@/lib/headings";
+import { demoteH1, injectHeadingIds } from "@/lib/headings";
 import { sanitizeRichText } from "@/lib/sanitize";
 import { extractFaqsFromHtml } from "@/lib/faq-block";
+import { getBlogRelations } from "@/lib/blog-related";
 import BlogSidebar from "@/components/blog/BlogSidebar";
+import { BlogCard } from "@/components/blog/BlogCard";
 import { RichTextContent } from "@/components/blog/RichTextContent";
+import { TrekCard, trekCardSelect } from "@/components/trek/TrekCard";
 import { FAQAccordion } from "@/components/ui/FAQAccordion";
 import { ContactFormSection } from "@/components/home/ContactFormSection";
-import { SITE_URL, brandedTitle, seoDescription, seoImageUrl, serializeJsonLd } from "@/lib/seo";
+import { SITE_URL, brandedTitle, ogImages, seoDescription, seoImageUrl, serializeJsonLd } from "@/lib/seo";
 
 // Blog post is cached for 7 days and refreshed on-demand after CMS edits (revalidatePath)
 export const revalidate = 604800;
+
+const MAX_RELATED_TREKS = 6;
+const MAX_RELATED_POSTS = 3;
+
+/** Reading time from the stored HTML — the figure the article header shows. */
+function readTimeMinutes(html: string | null): number {
+  return Math.max(1, Math.round((html?.split(/\s+/).length || 0) / 200));
+}
+
+function parseTags(json: string): string[] {
+  try {
+    const parsed = JSON.parse(json);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+}
+
+/** Put rows back in `slugs` order — that order is the ranking, and findMany drops it. */
+function inSlugOrder<T extends { slug: string }>(rows: T[], slugs: string[]): T[] {
+  return slugs.flatMap((slug) => rows.filter((row) => row.slug === slug));
+}
+
+async function getRelatedTreks(slugs: string[]) {
+  if (slugs.length === 0) return [];
+  // Keyed by the slug list, so a changed list never reads a stale entry; the
+  // treks* prefix is cleared whenever a trek is edited.
+  const rows = await getCachedOrFetch(
+    `treks:cards:${slugs.join(",")}`,
+    () => prisma.trek.findMany({
+      where: { slug: { in: slugs }, status: "published", categoryId: { not: null } },
+      select: trekCardSelect,
+    }),
+    CACHE_TTL.MODERATE
+  );
+  return inSlugOrder(rows, slugs).slice(0, MAX_RELATED_TREKS);
+}
+
+async function getRelatedPosts(slugs: string[]) {
+  if (slugs.length === 0) return [];
+  const rows = await getCachedOrFetch(
+    `blog:cards:${slugs.join(",")}`,
+    async () => {
+      const posts = await prisma.blogPost.findMany({
+        where: { slug: { in: slugs }, status: "published" },
+        select: {
+          slug: true, title: true, excerpt: true, heroImage: true, tags: true,
+          publishedDate: true, author: true, authorSlug: true, content: true,
+        },
+      });
+      // The body is only needed for the read time, so it is not cached.
+      return posts.map(({ content, ...post }) => ({ ...post, readTime: readTimeMinutes(content) }));
+    },
+    CACHE_TTL.DAILY
+  );
+  return inSlugOrder(rows, slugs).slice(0, MAX_RELATED_POSTS);
+}
+
+/** A card grid after the article, styled like Similar Treks on a trek page. */
+function CardSection({
+  id,
+  heading,
+  description,
+  className = "pt-12 sm:pt-16",
+  children,
+}: {
+  id: string; 
+  heading: string;
+  description: string; 
+  className?: string;
+  children: ReactNode;
+}) {
+  return (
+    // data-toc lists the section in the sidebar's contents
+    <section id={id} data-toc={heading} className={className}>
+      <div className="mb-10 max-w-2xl">
+        <h2 className="mb-3 text-2xl font-bold tracking-tight sm:text-3xl" style={{ color: "var(--color-secondary)" }}>
+          {heading}
+        </h2>
+        <p className="text-base leading-relaxed" style={{ color: "var(--color-text-muted)" }}>
+          {description}
+        </p>
+      </div>
+      <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">{children}</div>
+    </section>
+  );
+}
 
 export async function generateStaticParams() {
   return prisma.blogPost.findMany({
@@ -64,9 +155,7 @@ export async function generateMetadata({
       publishedTime: post.publishedDate ? new Date(post.publishedDate).toISOString() : undefined,
       modifiedTime: post.updatedAt ? new Date(post.updatedAt).toISOString() : undefined,
       authors: [post.author || "Green Compass Treks"],
-      images: socialImageUrl
-        ? [{ url: socialImageUrl, width: 1200, height: 630, alt: post.title }]
-        : undefined,
+      images: ogImages(socialImageUrl, post.title),
     },
     twitter: {
       card: "summary_large_image",
@@ -94,20 +183,26 @@ export default async function BlogPostPage({
 
   if (!post) notFound();
 
+  const relations = getBlogRelations(slug, post.content || "");
+
   // Keep the blog CTA in sync with the contact form configured for the home
   // page instead of duplicating editable content for every article.
-  const homeSettings = await getCachedOrFetch(
-    cacheKeys.homeContactSettings,
-    () => prisma.homePageSettings.findUnique({
-      where: { id: "home-settings" },
-      select: {
-        contactHeading: true,
-        contactDescription: true,
-        contactInfoCards: true,
-      },
-    }),
-    CACHE_TTL.MODERATE
-  );
+  const [homeSettings, relatedTreks, relatedPosts] = await Promise.all([
+    getCachedOrFetch(
+      cacheKeys.homeContactSettings,
+      () => prisma.homePageSettings.findUnique({
+        where: { id: "home-settings" },
+        select: {
+          contactHeading: true,
+          contactDescription: true,
+          contactInfoCards: true,
+        },
+      }),
+      CACHE_TTL.MODERATE
+    ),
+    getRelatedTreks(relations.trekSlugs),
+    getRelatedPosts(relations.postSlugs),
+  ]);
   let contactInfoCards: { title: string; description: string }[] = [];
   if (homeSettings?.contactInfoCards) {
     try {
@@ -118,15 +213,8 @@ export default async function BlogPostPage({
     }
   }
 
-  const readTime = Math.max(1, Math.round((post.content?.split(/\s+/).length || 0) / 200));
-  const tags: string[] = (() => {
-    try {
-      const parsed = JSON.parse(post.tags);
-      return Array.isArray(parsed) ? parsed : [];
-    } catch {
-      return [];
-    }
-  })();
+  const readTime = readTimeMinutes(post.content);
+  const tags = parseTags(post.tags);
 
   const faqs: { question: string; answer: string }[] = (() => {
     try {
@@ -156,7 +244,14 @@ export default async function BlogPostPage({
     post.metaDescription || post.excerpt,
     `Read ${post.title} and get practical advice for trekking in Nepal.`
   );
-  const articleSocialImageUrl = seoImageUrl(post.ogImage || post.heroImage);
+  // Google asks for Article images in 16:9, 4:3 and 1:1, each at least 1200px
+  // wide — the size Discover's large cards require.
+  const articleImageSource = post.heroImage || post.ogImage;
+  const articleImages = articleImageSource
+    ? [...new Set(["w_1200,h_675", "w_1200,h_900", "w_1200,h_1200"].map(
+        (size) => seoImageUrl(articleImageSource, `c_fill,${size},q_auto,f_auto`) as string
+      ))]
+    : undefined;
 
   const overlayStyle = {
     background: `
@@ -192,12 +287,15 @@ export default async function BlogPostPage({
             description: articleDescription,
             author: {
               "@type": "Person",
+              // The same entity the author page declares, so every byline
+              // resolves to one person.
+              ...(post.authorSlug ? { "@id": `${SITE_URL}/author/${post.authorSlug}#person` } : {}),
               name: post.author || "Green Compass Treks",
               url: post.authorSlug ? `${SITE_URL}/author/${post.authorSlug}` : SITE_URL,
             },
             datePublished: post.publishedDate,
             dateModified: post.updatedAt || post.publishedDate,
-            image: heroImageUrl || articleSocialImageUrl || undefined,
+            image: articleImages,
             url: `${SITE_URL}/blog/${slug}`,
             inLanguage: "en",
             keywords: tags.length > 0 ? tags.join(", ") : undefined,
@@ -335,33 +433,80 @@ export default async function BlogPostPage({
       {/* ── Article with sidebar (matching product page layout) ── */}
       <div className="mx-auto max-w-screen-2xl px-3 sm:px-4 lg:px-6 py-8 pb-24">
         <div className="grid gap-12 lg:grid-cols-3">
-          {/* ── MAIN CONTENT ── */}
-          <div className="flex flex-col space-y-0 lg:col-span-2">
+          {/* ── MAIN CONTENT ──
+              min-w-0 lets the grid column shrink below a wide table, so the
+              table scrolls inside its wrapper instead of widening the page. */}
+          <div className="flex min-w-0 flex-col space-y-0 lg:col-span-2">
             {/* Content */}
             <article className="blog-content">
-              <RichTextContent html={sanitizeRichText(injectHeadingIds(post.content || ""))} />
+              <RichTextContent html={sanitizeRichText(injectHeadingIds(demoteH1(post.content || "")))} />
             </article>
 
-            {/* FAQs (like the trek detail page) */}
+            {/* FAQs (like the trek detail page). This and the sections below
+                carry data-toc, which adds them to the sidebar's contents. */}
             {faqs.length > 0 && (
-              <FAQAccordion
-                items={faqs}
-                heading="Frequently Asked Questions"
-                id="blog-faqs"
-                contained={false}
-                className="py-10 sm:py-12"
-              />
+              <div id="blog-faq-section" data-toc="Frequently Asked Questions">
+                <FAQAccordion
+                  items={faqs}
+                  heading="Frequently Asked Questions"
+                  id="blog-faqs"
+                  contained={false}
+                  size="lg"
+                  className="py-10 sm:py-12"
+                />
+              </div>
             )}
 
-            <ContactFormSection
-              heading={homeSettings?.contactHeading}
-              description={homeSettings?.contactDescription}
-              infoCards={contactInfoCards}
-              className="mt-12"
-              embedded
-            />
+            {/* Section ids carry a blog- prefix so they can't collide with the
+                ids injectHeadingIds gives the article's own h2s. */}
+            <div id="blog-contact" data-toc="Contact Us">
+              <ContactFormSection
+                heading={homeSettings?.contactHeading}
+                description={homeSettings?.contactDescription}
+                infoCards={contactInfoCards}
+                className="mt-12"
+                embedded
+              />
+            </div>
 
-            {/* Article author/footer — intentionally last, after the contact form */}
+            {/* Trips this article covers — after the contact form */}
+            {relatedTreks.length > 0 && (
+              <CardSection
+                id="blog-related-treks"
+                heading="Related Treks"
+                description={relations.note || "Trips we run that this article covers."}
+              >
+                {relatedTreks.map((trek) => (
+                  <TrekCard key={trek.id} trek={trek} href={`/${trek.category?.slug}/${trek.slug}`} />
+                ))}
+              </CardSection>
+            )}
+
+            {/* Further reading — last, like Similar Treks on a trek page */}
+            {relatedPosts.length > 0 && (
+              <CardSection
+                id="blog-keep-reading"
+                heading="Keep Reading"
+                description="More guides to help you plan your trip."
+              >
+                {relatedPosts.map((related) => (
+                  <BlogCard
+                    key={related.slug}
+                    slug={related.slug}
+                    title={related.title}
+                    excerpt={related.excerpt}
+                    heroImage={related.heroImage}
+                    tags={parseTags(related.tags)}
+                    date={new Date(related.publishedDate).toISOString().slice(0, 10)}
+                    readTime={`${related.readTime} min read`}
+                    author={related.author}
+                    authorSlug={related.authorSlug}
+                  />
+                ))}
+              </CardSection>
+            )}
+
+            {/* Article author/footer — intentionally last */}
             <div className="mt-16 border-t border-border pt-8">
               <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <div className="flex items-center gap-3">

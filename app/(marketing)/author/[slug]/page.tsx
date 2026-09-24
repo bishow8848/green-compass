@@ -2,10 +2,15 @@ import type { Metadata } from "next";
 import { CLOUDINARY_CLOUD_NAME } from "@/lib/cloudinary-url";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Calendar, Clock, ArrowLeft, Mountain } from "lucide-react";
+import { redirect } from "next/navigation";
+import { ExternalLink, Mountain } from "lucide-react";
+import { BlogCard } from "@/components/blog/BlogCard";
+import { Pagination } from "@/components/ui/Pagination";
+import { PageHero } from "@/components/layout/PageHero";
+import { getPageContent, requirePageSection } from "@/lib/page-content";
 import { prisma } from "@/lib/prisma";
-import { getCachedOrFetch, cacheKeys, CACHE_TTL } from "@/lib/redis";
-import { SITE_URL } from "@/lib/seo";
+import { getCachedOrFetch, CACHE_TTL } from "@/lib/redis";
+import { DEFAULT_OG_IMAGE, SITE_NAME, SITE_URL, brandedTitle, seoDescription, serializeJsonLd } from "@/lib/seo";
 
 // Author bio is cached for 7 days and refreshed on-demand after CMS edits (revalidatePath)
 export const revalidate = 604800;
@@ -15,12 +20,30 @@ export async function generateStaticParams() {
   return authors.map((a) => ({ slug: a.slug }));
 }
 
+const POSTS_PER_PAGE = 12;
+
+function parsePage(page?: string) {
+  return Math.max(1, parseInt(page ?? "1", 10) || 1);
+}
+
+function parseTags(tags: string): string[] {
+  try {
+    const parsed = JSON.parse(tags);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+}
+
 export async function generateMetadata({
   params,
+  searchParams,
 }: {
   params: Promise<{ slug: string }>;
+  searchParams: Promise<{ page?: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
+  const pageNumber = parsePage((await searchParams).page);
   const author = await prisma.author.findUnique({
     where: { slug },
     select: { name: true, role: true, bio: true, avatar: true },
@@ -31,55 +54,100 @@ export async function generateMetadata({
     ? `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/c_fill,w_300,h_300,q_auto,f_auto/${author.avatar}`
     : undefined;
 
+  const canonical = pageNumber > 1
+    ? `${SITE_URL}/author/${slug}?page=${pageNumber}`
+    : `${SITE_URL}/author/${slug}`;
+  const title = brandedTitle(`${author.name} – ${author.role || "Author"}`).absolute;
+  const description = seoDescription(
+    author.bio,
+    `Nepal trekking guides and travel articles by ${author.name}${author.role ? `, ${author.role}` : ""} at ${SITE_NAME}.`
+  );
+
   return {
-    title: `${author.name} - Author | Green Compass Treks`,
-    description: author.bio
-      ? author.bio.replace(/<[^>]*>/g, "").slice(0, 160)
-      : `Articles written by ${author.name}${author.role ? `, ${author.role}` : ""}`,
-    alternates: { canonical: `${SITE_URL}/author/${slug}` },
+    title: { absolute: title },
+    description,
+    alternates: { canonical },
     openGraph: {
-      title: `${author.name} | Green Compass Treks`,
-      description: author.role || `Articles by ${author.name}`,
-      url: `${SITE_URL}/author/${slug}`,
-      siteName: "Green Compass Treks",
+      title,
+      description,
+      url: canonical,
+      siteName: SITE_NAME,
+      locale: "en_US",
       type: "profile",
-      images: avatarUrl ? [{ url: avatarUrl, width: 300, height: 300 }] : undefined,
+      images: avatarUrl ? [{ url: avatarUrl, width: 300, height: 300, alt: author.name }] : [DEFAULT_OG_IMAGE],
+    },
+    twitter: {
+      // A square avatar suits the small card; the branded fallback is 1200×630.
+      card: avatarUrl ? "summary" : "summary_large_image",
+      title,
+      description,
     },
   };
 }
 
 export default async function AuthorPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ slug: string }>;
+  searchParams: Promise<{ page?: string }>;
 }) {
   const { slug } = await params;
+  const requestedPage = parsePage((await searchParams).page);
 
-  const [author, posts] = await Promise.all([
+  const getPosts = (page: number) =>
     getCachedOrFetch(
-      `author:${slug}`,
-      () => prisma.author.findUnique({ where: { slug } }),
-      CACHE_TTL.YEARLY
-    ),
-    getCachedOrFetch(
-      `author:posts:${slug}`,
+      `author:posts:${slug}:page:${page}`,
       () => prisma.blogPost.findMany({
         where: { authorSlug: slug, status: "published" },
         orderBy: { publishedDate: "desc" },
+        skip: (page - 1) * POSTS_PER_PAGE,
+        take: POSTS_PER_PAGE,
         select: {
           slug: true,
           title: true,
           excerpt: true,
+          author: true,
+          authorSlug: true,
           publishedDate: true,
           heroImage: true,
           tags: true,
         },
       }),
       CACHE_TTL.YEARLY
+    );
+
+  // Just the publish dates of every post give the count and latest date;
+  // only the current page's cards are fetched in full.
+  const [author, summary, posts, pageContent] = await Promise.all([
+    getCachedOrFetch(
+      `author:${slug}`,
+      () => prisma.author.findUnique({ where: { slug } }),
+      CACHE_TTL.YEARLY
     ),
+    getCachedOrFetch(
+      `author:dates:${slug}`,
+      () => prisma.blogPost.findMany({
+        where: { authorSlug: slug, status: "published" },
+        orderBy: { publishedDate: "desc" },
+        select: { publishedDate: true },
+      }),
+      CACHE_TTL.YEARLY
+    ),
+    getPosts(requestedPage),
+    getPageContent(),
   ]);
 
   if (!author) notFound();
+
+  // Reuse the blog page's banner photo so the two headers match.
+  const blogHero = requirePageSection<any>(pageContent, "blog")?.hero;
+
+  const total = summary.length;
+  const totalPages = Math.max(1, Math.ceil(total / POSTS_PER_PAGE));
+  if (requestedPage > totalPages) {
+    redirect(totalPages > 1 ? `/author/${slug}?page=${totalPages}` : `/author/${slug}`);
+  }
 
   const avatarUrl = author.avatar
     ? `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/c_fill,w_300,h_300,q_auto,f_auto/${author.avatar}`
@@ -89,168 +157,158 @@ export default async function AuthorPage({
     try { return JSON.parse(author.socialLinks || "[]"); }
     catch { return []; }
   })();
+  const profileUrls = socialLinks.map((link) => link.url).filter((url) => /^https?:\/\//i.test(url || ""));
+
+  // Some posts carry future dates, so skip those when picking the latest one.
+  const now = Date.now();
+  const latest = summary.find((row) => new Date(row.publishedDate).getTime() <= now)?.publishedDate;
+
+  const firstShown = total === 0 ? 0 : (requestedPage - 1) * POSTS_PER_PAGE + 1;
+  const lastShown = Math.min(requestedPage * POSTS_PER_PAGE, total);
 
   return (
     <>
-      {/* Breadcrumb schema */}
+      {/* ProfilePage + Person make this page the one entity every article
+          byline points at (E-E-A-T); the breadcrumb gives a readable trail. */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
+          __html: serializeJsonLd({
             "@context": "https://schema.org",
-            "@type": "BreadcrumbList",
-            itemListElement: [
-              { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
-              { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE_URL}/blog` },
-              { "@type": "ListItem", position: 3, name: author.name, item: `${SITE_URL}/author/${slug}` },
+            "@graph": [
+              {
+                "@type": "ProfilePage",
+                "@id": `${SITE_URL}/author/${slug}#profile`,
+                url: `${SITE_URL}/author/${slug}`,
+                name: `${author.name} – ${author.role || "Author"}`,
+                isPartOf: { "@id": `${SITE_URL}/#website` },
+                mainEntity: {
+                  "@type": "Person",
+                  "@id": `${SITE_URL}/author/${slug}#person`,
+                  name: author.name,
+                  url: `${SITE_URL}/author/${slug}`,
+                  ...(author.role ? { jobTitle: author.role } : {}),
+                  ...(author.bio ? { description: seoDescription(author.bio, author.name, 300) } : {}),
+                  ...(avatarUrl ? { image: avatarUrl } : {}),
+                  worksFor: { "@id": `${SITE_URL}/#organization` },
+                  ...(profileUrls.length > 0 ? { sameAs: profileUrls } : {}),
+                },
+              },
+              {
+                "@type": "BreadcrumbList",
+                itemListElement: [
+                  { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
+                  { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE_URL}/blog` },
+                  { "@type": "ListItem", position: 3, name: author.name, item: `${SITE_URL}/author/${slug}` },
+                ],
+              },
             ],
           }),
         }}
       />
 
-      {/* ── Author Hero ── */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 py-20 sm:py-28">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,hsl(180,50%,20%,0.15),transparent_50%)]" />
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative">
-          <Link
-            href="/blog"
-            className="mb-6 inline-flex items-center gap-1.5 text-sm text-white/60 transition-colors hover:text-white/90"
-          >
-            <ArrowLeft className="h-4 w-4" /> Back to Blog
-          </Link>
+      {/* ── Banner (same header as /blog) ── */}
+      <PageHero
+        heading={author.name}
+        description={author.role}
+        backgroundImage={blogHero?.backgroundImage}
+        breadcrumbLabel={author.name}
+        searchAuthorSlug={slug}
+      />
 
-          <div className="flex flex-col items-center gap-6 sm:flex-row sm:items-start sm:gap-8">
-            {/* Avatar */}
+      {/* ── About ── */}
+      <section className="bg-background pt-16 sm:pt-20">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center gap-4">
             {avatarUrl ? (
               <img
                 src={avatarUrl}
                 alt={author.name}
-                width={144}
-                height={144}
-                className="h-28 w-28 flex-shrink-0 rounded-full border-4 border-white/10 object-cover shadow-xl sm:h-36 sm:w-36"
+                width={64}
+                height={64}
+                className="h-16 w-16 flex-shrink-0 rounded-full object-cover"
               />
             ) : (
-              <div className="flex h-28 w-28 flex-shrink-0 items-center justify-center rounded-full border-4 border-white/10 bg-white/10 text-4xl font-bold text-white sm:h-36 sm:w-36">
+              <div className="flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-full bg-primary text-3xl font-bold text-white">
                 {author.name.charAt(0).toUpperCase()}
               </div>
             )}
-
-            <div className="text-center sm:text-left">
-              <h1 className="text-3xl font-bold tracking-tight text-white sm:text-4xl lg:text-5xl">
-                {author.name}
-              </h1>
-              {author.role && (
-                <p className="mt-2 text-lg font-medium text-teal-300">{author.role}</p>
-              )}
-              {author.bio && (
-                <div
-                  className="mt-4 max-w-2xl text-base leading-relaxed text-white/70 [&_p]:mb-3 [&_p:last-child]:mb-0"
-                  dangerouslySetInnerHTML={{ __html: author.bio }}
-                />
-              )}
-              {socialLinks.length > 0 && (
-                <div className="mt-5 flex flex-wrap items-center gap-3 justify-center sm:justify-start">
-                  {socialLinks.map((link, i) => (
-                    <a
-                      key={i}
-                      href={link.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="rounded-full bg-white/10 px-4 py-1.5 text-xs font-medium text-white/70 transition-colors hover:bg-white/20 hover:text-white"
-                    >
-                      {link.platform}
-                    </a>
-                  ))}
-                </div>
-              )}
+            <div>
+              <h2 className="text-2xl font-bold tracking-tight text-secondary-dark sm:text-3xl">About {author.name}</h2>
+              <div className="mt-1.5 flex flex-wrap gap-2">
+                <span className="rounded-full bg-primary/10 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-primary">
+                  {total} {total === 1 ? "article" : "articles"}
+                </span>
+                {latest && (
+                  <span className="rounded-full bg-surface-alt px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-text-muted">
+                    Latest {new Date(latest).toLocaleDateString("en-US", { month: "short", year: "numeric" })}
+                  </span>
+                )}
+                {socialLinks.map((link, i) => (
+                  <a
+                    key={i}
+                    href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 rounded-full bg-surface-alt px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-text-muted transition-colors hover:text-primary"
+                  >
+                    {link.platform} <ExternalLink className="h-3 w-3" />
+                  </a>
+                ))}
+              </div>
             </div>
           </div>
+
+          {author.bio && (
+            <div
+              className="mt-6 max-w-4xl space-y-4 text-base leading-relaxed text-text-muted sm:text-lg [&_a]:text-primary [&_a]:underline"
+              dangerouslySetInnerHTML={{ __html: author.bio }}
+            />
+          )}
         </div>
       </section>
 
-      {/* ── Author's Posts ── */}
-      <section className="bg-background py-16 sm:py-24">
+      {/* ── Articles ── */}
+      <section id="articles" className="bg-background py-16 sm:py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+          <h2 className="text-2xl font-bold tracking-tight text-secondary-dark sm:text-3xl">
             Articles by {author.name}
           </h2>
-          <p className="mt-2 text-base text-muted-foreground">
-            {posts.length} {posts.length === 1 ? "post" : "posts"} published
-          </p>
+          {total > 0 && (
+            <p className="mt-2 text-base text-text-muted">
+              Showing {firstShown}–{lastShown} of {total} {total === 1 ? "article" : "articles"}
+            </p>
+          )}
 
           {posts.length === 0 ? (
-            <div className="mt-12 flex flex-col items-center rounded-3xl border border-border/60 bg-card p-12 text-center">
-              <Mountain className="h-12 w-12 text-muted-foreground/40" />
-              <p className="mt-4 text-sm font-medium text-muted-foreground">No posts yet</p>
-              <p className="mt-1 text-xs text-muted-foreground/60">This author hasn&apos;t published any posts yet.</p>
+            <div className="mt-10 flex flex-col items-center rounded-3xl border border-border/60 bg-surface p-12 text-center">
+              <Mountain className="h-12 w-12 text-text-muted/40" />
+              <p className="mt-4 text-sm font-medium text-text-muted">No posts yet</p>
+              <p className="mt-1 text-xs text-text-muted/60">This author hasn&apos;t published any posts yet.</p>
             </div>
           ) : (
-            <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {posts.map((post) => {
-                const tags: string[] = (() => {
-                  try { return JSON.parse(post.tags); }
-                  catch { return []; }
-                })();
-                const postImageUrl = post.heroImage
-                  ? `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/c_fill,w_600,q_auto,f_auto/${post.heroImage}`
-                  : null;
-
-                return (
-                  <Link
-                    key={post.slug}
-                    href={`/blog/${post.slug}`}
-                    className="group flex flex-col overflow-hidden rounded-3xl border border-border/60 bg-card shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
-                  >
-                    {postImageUrl ? (
-                      <div className="relative aspect-[4/3] overflow-hidden">
-                        <img
-                          src={postImageUrl}
-                          alt={post.title}
-                          width={600}
-                          height={450}
-                          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                          loading="lazy"
-                        />
-                      </div>
-                    ) : (
-                      <div className="flex aspect-[4/3] items-center justify-center bg-muted">
-                        <Mountain className="h-10 w-10 text-muted-foreground/30" />
-                      </div>
-                    )}
-                    <div className="flex flex-1 flex-col p-5">
-                      {tags.length > 0 && (
-                        <div className="mb-2 flex flex-wrap gap-1.5">
-                          {tags.slice(0, 2).map((tag) => (
-                            <span
-                              key={tag}
-                              className="rounded-full bg-primary/10 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-primary"
-                            >
-                              {tag}
-                            </span>
-                          ))}
-                        </div>
-                      )}
-                      <h3 className="text-lg font-bold text-foreground transition-colors group-hover:text-primary">
-                        {post.title}
-                      </h3>
-                      {post.excerpt && (
-                        <p className="mt-2 text-sm leading-relaxed text-muted-foreground line-clamp-2">
-                          {post.excerpt}
-                        </p>
-                      )}
-                      <div className="mt-auto flex items-center pt-4 text-xs text-muted-foreground">
-                        <Calendar className="mr-1.5 h-3.5 w-3.5" />
-                        {new Date(post.publishedDate).toLocaleDateString("en-US", {
-                          month: "long",
-                          day: "numeric",
-                          year: "numeric",
-                        })}
-                      </div>
-                    </div>
-                  </Link>
-                );
-              })}
-            </div>
+            <>
+              <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                {posts.map((post) => {
+                  const wordCount = post.excerpt ? post.excerpt.split(/\s+/).length : 0;
+                  return (
+                    <BlogCard
+                      key={post.slug}
+                      slug={post.slug}
+                      title={post.title}
+                      excerpt={post.excerpt}
+                      heroImage={post.heroImage}
+                      tags={parseTags(post.tags)}
+                      date={new Date(post.publishedDate).toISOString().split("T")[0]}
+                      readTime={`${Math.max(1, Math.round(wordCount / 200))} min read`}
+                      author={post.author}
+                      authorSlug={post.authorSlug}
+                    />
+                  );
+                })}
+              </div>
+              <Pagination currentPage={requestedPage} totalPages={totalPages} basePath={`/author/${slug}`} />
+            </>
           )}
         </div>
       </section>

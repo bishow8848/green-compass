@@ -5,10 +5,11 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { getCachedOrFetch, cacheKeys, CACHE_TTL } from "@/lib/redis";
-import { SITE_URL, brandedTitle, seoDescription, seoImageUrl, serializeJsonLd } from "@/lib/seo";
+import { SITE_URL, brandedTitle, ogImages, seoDescription, seoImageUrl, serializeJsonLd } from "@/lib/seo";
 import { CategoryClient } from "./category-client";
 import { SearchBar } from "@/components/search/SearchBar";
 import { sanitizeRichText } from "@/lib/sanitize";
+import { demoteH1 } from "@/lib/headings";
 import { Calendar, Clock, Mountain } from "lucide-react";
 
 // Category listing is cached for 1 day and refreshed on-demand after CMS edits (revalidatePath)
@@ -58,7 +59,7 @@ export async function generateMetadata({
         siteName: "Green Compass Treks",
         locale: "en_US",
         type: "website",
-        images: pageImage ? [{ url: pageImage, width: 1200, height: 630, alt: page.title }] : undefined,
+        images: ogImages(pageImage, page.title),
       },
       twitter: {
         card: "summary_large_image",
@@ -87,7 +88,7 @@ export async function generateMetadata({
       siteName: "Green Compass Treks",
       locale: "en_US",
       type: "website",
-      images: categoryImage ? [{ url: categoryImage, width: 1200, height: 630, alt: `${cat.name} in Nepal` }] : undefined,
+      images: ogImages(categoryImage, `${cat.name} in Nepal`),
     },
     twitter: {
       card: "summary_large_image",
@@ -245,7 +246,7 @@ export default async function CategoryListingPage({
           <div className="grid gap-12 lg:grid-cols-3">
             <article
               className="prose-custom rich-text lg:col-span-2"
-              dangerouslySetInnerHTML={{ __html: sanitizeRichText(page.content) }}
+              dangerouslySetInnerHTML={{ __html: sanitizeRichText(demoteH1(page.content)) }}
             />
 
             <aside className="space-y-6 lg:sticky lg:top-24 lg:self-start">

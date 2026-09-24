@@ -85,13 +85,23 @@ body {
   object-fit: cover;
   background: var(--color-surface-alt, #f8fafc);
 }
-.rich-text .tableWrapper { overflow-x: auto; margin: 1.5rem 0; }
+/* Tables keep readable columns and scroll sideways inside their wrapper on
+   narrow screens, instead of squeezing every column to fit. The minimum width
+   grows with the column count. Word breaking is reset in cells because the
+   container's break-word would otherwise let a column shrink to one letter. */
+.rich-text .tableWrapper { overflow-x: auto; margin: 1.5rem 0; overscroll-behavior-x: contain; }
 .rich-text table { border-collapse: collapse; width: 100%; font-size: 0.9rem; }
+.rich-text table:has(tr > :nth-child(3)) { min-width: 38rem; }
+.rich-text table:has(tr > :nth-child(4)) { min-width: 46rem; }
+.rich-text table:has(tr > :nth-child(5)) { min-width: 54rem; }
 .rich-text th, .rich-text td {
   border: 1px solid var(--color-border, #e2e8f0);
   padding: 0.6rem 0.85rem;
   text-align: left;
   vertical-align: top;
+  min-width: 8rem;
+  word-break: normal;
+  overflow-wrap: break-word;
 }
 .rich-text th { background: var(--color-surface-alt, #f8fafc); font-weight: 600; }
 .rich-text h1 { @apply text-3xl font-bold mt-8 mb-4; }
@@ -107,12 +117,42 @@ body {
 .rich-text figure { @apply my-6; }
 .rich-text figure img { @apply mx-auto block; border-radius: 0.75rem; }
 .rich-text figcaption { @apply mt-2 text-center text-sm text-slate-500; }
+/* Blog articles are long-form reading, so they get a larger type scale than
+   the compact rich text in trek page sections. */
+.blog-content .rich-text { font-size: 1.0625rem; line-height: 1.8; }
+.blog-content .rich-text p { line-height: 1.8; margin-bottom: 1.25rem; }
+.blog-content .rich-text ul,
+.blog-content .rich-text ol { margin-bottom: 1.25rem; }
+.blog-content .rich-text li { line-height: 1.75; }
+.blog-content .rich-text li > p { margin-bottom: 0.5rem; }
+.blog-content .rich-text h3 { font-size: 1.3125rem; line-height: 1.35; margin-top: 2rem; margin-bottom: 0.75rem; }
+.blog-content .rich-text table,
+.blog-content .rich-text figcaption { font-size: 0.9375rem; }
+/* Edge shadows show while a table has more to scroll to: the cover gradients
+   scroll with the table (local) and hide each shadow once its edge is reached. */
+.blog-content .rich-text .tableWrapper {
+  background:
+    linear-gradient(to right, var(--color-background) 40%, transparent) left center / 2rem 100% no-repeat local,
+    linear-gradient(to left, var(--color-background) 40%, transparent) right center / 2rem 100% no-repeat local,
+    radial-gradient(farthest-side at 0 50%, rgb(0 0 0 / 0.14), transparent) left center / 0.85rem 100% no-repeat scroll,
+    radial-gradient(farthest-side at 100% 50%, rgb(0 0 0 / 0.14), transparent) right center / 0.85rem 100% no-repeat scroll;
+}
 /* Blog article: subtle separator above each h2 section heading, matching the
    section dividers used on the trek detail page. */
 .blog-content .rich-text h2 {
+  font-size: 1.625rem;
+  line-height: 1.25;
+  font-weight: 700;
   border-top: 1px solid var(--color-border);
   padding-top: 1.75rem;
   margin-top: 2.75rem;
+  margin-bottom: 1rem;
+}
+@media (min-width: 640px) {
+  .blog-content .rich-text { font-size: 1.125rem; }
+  .blog-content .rich-text h2 { font-size: 1.875rem; }
+  .blog-content .rich-text h3 { font-size: 1.4375rem; }
+  .blog-content .rich-text table { font-size: 1rem; }
 }
 /* Only the article's very FIRST top-level heading is exempt from the
    separator. Using the child combinator (>) means nested wrappers (like the

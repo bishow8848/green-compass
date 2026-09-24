@@ -9,7 +9,7 @@ import { WhyChooseUs } from "@/components/home/WhyChooseUs";
 import { LatestBlogPosts } from "@/components/home/LatestBlogPosts";
 import { AboutUsSection } from "@/components/home/AboutUsSection";
 import { FAQAccordion } from "@/components/ui/FAQAccordion";
-import { SITE_URL, brandedTitle, seoDescription, seoImageUrl, serializeJsonLd } from "@/lib/seo";
+import { SITE_NAME, SITE_URL, brandedTitle, ogImages, seoDescription, seoImageUrl, serializeJsonLd } from "@/lib/seo";
 import { getPageContent, requirePageSection } from "@/lib/page-content";
 
 const ReviewCarousel = dynamic(
@@ -61,8 +61,10 @@ export async function generateMetadata(): Promise<Metadata> {
       title: socialTitle,
       description: seoDescriptionText,
       url: SITE_URL,
+      siteName: SITE_NAME,
+      locale: "en_US",
       type: "website",
-      images: heroImage ? [{ url: heroImage, width: 1200, height: 630, alt: "Green Compass Treks" }] : undefined,
+      images: ogImages(heroImage, SITE_NAME),
     },
     twitter: {
       card: "summary_large_image",
