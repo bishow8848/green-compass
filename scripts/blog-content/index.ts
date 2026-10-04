@@ -60,6 +60,14 @@ import { peaksH } from "./peaks-h";
 import { peaksI } from "./peaks-i";
 import { peaksJ } from "./peaks-j";
 import { peaksK } from "./peaks-k";
+import { meditationA } from "./meditation-a";
+import { meditationB } from "./meditation-b";
+import { meditationC } from "./meditation-c";
+import { meditationD } from "./meditation-d";
+import { healthA } from "./health-a";
+import { healthB } from "./health-b";
+import { healthC } from "./health-c";
+import { healthD } from "./health-d";
 
 /** Every article on the site, in no particular order — `date` drives ordering. */
 export const ALL_POSTS: BlogContent[] = [
@@ -124,4 +132,12 @@ export const ALL_POSTS: BlogContent[] = [
   ...peaksI,
   ...peaksJ,
   ...peaksK,
+  ...meditationA,
+  ...meditationB,
+  ...meditationC,
+  ...meditationD,
+  ...healthA,
+  ...healthB,
+  ...healthC,
+  ...healthD,
 ];

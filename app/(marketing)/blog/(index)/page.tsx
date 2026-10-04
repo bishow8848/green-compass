@@ -6,6 +6,7 @@ import { SITE_URL, brandedTitle, ogImages, seoDescription, seoImageUrl, serializ
 import { PageHero } from "@/components/layout/PageHero";
 import { BlogClient } from "./blog-client";
 import { getPageContent, requirePageSection } from "@/lib/page-content";
+import { readTimeMinutes } from "@/lib/read-time";
 
 // Blog listing is ISR-cached per URL (each ?page=N variant) for 1 day and
 // refreshed on-demand after CMS edits (revalidatePath).
@@ -66,8 +67,8 @@ const POSTS_PER_PAGE = 12;
 async function getBlogPosts(page: number) {
   return getCachedOrFetch(
     cacheKeys.blogPostsPage(page, POSTS_PER_PAGE),
-    () =>
-      prisma.blogPost.findMany({
+    async () => {
+      const posts = await prisma.blogPost.findMany({
         where: { status: "published" },
         orderBy: { publishedDate: "desc" },
         skip: (page - 1) * POSTS_PER_PAGE,
@@ -81,8 +82,12 @@ async function getBlogPosts(page: number) {
           publishedDate: true,
           tags: true,
           heroImage: true,
+          content: true,
         },
-      }),
+      });
+      // The body is only needed for the read time, so it is not cached.
+      return posts.map(({ content, ...post }) => ({ ...post, readTime: readTimeMinutes(content) }));
+    },
     CACHE_TTL.DAILY
   );
 }
@@ -135,8 +140,6 @@ export default async function BlogPage({
   const pageUrl = currentPage > 1 ? `${SITE_URL}/blog?page=${currentPage}` : `${SITE_URL}/blog`;
 
   const postsWithReadTime = posts.map((post) => {
-    const wordCount = post.excerpt ? post.excerpt.split(/\s+/).length : 0;
-    const readTimeMinutes = Math.max(1, Math.round(wordCount / 200));
     return {
       slug: post.slug,
       title: post.title,
@@ -150,7 +153,7 @@ export default async function BlogPage({
         const dateStr = typeof d === "string" ? d : d.toISOString();
         return dateStr.split("T")[0];
       })(),
-      readTime: `${readTimeMinutes} min read`,
+      readTime: `${post.readTime} min read`,
       tags: (() => {
         try {
           const parsed = JSON.parse(post.tags);

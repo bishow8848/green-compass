@@ -5,6 +5,7 @@ import { getCachedOrFetch, cacheKeys, CACHE_TTL } from "@/lib/redis";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { SITE_URL, seoImageUrl } from "@/lib/seo";
 import { BlogCard } from "@/components/blog/BlogCard";
+import { readTimeMinutes } from "@/lib/read-time";
 
 export async function LatestBlogPosts({
   heading,
@@ -15,20 +16,25 @@ export async function LatestBlogPosts({
 }) {
   const posts = await getCachedOrFetch(
     cacheKeys.latestBlogPosts,
-    () => prisma.blogPost.findMany({
-      where: { status: "published" },
-      orderBy: { publishedDate: "desc" },
-      take: 3,
-      select: {
-        slug: true,
-        title: true,
-        excerpt: true,
-        author: true,
-        publishedDate: true,
-        heroImage: true,
-        tags: true,
-      },
-    }),
+    async () => {
+      const rows = await prisma.blogPost.findMany({
+        where: { status: "published" },
+        orderBy: { publishedDate: "desc" },
+        take: 3,
+        select: {
+          slug: true,
+          title: true,
+          excerpt: true,
+          author: true,
+          publishedDate: true,
+          heroImage: true,
+          tags: true,
+          content: true,
+        },
+      });
+      // The body is only needed for the read time, so it is not cached.
+      return rows.map(({ content, ...post }) => ({ ...post, readTime: readTimeMinutes(content) }));
+    },
     CACHE_TTL.DAILY
   );
 
@@ -37,8 +43,6 @@ export async function LatestBlogPosts({
   }
 
   const postsWithMeta = posts.map((post) => {
-    const wordCount = post.excerpt ? post.excerpt.split(/\s+/).length : 0;
-    const readTimeMinutes = Math.max(1, Math.round(wordCount / 200));
     const dateStr = post.publishedDate
       ? (typeof post.publishedDate === "string"
           ? post.publishedDate
@@ -47,7 +51,7 @@ export async function LatestBlogPosts({
     return {
       ...post,
       date: dateStr.split("T")[0],
-      readTime: `${readTimeMinutes} min read`,
+      readTime: `${post.readTime} min read`,
       tags: (() => {
         try {
           const parsed = JSON.parse(post.tags);

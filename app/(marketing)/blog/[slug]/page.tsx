@@ -12,6 +12,7 @@ import { demoteH1, injectHeadingIds } from "@/lib/headings";
 import { sanitizeRichText } from "@/lib/sanitize";
 import { extractFaqsFromHtml } from "@/lib/faq-block";
 import { getBlogRelations } from "@/lib/blog-related";
+import { readTimeMinutes } from "@/lib/read-time";
 import BlogSidebar from "@/components/blog/BlogSidebar";
 import { BlogCard } from "@/components/blog/BlogCard";
 import { RichTextContent } from "@/components/blog/RichTextContent";
@@ -25,11 +26,6 @@ export const revalidate = 604800;
 
 const MAX_RELATED_TREKS = 6;
 const MAX_RELATED_POSTS = 3;
-
-/** Reading time from the stored HTML — the figure the article header shows. */
-function readTimeMinutes(html: string | null): number {
-  return Math.max(1, Math.round((html?.split(/\s+/).length || 0) / 200));
-}
 
 function parseTags(json: string): string[] {
   try {

@@ -227,7 +227,8 @@ export const cacheKeys = {
   blogPostsAll: "blog:list:all",
   blogPostsCount: "blog:count",
   // Page size is part of the key so changing it never serves pages cached at the old size.
-  blogPostsPage: (page: number, perPage: number) => `blog:list:page:${perPage}:${page}`,
+  // v2: rows carry `readTime`; earlier entries have no such field.
+  blogPostsPage: (page: number, perPage: number) => `blog:list:page:v2:${perPage}:${page}`,
   blogSearchIndex: (authorSlug?: string) => (authorSlug ? `blog:search-index:${authorSlug}` : "blog:search-index"),
   blogPost: (slug: string) => `blog:${slug}`,
   blogPostMeta: (slug: string) => `blog:${slug}:meta`,
@@ -254,7 +255,8 @@ export const cacheKeys = {
   homeFeaturedSelection: "home:featured-selection",
   latestReviews: "home:latest-reviews",
   topRatedTreks: "home:top-rated-treks",
-  latestBlogPosts: "home:latest-blog-posts",
+  // v2: rows carry `readTime`; earlier entries have no such field.
+  latestBlogPosts: "home:latest-blog-posts:v2",
   homeSeo: "home:seo",
   whyChooseUs: "home:why-choose-us",
 

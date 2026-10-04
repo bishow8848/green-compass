@@ -409,6 +409,22 @@
     ],
     "note": "The Kanchenjunga region, trekked and climbed."
   },
+  "breathing-exercises-for-high-altitude-trekking": {
+    "treks": [
+      "everest-base-camp-trek-with-gokyo-lakes-and-cho-la-pass",
+      "annapurna-circuit-with-tilicho-lake-trek",
+      "everest-base-camp-trek",
+      "annapurna-circuit-trek",
+      "manaslu-circuit-trek"
+    ],
+    "posts": [
+      "altitude-sickness-in-nepal-prevention-and-treatment",
+      "meditation-before-and-after-a-nepal-trek",
+      "diamox-for-trekking-in-nepal",
+      "how-to-train-for-a-nepal-trek"
+    ],
+    "note": "High-altitude routes where breathing rhythm sets the pace of every climb."
+  },
   "buddhist-pilgrimage-tour-nepal-guide": {
     "treks": [
       "buddhist-pilgrimage-tour-nepal",
@@ -475,6 +491,21 @@
       "short-treks-near-kathmandu"
     ],
     "note": "Kathmandu valley day tours that go beyond the three Durbar Squares."
+  },
+  "buying-medicine-in-kathmandu-and-pokhara": {
+    "treks": [
+      "everest-base-camp-trek",
+      "kathmandu-day-tour",
+      "kathmandu-pokhara-tour",
+      "annapurna-circuit-trek"
+    ],
+    "posts": [
+      "trekking-first-aid-kit-for-nepal",
+      "pre-and-post-trek-medication-guide-for-nepal",
+      "arriving-in-kathmandu-first-48-hours",
+      "illness-after-a-nepal-trek-symptoms-not-to-ignore"
+    ],
+    "note": "The two cities where you stock up, and the two routes with the best medical support on the trail."
   },
   "chamlang-expedition-guide": {
     "treks": [
@@ -661,6 +692,23 @@
       "kathmandu-valley-unesco-sites-guide"
     ],
     "note": "Day walks and short treks within reach of Kathmandu."
+  },
+  "diamox-for-trekking-in-nepal": {
+    "treks": [
+      "annapurna-circuit-trek",
+      "jomsom-muktinath-trek-from-pokhara",
+      "annapurna-circuit-with-tilicho-lake-trek",
+      "everest-base-camp-trek",
+      "manaslu-circuit-trek",
+      "island-peak-climbing"
+    ],
+    "posts": [
+      "altitude-sickness-in-nepal-prevention-and-treatment",
+      "pre-and-post-trek-medication-guide-for-nepal",
+      "everest-base-camp-trek-altitude-profile",
+      "namche-bazaar-acclimatisation-guide"
+    ],
+    "note": "High-altitude routes where the question of Diamox comes up — each built with the acclimatisation days that matter more."
   },
   "domestic-flights-in-nepal-for-trekkers": {
     "treks": [
@@ -1207,6 +1255,22 @@
     ],
     "note": "The far north-west — the most isolated trekking country in Nepal."
   },
+  "illness-after-a-nepal-trek-symptoms-not-to-ignore": {
+    "treks": [
+      "chitwan-national-park-tour-4-days",
+      "bardia-jungle-safari-tour-5-days",
+      "everest-base-camp-trek",
+      "annapurna-base-camp-trek",
+      "langtang-valley-trek"
+    ],
+    "posts": [
+      "post-trek-recovery-what-your-body-needs",
+      "stomach-illness-on-a-nepal-trek-medication-and-recovery",
+      "vaccinations-for-trekking-in-nepal",
+      "khumbu-cough-colds-and-chest-infections-on-a-trek"
+    ],
+    "note": "Mountain treks carry little infection risk; adding the lowlands changes what your doctor should check for."
+  },
   "island-peak-climbing-guide": {
     "treks": [
       "island-peak-climbing",
@@ -1453,6 +1517,39 @@
       "first-time-trekking-in-nepal-what-to-know"
     ],
     "note": "Kori Danda, and the other short Annapurna ridges worth walking from Pokhara."
+  },
+  "khumbu-cough-colds-and-chest-infections-on-a-trek": {
+    "treks": [
+      "everest-base-camp-trek-with-gokyo-lakes-and-cho-la-pass",
+      "gokyo-lake-trek",
+      "everest-base-camp-trek",
+      "manaslu-circuit-trek",
+      "everest-three-pass-trek"
+    ],
+    "posts": [
+      "altitude-sickness-in-nepal-prevention-and-treatment",
+      "trekking-first-aid-kit-for-nepal",
+      "pre-and-post-trek-medication-guide-for-nepal",
+      "post-trek-recovery-what-your-body-needs"
+    ],
+    "note": "High, dry routes where the Khumbu cough is most common — and where guides monitor oxygen levels daily."
+  },
+  "knee-pain-blisters-and-painkillers-on-a-nepal-trek": {
+    "treks": [
+      "poonhill-trek",
+      "annapurna-base-camp-trek-with-ghorepani-poonhill-trek",
+      "annapurna-circuit-trek",
+      "annapurna-base-camp-trek",
+      "manaslu-circuit-trek",
+      "mardi-himal-trek"
+    ],
+    "posts": [
+      "trekking-first-aid-kit-for-nepal",
+      "how-to-train-for-a-nepal-trek",
+      "yoga-for-trekkers-before-and-after-the-trail",
+      "post-trek-recovery-what-your-body-needs"
+    ],
+    "note": "Routes with famous descents — each walked at a pace, and split into stages, that your knees can live with."
   },
   "kusum-kanguru-peak-climbing-guide": {
     "treks": [
@@ -1878,6 +1975,69 @@
     ],
     "note": "The three treks compared above, plus the combinations that pair them."
   },
+  "meditation-and-yoga-in-pokhara-after-a-trek": {
+    "treks": [
+      "pokhara-day-tour",
+      "pokhara-day-tour-with-sarangkot-sunrise",
+      "annapurna-base-camp-trek",
+      "mardi-himal-trek",
+      "poonhill-trek"
+    ],
+    "posts": [
+      "post-trek-meditation-and-mental-recovery",
+      "pokhara-travel-guide",
+      "singing-bowl-sound-healing-after-a-trek",
+      "yoga-for-trekkers-before-and-after-the-trail"
+    ],
+    "note": "The Pokhara day tours that take in the Peace Pagoda and Sarangkot, and the treks that finish in the town."
+  },
+  "meditation-before-and-after-a-nepal-trek": {
+    "treks": [
+      "mardi-himal-trek",
+      "everest-base-camp-trek",
+      "langtang-valley-trek",
+      "pikey-peak-trek",
+      "tsum-valley-trek"
+    ],
+    "posts": [
+      "pre-trek-meditation-preparing-your-mind",
+      "post-trek-meditation-and-mental-recovery",
+      "breathing-exercises-for-high-altitude-trekking",
+      "where-to-meditate-in-kathmandu-before-a-trek"
+    ],
+    "note": "Routes where the pace, the quiet and the monasteries along the way suit a trek with meditation before and after."
+  },
+  "meditation-for-trek-anxiety-and-fear-of-altitude": {
+    "treks": [
+      "poonhill-trek-from-pokhara",
+      "everest-base-camp-trek",
+      "langtang-valley-trek",
+      "mardi-himal-trek"
+    ],
+    "posts": [
+      "pre-trek-meditation-preparing-your-mind",
+      "altitude-sickness-in-nepal-prevention-and-treatment",
+      "lukla-flight-guide",
+      "first-time-trekking-in-nepal-what-to-know"
+    ],
+    "note": "Gentler first treks reached by road, and the Everest route for when you are ready for the flight."
+  },
+  "meditation-retreats-in-nepal-after-a-trek": {
+    "treks": [
+      "lumbini-tour",
+      "buddhist-pilgrimage-tour-nepal",
+      "dhulikhel-namobuddha-hike",
+      "serang-gompa-trek",
+      "tsum-valley-trek"
+    ],
+    "posts": [
+      "lumbini-travel-guide",
+      "where-to-meditate-in-kathmandu-before-a-trek",
+      "meditation-and-yoga-in-pokhara-after-a-trek",
+      "buddhist-pilgrimage-tour-nepal-guide"
+    ],
+    "note": "Journeys to Nepal's main places of Buddhist practice, and the two treks that lead to retreat monasteries."
+  },
   "mera-peak-climbing-guide": {
     "treks": [
       "mera-peak-climbing",
@@ -1924,6 +2084,23 @@
       "winter-trekking-in-nepal-best-routes"
     ],
     "note": "Mohare Danda in both lengths, plus the Khopra Danda ridge that links to it."
+  },
+  "monasteries-for-meditation-on-nepal-treks": {
+    "treks": [
+      "tsum-valley-trek",
+      "serang-gompa-trek",
+      "tsum-valley-and-manaslu-circuit-trek",
+      "everest-base-camp-trek",
+      "langtang-valley-trek",
+      "upper-mustang-trek"
+    ],
+    "posts": [
+      "tengboche-monastery-and-sherpa-culture",
+      "tsum-valley-trek-guide",
+      "serang-gompa-trek-guide",
+      "walking-meditation-on-a-nepal-trek"
+    ],
+    "note": "Routes that pass working monasteries where trekkers can sit in on prayers or stay the night."
   },
   "monsoon-trekking-in-nepal-where-to-go": {
     "treks": [
@@ -2492,6 +2669,86 @@
     ],
     "note": "Poon Hill in both lengths, plus the quieter ridges with the same mountains in view."
   },
+  "post-trek-meditation-and-mental-recovery": {
+    "treks": [
+      "pokhara-day-tour-with-sarangkot-sunrise",
+      "abc-trek-nepal",
+      "annapurna-circuit-trek",
+      "annapurna-base-camp-trek",
+      "mardi-himal-trek"
+    ],
+    "posts": [
+      "meditation-and-yoga-in-pokhara-after-a-trek",
+      "post-trek-recovery-what-your-body-needs",
+      "singing-bowl-sound-healing-after-a-trek",
+      "meditation-before-and-after-a-nepal-trek"
+    ],
+    "note": "Treks that finish in Pokhara, where a day or two of post-trek recovery is easiest to add."
+  },
+  "post-trek-recovery-what-your-body-needs": {
+    "treks": [
+      "annapurna-base-camp-trek",
+      "annapurna-base-camp-trek-with-mardi-himal-trek-from-pokhara",
+      "everest-base-camp-trek",
+      "annapurna-circuit-trek",
+      "mardi-himal-trek-with-annapurna-base-camp"
+    ],
+    "posts": [
+      "post-trek-meditation-and-mental-recovery",
+      "illness-after-a-nepal-trek-symptoms-not-to-ignore",
+      "meditation-and-yoga-in-pokhara-after-a-trek",
+      "pre-and-post-trek-medication-guide-for-nepal"
+    ],
+    "note": "Longer, higher treks that leave the biggest debt to repay — plan a recovery day or two after any of them."
+  },
+  "pre-and-post-trek-medication-guide-for-nepal": {
+    "treks": [
+      "manaslu-circuit-trek",
+      "larke-pass-trek",
+      "everest-base-camp-trek",
+      "annapurna-circuit-trek",
+      "annapurna-base-camp-trek",
+      "langtang-valley-trek"
+    ],
+    "posts": [
+      "trekking-first-aid-kit-for-nepal",
+      "diamox-for-trekking-in-nepal",
+      "vaccinations-for-trekking-in-nepal",
+      "altitude-sickness-in-nepal-prevention-and-treatment"
+    ],
+    "note": "Popular routes where a little medical planning before and after makes the biggest difference."
+  },
+  "pre-trek-medical-check-up-for-nepal": {
+    "treks": [
+      "abc-trek-nepal",
+      "everest-base-camp-trek",
+      "poonhill-trek",
+      "annapurna-base-camp-trek",
+      "everest-view-trek"
+    ],
+    "posts": [
+      "trekking-in-nepal-with-a-medical-condition",
+      "pre-and-post-trek-medication-guide-for-nepal",
+      "vaccinations-for-trekking-in-nepal",
+      "nepal-trek-difficulty-grades-explained"
+    ],
+    "note": "Three altitude bands to discuss with your doctor — and the Everest View trek for Khumbu scenery without the highest nights."
+  },
+  "pre-trek-meditation-preparing-your-mind": {
+    "treks": [
+      "everest-base-camp-trek",
+      "kathmandu-day-tour",
+      "annapurna-circuit-trek",
+      "mardi-himal-trek"
+    ],
+    "posts": [
+      "meditation-before-and-after-a-nepal-trek",
+      "where-to-meditate-in-kathmandu-before-a-trek",
+      "meditation-for-trek-anxiety-and-fear-of-altitude",
+      "how-to-train-for-a-nepal-trek"
+    ],
+    "note": "Treks whose hard days are worth rehearsing in advance, and the Kathmandu day that makes room for a guided session."
+  },
   "pumori-expedition-guide": {
     "treks": [
       "pumori-expedition",
@@ -2905,6 +3162,21 @@
     ],
     "note": "Walks and treks reachable by road from Kathmandu, from a single morning to a fortnight."
   },
+  "singing-bowl-sound-healing-after-a-trek": {
+    "treks": [
+      "patan-day-tour",
+      "pokhara-day-tour-with-sarangkot-sunrise",
+      "poonhill-trek",
+      "annapurna-circuit-trek"
+    ],
+    "posts": [
+      "meditation-and-yoga-in-pokhara-after-a-trek",
+      "post-trek-meditation-and-mental-recovery",
+      "meditation-before-and-after-a-nepal-trek",
+      "yoga-for-trekkers-before-and-after-the-trail"
+    ],
+    "note": "Patan, where the bowls are made, a quiet day in Pokhara, and treks after which an hour of stillness is most welcome."
+  },
   "singu-chuli-peak-climbing-guide": {
     "treks": [
       "singu-chuli-peak-climbing",
@@ -2954,6 +3226,23 @@
       "teahouse-trekking-in-nepal-explained"
     ],
     "note": "Routes that suit a first solo trek — busy enough to feel supported, with lodges at short intervals."
+  },
+  "stomach-illness-on-a-nepal-trek-medication-and-recovery": {
+    "treks": [
+      "annapurna-base-camp-with-ghorepani-poonhill-from-pokhara",
+      "abc-trek-nepal",
+      "everest-base-camp-trek",
+      "annapurna-base-camp-trek",
+      "poonhill-trek",
+      "langtang-valley-trek"
+    ],
+    "posts": [
+      "drinking-water-while-trekking-in-nepal",
+      "food-on-the-trail-in-nepal",
+      "trekking-first-aid-kit-for-nepal",
+      "illness-after-a-nepal-trek-symptoms-not-to-ignore"
+    ],
+    "note": "Popular teahouse routes, where food and water habits make the difference between a good trek and a lost day."
   },
   "tamang-heritage-trail-guide": {
     "treks": [
@@ -3129,6 +3418,40 @@
     ],
     "note": "Trips where the altitude clause in your policy needs particular attention before departure."
   },
+  "trekking-first-aid-kit-for-nepal": {
+    "treks": [
+      "helambu-trek",
+      "langtang-ganja-la-pass-trek",
+      "everest-base-camp-trek",
+      "langtang-valley-trek",
+      "manaslu-circuit-trek",
+      "upper-dolpo-trek"
+    ],
+    "posts": [
+      "pre-and-post-trek-medication-guide-for-nepal",
+      "nepal-trekking-packing-list",
+      "buying-medicine-in-kathmandu-and-pokhara",
+      "knee-pain-blisters-and-painkillers-on-a-nepal-trek"
+    ],
+    "note": "From a week in Langtang to a month in Dolpo — the further from a road, the more your kit matters."
+  },
+  "trekking-in-nepal-with-a-medical-condition": {
+    "treks": [
+      "poonhill-trek-from-pokhara",
+      "dhulikhel-namobuddha-hike",
+      "mardi-himal-trek-from-pokhara",
+      "everest-view-trek",
+      "langtang-valley-trek",
+      "poonhill-trek"
+    ],
+    "posts": [
+      "pre-trek-medical-check-up-for-nepal",
+      "pre-and-post-trek-medication-guide-for-nepal",
+      "travel-insurance-for-trekking-in-nepal",
+      "nepal-trek-difficulty-grades-explained"
+    ],
+    "note": "Lower routes with quick access to a road or airstrip — where we usually start when a medical condition calls for wide margins."
+  },
   "trishuli-river-rafting-2-days-guide": {
     "treks": [
       "trishuli-river-rafting-2-days",
@@ -3243,6 +3566,55 @@
     ],
     "note": "Upper Mustang from Kathmandu or Pokhara, plus the lower valley routes that need no restricted permit."
   },
+  "vaccinations-for-trekking-in-nepal": {
+    "treks": [
+      "chitwan-national-park-tour-4-days",
+      "bardia-national-park-tour-4-days",
+      "everest-base-camp-trek",
+      "annapurna-base-camp-trek",
+      "upper-dolpo-trek"
+    ],
+    "posts": [
+      "pre-and-post-trek-medication-guide-for-nepal",
+      "pre-trek-medical-check-up-for-nepal",
+      "stomach-illness-on-a-nepal-trek-medication-and-recovery",
+      "travel-insurance-for-trekking-in-nepal"
+    ],
+    "note": "From lowland parks to mountain treks — the vaccines worth discussing differ with where you go."
+  },
+  "walking-meditation-on-a-nepal-trek": {
+    "treks": [
+      "upper-mustang-trek-from-pokhara",
+      "serang-gompa-trek",
+      "khopra-danda-trek-from-pokhara",
+      "langtang-valley-trek",
+      "mardi-himal-trek",
+      "tsum-valley-trek"
+    ],
+    "posts": [
+      "meditation-before-and-after-a-nepal-trek",
+      "monasteries-for-meditation-on-nepal-treks",
+      "breathing-exercises-for-high-altitude-trekking",
+      "tengboche-monastery-and-sherpa-culture"
+    ],
+    "note": "Quieter trails with long forest sections and Buddhist culture along the way — the best ground for walking in silence."
+  },
+  "where-to-meditate-in-kathmandu-before-a-trek": {
+    "treks": [
+      "kathmandu-day-tour",
+      "pharping-dakshinkali-tour",
+      "dhulikhel-namobuddha-hike",
+      "buddhist-pilgrimage-tour-nepal",
+      "seven-world-heritage-kathmandu-day-tour"
+    ],
+    "posts": [
+      "pre-trek-meditation-preparing-your-mind",
+      "arriving-in-kathmandu-first-48-hours",
+      "pharping-dakshinkali-tour-guide",
+      "dhulikhel-namobuddha-hike-guide"
+    ],
+    "note": "Day tours and short hikes from Kathmandu that take in the valley's main places of practice."
+  },
   "winter-trekking-in-nepal-best-routes": {
     "treks": [
       "pikey-peak-trek",
@@ -3275,5 +3647,21 @@
       "mera-peak-vs-island-peak"
     ],
     "note": "Gentle first climbs and the peaks that follow them in a sensible progression."
+  },
+  "yoga-for-trekkers-before-and-after-the-trail": {
+    "treks": [
+      "annapurna-base-camp-with-ghorepani-poonhill-from-pokhara",
+      "khopra-danda-trek-from-pokhara",
+      "annapurna-base-camp-trek",
+      "mardi-himal-trek",
+      "poonhill-trek"
+    ],
+    "posts": [
+      "meditation-and-yoga-in-pokhara-after-a-trek",
+      "knee-pain-blisters-and-painkillers-on-a-nepal-trek",
+      "how-to-train-for-a-nepal-trek",
+      "post-trek-recovery-what-your-body-needs"
+    ],
+    "note": "Annapurna-region routes that start and finish in Pokhara, where a yoga session fits either side of the trek."
   }
 }

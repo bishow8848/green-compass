@@ -9,6 +9,7 @@ import { Pagination } from "@/components/ui/Pagination";
 import { PageHero } from "@/components/layout/PageHero";
 import { getPageContent, requirePageSection } from "@/lib/page-content";
 import { prisma } from "@/lib/prisma";
+import { readTimeMinutes } from "@/lib/read-time";
 import { getCachedOrFetch, CACHE_TTL } from "@/lib/redis";
 import { DEFAULT_OG_IMAGE, SITE_NAME, SITE_URL, brandedTitle, seoDescription, serializeJsonLd } from "@/lib/seo";
 
@@ -97,23 +98,29 @@ export default async function AuthorPage({
 
   const getPosts = (page: number) =>
     getCachedOrFetch(
-      `author:posts:${slug}:page:${page}`,
-      () => prisma.blogPost.findMany({
-        where: { authorSlug: slug, status: "published" },
-        orderBy: { publishedDate: "desc" },
-        skip: (page - 1) * POSTS_PER_PAGE,
-        take: POSTS_PER_PAGE,
-        select: {
-          slug: true,
-          title: true,
-          excerpt: true,
-          author: true,
-          authorSlug: true,
-          publishedDate: true,
-          heroImage: true,
-          tags: true,
-        },
-      }),
+      // v2: rows carry `readTime`; earlier entries have no such field.
+      `author:posts:v2:${slug}:page:${page}`,
+      async () => {
+        const rows = await prisma.blogPost.findMany({
+          where: { authorSlug: slug, status: "published" },
+          orderBy: { publishedDate: "desc" },
+          skip: (page - 1) * POSTS_PER_PAGE,
+          take: POSTS_PER_PAGE,
+          select: {
+            slug: true,
+            title: true,
+            excerpt: true,
+            author: true,
+            authorSlug: true,
+            publishedDate: true,
+            heroImage: true,
+            tags: true,
+            content: true,
+          },
+        });
+        // The body is only needed for the read time, so it is not cached.
+        return rows.map(({ content, ...post }) => ({ ...post, readTime: readTimeMinutes(content) }));
+      },
       CACHE_TTL.YEARLY
     );
 
@@ -290,7 +297,6 @@ export default async function AuthorPage({
             <>
               <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 {posts.map((post) => {
-                  const wordCount = post.excerpt ? post.excerpt.split(/\s+/).length : 0;
                   return (
                     <BlogCard
                       key={post.slug}
@@ -300,7 +306,7 @@ export default async function AuthorPage({
                       heroImage={post.heroImage}
                       tags={parseTags(post.tags)}
                       date={new Date(post.publishedDate).toISOString().split("T")[0]}
-                      readTime={`${Math.max(1, Math.round(wordCount / 200))} min read`}
+                      readTime={`${post.readTime} min read`}
                       author={post.author}
                       authorSlug={post.authorSlug}
                     />
