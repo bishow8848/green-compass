@@ -75,15 +75,17 @@ const CACHE_NAMESPACE = `mardi:cache:v2:${SITE_KEY}:`;
 async function scanAll(pattern) {
   // SCAN (not KEYS) so a large dataset never blocks the instance.
   const keys = [];
-  let cursor = 0;
+  // Keep the cursor as the string Upstash returns. It is a 64-bit value, so
+  // Number() rounds it, and the rounded cursor ends the scan after one batch.
+  let cursor = "0";
   do {
     const [nextCursor, batch] = await redis.scan(cursor, {
       match: pattern,
       count: 200,
     });
-    cursor = Number(nextCursor);
+    cursor = String(nextCursor);
     keys.push(...batch);
-  } while (cursor !== 0);
+  } while (cursor !== "0");
   return keys;
 }
 

@@ -3,12 +3,20 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { Search, Pencil, ExternalLink, Trash2 } from "lucide-react";
+import { Search, Pencil, ExternalLink, Trash2, Clock } from "lucide-react";
 import { formatDate } from "@/lib/utils";
+import { formatNepalDateTime } from "@/lib/blog-schedule";
 
 const statusStyles: Record<string, string> = {
   published: "bg-emerald-50 text-emerald-700 border-emerald-200",
+  scheduled: "bg-sky-50 text-sky-700 border-sky-200",
   draft: "bg-amber-50 text-amber-700 border-amber-200",
+};
+
+const statusDots: Record<string, string> = {
+  published: "bg-emerald-500",
+  scheduled: "bg-sky-500",
+  draft: "bg-amber-500",
 };
 
 export function AdminBlogClient({ posts }: { posts: any[] }) {
@@ -23,13 +31,17 @@ export function AdminBlogClient({ posts }: { posts: any[] }) {
     const matchesStatus = statusFilter === "all" || p.status === statusFilter;
     return matchesSearch && matchesStatus;
   });
+  // The queue reads best in the order it will go out: next post first.
+  if (statusFilter === "scheduled") {
+    filtered.sort((a, b) => new Date(a.publishedDate).getTime() - new Date(b.publishedDate).getTime());
+  }
 
   return (
     <>
       {/* Filters */}
       <div className="flex flex-wrap items-center gap-3">
         <div className="flex flex-wrap gap-1.5">
-          {["all", "published", "draft"].map((s) => (
+          {["all", "published", "scheduled", "draft"].map((s) => (
             <button
               key={s}
               onClick={() => setStatusFilter(s)}
@@ -76,7 +88,7 @@ export function AdminBlogClient({ posts }: { posts: any[] }) {
                   <th className="px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-wider text-slate-500">Title</th>
                   <th className="px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-wider text-slate-500">Author</th>
                   <th className="px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-wider text-slate-500">Status</th>
-                  <th className="px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-wider text-slate-500">Published</th>
+                  <th className="px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-wider text-slate-500">Date</th>
                   <th className="px-4 py-3 text-right text-[11px] font-semibold uppercase tracking-wider text-slate-500">Actions</th>
                 </tr>
               </thead>
@@ -101,25 +113,38 @@ export function AdminBlogClient({ posts }: { posts: any[] }) {
                     </td>
                     <td className="px-4 py-3.5">
                       <span className={`inline-flex items-center gap-1 rounded-full border px-2.5 py-0.5 text-[11px] font-medium ${statusStyles[post.status] || "bg-slate-50 text-slate-600"}`}>
-                        <span className={`h-1.5 w-1.5 rounded-full ${
-                          post.status === "published" ? "bg-emerald-500" : "bg-amber-500"
-                        }`} />
+                        <span className={`h-1.5 w-1.5 rounded-full ${statusDots[post.status] || "bg-slate-400"}`} />
                         {post.status}
                       </span>
                     </td>
                     <td className="px-4 py-3.5 whitespace-nowrap text-xs text-slate-500">
-                      {formatDate(post.publishedDate)}
+                      {post.status === "scheduled" ? (
+                        <span className="inline-flex items-center gap-1.5 text-sky-700" title="Nepal Time">
+                          <Clock className="h-3.5 w-3.5" />
+                          {formatNepalDateTime(post.publishedDate)}
+                          {/* Still scheduled after its time: the publish job has not run. */}
+                          {post.overdue && (
+                            <span className="rounded-full bg-red-50 px-1.5 py-0.5 text-[10px] font-semibold text-red-600">overdue</span>
+                          )}
+                        </span>
+                      ) : post.status === "published" ? (
+                        formatDate(post.publishedDate)
+                      ) : (
+                        "—"
+                      )}
                     </td>
                     <td className="px-4 py-3.5 text-right">
                       <div className="flex items-center justify-end gap-1 opacity-0 transition-opacity group-hover:opacity-100">
-                        <Link
-                          href={`/blog/${post.slug}`}
-                          target="_blank"
-                          className="rounded-lg p-1.5 text-slate-400 transition-colors hover:bg-slate-100 hover:text-blue-600"
-                          title="View on site"
-                        >
-                          <ExternalLink className="h-4 w-4" />
-                        </Link>
+                        {post.status === "published" && (
+                          <Link
+                            href={`/blog/${post.slug}`}
+                            target="_blank"
+                            className="rounded-lg p-1.5 text-slate-400 transition-colors hover:bg-slate-100 hover:text-blue-600"
+                            title="View on site"
+                          >
+                            <ExternalLink className="h-4 w-4" />
+                          </Link>
+                        )}
                         <Link
                           href={`/admin/blog/${post.id}`}
                           className="rounded-lg p-1.5 text-slate-400 transition-colors hover:bg-slate-100 hover:text-teal-600"

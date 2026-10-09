@@ -146,6 +146,18 @@ const CATEGORIES: Record<string, string[]> = {
   "bird-watching-in-chitwan-national-park": ["Birds of Nepal", "Chitwan National Park", "Sauraha"],
   "bird-watching-in-pokhara-lakes": ["Begnas Lake", "Phewa Lake", "Rupa Lake", "Birds of Nepal"],
 
+  // --- the Photography Tour and Honeymoon Tour regions ---
+  // The four honeymoon tours share Pokhara, so each leads with a different
+  // category — otherwise all four galleries open on the same lake.
+  "kathmandu-photography-tour": ["Boudhanath", "Sadhus of Nepal", "Pashupatinath", "Pottery Square, Bhaktapur", "Patan Durbar Square", "Bhaktapur Durbar Square"],
+  "annapurna-photography-tour": ["Ghandruk", "Dhampus", "Machhapuchchhre", "Boats on Phewa Lake", "Pokhara Shanti Stupa", "Phewa Lake"],
+  "nepal-photography-tour": ["Bandipur", "Nagarkot", "Boudhanath", "Sauraha", "Chitwan National Park", "Phewa Lake", "Pottery Square, Bhaktapur"],
+  "upper-mustang-photography-tour": ["Lo Manthang", "Chhoser", "Dhakmar", "Charang", "Kagbeni", "Ghami", "Upper Mustang", "Marpha"],
+  "pokhara-honeymoon-tour": ["Boats on Phewa Lake", "Tal Barahi Temple", "Begnas Lake", "Pokhara Shanti Stupa", "Phewa Lake", "Machhapuchchhre"],
+  "kathmandu-pokhara-honeymoon-tour": ["Phewa Lake", "Patan Durbar Square", "Swayambhunath", "Pokhara Shanti Stupa", "Tal Barahi Temple", "Bhaktapur Durbar Square"],
+  "nepal-honeymoon-tour": ["Pokhara Shanti Stupa", "Sauraha", "Chitwan National Park", "Phewa Lake", "Patan Durbar Square", "Bhaktapur Durbar Square"],
+  "luxury-nepal-honeymoon-tour": ["Machhapuchchhre", "Begnas Lake", "Chitwan National Park", "Tal Barahi Temple", "Patan Durbar Square", "Bhaktapur Durbar Square"],
+
   // --- climbing peaks and expeditions ---
   // Every category below was checked against the Commons API for a non-empty
   // file listing before it was written down. Several peaks the site sells have

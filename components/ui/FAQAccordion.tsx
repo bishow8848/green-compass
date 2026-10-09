@@ -30,6 +30,12 @@ interface FAQAccordionProps {
    * @default true
    */
   contained?: boolean;
+  /**
+   * Text scale. "lg" matches long-form article text (blog posts); the
+   * default suits the compact sections of the trek detail page.
+   * @default "base"
+   */
+  size?: "base" | "lg";
 }
 
 export function FAQAccordion({
@@ -39,11 +45,13 @@ export function FAQAccordion({
   id = "faq",
   className,
   contained = true,
+  size = "base",
 }: FAQAccordionProps) {
   if (!items || items.length === 0) return null;
 
   const resolvedHeading = heading || "Frequently Asked Questions";
   const resolvedDescription = description || undefined;
+  const large = size === "lg";
 
   return (
     <section id={id} className={`bg-background ${className || "py-16 sm:py-20"}`}>
@@ -51,7 +59,7 @@ export function FAQAccordion({
         {resolvedHeading && (
           <h2
             id={`${id}-heading`}
-            className="mb-2 text-2xl font-bold"
+            className={large ? "mb-2 text-2xl font-bold sm:text-3xl" : "mb-2 text-2xl font-bold"}
             style={{ color: "var(--color-secondary)" }}
           >
             {resolvedHeading}
@@ -59,7 +67,7 @@ export function FAQAccordion({
         )}
         {resolvedDescription && (
           <p
-            className="mb-8 text-sm"
+            className={large ? "mb-8 text-base" : "mb-8 text-sm"}
             style={{ color: "var(--color-text-muted)" }}
           >
             {resolvedDescription}
@@ -97,7 +105,7 @@ export function FAQAccordion({
               <div className="min-w-0 flex-1 pt-1.5">
                 <div className="flex items-center justify-between gap-3">
                   <span
-                    className="text-sm font-semibold"
+                    className={large ? "text-base font-semibold sm:text-lg" : "text-sm font-semibold"}
                     style={{ color: "var(--color-foreground)" }}
                   >
                     {item.question}
@@ -120,7 +128,7 @@ export function FAQAccordion({
               style={{ borderColor: "var(--color-border)" }}
             >
               <p
-                className="text-sm leading-relaxed"
+                className={large ? "text-base leading-relaxed sm:text-lg" : "text-sm leading-relaxed"}
                 style={{ color: "var(--color-text)" }}
               >
                 {item.answer}

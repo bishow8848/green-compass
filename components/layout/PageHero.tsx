@@ -18,9 +18,20 @@ interface PageHeroProps {
   backgroundImage?: string | null;
   treks?: Trek[];
   breadcrumbLabel?: string;
+  /** Limit the search bar's article suggestions to this author. */
+  searchAuthorSlug?: string;
+  searchPlaceholder?: string;
 }
 
-export function PageHero({ heading, description, backgroundImage, treks, breadcrumbLabel }: PageHeroProps) {
+export function PageHero({
+  heading,
+  description,
+  backgroundImage,
+  treks,
+  breadcrumbLabel,
+  searchAuthorSlug,
+  searchPlaceholder,
+}: PageHeroProps) {
   const overlayStyle = {
     background: `
       linear-gradient(180deg, rgba(15,12,8,0.02) 0%, rgba(12,10,7,0.15) 25%, rgba(12,10,7,0.55) 55%, rgba(12,10,7,0.88) 100%),
@@ -66,7 +77,7 @@ export function PageHero({ heading, description, backgroundImage, treks, breadcr
               <span className="text-white/30">/</span>
               <span className="truncate text-white/85">{breadcrumbLabel || heading}</span>
             </nav>
-            <SearchBar treks={treks} />
+            <SearchBar treks={treks} authorSlug={searchAuthorSlug} placeholder={searchPlaceholder} />
           </div>
         </div>
       </div>

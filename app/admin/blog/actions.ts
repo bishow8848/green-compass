@@ -3,19 +3,24 @@
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { after } from "next/server";
 import { auth } from "@/lib/auth";
-import { invalidateCachePattern, cacheKeys } from "@/lib/redis";
 import { deleteFile } from "@/lib/cloudinary";
+import { submitToIndexNow } from "@/lib/indexnow";
+import { refreshBlogCaches } from "@/lib/blog-publisher";
+import { nepalLocalToUtc, resolvePublication } from "@/lib/blog-schedule";
 
 async function invalidateBlogCache(slug?: string) {
-  await Promise.all([
-    invalidateCachePattern(cacheKeys.pattern.blog),
-    invalidateCachePattern(cacheKeys.pattern.home),
-  ]);
-  revalidatePath("/", "layout");
-  if (slug) {
-    revalidatePath(`/blog/${slug}`, "page");
-  }
+  await refreshBlogCaches(slug ? [slug] : []);
+  // Once the admin has their response, tell Bing & co. the post changed.
+  if (slug) after(() => announcePost(slug));
+}
+
+/** Announce a published post and the blog index to IndexNow. */
+async function announcePost(slug: string) {
+  const post = await prisma.blogPost.findUnique({ where: { slug }, select: { status: true } });
+  if (post?.status !== "published") return;
+  await submitToIndexNow([`/blog/${slug}`, "/blog"]);
 }
 
 export async function createPost(formData: FormData) {
@@ -30,6 +35,13 @@ export async function createPost(formData: FormData) {
     if (author) authorName = author.name;
   }
 
+  // A post saved as "scheduled" waits for its time; the publish job
+  // (/api/cron/publish-scheduled) makes it live.
+  const publication = resolvePublication({
+    requested: formData.get("status"),
+    publishAt: nepalLocalToUtc(formData.get("publishAt") as string | null),
+  });
+
   await prisma.blogPost.create({
     data: {
       title: formData.get("title") as string,
@@ -40,13 +52,13 @@ export async function createPost(formData: FormData) {
       content: formData.get("content") as string || "",
       heroImage: formData.get("heroImage") as string || null,
       tags: formData.get("tags") as string || "[]",
-      status: formData.get("status") as string || "draft",
+      status: publication.status,
       metaTitle: formData.get("metaTitle") as string || null,
       metaDescription: formData.get("metaDescription") as string || null,
       keywords: formData.get("keywords") as string || null,
       ogImage: formData.get("ogImage") as string || null,
       faqs: formData.get("faqs") as string || "[]",
-      publishedDate: new Date(),
+      publishedDate: publication.publishedDate ?? new Date(),
     },
   });
   await invalidateBlogCache(formData.get("slug") as string || undefined);
@@ -65,12 +77,15 @@ export async function updatePost(id: string, formData: FormData) {
 
   const newHeroImage = formData.get("heroImage") as string || null;
   const newOgImage = formData.get("ogImage") as string || null;
-  const newStatus = formData.get("status") as string || "draft";
   // When a post is being published (or re-published after being set back to
-  // draft), stamp the published date with the actual publish day rather than
-  // the day it was originally drafted.
-  const isBeingPublished =
-    currentPost?.status !== "published" && newStatus === "published";
+  // draft), the published date is stamped with the actual publish moment
+  // rather than the day it was originally drafted; a scheduled post stores the
+  // time it is to go live. Saving a post that is already live keeps its date.
+  const publication = resolvePublication({
+    requested: formData.get("status"),
+    publishAt: nepalLocalToUtc(formData.get("publishAt") as string | null),
+    previousStatus: currentPost?.status,
+  });
 
   // Delete old heroImage if changed
   if (currentPost?.heroImage && currentPost.heroImage !== newHeroImage) {
@@ -100,7 +115,7 @@ export async function updatePost(id: string, formData: FormData) {
       content: formData.get("content") as string || "",
       heroImage: newHeroImage,
       tags: formData.get("tags") as string || "[]",
-      status: newStatus,
+      status: publication.status,
       metaTitle: formData.get("metaTitle") as string || null,
       metaDescription: formData.get("metaDescription") as string || null,
       keywords: formData.get("keywords") as string || null,
@@ -109,7 +124,7 @@ export async function updatePost(id: string, formData: FormData) {
       // the rich text content as inline FAQ blocks). Preserve the existing
       // value when the form omits it, so older posts keep their FAQs.
       faqs: (formData.get("faqs") as string | null) || currentPost?.faqs || "[]",
-      ...(isBeingPublished ? { publishedDate: new Date() } : {}),
+      ...(publication.publishedDate ? { publishedDate: publication.publishedDate } : {}),
     },
   });
   await invalidateBlogCache(formData.get("slug") as string || undefined);
@@ -134,6 +149,5 @@ export async function deletePost(id: string) {
   await prisma.blogPost.delete({ where: { id } });
   await invalidateBlogCache();
   revalidatePath("/blog");
-  revalidatePath("/", "layout");
   redirect("/admin/blog");
 }

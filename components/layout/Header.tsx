@@ -454,21 +454,13 @@ export function Header({
           </button>
         </div>
       ) : (
-        <>
-          <Link
-            href="/login"
-            className="flex items-center gap-1.5 rounded-lg text-[14px] font-medium text-slate-600 transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
-          >
-            <User className="h-4 w-4" />
-            Sign In
-          </Link>
-          <Link
-            href="/signup"
-            className="rounded-full bg-primary px-4 py-2 text-[14px] font-medium text-white shadow-sm transition-all duration-200 hover:-translate-y-px hover:bg-primary-dark hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2"
-          >
-            Sign Up
-          </Link>
-        </>
+        <Link
+          href="/login"
+          className="flex items-center gap-1.5 rounded-full bg-primary px-4 py-2 text-[14px] font-medium text-white shadow-sm transition-all duration-200 hover:-translate-y-px hover:bg-primary-dark hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2"
+        >
+          <User className="h-4 w-4" />
+          Login
+        </Link>
       )}
     </div>
   );
@@ -732,23 +724,14 @@ export function Header({
                 Sign Out
               </button>
             ) : (
-              <div className="flex flex-col gap-2">
-                <Link
-                  href="/login"
-                  onClick={() => setIsMenuOpen(false)}
-                  className="flex items-center justify-center gap-2 rounded-xl border border-slate-200 px-3 py-3.5 text-[15px] font-medium text-slate-700 transition-colors hover:bg-surface-alt active:bg-surface-alt"
-                >
-                  <User className="h-4.5 w-4.5" />
-                  Sign In
-                </Link>
-                <Link
-                  href="/signup"
-                  onClick={() => setIsMenuOpen(false)}
-                  className="rounded-xl bg-primary px-3 py-3.5 text-center text-[15px] font-semibold text-white shadow-sm transition-colors hover:bg-primary-dark active:bg-primary-dark"
-                >
-                  Sign Up
-                </Link>
-              </div>
+              <Link
+                href="/login"
+                onClick={() => setIsMenuOpen(false)}
+                className="flex items-center justify-center gap-2 rounded-xl bg-primary px-3 py-3.5 text-[15px] font-semibold text-white shadow-sm transition-colors hover:bg-primary-dark active:bg-primary-dark"
+              >
+                <User className="h-4.5 w-4.5" />
+                Login
+              </Link>
             )}
           </div>
         </nav>

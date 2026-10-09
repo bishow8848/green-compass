@@ -1,15 +1,28 @@
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
-import { Plus, Pencil, ExternalLink, FileText, TrendingUp, Users } from "lucide-react";
+import { Plus, Pencil, ExternalLink, FileText, TrendingUp, Users, CalendarClock } from "lucide-react";
 import { formatDate } from "@/lib/utils";
 import { AdminBlogClient } from "./client";
 
 export default async function AdminBlogPage() {
-  const posts = await prisma.blogPost.findMany({ orderBy: { createdAt: "desc" } });
+  // Only what the table shows — the article bodies are megabytes the list never reads.
+  const posts = await prisma.blogPost.findMany({
+    orderBy: { createdAt: "desc" },
+    select: { id: true, title: true, slug: true, excerpt: true, author: true, status: true, publishedDate: true },
+  });
+
+  // A post still "scheduled" after its time means the publish job has not run.
+  // Flagged here, on the server, so the table renders the same after hydration.
+  const now = new Date();
+  const rows = posts.map((post) => ({
+    ...post,
+    overdue: post.status === "scheduled" && post.publishedDate.getTime() < now.getTime(),
+  }));
 
   const stats = {
     total: posts.length,
     published: posts.filter((p) => p.status === "published").length,
+    scheduled: posts.filter((p) => p.status === "scheduled").length,
     draft: posts.filter((p) => p.status === "draft").length,
   };
 
@@ -30,7 +43,7 @@ export default async function AdminBlogPage() {
       </div>
 
       {/* Stats */}
-      <div className="grid gap-4 sm:grid-cols-3">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
           <div className="flex items-center gap-3">
             <div className="rounded-lg bg-teal-50 p-2"><FileText className="h-4 w-4 text-teal-600" /></div>
@@ -51,6 +64,15 @@ export default async function AdminBlogPage() {
         </div>
         <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
           <div className="flex items-center gap-3">
+            <div className="rounded-lg bg-sky-50 p-2"><CalendarClock className="h-4 w-4 text-sky-600" /></div>
+            <div>
+              <p className="text-lg font-bold text-slate-900">{stats.scheduled}</p>
+              <p className="text-xs text-slate-500">Scheduled</p>
+            </div>
+          </div>
+        </div>
+        <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
+          <div className="flex items-center gap-3">
             <div className="rounded-lg bg-amber-50 p-2"><Users className="h-4 w-4 text-amber-600" /></div>
             <div>
               <p className="text-lg font-bold text-slate-900">{stats.draft}</p>
@@ -61,7 +83,7 @@ export default async function AdminBlogPage() {
       </div>
 
       {/* Blog List */}
-      <AdminBlogClient posts={JSON.parse(JSON.stringify(posts))} />
+      <AdminBlogClient posts={JSON.parse(JSON.stringify(rows))} />
     </div>
   );
 }

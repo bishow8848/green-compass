@@ -11,8 +11,15 @@ function escapeHtml(text: string): string {
 }
 
 // Recipient for internal notifications (booking alerts, contact form messages).
+//
+// The fallback has to be the real inbox. It used to be admin@greencompasstreks.com,
+// which is not a mailbox: whenever ADMIN_EMAIL was missing from the host's
+// environment, every booking alert and contact message went there, hard-bounced,
+// and put that address on Resend's suppression list — after which Resend stopped
+// attempting delivery altogether and simply marked each send "Suppressed".
+// Nothing surfaced any of it, because the API call itself keeps succeeding.
 const ADMIN_EMAIL =
-  process.env.ADMIN_EMAIL || process.env.SMTP_USER || "admin@greencompasstreks.com";
+  process.env.ADMIN_EMAIL || process.env.SMTP_USER || "info@greencompasstreks.com";
 
 export type TravelerInfo = {
   fullName: string;

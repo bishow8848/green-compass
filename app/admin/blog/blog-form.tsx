@@ -6,6 +6,28 @@ import { createPost, updatePost, deletePost } from "./actions";
 import { RichTextEditor, type RichTextEditorHandle } from "@/components/admin/RichTextEditor";
 import { ImageUpload, type ImageUploadHandle } from "@/components/admin/trek-sections/ImageUpload";
 import { SeoAnalyzer } from "@/components/admin/SeoAnalyzer";
+import {
+  DEFAULT_PUBLISH_TIME,
+  SCHEDULE_STEP_MINUTES,
+  formatNepalDateTime,
+  nepalLocalToUtc,
+  utcToNepalLocal,
+  type BlogStatus,
+} from "@/lib/blog-schedule";
+
+/** Whether a Nepal wall-clock time names a moment that has not passed yet. */
+function isStillAhead(local: string): boolean {
+  const at = nepalLocalToUtc(local);
+  return at !== null && at.getTime() > Date.now();
+}
+
+/** The next default publishing slot still ahead, as Nepal wall-clock time. */
+function nextDefaultSlot(): string {
+  const today = utcToNepalLocal(new Date()).slice(0, 10);
+  const slot = nepalLocalToUtc(`${today}T${DEFAULT_PUBLISH_TIME}`)!;
+  if (slot.getTime() <= Date.now()) slot.setUTCDate(slot.getUTCDate() + 1);
+  return utcToNepalLocal(slot);
+}
 
 export function BlogForm({ mode, post, authors = [] }: { mode: "create" | "edit"; post?: any; authors?: { id: string; name: string; slug: string }[] }) {
   const router = useRouter();
@@ -18,6 +40,12 @@ export function BlogForm({ mode, post, authors = [] }: { mode: "create" | "edit"
   const [metaTitle, setMetaTitle] = useState(post?.metaTitle || "");
   const [metaDescription, setMetaDescription] = useState(post?.metaDescription || "");
   const [keywords, setKeywords] = useState(post?.keywords || "");
+  const [status, setStatus] = useState<BlogStatus>(post?.status || "draft");
+  // Nepal wall-clock time. A scheduled post opens on the time it is waiting for.
+  const [publishAt, setPublishAt] = useState<string>(() =>
+    post?.status === "scheduled" ? utcToNepalLocal(post.publishedDate) : nextDefaultSlot()
+  );
+  const [scheduleError, setScheduleError] = useState("");
   const [saving, setSaving] = useState(false);
   const heroImageRef = useRef<ImageUploadHandle>(null);
   const editorRef = useRef<RichTextEditorHandle>(null);
@@ -30,9 +58,20 @@ export function BlogForm({ mode, post, authors = [] }: { mode: "create" | "edit"
     setKeywords([value.trim(), ...rest].filter(Boolean).join(", "));
   };
 
+  const goesLiveAt = nepalLocalToUtc(publishAt);
+  const submitLabel =
+    status === "scheduled" ? "Schedule"
+    : status === "published" && post?.status !== "published" ? "Publish"
+    : status === "draft" && mode === "create" ? "Save Draft"
+    : "Save";
+
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const form = e.currentTarget;
+    if (status === "scheduled" && !isStillAhead(publishAt)) {
+      setScheduleError("Pick a date and time that is still ahead.");
+      return;
+    }
     setSaving(true);
 
     // Upload any pending images to Cloudinary before saving
@@ -139,11 +178,44 @@ export function BlogForm({ mode, post, authors = [] }: { mode: "create" | "edit"
               </div>
               <div>
                 <label className="block text-xs font-medium text-slate-500 mb-1.5">Status</label>
-                <select name="status" defaultValue={post?.status || "draft"} className="w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm focus:border-teal-300 focus:outline-none focus:ring-2 focus:ring-teal-100">
+                <select
+                  name="status"
+                  value={status}
+                  onChange={(e) => { setStatus(e.target.value as BlogStatus); setScheduleError(""); }}
+                  className="w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm focus:border-teal-300 focus:outline-none focus:ring-2 focus:ring-teal-100"
+                >
                   <option value="draft">Draft</option>
+                  <option value="scheduled">Scheduled</option>
                   <option value="published">Published</option>
                 </select>
+                {status === "published" && post?.status === "published" && (
+                  <p className="mt-1 text-xs text-slate-400">Live since {formatNepalDateTime(post.publishedDate)} (Nepal Time)</p>
+                )}
               </div>
+              {status === "scheduled" && (
+                <div>
+                  <label htmlFor="publishAt" className="block text-xs font-medium text-slate-500 mb-1.5">Publish on (Nepal Time) *</label>
+                  <input
+                    id="publishAt"
+                    type="datetime-local"
+                    name="publishAt"
+                    value={publishAt}
+                    onChange={(e) => { setPublishAt(e.target.value); setScheduleError(""); }}
+                    step={SCHEDULE_STEP_MINUTES * 60}
+                    required
+                    className="w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm focus:border-teal-300 focus:outline-none focus:ring-2 focus:ring-teal-100"
+                  />
+                  {scheduleError ? (
+                    <p className="mt-1 text-xs text-red-600">{scheduleError}</p>
+                  ) : (
+                    <p className="mt-1 text-xs text-slate-400">
+                      {goesLiveAt
+                        ? `Stays hidden until ${formatNepalDateTime(goesLiveAt)}, then goes live by itself.`
+                        : "Choose the date and time the post should go live."}
+                    </p>
+                  )}
+                </div>
+              )}
             </div>
           </section>
 
@@ -177,7 +249,7 @@ export function BlogForm({ mode, post, authors = [] }: { mode: "create" | "edit"
           {/* Actions */}
           <div className="flex flex-col gap-2">
             <button type="submit" disabled={saving} className="w-full rounded-xl bg-gradient-to-r from-teal-500 to-teal-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-all hover:from-teal-600 hover:to-teal-700 hover:shadow-md disabled:opacity-50">
-              {saving ? "Saving..." : mode === "create" ? "Publish" : "Save"}
+              {saving ? "Saving..." : submitLabel}
             </button>
             <button type="button" onClick={() => router.push("/admin/blog")} className="w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm font-medium text-slate-500 hover:bg-slate-50">Cancel</button>
             {mode === "edit" && post && (

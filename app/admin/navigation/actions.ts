@@ -54,6 +54,8 @@ export async function updateNavigationSettings(formData: FormData) {
     },
   });
 
+  const regionsReordered = await saveRegionOrder(formData.get("regionOrder"));
+
   // Drop the layout caches this save invalidates so the root layout refetches
   // them. Do NOT write the new values in directly: the root layout reads the
   // whole site-settings row (siteName, contact details, socialLinks, …) and
@@ -64,10 +66,49 @@ export async function updateNavigationSettings(formData: FormData) {
   await invalidateCache(cacheKeys.dropdownTreks);
   updateTag(nextCacheTag(cacheKeys.siteSettings));
   updateTag(nextCacheTag(cacheKeys.dropdownTreks));
+  if (regionsReordered) {
+    await invalidateCache(cacheKeys.allRegions);
+    updateTag(nextCacheTag(cacheKeys.allRegions));
+  }
 
   // Categories themselves didn't change, so skip category:* invalidation.
   revalidatePath("/", "layout");
   revalidatePath("/admin/navigation");
+}
+
+/**
+ * Persists the dropdown region order sent as `{ [categoryId]: regionId[] }`.
+ * Only rows whose position changed are written, and a region is only updated
+ * within its own category. Returns whether anything changed.
+ */
+async function saveRegionOrder(raw: FormDataEntryValue | null): Promise<boolean> {
+  let order: Record<string, string[]> = {};
+  try {
+    const parsed = JSON.parse((raw as string) || "{}");
+    if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) order = parsed;
+  } catch {
+    return false;
+  }
+
+  const categoryIds = Object.keys(order).filter((id) => Array.isArray(order[id]));
+  if (categoryIds.length === 0) return false;
+
+  const existing = await prisma.categoryRegion.findMany({
+    where: { categoryId: { in: categoryIds } },
+    select: { id: true, categoryId: true, sortOrder: true },
+  });
+  const byId = new Map(existing.map((r) => [r.id, r]));
+
+  const updates = categoryIds.flatMap((categoryId) =>
+    order[categoryId]
+      .map((id, sortOrder) => ({ id, sortOrder, current: byId.get(id) }))
+      .filter(({ current, sortOrder }) => current?.categoryId === categoryId && current.sortOrder !== sortOrder)
+      .map(({ id, sortOrder }) => prisma.categoryRegion.update({ where: { id }, data: { sortOrder } }))
+  );
+  if (updates.length === 0) return false;
+
+  await prisma.$transaction(updates);
+  return true;
 }
 
 export async function saveCategoryRegions(regions: RegionInput[]) {

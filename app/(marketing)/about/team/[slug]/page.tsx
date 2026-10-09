@@ -8,7 +8,8 @@ import { prisma } from "@/lib/prisma";
 import { getCachedOrFetch, cacheKeys, CACHE_TTL } from "@/lib/redis";
 import { PageHero } from "@/components/layout/PageHero";
 import { sanitizeRichText } from "@/lib/sanitize";
-import { SITE_URL, SITE_NAME, brandedTitle, seoDescription, seoImageUrl, serializeJsonLd } from "@/lib/seo";
+import { demoteH1 } from "@/lib/headings";
+import { SITE_URL, SITE_NAME, brandedTitle, ogImages, seoDescription, seoImageUrl, serializeJsonLd } from "@/lib/seo";
 
 // Team member content is cached for 7 days and refreshed on-demand after CMS edits (revalidatePath)
 export const revalidate = 604800;
@@ -44,9 +45,7 @@ export async function generateMetadata({
       url: canonical,
       siteName: SITE_NAME,
       type: "profile",
-      images: memberImage
-        ? [{ url: memberImage, width: 1200, height: 630, alt: `${member.name}, ${member.role}` }]
-        : undefined,
+      images: ogImages(memberImage, `${member.name}, ${member.role}`),
     },
     twitter: {
       card: "summary_large_image",
@@ -211,7 +210,7 @@ export default async function TeamMemberPage({
         <div className="grid gap-12 lg:grid-cols-3">
           {/* ── MAIN CONTENT ── */}
           <div className="lg:col-span-2">
-            <div className="prose-custom rich-text max-w-none" dangerouslySetInnerHTML={{ __html: sanitizeRichText(member.bio) }} />
+            <div className="prose-custom rich-text max-w-none" dangerouslySetInnerHTML={{ __html: sanitizeRichText(demoteH1(member.bio)) }} />
 
             {/* Back link */}
             <div className="mt-16 border-t border-border pt-8">

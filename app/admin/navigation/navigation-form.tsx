@@ -21,6 +21,9 @@ interface TrekItem {
   title: string;
   slug: string;
   categoryId: string | null;
+  regionId: string | null;
+  region: string | null;
+  regionRef: { name: string } | null;
   status: string;
   duration: number;
   price: number;
@@ -30,6 +33,42 @@ interface CategoryRegion {
   id: string;
   name: string;
   slug: string;
+}
+
+interface TrekGroup {
+  key: string;
+  name: string;
+  /** Position in the category's region list, or -1 when the treks have no saved region. */
+  regionIndex: number;
+  treks: TrekItem[];
+}
+
+/**
+ * Groups dropdown treks the same way the site header does: by linked region,
+ * falling back to the legacy free-text region, then "Other". Saved regions
+ * follow the region list order; anything without a saved region goes last.
+ */
+function groupTreksByRegion(treks: TrekItem[], regions: CategoryRegion[]): TrekGroup[] {
+  const groups = new Map<string, TrekGroup>();
+  for (const trek of treks) {
+    const name = trek.regionRef?.name || trek.region || "Other";
+    let regionIndex = regions.findIndex((r) => r.id && r.id === trek.regionId);
+    if (regionIndex === -1) regionIndex = regions.findIndex((r) => r.id && r.name === name);
+    const key = regionIndex === -1 ? `name:${name}` : regions[regionIndex].id;
+    const group = groups.get(key);
+    if (group) {
+      group.treks.push(trek);
+    } else {
+      groups.set(key, {
+        key,
+        name: regionIndex === -1 ? name : regions[regionIndex].name,
+        regionIndex,
+        treks: [trek],
+      });
+    }
+  }
+  const rank = (g: TrekGroup) => (g.regionIndex === -1 ? Number.MAX_SAFE_INTEGER : g.regionIndex);
+  return [...groups.values()].sort((a, b) => rank(a) - rank(b));
 }
 
 interface CategoryWithTreks {
@@ -143,13 +182,25 @@ export function NavigationForm({
     }
   }
 
-  function moveTrekInCategory(categorySlug: string, index: number, direction: "up" | "down") {
+  // Swapping the two ids in the flat list reorders them inside their region
+  // group without disturbing the order of treks in other regions.
+  function swapDropdownTreks(categorySlug: string, trekId: string, otherTrekId: string) {
     setSelectedTreks((prev) => {
-      const current = [...(prev[categorySlug] || [])];
-      const newIndex = direction === "up" ? index - 1 : index + 1;
-      if (newIndex < 0 || newIndex >= current.length) return prev;
-      [current[index], current[newIndex]] = [current[newIndex], current[index]];
-      return { ...prev, [categorySlug]: current };
+      const ids = [...(prev[categorySlug] || [])];
+      const i = ids.indexOf(trekId);
+      const j = ids.indexOf(otherTrekId);
+      if (i === -1 || j === -1) return prev;
+      [ids[i], ids[j]] = [ids[j], ids[i]];
+      return { ...prev, [categorySlug]: ids };
+    });
+  }
+
+  function swapRegions(categorySlug: string, index: number, otherIndex: number) {
+    setEditableRegions((prev) => {
+      const regions = [...(prev[categorySlug] || [])];
+      if (!regions[index] || !regions[otherIndex]) return prev;
+      [regions[index], regions[otherIndex]] = [regions[otherIndex], regions[index]];
+      return { ...prev, [categorySlug]: regions };
     });
   }
 
@@ -212,6 +263,12 @@ export function NavigationForm({
     const fd = new FormData(form);
     fd.set("navigation", JSON.stringify(navItems));
     fd.set("categoryDropdownTreks", JSON.stringify(selectedTreks));
+    // Saved regions only — unsaved rows (no id yet) get their order from "Save Regions".
+    const regionOrder: Record<string, string[]> = {};
+    for (const cat of treksByCategory) {
+      regionOrder[cat.id] = (editableRegions[cat.slug] || []).filter((r) => r.id).map((r) => r.id);
+    }
+    fd.set("regionOrder", JSON.stringify(regionOrder));
     // topBarContent state is kept in sync by the TipTap editor's onUpdate and
     // is the source of truth for the (controlled) hidden input below.
     fd.set("topBarContent", topBarContent);
@@ -358,7 +415,7 @@ export function NavigationForm({
           <div>
             <h2 className="text-sm font-bold text-slate-900">Category Dropdown Treks</h2>
             <p className="text-xs text-slate-400">
-              For each category, select which treks appear in the dropdown menu. Unchecked treks are hidden from the dropdown.
+              For each category, select which treks appear in the dropdown menu and set the order of regions and of the treks within each region. Unchecked treks are hidden from the dropdown.
             </p>
           </div>
         </div>
@@ -393,6 +450,8 @@ export function NavigationForm({
                 .map((id) => cat.treks.find((t) => t.id === id))
                 .filter(Boolean) as TrekItem[];
 
+              const groups = groupTreksByRegion(orderedSelected, editableRegions[cat.slug] || []);
+
               // Unselected treks
               const unselectedTreks = cat.treks.filter((t) => !selected.includes(t.id));
 
@@ -421,61 +480,90 @@ export function NavigationForm({
 
                   {isExpanded && (
                     <div className="border-t border-slate-200">
-                      {/* ── Ordered Selected Treks ── */}
+                      {/* ── Selected treks, grouped by region as in the site dropdown ── */}
                       {orderedSelected.length > 0 && (
-                        <div className="divide-y divide-slate-100">
-                          <div className="flex items-center gap-2 bg-teal-50/60 px-4 py-2">
+                        <div>
+                          <div className="flex flex-wrap items-center gap-2 bg-teal-50/60 px-4 py-2">
                             <span className="text-xs font-semibold text-teal-700">
-                              📌 Ordered ({orderedSelected.length})
+                              📌 In dropdown ({orderedSelected.length})
+                            </span>
+                            <span className="ml-auto text-[11px] text-teal-700/70">
+                              Use the arrows to order regions and the treks inside each region
                             </span>
                           </div>
-                          {orderedSelected.map((trek, idx) => (
-                            <div
-                              key={trek.id}
-                              className="flex items-center gap-2 px-4 py-2.5 bg-teal-50/30"
-                            >
-                              {/* Up / Down arrows */}
-                              <div className="flex flex-col gap-0.5 shrink-0">
-                                <button
-                                  type="button"
-                                  onClick={() => moveTrekInCategory(cat.slug, idx, "up")}
-                                  disabled={idx === 0}
-                                  className="flex h-4 w-4 items-center justify-center rounded text-slate-400 hover:bg-slate-200 hover:text-slate-600 disabled:opacity-20 disabled:cursor-not-allowed"
-                                >▲</button>
-                                <button
-                                  type="button"
-                                  onClick={() => moveTrekInCategory(cat.slug, idx, "down")}
-                                  disabled={idx === orderedSelected.length - 1}
-                                  className="flex h-4 w-4 items-center justify-center rounded text-slate-400 hover:bg-slate-200 hover:text-slate-600 disabled:opacity-20 disabled:cursor-not-allowed"
-                                >▼</button>
-                              </div>
+                          {groups.map((group, gi) => {
+                            const prevGroup = groups[gi - 1];
+                            const nextGroup = groups[gi + 1];
+                            const movable = group.regionIndex !== -1;
 
-                              {/* Order number badge */}
-                              <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-teal-100 text-[11px] font-bold text-teal-700">
-                                {idx + 1}
-                              </div>
+                            return (
+                              <div key={group.key} className="border-t border-slate-200">
+                                {/* Region header */}
+                                <div className="flex items-center gap-2 bg-purple-50/50 px-4 py-2">
+                                  <OrderArrows
+                                    label={group.name}
+                                    upDisabled={!movable || !prevGroup || prevGroup.regionIndex === -1}
+                                    downDisabled={!movable || !nextGroup || nextGroup.regionIndex === -1}
+                                    onUp={() => swapRegions(cat.slug, group.regionIndex, prevGroup.regionIndex)}
+                                    onDown={() => swapRegions(cat.slug, group.regionIndex, nextGroup.regionIndex)}
+                                  />
+                                  <span className="text-xs font-bold uppercase tracking-wide text-purple-800">
+                                    {group.name}
+                                  </span>
+                                  <span className="text-[11px] text-slate-400">
+                                    {group.treks.length} {group.treks.length === 1 ? "trek" : "treks"}
+                                  </span>
+                                  {!movable && (
+                                    <span className="ml-auto text-[10px] text-slate-400">
+                                      No saved region · always listed last
+                                    </span>
+                                  )}
+                                </div>
 
-                              {/* Trek info */}
-                              <div className="flex-1 min-w-0">
-                                <p className="text-sm font-medium text-slate-900 truncate">
-                                  {trek.title}
-                                </p>
-                                <p className="text-xs text-slate-400">
-                                  {trek.duration} days · ${trek.price}
-                                </p>
-                              </div>
+                                <div className="divide-y divide-slate-100">
+                                  {group.treks.map((trek, ti) => (
+                                    <div
+                                      key={trek.id}
+                                      className="flex items-center gap-2 py-2.5 pl-8 pr-4 bg-teal-50/30"
+                                    >
+                                      <OrderArrows
+                                        label={trek.title}
+                                        upDisabled={ti === 0}
+                                        downDisabled={ti === group.treks.length - 1}
+                                        onUp={() => swapDropdownTreks(cat.slug, trek.id, group.treks[ti - 1].id)}
+                                        onDown={() => swapDropdownTreks(cat.slug, trek.id, group.treks[ti + 1].id)}
+                                      />
 
-                              {/* Deselect (remove from dropdown) */}
-                              <button
-                                type="button"
-                                onClick={() => toggleTrekSelection(cat.slug, trek.id)}
-                                className="rounded-lg p-1.5 text-slate-400 transition-colors hover:bg-red-50 hover:text-red-500"
-                                title="Remove from dropdown"
-                              >
-                                <X className="h-4 w-4" />
-                              </button>
-                            </div>
-                          ))}
+                                      {/* Order number badge (position within the region) */}
+                                      <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-teal-100 text-[11px] font-bold text-teal-700">
+                                        {ti + 1}
+                                      </div>
+
+                                      {/* Trek info */}
+                                      <div className="flex-1 min-w-0">
+                                        <p className="text-sm font-medium text-slate-900 truncate">
+                                          {trek.title}
+                                        </p>
+                                        <p className="text-xs text-slate-400">
+                                          {trek.duration} days · ${trek.price}
+                                        </p>
+                                      </div>
+
+                                      {/* Deselect (remove from dropdown) */}
+                                      <button
+                                        type="button"
+                                        onClick={() => toggleTrekSelection(cat.slug, trek.id)}
+                                        className="rounded-lg p-1.5 text-slate-400 transition-colors hover:bg-red-50 hover:text-red-500"
+                                        title="Remove from dropdown"
+                                      >
+                                        <X className="h-4 w-4" />
+                                      </button>
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                            );
+                          })}
                         </div>
                       )}
 
@@ -676,6 +764,30 @@ export function NavigationForm({
         </button>
       </div>
     </form>
+  );
+}
+
+// ── Up / Down order buttons ─────────────────────────────────────────
+function OrderArrows({
+  label,
+  upDisabled,
+  downDisabled,
+  onUp,
+  onDown,
+}: {
+  label: string;
+  upDisabled: boolean;
+  downDisabled: boolean;
+  onUp: () => void;
+  onDown: () => void;
+}) {
+  const className =
+    "flex h-4 w-4 items-center justify-center rounded text-slate-400 hover:bg-slate-200 hover:text-slate-600 disabled:opacity-20 disabled:cursor-not-allowed";
+  return (
+    <div className="flex flex-col gap-0.5 shrink-0">
+      <button type="button" onClick={onUp} disabled={upDisabled} aria-label={`Move ${label} up`} className={className}>▲</button>
+      <button type="button" onClick={onDown} disabled={downDisabled} aria-label={`Move ${label} down`} className={className}>▼</button>
+    </div>
   );
 }
 

@@ -1,26 +1,50 @@
-# Mardi Treks
+# Green Compass Treks
 
-Mardi Treks is a Nepal trekking and travel company. This file provides
-machine-readable discovery links; current trip prices, dates, inclusions,
-locations, and contact details are published on the linked website pages.
+> Green Compass Treks is a locally owned trekking and tour company based in Lakeside, Pokhara, Nepal. It runs guided treks, peak climbs, cultural tours and adventure activities across the Annapurna, Everest, Langtang, Manaslu, Kanchenjunga, Mustang and Dolpo regions.
 
-## Canonical Website
-- Homepage: https://greencompasstreks.com/
-- Trek search: https://greencompasstreks.com/search
-- Blog: https://greencompasstreks.com/blog
-- About: https://greencompasstreks.com/about
-- Contact: https://greencompasstreks.com/contact
+Trip prices, departure dates, inclusions and day-by-day itineraries are published on the linked pages. Prefer those pages over any summary here, treat each page's canonical URL as authoritative, and check visible dates before citing time-sensitive facts.
 
-## Machine-Readable Discovery
-- Sitemap: https://greencompasstreks.com/sitemap.xml
-- Crawler policy: https://greencompasstreks.com/robots.txt
+## Trips
 
-## Content Types
-- Trek and travel category pages
-- Trek detail pages with itineraries, prices, route information, FAQs, and reviews
-- Editorial trekking guides
+- [Treks](https://greencompasstreks.com/treks): guided multi-day treks, each with itinerary, difficulty, maximum altitude, price, route map and FAQs
+- [Tours](https://greencompasstreks.com/tours): cultural and sightseeing tours
+- [Climbing](https://greencompasstreks.com/climbing): trekking peaks and climbing expeditions
+- [Activities](https://greencompasstreks.com/activities): adventure activities in Nepal
+- [Search](https://greencompasstreks.com/search): find a trip by name, region or length
 
-## Usage Notes
-- Treat each page's canonical URL as the authoritative URL.
-- Prefer facts shown on the relevant trek page over summaries in this file.
-- Check visible publication or update dates before citing time-sensitive facts.
+## Company
+
+- [About](https://greencompasstreks.com/about): our story, team and guides
+- [Contact](https://greencompasstreks.com/contact): plan a trip or ask a question
+- [Blog](https://greencompasstreks.com/blog): Nepal trekking guides, route advice and travel notes
+
+## Company facts
+
+- Based in Pokhara and founded by local trekking experts
+- 8+ years of experience, 15+ certified guides, 2,500+ trekkers from 40+ countries
+- Group and private departures for 2–12 trekkers; custom itineraries for every budget
+- Permits and paperwork (TIMS, ACAP, national park permits), airport transfers and hotels arranged
+- Guides are wilderness first-aid certified with high-altitude experience
+- Fair wages, school support and Leave No Trace practices in mountain communities
+- Transparent pricing with no hidden charges; 24/7 support before, during and after a trek
+- Registered with the Government of Nepal; associated with the Nepal Tourism Board (NTB), Trekking Agencies' Association of Nepal (TAAN) and Nepal Mountaineering Association (NMA)
+- Traveler's Choice 2026 award recipient; recommended on Booking.com and Review.co
+
+## Trekking in Nepal: essentials
+
+- Best seasons: spring (March–May) and autumn (September–November)
+- Permits: TIMS card plus ACAP or national park permits, arranged by us
+- Guides: a licensed guide is mandatory for foreign trekkers on most routes
+- Insurance: comprehensive travel insurance with helicopter evacuation cover is required
+- Accommodation: tea houses and lodges along the main trekking routes
+
+## Contact
+
+- Email: info@greencompasstreks.com
+- Phone and WhatsApp: +977 9864379436 (Bishow Devkota, Trip Consultant)
+- Office: Lakeside, Pokhara, Nepal — Sunday to Friday, 9 AM–6 PM
+
+## Machine-readable
+
+- [Sitemap](https://greencompasstreks.com/sitemap.xml)
+- [Crawler policy](https://greencompasstreks.com/robots.txt)

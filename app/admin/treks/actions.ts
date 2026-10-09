@@ -3,9 +3,11 @@
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { after } from "next/server";
 import { auth } from "@/lib/auth";
 import { invalidateCachePattern, cacheKeys } from "@/lib/redis";
 import { deleteFile } from "@/lib/cloudinary";
+import { submitToIndexNow } from "@/lib/indexnow";
 
 async function invalidateTrekCache(slug?: string, categorySlug?: string) {
   await Promise.all([
@@ -15,12 +17,25 @@ async function invalidateTrekCache(slug?: string, categorySlug?: string) {
   ]);
   // Revalidate individual trek detail pages
   revalidatePath("/", "layout");
+  revalidatePath("/sitemap.xml");
   // Revalidate the per-trek fix-departure pages.
   // Route: /[category]/[slug]/fix-departure (e.g. /treks/mardi-himal-trek/fix-departure).
   revalidatePath("/[category]/[slug]/fix-departure", "page");
   if (slug) {
     revalidatePath(`/${categorySlug || "[category]"}/${slug}`, "page");
+    // Once the admin has their response, tell Bing & co. the page changed.
+    after(() => announceTrek(slug));
   }
+}
+
+/** Announce a published trek and its category listing to IndexNow. */
+async function announceTrek(slug: string) {
+  const trek = await prisma.trek.findUnique({
+    where: { slug },
+    select: { status: true, category: { select: { slug: true } } },
+  });
+  if (trek?.status !== "published" || !trek.category) return;
+  await submitToIndexNow([`/${trek.category.slug}/${slug}`, `/${trek.category.slug}`]);
 }
 
 export async function createTrek(formData: FormData) {
