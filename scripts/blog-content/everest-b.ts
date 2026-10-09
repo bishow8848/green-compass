@@ -6,7 +6,7 @@ export const everestB: BlogContent[] = [
     slug: "how-hard-is-the-everest-base-camp-trek",
     title: "How Hard Is the Everest Base Camp Trek? An Honest Assessment",
     cluster: "everest",
-    date: "2026-03-27",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/everest-base-camp-trek/everest-base-camp-trek-03-everest-range-above-tengboche-at-night",
       alt: "The Everest range above Tengboche after dark, Everest Base Camp trek, Nepal.",
@@ -136,7 +136,7 @@ export const everestB: BlogContent[] = [
     slug: "best-time-for-everest-base-camp-trek",
     title: "Best Time for the Everest Base Camp Trek: Season by Season",
     cluster: "everest",
-    date: "2026-03-31",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/everest-base-camp-trek-with-helicopter-return/everest-base-camp-trek-with-helicopter-return-04-ama-dablam-from-kala-patthar",
       alt: "Ama Dablam seen from Kala Patthar, Everest Base Camp trek, Nepal.",
@@ -263,7 +263,7 @@ export const everestB: BlogContent[] = [
     slug: "lukla-flight-guide",
     title: "The Lukla Flight: What to Expect and How to Plan Around It",
     cluster: "everest",
-    date: "2026-04-03",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/everest-view-trek/everest-view-trek-04-first-lukla-view-from-jiri-to-ebc-route",
       alt: "The first view of Lukla from the Jiri approach to the Everest region, Nepal.",

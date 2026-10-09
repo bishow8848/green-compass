@@ -6,7 +6,7 @@ export const remoteD: BlogContent[] = [
     slug: "kanchenjunga-north-base-camp-trek-guide",
     title: "Kanchenjunga North Base Camp Trek: The Complete Guide",
     cluster: "remote",
-    date: "2027-03-20",
+    date: "2026-09-19",
     hero: {
       image: "mardi-treks/kanchenjunga-north-base-camp-trek/kanchenjunga-north-base-camp-trek-00-sunrise-from-taplejung",
       alt: "Sunrise over the hills from Taplejung, eastern Nepal.",
@@ -201,7 +201,7 @@ export const remoteD: BlogContent[] = [
     slug: "kanchenjunga-south-base-camp-trek-guide",
     title: "Kanchenjunga South Base Camp Trek: The Complete Guide",
     cluster: "remote",
-    date: "2027-03-24",
+    date: "2026-09-19",
     hero: {
       image: "mardi-treks/kanchenjunga-south-base-camp-trek/kanchenjunga-south-base-camp-trek-00-taplejung-hill",
       alt: "Hill country around Taplejung in eastern Nepal.",
@@ -380,7 +380,7 @@ export const remoteD: BlogContent[] = [
     slug: "langtang-ganja-la-pass-trek-guide",
     title: "Langtang Ganja La Pass Trek: The Complete Guide",
     cluster: "remote",
-    date: "2027-03-27",
+    date: "2026-09-19",
     hero: {
       image: "mardi-treks/langtang-ganja-la-pass-trek/langtang-ganja-la-pass-trek-00-around-kyanjin-valley-langtang-national-park-rasuwa-nepal-24",
       alt: "The Kyanjin valley in Langtang National Park, Rasuwa, Nepal.",
@@ -558,7 +558,7 @@ export const remoteD: BlogContent[] = [
     slug: "tsho-rolpa-trek-guide",
     title: "Tsho Rolpa Trek: The Complete Guide to Rolwaling's Glacial Lake",
     cluster: "remote",
-    date: "2027-03-31",
+    date: "2026-09-19",
     hero: {
       image: "mardi-treks/tsho-rolpa-trek/tsho-rolpa-trek-00-the-beginning-of-april-tsho-rolpa-lake-covered-with-ice-on-t",
       alt: "Tsho Rolpa lake partly covered with ice in early April, Rolwaling, Nepal.",

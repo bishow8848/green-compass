@@ -6,7 +6,7 @@ export const toursI: BlogContent[] = [
     slug: "trishuli-river-rafting-2-days-guide",
     title: "Trishuli River Rafting, 2 Days: The Complete Guide",
     cluster: "tours",
-    date: "2027-06-23",
+    date: "2026-09-19",
     hero: {
       image: "mardi-treks/trishuli-river-rafting-2-days/trishuli-river-rafting-2-days-00-trishuli-river-rafting-nepal-3118",
       alt: "Rafting on the Trishuli river, Nepal.",
@@ -194,7 +194,7 @@ export const toursI: BlogContent[] = [
     slug: "seti-river-rafting-in-pokhara-guide",
     title: "Seti River Rafting in Pokhara: The Complete Guide",
     cluster: "tours",
-    date: "2027-06-26",
+    date: "2026-09-19",
     hero: {
       image: "mardi-treks/seti-river-rafting-in-pokhara/seti-river-rafting-in-pokhara-00-pul-of-small-seti-river-of-pokhara-photo",
       alt: "The Seti river near Pokhara, Nepal.",
@@ -378,7 +378,7 @@ export const toursI: BlogContent[] = [
     slug: "atv-adventure-tour-in-pokhara-guide",
     title: "ATV Adventure Tour in Pokhara: The Complete Guide",
     cluster: "tours",
-    date: "2027-06-30",
+    date: "2026-09-19",
     hero: {
       image: "mardi-treks/atv-adventure-tour-in-pokhara/atv-adventure-tour-in-pokhara-00-small-seti-river-of-pokhara1",
       alt: "The Seti river in the Pokhara valley, Nepal.",

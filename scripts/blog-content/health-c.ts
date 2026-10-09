@@ -6,7 +6,7 @@ export const healthC: BlogContent[] = [
     slug: "trekking-in-nepal-with-a-medical-condition",
     title: "Trekking in Nepal with Asthma, Diabetes or High Blood Pressure",
     cluster: "health",
-    date: "2028-01-19",
+    date: "2026-10-03",
     hero: {
       image: "mardi-treks/poonhill-trek/poonhill-trek-00-landscape-view-of-poon-hill",
       alt: "Panorama of the Annapurna and Dhaulagiri ranges from Poon Hill, Nepal.",
@@ -235,7 +235,7 @@ export const healthC: BlogContent[] = [
     slug: "khumbu-cough-colds-and-chest-infections-on-a-trek",
     title: "Khumbu Cough, Colds and Chest Infections on a Nepal Trek",
     cluster: "health",
-    date: "2028-01-25",
+    date: "2026-10-03",
     hero: {
       image: "mardi-treks/gokyo-lake-trek/gokyo-lake-trek-00-machhermo-peaks-gokyo-lake-nepal-himalayas",
       alt: "Peaks above Machhermo on the Gokyo Lakes trek in the Khumbu, Nepal.",
@@ -439,7 +439,7 @@ export const healthC: BlogContent[] = [
     slug: "knee-pain-blisters-and-painkillers-on-a-nepal-trek",
     title: "Knee Pain, Blisters and Painkillers on a Nepal Trek",
     cluster: "health",
-    date: "2028-01-31",
+    date: "2026-10-03",
     hero: {
       image: "mardi-treks/poonhill-trek/poonhill-trek-05-ghorepaani-ghandruk-trail-2",
       alt: "Stone-stepped trail between Ghorepani and Ghandruk in the Annapurna region, Nepal.",

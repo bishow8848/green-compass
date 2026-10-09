@@ -6,7 +6,7 @@ export const activitiesB: BlogContent[] = [
     slug: "jungle-safari-in-nepal-guide",
     title: "Jungle Safari in Nepal: Every Park Compared",
     cluster: "activities",
-    date: "2027-01-20",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/bardia-national-park-tour-4-days/bardia-national-park-tour-4-days-06-tiger-bardiya",
       alt: "A Bengal tiger in Bardia National Park, western Nepal.",
@@ -169,7 +169,7 @@ export const activitiesB: BlogContent[] = [
     slug: "bird-watching-in-nepal-guide",
     title: "Bird Watching in Nepal: 880 Species in One Small Country",
     cluster: "activities",
-    date: "2027-01-23",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/bird-watching-in-chitwan-national-park/bird-watching-in-chitwan-national-park-00-a-panoramic-view-of-rapti-river-at-chitwan-national-park-2",
       alt: "The Rapti river in Chitwan National Park, prime birding habitat, Nepal.",
@@ -286,7 +286,7 @@ export const activitiesB: BlogContent[] = [
     slug: "mountain-flights-in-nepal-guide",
     title: "Mountain Flights in Nepal: An Hour Alongside the Himalaya",
     cluster: "activities",
-    date: "2027-01-27",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/everest-base-camp-helicopter-tour/everest-base-camp-helicopter-tour-05-panorama-khumbu-glacier-tobuche",
       alt: "A panorama of the Khumbu glacier and Tobuche from the air, Nepal.",

@@ -6,7 +6,7 @@ export const healthA: BlogContent[] = [
     slug: "pre-and-post-trek-medication-guide-for-nepal",
     title: "Pre- and Post-Trek Medication for Nepal: The Complete Guide",
     cluster: "health",
-    date: "2027-12-14",
+    date: "2026-10-03",
     hero: {
       image: "mardi-treks/upper-mustang-trek/upper-mustang-trek-02-health-post-at-jomsom-village-wlv-0704",
       alt: "The health post at Jomsom village in Mustang, Nepal, on the Annapurna trekking routes.",
@@ -212,7 +212,7 @@ export const healthA: BlogContent[] = [
     slug: "vaccinations-for-trekking-in-nepal",
     title: "Vaccinations for Trekking in Nepal: What to Get and When",
     cluster: "health",
-    date: "2027-12-20",
+    date: "2026-10-03",
     hero: {
       image: "mardi-treks/kathmandu-day-tour/kathmandu-day-tour-05-swoyambhu-mahachaitya-also-known-as-swayambhunath-or-the-mon",
       alt: "Swayambhunath stupa in Kathmandu, known as the Monkey Temple, Nepal.",
@@ -414,7 +414,7 @@ export const healthA: BlogContent[] = [
     slug: "pre-trek-medical-check-up-for-nepal",
     title: "Pre-Trek Medical Check-Up: What to Ask Your Doctor Before Nepal",
     cluster: "health",
-    date: "2027-12-26",
+    date: "2026-10-03",
     hero: {
       image: "mardi-treks/everest-base-camp-trek/everest-base-camp-trek-04-namche-bazaar-from-hotel-everest-view-trail",
       alt: "Namche Bazaar in the Khumbu seen from the trail to Hotel Everest View, Nepal.",

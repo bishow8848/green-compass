@@ -6,7 +6,7 @@ export const manasluC: BlogContent[] = [
     slug: "tiji-festival-upper-mustang",
     title: "The Tiji Festival at Lo Manthang: Three Days of Masked Dance",
     cluster: "manaslu",
-    date: "2026-08-28",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/upper-mustang-trek/upper-mustang-trek-05-lomanthang-1",
       alt: "Lo Manthang, the walled capital of Upper Mustang, Nepal.",
@@ -125,7 +125,7 @@ export const manasluC: BlogContent[] = [
     slug: "shey-phoksundo-lake-trek-guide",
     title: "Shey Phoksundo Lake Trek: Nepal's Deepest and Bluest Lake",
     cluster: "manaslu",
-    date: "2026-09-01",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/shey-phoksundo-lake-trek/shey-phoksundo-lake-trek-00-donkeys-given-resting-time-while-climbing-to-shey-phoksundo-",
       alt: "Pack animals resting on the climb to Shey Phoksundo Lake, Dolpo, Nepal.",
@@ -258,7 +258,7 @@ export const manasluC: BlogContent[] = [
     slug: "lower-dolpo-trek-guide",
     title: "Lower Dolpo Trek: Phoksundo, Dho Tarap, and Two High Passes",
     cluster: "manaslu",
-    date: "2026-09-04",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/lower-dolpo-trek/lower-dolpo-trek-00-blick-auf-ringmo-ber-den-phoksundo-see",
       alt: "Ringmo village seen across Phoksundo Lake, Lower Dolpo, Nepal.",
@@ -391,7 +391,7 @@ export const manasluC: BlogContent[] = [
     slug: "upper-dolpo-trek-guide",
     title: "Upper Dolpo Trek: Shey Gompa and the Crystal Mountain",
     cluster: "manaslu",
-    date: "2026-09-08",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/upper-dolpo-trek/upper-dolpo-trek-00-at-the-end-of-the-valley-sephu-khola-left-at-saldang-on-the-",
       alt: "The valley near Saldang in Upper Dolpo, Nepal.",

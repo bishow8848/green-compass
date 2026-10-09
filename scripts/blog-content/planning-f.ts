@@ -6,7 +6,7 @@ export const planningF: BlogContent[] = [
     slug: "responsible-trekking-in-nepal",
     title: "Responsible Trekking in Nepal: How to Leave the Trail Better",
     cluster: "planning",
-    date: "2026-02-27",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/langtang-valley-trek/langtang-valley-trek-02-around-kyanjin-valley-langtang-national-park-rasuwa-nepal-29",
       alt: "The trail through the upper Langtang valley, Langtang National Park, Nepal.",
@@ -124,7 +124,7 @@ export const planningF: BlogContent[] = [
     slug: "arriving-in-kathmandu-first-48-hours",
     title: "Arriving in Kathmandu: Your First 48 Hours",
     cluster: "planning",
-    date: "2026-03-03",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/seven-world-heritage-kathmandu-day-tour/seven-world-heritage-kathmandu-day-tour-03-boudhanath-stupa-img-7048",
       alt: "Boudhanath Stupa in Kathmandu, Nepal.",
@@ -255,7 +255,7 @@ export const planningF: BlogContent[] = [
     slug: "monsoon-trekking-in-nepal-where-to-go",
     title: "Monsoon Trekking in Nepal: Where to Go in June, July, and August",
     cluster: "planning",
-    date: "2026-03-06",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/upper-mustang-trek/upper-mustang-trek-05-lomanthang-1",
       alt: "Lo Manthang in Upper Mustang, behind the main Himalayan range, Nepal.",

@@ -6,7 +6,7 @@ export const eastA: BlogContent[] = [
     slug: "kanchenjunga-circuit-trek-guide",
     title: "Kanchenjunga Circuit Trek: Nepal's Remotest Major Trek",
     cluster: "east",
-    date: "2026-09-11",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/kanchenjunga-circuit-trek/kanchenjunga-circuit-trek-00-kanchenjunga-from-pelling",
       alt: "Kanchenjunga, the world's third highest mountain, eastern Nepal.",
@@ -139,7 +139,7 @@ export const eastA: BlogContent[] = [
     slug: "makalu-base-camp-trek-guide",
     title: "Makalu Base Camp Trek: The Barun Valley",
     cluster: "east",
-    date: "2026-09-15",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/makalu-base-camp-trek/makalu-base-camp-trek-00-makalu-base-camp",
       alt: "Makalu Base Camp in the Barun valley, eastern Nepal.",
@@ -275,7 +275,7 @@ export const eastA: BlogContent[] = [
     slug: "pikey-peak-trek-guide",
     title: "Pikey Peak Trek: The Best Everest View Outside the Khumbu",
     cluster: "east",
-    date: "2026-09-18",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/pikey-peak-trek/pikey-peak-trek-00-first-light-over-the-himalayas-from-pikey-peak-solukhumbu",
       alt: "First light over the Himalaya from Pikey Peak, Solukhumbu, Nepal.",

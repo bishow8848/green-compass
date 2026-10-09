@@ -8,6 +8,8 @@ import { pilgrimageTours } from "./pilgrimage";
 import { villageTours } from "./village";
 import { wildlifeTours } from "./wildlife";
 import { valleyRimTours } from "./valley-rim";
+import { photographyTours } from "./photography";
+import { honeymoonTours } from "./honeymoon";
 
 /**
  * Every tour, in region order. A slug already in the database is skipped by
@@ -23,4 +25,6 @@ export const ALL_TOURS: Tour[] = [
   ...kathmanduDayTours,
   ...pokharaDayTours,
   ...valleyRimTours,
+  ...photographyTours,
+  ...honeymoonTours,
 ];

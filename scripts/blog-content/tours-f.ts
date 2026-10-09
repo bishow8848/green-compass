@@ -6,7 +6,7 @@ export const toursF: BlogContent[] = [
     slug: "sirubari-village-tour-guide",
     title: "Sirubari Village Tour: The Complete Guide",
     cluster: "tours",
-    date: "2027-05-12",
+    date: "2026-09-19",
     hero: {
       image: "mardi-treks/sirubari-village-tour/sirubari-village-tour-00-a-view-from-syangja",
       alt: "The ridge country of Syangja district, western Nepal.",
@@ -190,7 +190,7 @@ export const toursF: BlogContent[] = [
     slug: "ghalegaun-ghanpokhara-village-tour-guide",
     title: "Ghalegaun & Ghanpokhara Village Tour: The Complete Guide",
     cluster: "tours",
-    date: "2027-05-15",
+    date: "2026-09-19",
     hero: {
       image: "mardi-treks/ghalegaun-ghanpokhara-village-tour/ghalegaun-ghanpokhara-village-tour-00-ghalegaun-village-in-lamjung",
       alt: "Ghalegaun village on its ridge in Lamjung district, Nepal.",
@@ -376,7 +376,7 @@ export const toursF: BlogContent[] = [
     slug: "himalayan-village-tour-guide",
     title: "Himalayan Village Tour: The Complete Guide",
     cluster: "tours",
-    date: "2027-05-19",
+    date: "2026-09-19",
     hero: {
       image: "mardi-treks/himalayan-village-tour/himalayan-village-tour-00-ganesh-temple-bandipur-bandipur-vdc-tanahau-gandak-pradesh-n",
       alt: "The Ganesh temple at Bandipur, Tanahun district, Nepal.",
@@ -567,7 +567,7 @@ export const toursF: BlogContent[] = [
     slug: "bungmati-khokana-village-tour-guide",
     title: "Bungamati & Khokana Village Tour: The Complete Guide",
     cluster: "tours",
-    date: "2027-05-22",
+    date: "2026-09-19",
     hero: {
       image: "mardi-treks/bungmati-khokana-village-tour/bungmati-khokana-village-tour-00-rudrayani-temple-khokana-lalitpur-nepal-rajesh-dhungana-1",
       alt: "The Rudrayani temple at Khokana, Lalitpur, Nepal.",

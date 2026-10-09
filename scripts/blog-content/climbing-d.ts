@@ -6,7 +6,7 @@ export const climbingD: BlogContent[] = [
     slug: "eight-thousand-metre-peaks-in-nepal",
     title: "The Eight-Thousanders of Nepal: All Eight Explained",
     cluster: "climbing",
-    date: "2026-11-17",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/everest-expedition/everest-expedition-02-everest-lhotse-nuptse-and-khumbu-glacier",
       alt: "Everest, Lhotse and Nuptse above the Khumbu glacier, Nepal.",
@@ -154,7 +154,7 @@ export const climbingD: BlogContent[] = [
     slug: "everest-expedition-guide",
     title: "Everest Expedition Guide: What Climbing the South Col Route Involves",
     cluster: "climbing",
-    date: "2026-11-20",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/everest-expedition/everest-expedition-00-climbers-crossing-ladders-in-the-khumbu-icefall",
       alt: "Climbers crossing ladders in the Khumbu Icefall, Everest, Nepal.",
@@ -303,7 +303,7 @@ export const climbingD: BlogContent[] = [
     slug: "manaslu-expedition-guide",
     title: "Manaslu Expedition Guide: The Standard First Eight-Thousander",
     cluster: "climbing",
-    date: "2026-11-24",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/manaslu-expedition/manaslu-expedition-00-manaslu-peak",
       alt: "Manaslu, the world's eighth highest mountain, Gorkha, Nepal.",

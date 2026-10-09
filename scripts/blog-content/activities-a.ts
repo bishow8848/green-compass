@@ -6,7 +6,7 @@ export const activitiesA: BlogContent[] = [
     slug: "paragliding-in-pokhara-guide",
     title: "Paragliding in Pokhara: One of the World's Best Flying Sites",
     cluster: "activities",
-    date: "2027-01-09",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/paragliding-in-pokhara/paragliding-in-pokhara-00-paragliding-in-pokhara",
       alt: "Tandem paragliding above Phewa Lake, Pokhara, Nepal.",
@@ -143,7 +143,7 @@ export const activitiesA: BlogContent[] = [
     slug: "rafting-in-nepal-rivers-compared",
     title: "Rafting in Nepal: Every River Compared",
     cluster: "activities",
-    date: "2027-01-12",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/rafting-in-kali-gandaki-river/rafting-in-kali-gandaki-river-00-sukuti-rafting-camp",
       alt: "A rafting camp on the Kali Gandaki river, Nepal.",
@@ -260,7 +260,7 @@ export const activitiesA: BlogContent[] = [
     slug: "bungee-and-zip-flyer-in-nepal",
     title: "Bungee Jumping and the Zip Flyer in Nepal",
     cluster: "activities",
-    date: "2027-01-16",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/zip-flyer-in-kushma/zip-flyer-in-kushma-00-walking-the-line-above-majestic-kushma-cliff-canyon",
       alt: "The zip line above the Kushma canyon, Parbat, Nepal.",

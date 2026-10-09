@@ -6,7 +6,7 @@ export const climbingB: BlogContent[] = [
     slug: "mera-peak-vs-island-peak",
     title: "Mera Peak vs Island Peak: Which Trekking Peak Should You Climb?",
     cluster: "climbing",
-    date: "2026-10-23",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/mera-peak-climbing/mera-peak-climbing-03-8th-day-of-the-hike-mera-peak-last-few-meters-ascent-to-the-",
       alt: "The final metres of ascent on Mera Peak, Nepal.",
@@ -145,7 +145,7 @@ export const climbingB: BlogContent[] = [
     slug: "lobuche-east-peak-climbing-guide",
     title: "Lobuche East Climbing Guide: The Khumbu's Technical Trekking Peak",
     cluster: "climbing",
-    date: "2026-10-27",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/lobuche-east-peak-climbing/lobuche-east-peak-climbing-00-lobuche-east-from-the-southeast",
       alt: "Lobuche East seen from the south-east, Khumbu region, Nepal.",
@@ -270,7 +270,7 @@ export const climbingB: BlogContent[] = [
     slug: "yala-peak-climbing-guide",
     title: "Yala Peak Climbing Guide: The Best First Himalayan Summit",
     cluster: "climbing",
-    date: "2026-10-30",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/yala-peak-climbing/yala-peak-climbing-00-yala-peak",
       alt: "Yala Peak at 5,520 m above the Langtang valley, Nepal.",

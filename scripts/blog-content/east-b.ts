@@ -6,7 +6,7 @@ export const eastB: BlogContent[] = [
     slug: "mundum-trail-trek-guide",
     title: "Mundum Trail Trek: Kirat Culture in the Eastern Hills",
     cluster: "east",
-    date: "2026-09-22",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/mundum-trek/mundum-trek-00-diktel-bazzar-from-nerpa",
       alt: "Diktel bazaar seen from Nerpa on the Mundum trail, eastern Nepal.",
@@ -139,7 +139,7 @@ export const eastB: BlogContent[] = [
     slug: "red-panda-trail-trek-guide",
     title: "Red Panda Trail Trek: Tea Gardens and Cloud Forest in Ilam",
     cluster: "east",
-    date: "2026-09-25",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/red-panda-trail-trek/red-panda-trail-trek-00-view-of-ilam-from-sandakpur",
       alt: "The view over Ilam from the Sandakpur ridge, eastern Nepal.",
@@ -267,7 +267,7 @@ export const eastB: BlogContent[] = [
     slug: "rara-lake-trek-guide",
     title: "Rara Lake Trek: Nepal's Largest Lake in the Far West",
     cluster: "east",
-    date: "2026-09-29",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/rara-lake-trek/rara-lake-trek-00-snow-capped-at-mirichaur-rara-lake",
       alt: "Snow-capped peaks above Rara Lake, Mugu district, far-western Nepal.",

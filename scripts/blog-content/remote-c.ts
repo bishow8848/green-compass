@@ -6,7 +6,7 @@ export const remoteC: BlogContent[] = [
     slug: "humla-limi-valley-trek-guide",
     title: "Humla Limi Valley Trek: The Complete Guide",
     cluster: "remote",
-    date: "2027-03-06",
+    date: "2026-09-19",
     hero: {
       image: "mardi-treks/humla-limi-valley-trek/humla-limi-valley-trek-00-wonderful-simikot-valley",
       alt: "The Simikot valley in Humla, far-north-western Nepal.",
@@ -199,7 +199,7 @@ export const remoteC: BlogContent[] = [
     slug: "jomsom-dolpo-trek-guide",
     title: "Jomsom to Dolpo Trek: The Complete Guide",
     cluster: "remote",
-    date: "2027-03-10",
+    date: "2026-09-19",
     hero: {
       image: "mardi-treks/jomsom-dolpo-trek/jomsom-dolpo-trek-00-phoksundo-khola-near-the-village-of-chhepka",
       alt: "The Phoksundo Khola near Chhepka village, Dolpo, Nepal.",
@@ -381,7 +381,7 @@ export const remoteC: BlogContent[] = [
     slug: "ramaroshan-lakes-trek-guide",
     title: "Ramaroshan Lakes Trek: The Complete Guide",
     cluster: "remote",
-    date: "2027-03-13",
+    date: "2026-09-19",
     hero: {
       image: "mardi-treks/ramaroshan-lakes-trek/ramaroshan-lakes-trek-00-ramaroshan-lake",
       alt: "One of the Ramaroshan lakes in Achham district, far-western Nepal.",
@@ -572,7 +572,7 @@ export const remoteC: BlogContent[] = [
     slug: "serang-gompa-trek-guide",
     title: "Serang Gompa Trek: The Complete Guide",
     cluster: "remote",
-    date: "2027-03-17",
+    date: "2026-09-19",
     hero: {
       image: "mardi-treks/serang-gompa-trek/serang-gompa-trek-00-budhi-gandaki-yaru-bagar-to-jagat-gorkha-district-manaslu-tr",
       alt: "The Budhi Gandaki gorge between Yaru Bagar and Jagat, Manaslu region, Nepal.",

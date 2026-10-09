@@ -6,7 +6,7 @@ export const healthB: BlogContent[] = [
     slug: "diamox-for-trekking-in-nepal",
     title: "Diamox for Trekking in Nepal: When to Start, Dose and Side Effects",
     cluster: "health",
-    date: "2028-01-01",
+    date: "2026-10-03",
     hero: {
       image: "mardi-treks/annapurna-circuit-trek/annapurna-circuit-trek-01-muktinath-valley-view-of-thorong-la-pass-mountains-nepal",
       alt: "View of the Thorong La pass mountains from the Muktinath valley on the Annapurna Circuit, Nepal.",
@@ -227,7 +227,7 @@ export const healthB: BlogContent[] = [
     slug: "trekking-first-aid-kit-for-nepal",
     title: "Trekking First Aid Kit for Nepal: Every Medicine Worth Carrying",
     cluster: "health",
-    date: "2028-01-07",
+    date: "2026-10-03",
     hero: {
       image: "mardi-treks/langtang-valley-trek/langtang-valley-trek-01-around-kyanjin-valley-langtang-national-park-rasuwa-nepal-24",
       alt: "The Kyanjin valley in Langtang National Park, Rasuwa, Nepal.",
@@ -446,7 +446,7 @@ export const healthB: BlogContent[] = [
     slug: "stomach-illness-on-a-nepal-trek-medication-and-recovery",
     title: "Stomach Illness on a Nepal Trek: Prevention, Medication and Recovery",
     cluster: "health",
-    date: "2028-01-13",
+    date: "2026-10-03",
     hero: {
       image: "mardi-treks/annapurna-base-camp-trek/annapurna-base-camp-trek-03-ghandruk-jhinudanda-54-modi-khola-dorf-2013-gje",
       alt: "Village above the Modi Khola between Ghandruk and Jhinu Danda on the Annapurna Base Camp trek, Nepal.",

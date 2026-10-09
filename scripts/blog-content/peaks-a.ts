@@ -6,7 +6,7 @@ export const peaksA: BlogContent[] = [
     slug: "chulu-west-peak-climbing-guide",
     title: "Chulu West Peak Climbing: The Complete Guide",
     cluster: "climbing",
-    date: "2027-07-21",
+    date: "2026-09-19",
     hero: {
       image: "mardi-treks/chulu-west-peak-climbing/chulu-west-peak-climbing-00-chulu-west-peak-base-camp",
       alt: "Chulu West base camp in the Manang valley, Annapurna region, Nepal.",
@@ -186,7 +186,7 @@ export const peaksA: BlogContent[] = [
     slug: "chulu-east-peak-climbing-guide",
     title: "Chulu East Peak Climbing: The Complete Guide",
     cluster: "climbing",
-    date: "2027-07-24",
+    date: "2026-09-19",
     hero: {
       image: "mardi-treks/chulu-east-peak-climbing/chulu-east-peak-climbing-00-chulu-east-peak",
       alt: "Chulu East peak above the Manang valley, Annapurna region, Nepal.",
@@ -374,7 +374,7 @@ export const peaksA: BlogContent[] = [
     slug: "chulu-far-east-climbing-guide",
     title: "Chulu Far East Climbing: The Complete Guide",
     cluster: "climbing",
-    date: "2027-07-28",
+    date: "2026-09-19",
     hero: {
       image: "mardi-treks/chulu-far-east-climbing/chulu-far-east-climbing-00-marsyangdi-valley-looking-east-high-route-trail-between-ghya",
       alt: "The Marsyangdi valley from the high route between Ghyaru and Ngawal, Nepal.",
@@ -550,7 +550,7 @@ export const peaksA: BlogContent[] = [
     slug: "pisang-peak-climbing-guide",
     title: "Pisang Peak Climbing: The Complete Guide",
     cluster: "climbing",
-    date: "2027-07-31",
+    date: "2026-09-19",
     hero: {
       image: "mardi-treks/pisang-peak-climbing/pisang-peak-climbing-00-chorten-pisang-peak-high-route-trail-between-ghyaru-ngawal-4",
       alt: "A chorten below Pisang Peak on the Annapurna Circuit high route, Nepal.",

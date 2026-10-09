@@ -63,6 +63,24 @@
     ],
     "note": "Ama Yangri on its own, or as the final stretch of the longer Langtang and Gosaikunda route."
   },
+  "animal-sacrifice-at-dashain-what-travellers-should-know": {
+    "treks": [
+      "pharping-dakshinkali-tour",
+      "buddhist-pilgrimage-tour-nepal",
+      "kathmandu-day-tour",
+      "bungmati-khokana-village-tour",
+      "hindu-pilgrimage-tour"
+    ],
+    "posts": [
+      "fifteen-days-of-dashain-explained",
+      "pharping-dakshinkali-tour-guide",
+      "dashain-food-guide-what-to-eat",
+      "kathmandu-during-dashain",
+      "is-dashain-a-good-time-to-visit-nepal",
+      "responsible-trekking-in-nepal"
+    ],
+    "note": "A guided visit to Dakshinkali, and the Buddhist and village alternatives for the same two days."
+  },
   "annapurna-base-camp-helicopter-tour-guide": {
     "treks": [
       "annapurna-base-camp-helicopter-tour",
@@ -96,6 +114,25 @@
     ],
     "note": "Every version of the Sanctuary trek we run, from five days out of Pokhara to the fourteen-day double base camp route."
   },
+  "annapurna-base-camp-trek-in-november": {
+    "treks": [
+      "annapurna-base-camp-trek",
+      "annapurna-base-camp-trek-from-pokhara",
+      "annapurna-base-camp-trek-with-ghorepani-poonhill-trek",
+      "mardi-himal-trek-with-annapurna-base-camp",
+      "mardi-himal-trek",
+      "poonhill-trek"
+    ],
+    "posts": [
+      "annapurna-base-camp-trek-complete-guide",
+      "annapurna-base-camp-trek-itinerary",
+      "mardi-himal-and-poon-hill-in-november",
+      "trekking-in-nepal-in-november",
+      "annapurna-region-permits-acap-guide",
+      "everest-base-camp-vs-annapurna-base-camp"
+    ],
+    "note": "Annapurna Base Camp by four routes, and two shorter treks nearby."
+  },
   "annapurna-base-camp-trek-itinerary": {
     "treks": [
       "annapurna-base-camp-trek",
@@ -111,6 +148,25 @@
       "annapurna-region-permits-acap-guide"
     ],
     "note": "The itineraries described above, in both Kathmandu-start and Pokhara-start versions."
+  },
+  "annapurna-circuit-in-november": {
+    "treks": [
+      "annapurna-circuit-trek",
+      "annapurna-circuit-with-tilicho-lake-trek",
+      "short-annapurna-circuit-trek",
+      "tilicho-lake-trek",
+      "manaslu-circuit-trek",
+      "jomsom-muktinath-trek"
+    ],
+    "posts": [
+      "annapurna-circuit-trek-complete-guide",
+      "thorong-la-pass-crossing-guide",
+      "annapurna-circuit-road-and-jeep-changes",
+      "tilicho-lake-trek-guide",
+      "manaslu-circuit-in-november",
+      "trekking-in-nepal-in-november"
+    ],
+    "note": "The circuit in three lengths, and the routes that share its ground."
   },
   "annapurna-circuit-road-and-jeep-changes": {
     "treks": [
@@ -194,6 +250,25 @@
       "fixed-rope-and-jumar-skills-for-nepal-peaks"
     ],
     "note": "The Annapurna Sanctuary, walked and climbed."
+  },
+  "annapurna-treks-during-dashain": {
+    "treks": [
+      "poonhill-trek-from-pokhara",
+      "mardi-himal-trek-from-pokhara",
+      "annapurna-base-camp-trek-from-pokhara",
+      "mohare-danda-trek",
+      "khopra-danda-trek",
+      "ghalegaun-ghanpokhara-village-tour"
+    ],
+    "posts": [
+      "trekking-in-nepal-during-dashain",
+      "pokhara-during-dashain",
+      "mardi-himal-vs-poon-hill-vs-annapurna-base-camp",
+      "annapurna-region-permits-acap-guide",
+      "short-treks-for-the-dashain-holiday",
+      "short-treks-from-pokhara"
+    ],
+    "note": "Annapurna treks from Pokhara, with two quieter ridges and a village stay for the festival days."
   },
   "api-himal-base-camp-trek-guide": {
     "treks": [
@@ -359,6 +434,42 @@
       "first-time-trekking-in-nepal-what-to-know"
     ],
     "note": "Routes that suit the seasons described above, all run with licensed local guides and our own lodge bookings."
+  },
+  "bhai-tika-guide-for-visitors": {
+    "treks": [
+      "sirubari-village-tour",
+      "ghalegaun-ghanpokhara-village-tour",
+      "kathmandu-valley-tour",
+      "kathmandu-day-tour",
+      "himalayan-village-tour"
+    ],
+    "posts": [
+      "tihar-festival-nepal-travel-guide",
+      "tihar-dates-calendar-for-travellers",
+      "mha-puja-and-nepal-sambat-new-year",
+      "tihar-food-guide-sel-roti-and-sweets",
+      "dashain-tika-ceremony-guide-for-visitors",
+      "kathmandu-during-tihar"
+    ],
+    "note": "Homestays and tours where the last day of Tihar is spent with a family."
+  },
+  "bhaktapur-during-dashain-navadurga-and-mohani": {
+    "treks": [
+      "bhaktapur-day-tour",
+      "kathmandu-valley-tour",
+      "kathmandu-photography-tour",
+      "nagarkot-sunrise-tour",
+      "seven-world-heritage-kathmandu-day-tour"
+    ],
+    "posts": [
+      "bhaktapur-travel-guide",
+      "kathmandu-during-dashain",
+      "fifteen-days-of-dashain-explained",
+      "where-to-see-dashain-celebrations-in-nepal",
+      "photographing-dashain-in-nepal",
+      "kathmandu-valley-unesco-sites-guide"
+    ],
+    "note": "Tours that spend time in Bhaktapur and can be dated for the festival."
   },
   "bhaktapur-travel-guide": {
     "treks": [
@@ -541,6 +652,25 @@
     ],
     "note": "The easy ways to see the Himalaya from the Kathmandu valley."
   },
+  "chhath-festival-nepal-guide": {
+    "treks": [
+      "koshi-tappu-wildlife-reserve-tour",
+      "lumbini-tour",
+      "chitwan-national-park-tour-3-days",
+      "kathmandu-day-tour",
+      "nepal-cultural-tour",
+      "hindu-pilgrimage-tour"
+    ],
+    "posts": [
+      "nepal-festivals-and-events-october-november-2026",
+      "tihar-festival-nepal-travel-guide",
+      "photographing-tihar-in-nepal",
+      "nepal-festival-calendar",
+      "lumbini-travel-guide",
+      "bird-watching-in-nepal-guide"
+    ],
+    "note": "Trips along the plains and in the valley that combine with Chhath."
+  },
   "chitwan-national-park-guide": {
     "treks": [
       "chitwan-national-park-tour-3-days",
@@ -573,6 +703,25 @@
       "peak-climbing-gear-list"
     ],
     "note": "The technical Khumbu expeditions, in order of seriousness."
+  },
+  "christmas-and-new-year-in-nepal": {
+    "treks": [
+      "poonhill-trek-from-pokhara",
+      "pokhara-day-tour-with-sarangkot-sunrise",
+      "chitwan-national-park-tour-3-days",
+      "kathmandu-pokhara-tour",
+      "best-of-nepal-tour",
+      "everest-view-trek"
+    ],
+    "posts": [
+      "trekking-in-nepal-in-december",
+      "winter-trekking-in-nepal-best-routes",
+      "pokhara-travel-guide",
+      "chitwan-national-park-guide",
+      "everest-base-camp-trek-in-december",
+      "poon-hill-trek-guide"
+    ],
+    "note": "Short treks and tours that fit a holiday week at the end of December."
   },
   "chulu-east-peak-climbing-guide": {
     "treks": [
@@ -641,6 +790,135 @@
       "nepal-trek-difficulty-grades-explained"
     ],
     "note": "Western Dhaulagiri and the routes that connect to it from Dhorpatan."
+  },
+  "dashain-dates-calendar-for-travellers": {
+    "treks": [
+      "glimpse-of-nepal-tour",
+      "kathmandu-valley-tour",
+      "kathmandu-day-tour",
+      "everest-view-trek",
+      "poonhill-trek"
+    ],
+    "posts": [
+      "dashain-festival-nepal-travel-guide",
+      "fifteen-days-of-dashain-explained",
+      "what-is-open-and-closed-in-nepal-during-dashain",
+      "trekking-permits-during-dashain",
+      "dashain-vs-tihar-which-festival-to-visit",
+      "nepal-festival-calendar"
+    ],
+    "note": "Short trips that can be placed precisely around the festival dates."
+  },
+  "dashain-festival-nepal-travel-guide": {
+    "treks": [
+      "kathmandu-pokhara-tour",
+      "best-of-nepal-tour",
+      "kathmandu-photography-tour",
+      "ghalegaun-ghanpokhara-village-tour",
+      "poonhill-trek-from-pokhara",
+      "everest-base-camp-trek"
+    ],
+    "posts": [
+      "dashain-dates-calendar-for-travellers",
+      "fifteen-days-of-dashain-explained",
+      "is-dashain-a-good-time-to-visit-nepal",
+      "trekking-in-nepal-during-dashain",
+      "where-to-see-dashain-celebrations-in-nepal",
+      "nepal-festival-calendar"
+    ],
+    "note": "Trips that fit around the festival week — city and culture first, then a trek once the roads have emptied."
+  },
+  "dashain-food-guide-what-to-eat": {
+    "treks": [
+      "secret-food-tour-in-kathmandu",
+      "sirubari-village-tour",
+      "patan-day-tour",
+      "bhaktapur-day-tour",
+      "ghalegaun-ghanpokhara-village-tour"
+    ],
+    "posts": [
+      "dashain-tika-ceremony-guide-for-visitors",
+      "secret-food-tour-in-kathmandu-guide",
+      "food-on-the-trail-in-nepal",
+      "animal-sacrifice-at-dashain-what-travellers-should-know",
+      "stomach-illness-on-a-nepal-trek-medication-and-recovery",
+      "bhaktapur-during-dashain-navadurga-and-mohani"
+    ],
+    "note": "A food walk through old Kathmandu, and homestays where the feast is cooked at home."
+  },
+  "dashain-swings-and-kites": {
+    "treks": [
+      "nagarkot-sunrise-tour",
+      "dhulikhel-namobuddha-hike",
+      "pokhara-day-tour-with-sarangkot-sunrise",
+      "bungmati-khokana-village-tour",
+      "himalayan-village-tour",
+      "kathmandu-photography-tour"
+    ],
+    "posts": [
+      "dashain-festival-nepal-travel-guide",
+      "photographing-dashain-in-nepal",
+      "kathmandu-during-dashain",
+      "pokhara-during-dashain",
+      "where-to-see-dashain-celebrations-in-nepal",
+      "nagarkot-and-sunrise-viewpoints-near-kathmandu"
+    ],
+    "note": "Day trips to the villages and ridges where the swings are built."
+  },
+  "dashain-tika-ceremony-guide-for-visitors": {
+    "treks": [
+      "ghalegaun-ghanpokhara-village-tour",
+      "sirubari-village-tour",
+      "himalayan-village-tour",
+      "kathmandu-valley-tour",
+      "pokhara-day-tour"
+    ],
+    "posts": [
+      "fifteen-days-of-dashain-explained",
+      "dashain-food-guide-what-to-eat",
+      "where-to-see-dashain-celebrations-in-nepal",
+      "guides-and-porters-at-dashain",
+      "ghalegaun-ghanpokhara-village-tour-guide",
+      "sirubari-village-tour-guide"
+    ],
+    "note": "Homestay tours where the host family includes guests in the tika."
+  },
+  "dashain-vs-tihar-which-festival-to-visit": {
+    "treks": [
+      "nepal-cultural-tour",
+      "kathmandu-valley-tour",
+      "everest-base-camp-trek",
+      "annapurna-circuit-trek",
+      "patan-day-tour"
+    ],
+    "posts": [
+      "dashain-festival-nepal-travel-guide",
+      "dashain-dates-calendar-for-travellers",
+      "is-dashain-a-good-time-to-visit-nepal",
+      "nepal-festival-calendar",
+      "tengboche-monastery-and-sherpa-culture",
+      "nepal-cultural-tour-itineraries"
+    ],
+    "note": "A valley tour for the festivals and a two-week trek for the days between them."
+  },
+  "deusi-bhailo-tihar-songs-explained": {
+    "treks": [
+      "ghalegaun-ghanpokhara-village-tour",
+      "sirubari-village-tour",
+      "poonhill-trek",
+      "mohare-danda-trek",
+      "pokhara-day-tour",
+      "kathmandu-day-tour"
+    ],
+    "posts": [
+      "tihar-festival-nepal-travel-guide",
+      "laxmi-puja-in-nepal-night-of-lights",
+      "tihar-dates-calendar-for-travellers",
+      "trekking-in-nepal-during-tihar",
+      "tihar-food-guide-sel-roti-and-sweets",
+      "pokhara-travel-guide"
+    ],
+    "note": "Villages and towns where the singing comes to your door."
   },
   "dhampus-peak-climbing-guide": {
     "treks": [
@@ -868,6 +1146,63 @@
     ],
     "note": "Khumbu trips at different price points — each page shows the per-person rate by group size."
   },
+  "everest-base-camp-trek-during-dashain": {
+    "treks": [
+      "everest-base-camp-trek",
+      "everest-view-trek",
+      "gokyo-lake-trek",
+      "everest-base-camp-trek-with-helicopter-return",
+      "pikey-peak-trek",
+      "kathmandu-to-lukla-helicopter-flight"
+    ],
+    "posts": [
+      "everest-base-camp-trek-complete-guide",
+      "lukla-flight-guide",
+      "best-time-for-everest-base-camp-trek",
+      "trekking-in-nepal-during-dashain",
+      "tengboche-monastery-and-sherpa-culture",
+      "guides-and-porters-at-dashain"
+    ],
+    "note": "The base camp trek and the alternatives when October flights or lodges are full."
+  },
+  "everest-base-camp-trek-in-december": {
+    "treks": [
+      "everest-base-camp-trek",
+      "everest-base-camp-trek-with-helicopter-return",
+      "everest-view-trek",
+      "everest-base-camp-helicopter-tour",
+      "pikey-peak-trek",
+      "gokyo-lake-trek"
+    ],
+    "posts": [
+      "everest-base-camp-trek-in-november",
+      "trekking-in-nepal-in-december",
+      "winter-trekking-in-nepal-best-routes",
+      "everest-base-camp-packing-list",
+      "best-time-for-everest-base-camp-trek",
+      "lukla-flight-delays-peak-season-backup-plans"
+    ],
+    "note": "Ways to see Everest in winter, from a morning to two weeks."
+  },
+  "everest-base-camp-trek-in-november": {
+    "treks": [
+      "everest-base-camp-trek",
+      "everest-base-camp-trek-with-helicopter-return",
+      "gokyo-lake-trek",
+      "everest-view-trek",
+      "everest-three-pass-trek",
+      "everest-base-camp-helicopter-tour"
+    ],
+    "posts": [
+      "best-time-for-everest-base-camp-trek",
+      "everest-base-camp-trek-complete-guide",
+      "everest-base-camp-packing-list",
+      "lukla-flight-delays-peak-season-backup-plans",
+      "trekking-in-nepal-in-november",
+      "everest-base-camp-trek-in-december"
+    ],
+    "note": "Ways to reach Everest in late autumn, from a week to seventeen days."
+  },
   "everest-base-camp-trek-itinerary-day-by-day": {
     "treks": [
       "everest-base-camp-trek",
@@ -929,6 +1264,24 @@
       "nepal-trek-difficulty-grades-explained"
     ],
     "note": "The full circuit, and the shorter Cho La variant for trekkers who want both valleys with one pass."
+  },
+  "fifteen-days-of-dashain-explained": {
+    "treks": [
+      "kathmandu-valley-tour",
+      "kathmandu-day-tour",
+      "bhaktapur-day-tour",
+      "sirubari-village-tour",
+      "hindu-pilgrimage-tour"
+    ],
+    "posts": [
+      "dashain-festival-nepal-travel-guide",
+      "dashain-dates-calendar-for-travellers",
+      "dashain-tika-ceremony-guide-for-visitors",
+      "bhaktapur-during-dashain-navadurga-and-mohani",
+      "animal-sacrifice-at-dashain-what-travellers-should-know",
+      "kathmandu-valley-unesco-sites-guide"
+    ],
+    "note": "Tours through the temples and old cities where the festival's public days unfold."
   },
   "first-time-trekking-in-nepal-what-to-know": {
     "treks": [
@@ -1059,6 +1412,24 @@
     ],
     "note": "The Gokyo valley on its own, or linked to Base Camp over the Cho La."
   },
+  "gorkha-and-manakamana-during-dashain": {
+    "treks": [
+      "kathmandu-pokhara-tour",
+      "himalayan-village-tour",
+      "trishuli-river-rafting-1-day",
+      "hindu-pilgrimage-tour",
+      "manaslu-circuit-trek"
+    ],
+    "posts": [
+      "where-to-see-dashain-celebrations-in-nepal",
+      "kathmandu-during-dashain",
+      "fifteen-days-of-dashain-explained",
+      "hindu-pilgrimage-tour-guide",
+      "kathmandu-pokhara-tour-guide",
+      "travelling-around-nepal-during-dashain"
+    ],
+    "note": "Trips along the Kathmandu–Pokhara road that can take in the palace and the cable car."
+  },
   "gosaikunda-lake-trek-guide": {
     "treks": [
       "gosaikunda-lake-trek",
@@ -1091,6 +1462,24 @@
       "domestic-flights-in-nepal-for-trekkers"
     ],
     "note": "The mid-western hills and the routes that reach them from Dhorpatan."
+  },
+  "guides-and-porters-at-dashain": {
+    "treks": [
+      "everest-base-camp-trek",
+      "annapurna-circuit-trek",
+      "langtang-valley-trek",
+      "manaslu-circuit-trek",
+      "poonhill-trek"
+    ],
+    "posts": [
+      "guides-and-porters-in-nepal-rules-and-costs",
+      "responsible-trekking-in-nepal",
+      "trekking-in-nepal-during-dashain",
+      "dashain-tika-ceremony-guide-for-visitors",
+      "how-much-does-trekking-in-nepal-cost",
+      "everest-base-camp-trek-during-dashain"
+    ],
+    "note": "Treks with a natural rest day that can be placed on the tika."
   },
   "guides-and-porters-in-nepal-rules-and-costs": {
     "treks": [
@@ -1223,6 +1612,25 @@
     ],
     "note": "The trips used in the worked budgets above — each page carries the current per-person price by group size."
   },
+  "how-to-avoid-crowds-on-nepal-treks-in-peak-season": {
+    "treks": [
+      "gokyo-lake-trek",
+      "pikey-peak-trek",
+      "mohare-danda-trek",
+      "khopra-danda-trek",
+      "manaslu-circuit-trek",
+      "tamang-heritage-trek"
+    ],
+    "posts": [
+      "off-the-beaten-path-treks-in-nepal",
+      "trekking-in-nepal-in-november",
+      "gokyo-lakes-trek-guide",
+      "mohare-danda-community-trek-guide",
+      "manaslu-vs-annapurna-circuit",
+      "pikey-peak-trek-guide"
+    ],
+    "note": "Quieter neighbours of the famous routes, all in good condition in autumn."
+  },
   "how-to-train-for-a-nepal-trek": {
     "treks": [
       "everest-base-camp-trek",
@@ -1270,6 +1678,24 @@
       "khumbu-cough-colds-and-chest-infections-on-a-trek"
     ],
     "note": "Mountain treks carry little infection risk; adding the lowlands changes what your doctor should check for."
+  },
+  "is-dashain-a-good-time-to-visit-nepal": {
+    "treks": [
+      "himalayan-village-tour",
+      "kathmandu-valley-tour",
+      "kathmandu-photography-tour",
+      "poonhill-trek",
+      "chitwan-national-park-tour-3-days"
+    ],
+    "posts": [
+      "dashain-festival-nepal-travel-guide",
+      "what-is-open-and-closed-in-nepal-during-dashain",
+      "dashain-vs-tihar-which-festival-to-visit",
+      "trekking-in-nepal-during-dashain",
+      "best-time-to-visit-nepal-trekking-seasons",
+      "first-time-trekking-in-nepal-what-to-know"
+    ],
+    "note": "The trips that gain most from being in Nepal for the festival."
   },
   "island-peak-climbing-guide": {
     "treks": [
@@ -1452,6 +1878,44 @@
     ],
     "note": "Dolpo, from the lake trek to the range behind it."
   },
+  "kathmandu-during-dashain": {
+    "treks": [
+      "kathmandu-day-tour",
+      "seven-world-heritage-kathmandu-day-tour",
+      "kathmandu-photography-tour",
+      "pharping-dakshinkali-tour",
+      "bungmati-khokana-village-tour",
+      "nagarkot-sunrise-tour"
+    ],
+    "posts": [
+      "bhaktapur-during-dashain-navadurga-and-mohani",
+      "where-to-see-dashain-celebrations-in-nepal",
+      "what-is-open-and-closed-in-nepal-during-dashain",
+      "kathmandu-valley-unesco-sites-guide",
+      "arriving-in-kathmandu-first-48-hours",
+      "photographing-dashain-in-nepal"
+    ],
+    "note": "Day tours that work with the festival — and with a city that has no traffic."
+  },
+  "kathmandu-during-tihar": {
+    "treks": [
+      "kathmandu-day-tour",
+      "kathmandu-valley-tour",
+      "kathmandu-photography-tour",
+      "bhaktapur-day-tour",
+      "patan-day-tour",
+      "nagarkot-sunrise-tour"
+    ],
+    "posts": [
+      "tihar-festival-nepal-travel-guide",
+      "tihar-dates-calendar-for-travellers",
+      "laxmi-puja-in-nepal-night-of-lights",
+      "kukur-tihar-day-of-the-dogs",
+      "mha-puja-and-nepal-sambat-new-year",
+      "kathmandu-during-dashain"
+    ],
+    "note": "City and valley tours that can be timed for the festival evenings."
+  },
   "kathmandu-pokhara-tour-guide": {
     "treks": [
       "kathmandu-pokhara-tour",
@@ -1550,6 +2014,24 @@
       "post-trek-recovery-what-your-body-needs"
     ],
     "note": "Routes with famous descents — each walked at a pace, and split into stages, that your knees can live with."
+  },
+  "kukur-tihar-day-of-the-dogs": {
+    "treks": [
+      "kathmandu-day-tour",
+      "kathmandu-valley-tour",
+      "kathmandu-photography-tour",
+      "pokhara-day-tour",
+      "bhaktapur-day-tour"
+    ],
+    "posts": [
+      "tihar-festival-nepal-travel-guide",
+      "tihar-dates-calendar-for-travellers",
+      "laxmi-puja-in-nepal-night-of-lights",
+      "photographing-tihar-in-nepal",
+      "kathmandu-during-tihar",
+      "vaccinations-for-trekking-in-nepal"
+    ],
+    "note": "City tours for the morning of Kukur Tihar."
   },
   "kusum-kanguru-peak-climbing-guide": {
     "treks": [
@@ -1718,6 +2200,25 @@
     ],
     "note": "Every route we run in the Langtang region, from the valley itself to the sacred lakes and the Ganja La."
   },
+  "langtang-valley-trek-in-november": {
+    "treks": [
+      "langtang-valley-trek",
+      "langtang-gosaikunda-lake-trek",
+      "gosaikunda-lake-trek",
+      "tamang-heritage-trek",
+      "yala-peak-climbing",
+      "helambu-trek"
+    ],
+    "posts": [
+      "langtang-valley-trek-complete-guide",
+      "gosaikunda-lake-trek-guide",
+      "tamang-heritage-trail-guide",
+      "short-treks-near-kathmandu",
+      "trekking-in-nepal-in-november",
+      "langtang-after-the-2015-earthquake"
+    ],
+    "note": "Langtang and its neighbours — all reached by road from Kathmandu."
+  },
   "larke-la-pass-crossing-guide": {
     "treks": [
       "manaslu-circuit-trek",
@@ -1749,6 +2250,25 @@
       "peak-climbing-in-nepal-beginners-guide"
     ],
     "note": "Manaslu-region climbing peaks and the Circuit they sit on."
+  },
+  "laxmi-puja-in-nepal-night-of-lights": {
+    "treks": [
+      "bhaktapur-day-tour",
+      "patan-day-tour",
+      "kathmandu-day-tour",
+      "kathmandu-valley-tour",
+      "ghalegaun-ghanpokhara-village-tour",
+      "pokhara-day-tour"
+    ],
+    "posts": [
+      "tihar-festival-nepal-travel-guide",
+      "tihar-dates-calendar-for-travellers",
+      "deusi-bhailo-tihar-songs-explained",
+      "photographing-tihar-in-nepal",
+      "kathmandu-during-tihar",
+      "bhaktapur-travel-guide"
+    ],
+    "note": "Places to be when the lamps are lit."
   },
   "lhotse-expedition-guide": {
     "treks": [
@@ -1832,6 +2352,25 @@
     ],
     "note": "Mustang, from the open lower valley to the restricted north."
   },
+  "lukla-flight-delays-peak-season-backup-plans": {
+    "treks": [
+      "everest-base-camp-trek",
+      "everest-base-camp-trek-with-helicopter-return",
+      "kathmandu-to-lukla-helicopter-flight",
+      "lukla-to-kathmandu-helicopter-flight",
+      "pikey-peak-trek",
+      "langtang-valley-trek"
+    ],
+    "posts": [
+      "lukla-flight-guide",
+      "everest-base-camp-trek-in-november",
+      "everest-base-camp-helicopter-return-guide",
+      "domestic-flights-in-nepal-for-trekkers",
+      "travel-insurance-for-trekking-in-nepal",
+      "everest-base-camp-trek-complete-guide"
+    ],
+    "note": "Everest treks, the helicopter flights that back them up, and two alternatives that need no flight."
+  },
   "lukla-flight-guide": {
     "treks": [
       "everest-base-camp-trek",
@@ -1896,6 +2435,25 @@
     ],
     "note": "Makalu and the Barun valley, climbed and walked."
   },
+  "manaslu-circuit-in-november": {
+    "treks": [
+      "manaslu-circuit-trek",
+      "larke-pass-trek",
+      "tsum-valley-and-manaslu-circuit-trek",
+      "tsum-valley-trek",
+      "lower-manaslu-trek",
+      "annapurna-circuit-trek"
+    ],
+    "posts": [
+      "manaslu-circuit-trek-complete-guide",
+      "larke-la-pass-crossing-guide",
+      "restricted-area-trekking-permits-in-nepal",
+      "tsum-valley-trek-guide",
+      "annapurna-circuit-in-november",
+      "manaslu-vs-annapurna-circuit"
+    ],
+    "note": "Manaslu with and without the pass, and the circuit next door."
+  },
   "manaslu-circuit-trek-complete-guide": {
     "treks": [
       "manaslu-circuit-trek",
@@ -1943,6 +2501,44 @@
       "larke-la-pass-crossing-guide"
     ],
     "note": "Both circuits as we run them, plus the combinations and short versions."
+  },
+  "mani-rimdu-festival-tengboche-guide": {
+    "treks": [
+      "everest-base-camp-trek",
+      "everest-view-trek",
+      "gokyo-lake-trek",
+      "pikey-peak-trek",
+      "everest-base-camp-trek-with-helicopter-return",
+      "everest-three-pass-trek"
+    ],
+    "posts": [
+      "tengboche-monastery-and-sherpa-culture",
+      "everest-base-camp-trek-in-november",
+      "namche-bazaar-acclimatisation-guide",
+      "lukla-flight-delays-peak-season-backup-plans",
+      "nepal-festivals-and-events-october-november-2026",
+      "everest-base-camp-trek-complete-guide"
+    ],
+    "note": "Everest-region treks that pass Tengboche, or can be routed through it for the festival."
+  },
+  "mardi-himal-and-poon-hill-in-november": {
+    "treks": [
+      "poonhill-trek",
+      "mardi-himal-trek",
+      "poonhill-trek-from-pokhara",
+      "mardi-himal-trek-from-pokhara",
+      "mohare-danda-trek",
+      "khopra-danda-trek"
+    ],
+    "posts": [
+      "mardi-himal-vs-poon-hill-vs-annapurna-base-camp",
+      "mardi-himal-trek-complete-guide",
+      "poon-hill-trek-guide",
+      "short-treks-from-pokhara",
+      "annapurna-base-camp-trek-in-november",
+      "trekking-in-nepal-in-november"
+    ],
+    "note": "Short treks above Pokhara, from three days to nine."
   },
   "mardi-himal-trek-complete-guide": {
     "treks": [
@@ -2069,6 +2665,25 @@
       "yala-peak-climbing-guide"
     ],
     "note": "Both peaks, and the combinations that climb them in the right order."
+  },
+  "mha-puja-and-nepal-sambat-new-year": {
+    "treks": [
+      "patan-day-tour",
+      "bhaktapur-day-tour",
+      "secret-food-tour-in-kathmandu",
+      "kathmandu-valley-tour",
+      "seven-world-heritage-kathmandu-day-tour",
+      "kathmandu-day-tour"
+    ],
+    "posts": [
+      "tihar-festival-nepal-travel-guide",
+      "bhai-tika-guide-for-visitors",
+      "patan-travel-guide",
+      "bhaktapur-travel-guide",
+      "tihar-food-guide-sel-roti-and-sweets",
+      "kathmandu-during-tihar"
+    ],
+    "note": "Tours of the Newar cities, where the New Year is celebrated."
   },
   "mohare-danda-community-trek-guide": {
     "treks": [
@@ -2263,6 +2878,25 @@
     ],
     "note": "Everything we run that needs no serious walking, from a one-hour flight to a five-day safari."
   },
+  "nepal-between-dashain-and-tihar": {
+    "treks": [
+      "everest-base-camp-trek",
+      "manaslu-circuit-trek",
+      "annapurna-base-camp-trek",
+      "kathmandu-valley-tour",
+      "chitwan-national-park-tour-3-days",
+      "ghalegaun-ghanpokhara-village-tour"
+    ],
+    "posts": [
+      "dashain-vs-tihar-which-festival-to-visit",
+      "tihar-festival-nepal-travel-guide",
+      "nepal-festivals-and-events-october-november-2026",
+      "how-to-avoid-crowds-on-nepal-treks-in-peak-season",
+      "rice-harvest-season-in-nepal-village-walks",
+      "what-is-open-and-closed-in-nepal-during-dashain"
+    ],
+    "note": "Trips that fit the sixteen days between the two festivals."
+  },
   "nepal-cultural-tour-itineraries": {
     "treks": [
       "nepal-cultural-tour",
@@ -2295,6 +2929,25 @@
       "bhaktapur-travel-guide"
     ],
     "note": "Cultural tours and treks we can time around a specific festival once the dates are published."
+  },
+  "nepal-festivals-and-events-october-november-2026": {
+    "treks": [
+      "kathmandu-valley-tour",
+      "everest-base-camp-trek",
+      "annapurna-base-camp-trek",
+      "langtang-valley-trek",
+      "nepal-cultural-tour",
+      "kathmandu-day-tour"
+    ],
+    "posts": [
+      "tihar-festival-nepal-travel-guide",
+      "dashain-festival-nepal-travel-guide",
+      "mani-rimdu-festival-tengboche-guide",
+      "chhath-festival-nepal-guide",
+      "trekking-in-nepal-in-november",
+      "nepal-festival-calendar"
+    ],
+    "note": "Trips that fit the weeks between Dashain and Chhath."
   },
   "nepal-trek-difficulty-grades-explained": {
     "treks": [
@@ -2342,6 +2995,24 @@
       "nepal-visa-on-arrival-guide"
     ],
     "note": "Restricted-area routes where the permit can only be issued through a registered agency — we handle the entire process."
+  },
+  "nepal-trip-costs-and-booking-during-dashain": {
+    "treks": [
+      "kathmandu-valley-tour",
+      "poonhill-trek-from-pokhara",
+      "everest-view-trek",
+      "glimpse-of-nepal-tour",
+      "kathmandu-pokhara-tour"
+    ],
+    "posts": [
+      "how-much-does-trekking-in-nepal-cost",
+      "what-is-open-and-closed-in-nepal-during-dashain",
+      "guides-and-porters-at-dashain",
+      "travelling-around-nepal-during-dashain",
+      "everest-base-camp-trek-cost-breakdown",
+      "travel-insurance-for-trekking-in-nepal"
+    ],
+    "note": "Trips with few moving parts, which keep a festival budget predictable."
   },
   "nepal-visa-on-arrival-guide": {
     "treks": [
@@ -2537,6 +3208,25 @@
     ],
     "note": "Trekking peaks suitable for a first Himalayan climb, all with training days and a licensed climbing guide included."
   },
+  "peak-climbing-in-nepal-in-november": {
+    "treks": [
+      "island-peak-climbing",
+      "mera-peak-climbing",
+      "lobuche-east-peak-climbing",
+      "yala-peak-climbing",
+      "island-peak-climbing-from-chhukung",
+      "pokalde-peak-climbing"
+    ],
+    "posts": [
+      "peak-climbing-in-nepal-beginners-guide",
+      "island-peak-climbing-guide",
+      "mera-peak-climbing-guide",
+      "mera-peak-vs-island-peak",
+      "peak-climbing-gear-list",
+      "nma-peak-permits-and-fees"
+    ],
+    "note": "Trekking peaks with an autumn season, from 5,520 m to 6,476 m."
+  },
   "phari-lapcha-peak-climbing-guide": {
     "treks": [
       "phari-lapcha-peak-climbing",
@@ -2570,6 +3260,43 @@
       "arriving-in-kathmandu-first-48-hours"
     ],
     "note": "Kathmandu valley day tours beyond the main Durbar Squares."
+  },
+  "photographing-dashain-in-nepal": {
+    "treks": [
+      "kathmandu-photography-tour",
+      "nepal-photography-tour",
+      "annapurna-photography-tour",
+      "upper-mustang-photography-tour",
+      "nagarkot-sunrise-tour"
+    ],
+    "posts": [
+      "dashain-swings-and-kites",
+      "kathmandu-during-dashain",
+      "bhaktapur-during-dashain-navadurga-and-mohani",
+      "where-to-see-dashain-celebrations-in-nepal",
+      "dashain-tika-ceremony-guide-for-visitors",
+      "nagarkot-and-sunrise-viewpoints-near-kathmandu"
+    ],
+    "note": "Photography tours built around the light, each of which can be dated for the festival."
+  },
+  "photographing-tihar-in-nepal": {
+    "treks": [
+      "kathmandu-photography-tour",
+      "nepal-photography-tour",
+      "annapurna-photography-tour",
+      "bhaktapur-day-tour",
+      "patan-day-tour",
+      "ghalegaun-ghanpokhara-village-tour"
+    ],
+    "posts": [
+      "tihar-festival-nepal-travel-guide",
+      "laxmi-puja-in-nepal-night-of-lights",
+      "kukur-tihar-day-of-the-dogs",
+      "kathmandu-during-tihar",
+      "photographing-dashain-in-nepal",
+      "chhath-festival-nepal-guide"
+    ],
+    "note": "Photography tours, and the places where the festival is best lit."
   },
   "pikey-peak-trek-guide": {
     "treks": [
@@ -2619,6 +3346,25 @@
       "lukla-flight-guide"
     ],
     "note": "Khumbu climbing peaks, from the most approachable upward."
+  },
+  "pokhara-during-dashain": {
+    "treks": [
+      "pokhara-day-tour",
+      "pokhara-day-tour-with-sarangkot-sunrise",
+      "poonhill-trek-from-pokhara",
+      "sirubari-village-tour",
+      "paragliding-in-pokhara",
+      "pokhara-honeymoon-tour"
+    ],
+    "posts": [
+      "pokhara-travel-guide",
+      "annapurna-treks-during-dashain",
+      "dashain-swings-and-kites",
+      "where-to-see-dashain-celebrations-in-nepal",
+      "short-treks-from-pokhara",
+      "travelling-around-nepal-during-dashain"
+    ],
+    "note": "Day tours, a village stay and a short trek, all starting from the lake."
   },
   "pokhara-helicopter-sightseeing-tour-guide": {
     "treks": [
@@ -2929,6 +3675,25 @@
     ],
     "note": "Treks that run through the best rhododendron forest in Nepal, timed for late March and April."
   },
+  "rice-harvest-season-in-nepal-village-walks": {
+    "treks": [
+      "ghalegaun-ghanpokhara-village-tour",
+      "sirubari-village-tour",
+      "himalayan-village-tour",
+      "bungmati-khokana-village-tour",
+      "dhulikhel-namobuddha-hike",
+      "mohare-danda-trek"
+    ],
+    "posts": [
+      "ghalegaun-ghanpokhara-village-tour-guide",
+      "sirubari-village-tour-guide",
+      "himalayan-village-tour-guide",
+      "bungmati-khokana-village-tour-guide",
+      "nepal-between-dashain-and-tihar",
+      "responsible-trekking-in-nepal"
+    ],
+    "note": "Village stays and walks through farming country, at their best in harvest."
+  },
   "rolwaling-valley-and-tashi-lapcha-guide": {
     "treks": [
       "rolwaling-valley-trek",
@@ -3127,6 +3892,25 @@
       "mountain-flights-in-nepal-guide"
     ],
     "note": "Shorter ways into the Everest region, from a one-hour flight to a nine-day teahouse trek."
+  },
+  "short-treks-for-the-dashain-holiday": {
+    "treks": [
+      "mohare-danda-trek-from-pokhara",
+      "poonhill-trek-from-pokhara",
+      "mardi-himal-trek-from-pokhara",
+      "ama-yangri-trek",
+      "langtang-valley-trek",
+      "pikey-peak-trek"
+    ],
+    "posts": [
+      "short-treks-from-pokhara",
+      "short-treks-near-kathmandu",
+      "annapurna-treks-during-dashain",
+      "trekking-in-nepal-during-dashain",
+      "mardi-himal-vs-poon-hill-vs-annapurna-base-camp",
+      "altitude-sickness-in-nepal-prevention-and-treatment"
+    ],
+    "note": "Short treks from Pokhara and Kathmandu that fit inside the holiday week."
   },
   "short-treks-from-pokhara": {
     "treks": [
@@ -3339,6 +4123,61 @@
     ],
     "note": "Itineraries that cross Thorong La, all run anticlockwise with acclimatisation days at Manang."
   },
+  "tihar-dates-calendar-for-travellers": {
+    "treks": [
+      "kathmandu-valley-tour",
+      "kathmandu-day-tour",
+      "bhaktapur-day-tour",
+      "patan-day-tour",
+      "pokhara-day-tour"
+    ],
+    "posts": [
+      "tihar-festival-nepal-travel-guide",
+      "kukur-tihar-day-of-the-dogs",
+      "laxmi-puja-in-nepal-night-of-lights",
+      "bhai-tika-guide-for-visitors",
+      "kathmandu-during-tihar",
+      "dashain-dates-calendar-for-travellers"
+    ],
+    "note": "Day tours and short trips for the five days of the festival."
+  },
+  "tihar-festival-nepal-travel-guide": {
+    "treks": [
+      "kathmandu-valley-tour",
+      "bhaktapur-day-tour",
+      "kathmandu-day-tour",
+      "ghalegaun-ghanpokhara-village-tour",
+      "annapurna-base-camp-trek",
+      "poonhill-trek"
+    ],
+    "posts": [
+      "tihar-dates-calendar-for-travellers",
+      "kukur-tihar-day-of-the-dogs",
+      "laxmi-puja-in-nepal-night-of-lights",
+      "bhai-tika-guide-for-visitors",
+      "kathmandu-during-tihar",
+      "trekking-in-nepal-during-tihar"
+    ],
+    "note": "Tours for the festival days, and treks that end in time for the lights."
+  },
+  "tihar-food-guide-sel-roti-and-sweets": {
+    "treks": [
+      "secret-food-tour-in-kathmandu",
+      "kathmandu-day-tour",
+      "patan-day-tour",
+      "sirubari-village-tour",
+      "ghalegaun-ghanpokhara-village-tour"
+    ],
+    "posts": [
+      "tihar-festival-nepal-travel-guide",
+      "bhai-tika-guide-for-visitors",
+      "mha-puja-and-nepal-sambat-new-year",
+      "secret-food-tour-in-kathmandu-guide",
+      "dashain-food-guide-what-to-eat",
+      "food-on-the-trail-in-nepal"
+    ],
+    "note": "Tours and homestays where the food of the festival is on the table."
+  },
   "tiji-festival-upper-mustang": {
     "treks": [
       "upper-mustang-trek",
@@ -3418,6 +4257,24 @@
     ],
     "note": "Trips where the altitude clause in your policy needs particular attention before departure."
   },
+  "travelling-around-nepal-during-dashain": {
+    "treks": [
+      "kathmandu-pokhara-tour",
+      "kathmandu-to-lukla-helicopter-flight",
+      "trishuli-river-rafting-1-day",
+      "best-of-nepal-tour",
+      "poonhill-trek-from-pokhara"
+    ],
+    "posts": [
+      "domestic-flights-in-nepal-for-trekkers",
+      "lukla-flight-guide",
+      "dashain-dates-calendar-for-travellers",
+      "what-is-open-and-closed-in-nepal-during-dashain",
+      "trekking-in-nepal-during-dashain",
+      "kathmandu-pokhara-tour-guide"
+    ],
+    "note": "Trips built to use flights for the long legs and to break the highway where it is worth stopping."
+  },
   "trekking-first-aid-kit-for-nepal": {
     "treks": [
       "helambu-trek",
@@ -3435,6 +4292,82 @@
     ],
     "note": "From a week in Langtang to a month in Dolpo — the further from a road, the more your kit matters."
   },
+  "trekking-in-nepal-during-dashain": {
+    "treks": [
+      "langtang-valley-trek",
+      "annapurna-base-camp-trek",
+      "everest-base-camp-trek",
+      "mohare-danda-trek",
+      "manaslu-circuit-trek",
+      "tamang-heritage-trek"
+    ],
+    "posts": [
+      "everest-base-camp-trek-during-dashain",
+      "annapurna-treks-during-dashain",
+      "trekking-permits-during-dashain",
+      "guides-and-porters-at-dashain",
+      "short-treks-for-the-dashain-holiday",
+      "best-time-to-visit-nepal-trekking-seasons"
+    ],
+    "note": "Treks that run through the festival — from the busy classics to the quieter village ridges."
+  },
+  "trekking-in-nepal-during-tihar": {
+    "treks": [
+      "poonhill-trek",
+      "mohare-danda-trek",
+      "mardi-himal-trek",
+      "annapurna-base-camp-trek",
+      "langtang-valley-trek",
+      "ghalegaun-ghanpokhara-village-tour"
+    ],
+    "posts": [
+      "tihar-festival-nepal-travel-guide",
+      "trekking-in-nepal-in-november",
+      "deusi-bhailo-tihar-songs-explained",
+      "trekking-in-nepal-during-dashain",
+      "nepal-trekking-permits-explained",
+      "guides-and-porters-in-nepal-rules-and-costs"
+    ],
+    "note": "Treks that work with the festival dates, most of them through villages that celebrate."
+  },
+  "trekking-in-nepal-in-december": {
+    "treks": [
+      "poonhill-trek",
+      "mardi-himal-trek",
+      "langtang-valley-trek",
+      "mohare-danda-trek",
+      "pikey-peak-trek",
+      "everest-view-trek"
+    ],
+    "posts": [
+      "winter-trekking-in-nepal-best-routes",
+      "everest-base-camp-trek-in-december",
+      "christmas-and-new-year-in-nepal",
+      "trekking-in-nepal-in-november",
+      "best-time-to-visit-nepal-trekking-seasons",
+      "nepal-trekking-packing-list"
+    ],
+    "note": "Routes at moderate altitude that are at their best in early winter."
+  },
+  "trekking-in-nepal-in-november": {
+    "treks": [
+      "everest-base-camp-trek",
+      "annapurna-base-camp-trek",
+      "mardi-himal-trek",
+      "poonhill-trek",
+      "langtang-valley-trek",
+      "manaslu-circuit-trek"
+    ],
+    "posts": [
+      "everest-base-camp-trek-in-november",
+      "annapurna-base-camp-trek-in-november",
+      "best-time-to-visit-nepal-trekking-seasons",
+      "how-to-avoid-crowds-on-nepal-treks-in-peak-season",
+      "trekking-in-nepal-in-december",
+      "nepal-trekking-packing-list"
+    ],
+    "note": "Routes that are at their best in November."
+  },
   "trekking-in-nepal-with-a-medical-condition": {
     "treks": [
       "poonhill-trek-from-pokhara",
@@ -3451,6 +4384,25 @@
       "nepal-trek-difficulty-grades-explained"
     ],
     "note": "Lower routes with quick access to a road or airstrip — where we usually start when a medical condition calls for wide margins."
+  },
+  "trekking-permits-during-dashain": {
+    "treks": [
+      "manaslu-circuit-trek",
+      "upper-mustang-trek",
+      "tsum-valley-trek",
+      "nar-phu-valley-trek",
+      "everest-base-camp-trek",
+      "langtang-valley-trek"
+    ],
+    "posts": [
+      "restricted-area-trekking-permits-in-nepal",
+      "nepal-trekking-permits-explained",
+      "annapurna-region-permits-acap-guide",
+      "dashain-dates-calendar-for-travellers",
+      "what-is-open-and-closed-in-nepal-during-dashain",
+      "trekking-in-nepal-during-dashain"
+    ],
+    "note": "Restricted-area treks to permit before the holiday, and two that need no Kathmandu office at all."
   },
   "trishuli-river-rafting-2-days-guide": {
     "treks": [
@@ -3550,6 +4502,25 @@
     ],
     "note": "Upper Dolpo and the Mustang traverse, both run as fully supported camping expeditions."
   },
+  "upper-mustang-in-november": {
+    "treks": [
+      "upper-mustang-trek",
+      "upper-mustang-photography-tour",
+      "upper-mustang-trek-from-pokhara",
+      "lower-mustang-trek",
+      "jomsom-muktinath-trek",
+      "muktinath-pilgrimage-tour"
+    ],
+    "posts": [
+      "upper-mustang-trek-complete-guide",
+      "restricted-area-trekking-permits-in-nepal",
+      "jomsom-muktinath-trek-guide",
+      "tiji-festival-upper-mustang",
+      "trekking-in-nepal-in-november",
+      "lower-mustang-trek-guide"
+    ],
+    "note": "Mustang on foot and by jeep, above and below the restricted line."
+  },
   "upper-mustang-trek-complete-guide": {
     "treks": [
       "upper-mustang-trek",
@@ -3599,6 +4570,24 @@
     ],
     "note": "Quieter trails with long forest sections and Buddhist culture along the way — the best ground for walking in silence."
   },
+  "what-is-open-and-closed-in-nepal-during-dashain": {
+    "treks": [
+      "seven-world-heritage-kathmandu-day-tour",
+      "kathmandu-day-tour",
+      "glimpse-of-nepal-tour",
+      "pokhara-day-tour",
+      "everest-mountain-flight"
+    ],
+    "posts": [
+      "dashain-dates-calendar-for-travellers",
+      "trekking-permits-during-dashain",
+      "nepal-trip-costs-and-booking-during-dashain",
+      "travelling-around-nepal-during-dashain",
+      "kathmandu-during-dashain",
+      "buying-medicine-in-kathmandu-and-pokhara"
+    ],
+    "note": "Day tours and flights that run through the festival when booked in advance."
+  },
   "where-to-meditate-in-kathmandu-before-a-trek": {
     "treks": [
       "kathmandu-day-tour",
@@ -3614,6 +4603,25 @@
       "dhulikhel-namobuddha-hike-guide"
     ],
     "note": "Day tours and short hikes from Kathmandu that take in the valley's main places of practice."
+  },
+  "where-to-see-dashain-celebrations-in-nepal": {
+    "treks": [
+      "himalayan-village-tour",
+      "bhaktapur-day-tour",
+      "bungmati-khokana-village-tour",
+      "kathmandu-pokhara-tour",
+      "hindu-pilgrimage-tour",
+      "nepal-photography-tour"
+    ],
+    "posts": [
+      "kathmandu-during-dashain",
+      "bhaktapur-during-dashain-navadurga-and-mohani",
+      "gorkha-and-manakamana-during-dashain",
+      "pokhara-during-dashain",
+      "dashain-tika-ceremony-guide-for-visitors",
+      "himalayan-village-tour-guide"
+    ],
+    "note": "Tours that reach the places where the festival is public or easy to join."
   },
   "winter-trekking-in-nepal-best-routes": {
     "treks": [

@@ -6,7 +6,7 @@ export const meditationD: BlogContent[] = [
     slug: "monasteries-for-meditation-on-nepal-treks",
     title: "Monasteries Where You Can Meditate on a Nepal Trek",
     cluster: "meditation",
-    date: "2028-02-03",
+    date: "2026-10-03",
     hero: {
       image: "mardi-treks/everest-base-camp-trek/everest-base-camp-trek-02-view-of-tengboche-from-phortse-on-the-way-to-pheriche-nepal",
       alt: "Tengboche monastery on its forested ridge seen from Phortse, Everest region, Nepal.",
@@ -201,7 +201,7 @@ export const meditationD: BlogContent[] = [
     slug: "meditation-retreats-in-nepal-after-a-trek",
     title: "Meditation Retreats in Nepal After a Trek: Vipassana, Kopan and Lumbini",
     cluster: "meditation",
-    date: "2028-02-09",
+    date: "2026-10-03",
     hero: {
       image: "mardi-treks/lumbini-tour/lumbini-tour-06-sacred-pool-reflecting-beauty-and-wisdom",
       alt: "The sacred pool beside the Maya Devi temple at Lumbini, birthplace of the Buddha, Nepal.",
@@ -389,7 +389,7 @@ export const meditationD: BlogContent[] = [
     slug: "meditation-for-trek-anxiety-and-fear-of-altitude",
     title: "Meditation for Trek Anxiety: Altitude, Flights and Exposure",
     cluster: "meditation",
-    date: "2028-02-15",
+    date: "2026-10-03",
     hero: {
       image: "mardi-treks/everest-view-trek/everest-view-trek-05-lukla-airport-during-everest-base-camp-trek-0092",
       alt: "Lukla airport, the mountain airstrip at the start of the Everest Base Camp trek, Nepal.",

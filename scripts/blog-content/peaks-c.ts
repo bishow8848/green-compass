@@ -6,7 +6,7 @@ export const peaksC: BlogContent[] = [
     slug: "pokalde-peak-climbing-guide",
     title: "Pokalde Peak Climbing: The Complete Guide",
     cluster: "climbing",
-    date: "2027-08-18",
+    date: "2026-09-19",
     hero: {
       image: "mardi-treks/pokalde-peak-climbing/pokalde-peak-climbing-00-khumbu-gletscher-vom-lobuche-pass",
       alt: "The Khumbu glacier seen from the Lobuche pass, Everest region, Nepal.",
@@ -185,7 +185,7 @@ export const peaksC: BlogContent[] = [
     slug: "kyajo-ri-peak-climbing-guide",
     title: "Kyajo Ri Peak Climbing: The Complete Guide",
     cluster: "climbing",
-    date: "2027-08-21",
+    date: "2026-09-19",
     hero: {
       image: "mardi-treks/kyajo-ri-peak-climbing/kyajo-ri-peak-climbing-00-kyazo-ri",
       alt: "Kyajo Ri peak in the Khumbu, Everest region, Nepal.",
@@ -365,7 +365,7 @@ export const peaksC: BlogContent[] = [
     slug: "kwangde-peak-climbing-guide",
     title: "Kwangde Peak Climbing: The Complete Guide",
     cluster: "climbing",
-    date: "2027-08-25",
+    date: "2026-09-19",
     hero: {
       image: "mardi-treks/kwangde-peak-climbing/kwangde-peak-climbing-00-kongde-ri",
       alt: "Kongde Ri above Namche Bazaar, Everest region, Nepal.",
@@ -549,7 +549,7 @@ export const peaksC: BlogContent[] = [
     slug: "phari-lapcha-peak-climbing-guide",
     title: "Phari Lapcha Peak Climbing: The Complete Guide",
     cluster: "climbing",
-    date: "2027-08-28",
+    date: "2026-09-19",
     hero: {
       image: "mardi-treks/phari-lapcha-peak-climbing/phari-lapcha-peak-climbing-00-phari-lapcha",
       alt: "Phari Lapcha above Machhermo in the Gokyo valley, Nepal.",

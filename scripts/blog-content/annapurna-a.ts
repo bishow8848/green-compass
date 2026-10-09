@@ -6,7 +6,7 @@ export const annapurnaA: BlogContent[] = [
     slug: "annapurna-base-camp-trek-complete-guide",
     title: "Annapurna Base Camp Trek: The Complete Guide",
     cluster: "annapurna",
-    date: "2026-05-12",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/annapurna-base-camp-trek/annapurna-base-camp-trek-00-annapurna-base-camp-perspective",
       alt: "Annapurna Base Camp ringed by Himalayan peaks, Annapurna Sanctuary, Nepal.",
@@ -249,7 +249,7 @@ export const annapurnaA: BlogContent[] = [
     slug: "annapurna-base-camp-trek-itinerary",
     title: "Annapurna Base Camp Trek Itinerary: Day by Day",
     cluster: "annapurna",
-    date: "2026-05-15",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/annapurna-base-camp-trek/annapurna-base-camp-trek-01-abc-deurali-on-the-annapurna-base-camp-trek-nepal-2016",
       alt: "Lodges at Deurali in the Modi Khola gorge, Annapurna Base Camp trek, Nepal.",
@@ -384,7 +384,7 @@ export const annapurnaA: BlogContent[] = [
     slug: "annapurna-circuit-trek-complete-guide",
     title: "Annapurna Circuit Trek: The Complete Guide",
     cluster: "annapurna",
-    date: "2026-05-19",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/annapurna-circuit-trek/annapurna-circuit-trek-00-annapurna-range-between-ledar-and-thorong-phedi",
       alt: "The Annapurna range between Ledar and Thorong Phedi, Annapurna Circuit, Nepal.",

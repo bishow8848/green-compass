@@ -6,7 +6,7 @@ export const climbingC: BlogContent[] = [
     slug: "nma-peak-permits-and-fees",
     title: "NMA Peak Permits and Fees: Climbing Paperwork in Nepal",
     cluster: "climbing",
-    date: "2026-11-03",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/island-peak-climbing/island-peak-climbing-04-chhukung-to-imja-tse-camp-24-nuptse-imja-tse-2007-gje",
       alt: "Island Peak and Nuptse seen from Chhukung, Everest region, Nepal.",
@@ -159,7 +159,7 @@ export const climbingC: BlogContent[] = [
     slug: "peak-climbing-gear-list",
     title: "Peak Climbing Gear List for Nepal's Trekking Peaks",
     cluster: "climbing",
-    date: "2026-11-06",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/lobuche-east-peak-climbing/lobuche-east-peak-climbing-01-lobuche-east-peak",
       alt: "The snow-covered summit of Lobuche East, Khumbu region, Nepal.",
@@ -306,7 +306,7 @@ export const climbingC: BlogContent[] = [
     slug: "fixed-rope-and-jumar-skills-for-nepal-peaks",
     title: "Fixed Rope and Jumar Skills for Nepal's Peaks",
     cluster: "climbing",
-    date: "2026-11-10",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/mera-peak-climbing/mera-peak-climbing-04-valley-of-the-river-hinky-5th-day-hike-the-weather-is-bad-tr",
       alt: "The Hinku valley on the approach to Mera Peak, Nepal.",
@@ -442,7 +442,7 @@ export const climbingC: BlogContent[] = [
     slug: "ama-dablam-expedition-guide",
     title: "Ama Dablam Expedition Guide: The Matterhorn of the Himalaya",
     cluster: "climbing",
-    date: "2026-11-13",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/ama-dablam-expedition/ama-dablam-expedition-00-ama-dablam-from-dingboche",
       alt: "Ama Dablam seen from Dingboche, Khumbu region, Nepal.",

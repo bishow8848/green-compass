@@ -6,7 +6,7 @@ export const planningC: BlogContent[] = [
     slug: "food-on-the-trail-in-nepal",
     title: "Food on the Trail in Nepal: What You Will Actually Eat",
     cluster: "planning",
-    date: "2026-01-27",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/annapurna-base-camp-trek/annapurna-base-camp-trek-01-abc-deurali-on-the-annapurna-base-camp-trek-nepal-2016",
       alt: "Lodges at Deurali on the Annapurna Base Camp trek, Nepal.",
@@ -117,7 +117,7 @@ export const planningC: BlogContent[] = [
     slug: "drinking-water-while-trekking-in-nepal",
     title: "Drinking Water While Trekking in Nepal: Safe Options Compared",
     cluster: "planning",
-    date: "2026-01-30",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/langtang-valley-trek/langtang-valley-trek-03-bridge-at-kyanjin-ri-2024",
       alt: "The Himalayan panorama from Kyanjin Ri on the Langtang Valley trek, Nepal.",
@@ -241,7 +241,7 @@ export const planningC: BlogContent[] = [
     slug: "how-much-does-trekking-in-nepal-cost",
     title: "How Much Does Trekking in Nepal Cost? A Full Budget Breakdown",
     cluster: "planning",
-    date: "2026-02-03",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/annapurna-base-camp-trek/annapurna-base-camp-trek-00-annapurna-base-camp-perspective",
       alt: "Annapurna Base Camp ringed by peaks, Annapurna region, Nepal.",

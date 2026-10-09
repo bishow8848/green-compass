@@ -6,7 +6,7 @@ export const everestD: BlogContent[] = [
     slug: "everest-base-camp-helicopter-return-guide",
     title: "Everest Base Camp with Helicopter Return: Is It Worth It?",
     cluster: "everest",
-    date: "2026-04-17",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/everest-base-camp-trek-with-helicopter-return/everest-base-camp-trek-with-helicopter-return-01-kala-patthar-and-pumori-from-gorak-shep",
       alt: "Pumori above Kala Patthar seen from Gorak Shep, Everest Base Camp trek, Nepal.",
@@ -133,7 +133,7 @@ export const everestD: BlogContent[] = [
     slug: "short-everest-treks-without-base-camp",
     title: "Short Everest Treks: Seeing the Khumbu Without Going to Base Camp",
     cluster: "everest",
-    date: "2026-04-21",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/everest-view-trek/everest-view-trek-00-namche-bazaar-from-hotel-everest-view-trail",
       alt: "Namche Bazaar from the Hotel Everest View trail, Everest region, Nepal.",
@@ -258,7 +258,7 @@ export const everestD: BlogContent[] = [
     slug: "namche-bazaar-acclimatisation-guide",
     title: "Namche Bazaar: The Khumbu's Capital and Your First Rest Day",
     cluster: "everest",
-    date: "2026-04-24",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/everest-base-camp-trek/everest-base-camp-trek-05-namche-bazaar-from-above",
       alt: "Namche Bazaar from above, a horseshoe of Sherpa lodges at 3,440 m, Nepal.",
@@ -366,7 +366,7 @@ export const everestD: BlogContent[] = [
     slug: "tengboche-monastery-and-sherpa-culture",
     title: "Tengboche Monastery and Sherpa Culture in the Khumbu",
     cluster: "everest",
-    date: "2026-04-28",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/everest-base-camp-trek/everest-base-camp-trek-02-view-of-tengboche-from-phortse-on-the-way-to-pheriche-nepal",
       alt: "Tengboche monastery seen from Phortse, Everest region, Nepal.",

@@ -6,7 +6,7 @@ export const remoteF: BlogContent[] = [
     slug: "sherpani-col-passes-trek-guide",
     title: "Sherpani Col Passes Trek: The Complete Guide",
     cluster: "remote",
-    date: "2027-04-17",
+    date: "2026-09-19",
     hero: {
       image: "mardi-treks/sherpani-col-passes-trek/sherpani-col-passes-trek-00-panorama-nepal-panch-pokhari-hunku-glacier-ama-dablam-ombiga",
       alt: "Panorama over the Hunku glacier towards Ama Dablam, Everest region, Nepal.",
@@ -190,7 +190,7 @@ export const remoteF: BlogContent[] = [
     slug: "saribung-pass-trek-guide",
     title: "Saribung Pass Trek: The Complete Guide",
     cluster: "remote",
-    date: "2027-04-21",
+    date: "2026-09-19",
     hero: {
       image: "mardi-treks/saribung-pass-trek/saribung-pass-trek-00-mustang-tsarang-lo-manthang-72-2015-gje",
       alt: "The walled city of Lo Manthang in Upper Mustang, Nepal.",
@@ -374,7 +374,7 @@ export const remoteF: BlogContent[] = [
     slug: "teri-la-pass-trek-guide",
     title: "Teri La Pass Trek: The Complete Guide",
     cluster: "remote",
-    date: "2027-04-24",
+    date: "2026-09-19",
     hero: {
       image: "mardi-treks/teri-la-pass-trek/teri-la-pass-trek-00-mustang-tsarang-lo-manthang-74-stadt-2015-gje",
       alt: "Lo Manthang seen from above, Upper Mustang, Nepal.",

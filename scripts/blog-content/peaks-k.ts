@@ -6,7 +6,7 @@ export const peaksK: BlogContent[] = [
     slug: "putha-hiunchuli-expedition-guide",
     title: "Putha Hiunchuli Expedition: The Complete Guide",
     cluster: "climbing",
-    date: "2027-12-01",
+    date: "2026-09-19",
     hero: {
       image: "mardi-treks/putha-hiunchuli-expedition/putha-hiunchuli-expedition-00-putha-1",
       alt: "Putha Hiunchuli at the western end of the Dhaulagiri chain, Nepal.",
@@ -180,7 +180,7 @@ export const peaksK: BlogContent[] = [
     slug: "api-himal-expedition-guide",
     title: "Api Himal Expedition: The Complete Guide",
     cluster: "climbing",
-    date: "2027-12-04",
+    date: "2026-09-19",
     hero: {
       image: "mardi-treks/api-himal-expedition/api-himal-expedition-00-mt-api-himal-and-scenic-views-of-api-nampa-conservation-area",
       alt: "Api Himal in the Api Nampa Conservation Area, far-western Nepal.",
@@ -341,7 +341,7 @@ export const peaksK: BlogContent[] = [
     slug: "kanjirowa-expedition-guide",
     title: "Kanjirowa Expedition: The Complete Guide",
     cluster: "climbing",
-    date: "2027-12-08",
+    date: "2026-09-19",
     hero: {
       image: "mardi-treks/kanjirowa-expedition/kanjirowa-expedition-00-lake-phoksundo-in-dolpo-nepal",
       alt: "Phoksundo Lake in Dolpo, Nepal.",

@@ -6,7 +6,7 @@ export const peaksI: BlogContent[] = [
     slug: "baruntse-expedition-guide",
     title: "Baruntse Expedition: The Complete Guide",
     cluster: "climbing",
-    date: "2027-11-06",
+    date: "2026-09-19",
     hero: {
       image: "mardi-treks/baruntse-expedition/baruntse-expedition-00-mera-peak-10399",
       alt: "Mera Peak and the Hinku valley, Everest region, Nepal.",
@@ -180,7 +180,7 @@ export const peaksI: BlogContent[] = [
     slug: "himlung-himal-expedition-guide",
     title: "Himlung Himal Expedition: The Complete Guide",
     cluster: "climbing",
-    date: "2027-11-10",
+    date: "2026-09-19",
     hero: {
       image: "mardi-treks/himlung-himal-expedition/himlung-himal-expedition-00-a-trekker-and-manaslu-range-seen-in-background-from-bimthang",
       alt: "The Manaslu range seen from Bimthang, Nepal.",
@@ -364,7 +364,7 @@ export const peaksI: BlogContent[] = [
     slug: "pumori-expedition-guide",
     title: "Pumori Expedition: The Complete Guide",
     cluster: "climbing",
-    date: "2027-11-13",
+    date: "2026-09-19",
     hero: {
       image: "mardi-treks/pumori-expedition/pumori-expedition-00-gorak-shep-06-kala-patthar-pumori-2007-gje",
       alt: "Kala Patthar and Pumori above Gorak Shep, Everest region, Nepal.",
@@ -528,7 +528,7 @@ export const peaksI: BlogContent[] = [
     slug: "chamlang-expedition-guide",
     title: "Chamlang Expedition: The Complete Guide",
     cluster: "climbing",
-    date: "2027-11-17",
+    date: "2026-09-19",
     hero: {
       image: "mardi-treks/chamlang-expedition/chamlang-expedition-00-makalu-and-chamlang",
       alt: "Makalu and Chamlang in the Barun valley, eastern Nepal.",

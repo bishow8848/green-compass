@@ -6,7 +6,7 @@ export const remoteE: BlogContent[] = [
     slug: "lower-manaslu-trek-guide",
     title: "Lower Manaslu Trek: The Complete Guide",
     cluster: "remote",
-    date: "2027-04-03",
+    date: "2026-09-19",
     hero: {
       image: "mardi-treks/lower-manaslu-trek/lower-manaslu-trek-00-mountain-seen-from-barpak-gorkha-01",
       alt: "Mountains seen from Barpak in Gorkha district, Nepal.",
@@ -194,7 +194,7 @@ export const remoteE: BlogContent[] = [
     slug: "lower-mustang-trek-guide",
     title: "Lower Mustang Trek: The Complete Guide",
     cluster: "remote",
-    date: "2027-04-07",
+    date: "2026-09-19",
     hero: {
       image: "mardi-treks/lower-mustang-trek/lower-mustang-trek-00-bus-stand-jomsom-village-wlv-0671",
       alt: "Jomsom village in the Kali Gandaki valley, Mustang, Nepal.",
@@ -385,7 +385,7 @@ export const remoteE: BlogContent[] = [
     slug: "rupina-la-pass-trek-guide",
     title: "Rupina La Pass Trek: The Complete Guide",
     cluster: "remote",
-    date: "2027-04-10",
+    date: "2026-09-19",
     hero: {
       image: "mardi-treks/rupina-la-pass-trek/rupina-la-pass-trek-00-yaru-bagar-to-jagat-gorkha-district-manaslu-trek-nepal-39995",
       alt: "The trail between Yaru Bagar and Jagat in Gorkha district, Manaslu region, Nepal.",
@@ -558,7 +558,7 @@ export const remoteE: BlogContent[] = [
     slug: "tilman-pass-trek-guide",
     title: "Tilman Pass Trek: The Complete Guide",
     cluster: "remote",
-    date: "2027-04-14",
+    date: "2026-09-19",
     hero: {
       image: "mardi-treks/tilman-pass-trek/tilman-pass-trek-00-panch-pokhari7",
       alt: "The sacred lakes at Panch Pokhari, central Nepal.",

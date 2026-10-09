@@ -6,7 +6,7 @@ export const planningB: BlogContent[] = [
     slug: "nepal-trekking-packing-list",
     title: "Nepal Trekking Packing List: What to Bring by Altitude",
     cluster: "planning",
-    date: "2026-01-16",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/mardi-himal-trek/mardi-himal-trek-00-high-camp-of-mardi-himal-trek-08",
       alt: "High Camp on the Mardi Himal trek, Annapurna region, Nepal.",
@@ -180,7 +180,7 @@ export const planningB: BlogContent[] = [
     slug: "travel-insurance-for-trekking-in-nepal",
     title: "Travel Insurance for Trekking in Nepal: What Your Policy Must Cover",
     cluster: "planning",
-    date: "2026-01-20",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/everest-base-camp-trek-with-helicopter-return/everest-base-camp-trek-with-helicopter-return-00-everest-panorama-from-kala-patthar",
       alt: "The Everest panorama from Kala Patthar, Everest Base Camp trek, Nepal.",
@@ -311,7 +311,7 @@ export const planningB: BlogContent[] = [
     slug: "teahouse-trekking-in-nepal-explained",
     title: "Teahouse Trekking in Nepal: What the Lodges Are Really Like",
     cluster: "planning",
-    date: "2026-01-23",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/langtang-valley-trek/langtang-valley-trek-01-around-kyanjin-valley-langtang-national-park-rasuwa-nepal-24",
       alt: "Stone lodges in the Kyanjin valley, Langtang National Park, Nepal.",

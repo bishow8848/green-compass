@@ -6,7 +6,7 @@ export const annapurnaB: BlogContent[] = [
     slug: "thorong-la-pass-crossing-guide",
     title: "Crossing Thorong La: The Biggest Day on the Annapurna Circuit",
     cluster: "annapurna",
-    date: "2026-05-22",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/short-annapurna-circuit-trek/short-annapurna-circuit-trek-03-thorong-la-muktinath-valley-himalaya-nepal",
       alt: "Prayer flags at Thorong La pass above the Muktinath valley, Nepal.",
@@ -156,7 +156,7 @@ export const annapurnaB: BlogContent[] = [
     slug: "mardi-himal-trek-complete-guide",
     title: "Mardi Himal Trek: The Complete Guide to Nepal's Best Short Ridge Walk",
     cluster: "annapurna",
-    date: "2026-05-26",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/mardi-himal-trek/mardi-himal-trek-00-high-camp-of-mardi-himal-trek-08",
       alt: "High Camp on the Mardi Himal trek beneath Machhapuchhre, Nepal.",
@@ -373,7 +373,7 @@ export const annapurnaB: BlogContent[] = [
     slug: "poon-hill-trek-guide",
     title: "Poon Hill Trek: Nepal's Best Short Sunrise Trek",
     cluster: "annapurna",
-    date: "2026-05-29",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/poonhill-trek/poonhill-trek-00-landscape-view-of-poon-hill",
       alt: "Sunrise over the Annapurna range from Poon Hill, Nepal.",
@@ -590,7 +590,7 @@ export const annapurnaB: BlogContent[] = [
     slug: "tilicho-lake-trek-guide",
     title: "Tilicho Lake Trek: The Highest Large Lake in the World",
     cluster: "annapurna",
-    date: "2026-06-02",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/tilicho-lake-trek/tilicho-lake-trek-00-panorama-of-tilicho-lake-unedited",
       alt: "Panorama of Tilicho Lake at 4,919 m, Annapurna region, Nepal.",

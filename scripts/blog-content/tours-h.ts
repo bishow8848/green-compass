@@ -6,7 +6,7 @@ export const toursH: BlogContent[] = [
     slug: "langtang-helicopter-tour-guide",
     title: "Langtang Helicopter Tour from Kathmandu: The Complete Guide",
     cluster: "tours",
-    date: "2027-06-09",
+    date: "2026-09-19",
     hero: {
       image: "mardi-treks/langtang-helicopter-tour-from-kathmandu/langtang-helicopter-tour-from-kathmandu-00-kyanjin-gompa-village-in-langtang",
       alt: "Kyanjin Gompa village in the Langtang valley, Nepal.",
@@ -169,7 +169,7 @@ export const toursH: BlogContent[] = [
     slug: "muktinath-damodar-kunda-helicopter-tour-guide",
     title: "Muktinath & Damodar Kunda Helicopter Tour: The Complete Guide",
     cluster: "tours",
-    date: "2027-06-12",
+    date: "2026-09-19",
     hero: {
       image: "mardi-treks/muktinath-damodar-kunda-helicopter-tour/muktinath-damodar-kunda-helicopter-tour-00-damodar-himal",
       alt: "The Damodar Himal on the Tibetan plateau, Mustang, Nepal.",
@@ -337,7 +337,7 @@ export const toursH: BlogContent[] = [
     slug: "ultra-light-flight-in-pokhara-guide",
     title: "Ultralight Flight in Pokhara: The Complete Guide",
     cluster: "tours",
-    date: "2027-06-16",
+    date: "2026-09-19",
     hero: {
       image: "mardi-treks/ultra-light-flight-in-pokhara/ultra-light-flight-in-pokhara-00-pokhara-jomsom-flight-nepal",
       alt: "Aerial view over the Pokhara valley towards the mountains, Nepal.",
@@ -517,7 +517,7 @@ export const toursH: BlogContent[] = [
     slug: "five-himalayan-viewpoints-tour-guide",
     title: "Five Himalayan Viewpoints Tour from Pokhara: The Complete Guide",
     cluster: "tours",
-    date: "2027-06-19",
+    date: "2026-09-19",
     hero: {
       image: "mardi-treks/five-himalayan-viewpoints-tour-from-pokhara/five-himalayan-viewpoints-tour-from-pokhara-00-sunrise-over-pokhara-peace-pagoda-and-annapurna-range",
       alt: "Sunrise over the Peace Pagoda and the Annapurna range, Pokhara, Nepal.",

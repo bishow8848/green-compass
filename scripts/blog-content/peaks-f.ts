@@ -6,7 +6,7 @@ export const peaksF: BlogContent[] = [
     slug: "pachermo-peak-climbing-guide",
     title: "Pachermo Peak Climbing: The Complete Guide",
     cluster: "climbing",
-    date: "2027-09-29",
+    date: "2026-09-19",
     hero: {
       image: "mardi-treks/pachermo-peak-climbing/pachermo-peak-climbing-00-tsho-rolpa-and-pachermo-peak-of-gaurishankar-conservation-ar",
       alt: "Tsho Rolpa and Pachermo Peak in the Gaurishankar Conservation Area, Nepal.",
@@ -172,7 +172,7 @@ export const peaksF: BlogContent[] = [
     slug: "bokta-peak-climbing-guide",
     title: "Bokta Peak Climbing: The Complete Guide",
     cluster: "climbing",
-    date: "2027-10-02",
+    date: "2026-09-19",
     hero: {
       image: "mardi-treks/bokta-peak-climbing/bokta-peak-climbing-00-kangchenjunga-nepal",
       alt: "Kanchenjunga from the Nepal side, eastern Himalaya.",
@@ -360,7 +360,7 @@ export const peaksF: BlogContent[] = [
     slug: "dorje-lakpa-expedition-guide",
     title: "Dorje Lakpa Expedition: The Complete Guide",
     cluster: "climbing",
-    date: "2027-10-06",
+    date: "2026-09-19",
     hero: {
       image: "mardi-treks/dorje-lakpa-expedition/dorje-lakpa-expedition-00-dorje-lakpa-himal-panorama1",
       alt: "Panorama of Dorje Lakpa Himal, Langtang region, Nepal.",
@@ -530,7 +530,7 @@ export const peaksF: BlogContent[] = [
     slug: "langtang-lirung-expedition-guide",
     title: "Langtang Lirung Expedition: The Complete Guide",
     cluster: "climbing",
-    date: "2027-10-09",
+    date: "2026-09-19",
     hero: {
       image: "mardi-treks/langtang-lirung-expedition/langtang-lirung-expedition-00-langtang-lirung-himal",
       alt: "Langtang Lirung above the Langtang valley, Nepal.",

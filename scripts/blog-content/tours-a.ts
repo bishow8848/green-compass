@@ -6,7 +6,7 @@ export const toursA: BlogContent[] = [
     slug: "kathmandu-valley-unesco-sites-guide",
     title: "Kathmandu Valley UNESCO Sites: A Guide to All Seven",
     cluster: "tours",
-    date: "2026-11-27",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/seven-world-heritage-kathmandu-day-tour/seven-world-heritage-kathmandu-day-tour-00-kathmandu-durbar-square-basantapur",
       alt: "Kathmandu Durbar Square at Basantapur, Kathmandu Valley, Nepal.",
@@ -129,7 +129,7 @@ export const toursA: BlogContent[] = [
     slug: "bhaktapur-travel-guide",
     title: "Bhaktapur Travel Guide: The Best-Preserved City in the Valley",
     cluster: "tours",
-    date: "2026-12-01",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/bhaktapur-day-tour/bhaktapur-day-tour-00-nyatapola-temple-in-the-taumadhi-square-49740557988",
       alt: "Nyatapola temple in Taumadhi Square, Bhaktapur, Nepal.",
@@ -238,7 +238,7 @@ export const toursA: BlogContent[] = [
     slug: "patan-travel-guide",
     title: "Patan Travel Guide: Newar Craft and the Valley's Finest Square",
     cluster: "tours",
-    date: "2026-12-04",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/patan-day-tour/patan-day-tour-00-sundari-chowk-patan-durbar-square-patan-lalitpur-nepal-rajes",
       alt: "Sundari Chowk at Patan Durbar Square, Lalitpur, Nepal.",

@@ -6,7 +6,7 @@ export const toursE: BlogContent[] = [
     slug: "best-of-nepal-tour-guide",
     title: "Best of Nepal Tour: The Complete Guide",
     cluster: "tours",
-    date: "2027-04-28",
+    date: "2026-09-19",
     hero: {
       image: "mardi-treks/best-of-nepal-tour/best-of-nepal-tour-00-boudhanath-stupa-img-7048",
       alt: "Boudhanath Stupa in Kathmandu, Nepal.",
@@ -198,7 +198,7 @@ export const toursE: BlogContent[] = [
     slug: "kathmandu-pokhara-tour-guide",
     title: "Kathmandu & Pokhara Tour: The Complete Guide",
     cluster: "tours",
-    date: "2027-05-01",
+    date: "2026-09-19",
     hero: {
       image: "mardi-treks/kathmandu-pokhara-tour/kathmandu-pokhara-tour-00-kathmandu-durbar-square-shiva-parvati-temple-lions-nepal",
       alt: "The Shiva Parvati temple at Kathmandu Durbar Square, Nepal.",
@@ -384,7 +384,7 @@ export const toursE: BlogContent[] = [
     slug: "buddhist-pilgrimage-tour-nepal-guide",
     title: "Buddhist Pilgrimage Tour in Nepal: The Complete Guide",
     cluster: "tours",
-    date: "2027-05-05",
+    date: "2026-09-19",
     hero: {
       image: "mardi-treks/buddhist-pilgrimage-tour-nepal/buddhist-pilgrimage-tour-nepal-00-boudhanath-buddhist-stup-panorama",
       alt: "Panorama of Boudhanath stupa, Kathmandu, Nepal.",
@@ -556,7 +556,7 @@ export const toursE: BlogContent[] = [
     slug: "hindu-pilgrimage-tour-guide",
     title: "Hindu Pilgrimage Tour in Nepal: The Complete Guide",
     cluster: "tours",
-    date: "2027-05-08",
+    date: "2026-09-19",
     hero: {
       image: "mardi-treks/hindu-pilgrimage-tour/hindu-pilgrimage-tour-00-2023-january-night-aarti-at-pashupatinath-temple-kathmandu-0",
       alt: "Night aarati at Pashupatinath Temple, Kathmandu, Nepal.",

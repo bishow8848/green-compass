@@ -6,7 +6,7 @@ export const langtangB: BlogContent[] = [
     slug: "short-treks-near-kathmandu",
     title: "Short Treks Near Kathmandu: Himalayan Walks in 2 to 6 Days",
     cluster: "langtang",
-    date: "2026-07-21",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/ama-yangri-trek/ama-yangri-trek-00-amayangri-tarkeghyang-20250503",
       alt: "The Ama Yangri ridge above Tarkeghyang in the Helambu region, Nepal.",
@@ -140,7 +140,7 @@ export const langtangB: BlogContent[] = [
     slug: "langtang-after-the-2015-earthquake",
     title: "Langtang After the 2015 Earthquake: What Happened and Why Go Now",
     cluster: "langtang",
-    date: "2026-07-24",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/langtang-valley-trek/langtang-valley-trek-05-shova-kumari-lama-2",
       alt: "Daily life along the rebuilt Langtang trekking route, Langtang National Park, Nepal.",
@@ -252,7 +252,7 @@ export const langtangB: BlogContent[] = [
     slug: "ruby-valley-trek-guide",
     title: "Ruby Valley Trek: The Ganesh Himal Circuit Nobody Walks",
     cluster: "langtang",
-    date: "2026-07-28",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/ruby-valley-circuit-trek/ruby-valley-circuit-trek-00-khatauti-khola-meets-trishuli-river-dhading",
       alt: "The Khatauti Khola meeting the Trishuli river in Dhading, Ruby Valley region, Nepal.",

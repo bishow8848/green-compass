@@ -6,7 +6,7 @@ export const meditationA: BlogContent[] = [
     slug: "meditation-before-and-after-a-nepal-trek",
     title: "Meditation Before and After a Nepal Trek: The Complete Guide",
     cluster: "meditation",
-    date: "2027-12-11",
+    date: "2026-10-03",
     hero: {
       image: "mardi-treks/kathmandu-day-tour/kathmandu-day-tour-02-boudhanath-stupa-img-7048",
       alt: "Boudhanath stupa in Kathmandu, where many trekkers begin and end a Nepal trek with meditation.",
@@ -187,7 +187,7 @@ export const meditationA: BlogContent[] = [
     slug: "pre-trek-meditation-preparing-your-mind",
     title: "Pre-Trek Meditation: Preparing Your Mind for the Himalaya",
     cluster: "meditation",
-    date: "2027-12-17",
+    date: "2026-10-03",
     hero: {
       image: "mardi-treks/mardi-himal-trek/mardi-himal-trek-01-golden-hour-view-from-badal-dada-in-mardi-himal-trek",
       alt: "Golden hour view from Badal Danda on the Mardi Himal trek, Annapurna region, Nepal.",
@@ -385,7 +385,7 @@ export const meditationA: BlogContent[] = [
     slug: "post-trek-meditation-and-mental-recovery",
     title: "Post-Trek Meditation: Recovery, Integration and the Post-Trek Blues",
     cluster: "meditation",
-    date: "2027-12-23",
+    date: "2026-10-03",
     hero: {
       image: "mardi-treks/pokhara-day-tour/pokhara-day-tour-02-sun-set-over-phewa-lake",
       alt: "Sunset over Phewa Lake in Pokhara, where most Annapurna treks end.",

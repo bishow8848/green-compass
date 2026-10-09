@@ -1,7 +1,15 @@
 /**
- * Write the Nepal travel blog: one published BlogPost per entry in
+ * Write the Nepal travel blog: one BlogPost per entry in
  * scripts/blog-content/*, all under the author "Bishow", plus the links
  * between the articles and the product pages they relate to.
+ *
+ * Publication follows each article's `date`, read as a day in Nepal. A new
+ * article dated today or earlier is published; one dated ahead is created as
+ * `scheduled` and goes live by itself at 09:00 Nepal Time on its date (the
+ * publish job, lib/blog-publisher.ts). Once an article is live its date and
+ * status belong to the database: re-running this script updates the content
+ * and leaves both alone, so an edit never re-dates a post, and a post taken
+ * down in the admin stays down.
  *
  * Internal linking is generated from one source of truth — each article's
  * `relatedTreks` list:
@@ -22,9 +30,20 @@
  * article, every image ID exists in Cloudinary data, no duplicate slugs, and
  * each article meets minimum depth (sections, FAQs, word count).
  *
+ * Articles in a scheduled series may link to each other freely. The blog page
+ * shows a link to a post that is not live yet as plain text, and turns it on
+ * when that post is published (lib/blog-links.ts).
+ *
  * Usage:
  *   npx tsx scripts/apply-blog-content.mts            # dry run (default)
  *   npx tsx scripts/apply-blog-content.mts --apply    # write to the database
+ *   npx tsx scripts/apply-blog-content.mts --apply --only=dashain
+ *
+ * --only=<cluster>[,<cluster>] writes just the articles in those clusters.
+ * Everything is still rendered and validated, and product pages still receive
+ * every pending link, but articles outside the named clusters are left exactly
+ * as they are in the database — the way to publish a new series without also
+ * publishing edits to older articles that are sitting in the files unapplied.
  */
 import "dotenv/config";
 import { writeFileSync } from "node:fs";
@@ -39,10 +58,16 @@ import {
   type BlogContent,
   type TrekIndex,
 } from "./blog-content/build";
+import { BLOG_IMAGES } from "./blog-content/images";
 import { ALL_POSTS } from "./blog-content/index";
 import { TOPIC_ARTICLES, addTopicLinks } from "./blog-content/topic-links";
+import { formatNepalDateTime, nepalDateToPublishAt } from "../lib/blog-schedule";
 
 const APPLY = process.argv.includes("--apply");
+const ONLY = new Set(
+  (process.argv.find((a) => a.startsWith("--only="))?.slice(7) ?? "")
+    .split(",").map((v) => v.trim()).filter(Boolean),
+);
 const RELATIONS_FILE = new URL("../lib/blog-related.json", import.meta.url);
 
 const AUTHOR = {
@@ -78,6 +103,21 @@ const TARGET_WORDS = 2500;
 const TARGET_FAQS = 12;
 /** Most articles linked from a single product page. */
 const MAX_GUIDES_PER_TREK = 6;
+/**
+ * Clusters written about one season or festival rather than about a route.
+ * They link to a lot of products, and ranked like any other article they would
+ * push the year-round guides off a product page: four of the six links on the
+ * Kathmandu Valley Tour became Dashain articles. On a page that already has a
+ * full set of evergreen guides, seasonal articles therefore get at most one
+ * slot, and only if one ranks high enough to take it; on a page with room to
+ * spare they fill whatever is left.
+ */
+const SEASONAL_CLUSTERS = new Set(["dashain", "tihar", "seasonal"]);
+
+
+const NOW = new Date();
+/** Whether an article's date has come round, i.e. it is out or about to be written as published. */
+const isLive = (p: BlogContent) => (nepalDateToPublishAt(p.date)?.getTime() ?? Infinity) <= NOW.getTime();
 
 function validate(
   posts: BlogContent[],
@@ -106,7 +146,9 @@ function validate(
       errors.push(`${at} hero uses an image ID not present in Cloudinary data: "${p.hero.image}"`);
     }
     if (!p.hero.alt.trim()) errors.push(`${at} hero image has no alt text`);
-    if (!/^\d{4}-\d{2}-\d{2}$/.test(p.date)) errors.push(`${at} bad date "${p.date}"`);
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(p.date) || !nepalDateToPublishAt(p.date)) {
+      errors.push(`${at} bad date "${p.date}"`);
+    }
     if (p.sections.length < MIN_SECTIONS) {
       errors.push(`${at} has ${p.sections.length} sections, expected at least ${MIN_SECTIONS}`);
     }
@@ -192,6 +234,8 @@ async function main() {
     if (t.heroImage) images.add(t.heroImage);
     for (const g of t.galleryImages) images.add(g.imageId);
   }
+  // Photographs uploaded for the blog itself, which no product page carries.
+  for (const id of BLOG_IMAGES) images.add(id);
 
   const postSlugs = new Set(ALL_POSTS.map((p) => p.slug));
   for (const slug of TOPIC_ARTICLES) {
@@ -207,8 +251,11 @@ async function main() {
   validate(ALL_POSTS, treks, rendered, images, errors, warnings);
 
   // ── Reverse index: product page -> articles about it ──
+  // Only articles that are out: a product page must not link to a post that
+  // is still waiting for its date. Those join the list on the first run after
+  // they go live.
   const guidesByTrek = new Map<string, BlogContent[]>();
-  for (const p of ALL_POSTS) {
+  for (const p of ALL_POSTS.filter(isLive)) {
     for (const slug of p.relatedTreks) {
       if (!treks.has(slug)) continue;
       const list = guidesByTrek.get(slug) ?? [];
@@ -233,7 +280,18 @@ async function main() {
         a.relatedTreks.length - b.relatedTreks.length ||
         a.title.localeCompare(b.title),
     );
-    guidesByTrek.set(slug, list.slice(0, MAX_GUIDES_PER_TREK));
+    const evergreen = list.filter((p) => !SEASONAL_CLUSTERS.has(p.cluster));
+    const seasonal = list.filter((p) => SEASONAL_CLUSTERS.has(p.cluster));
+    // One slot only where a seasonal article earns it on rank; otherwise just
+    // the slots the evergreen guides leave empty.
+    const earned = list.slice(0, MAX_GUIDES_PER_TREK).some((p) => SEASONAL_CLUSTERS.has(p.cluster)) ? 1 : 0;
+    const seasonalSlots = Math.min(seasonal.length, Math.max(earned, MAX_GUIDES_PER_TREK - evergreen.length));
+    const keep = new Set([
+      ...evergreen.slice(0, MAX_GUIDES_PER_TREK - seasonalSlots),
+      ...seasonal.slice(0, seasonalSlots),
+    ]);
+    // Filtering the ranked list, rather than concatenating, keeps the order.
+    guidesByTrek.set(slug, list.filter((p) => keep.has(p)));
   }
 
   // ── Product pages: topic links in content sections, plus the guides list ──
@@ -329,6 +387,10 @@ async function main() {
   const byCluster = new Map<string, number>();
   for (const p of ALL_POSTS) byCluster.set(p.cluster, (byCluster.get(p.cluster) ?? 0) + 1);
   console.log(`Clusters:        ${[...byCluster].map(([c, n]) => `${c} (${n})`).join(", ")}`);
+  const waiting = ALL_POSTS.filter((p) => !isLive(p)).sort((a, b) => a.date.localeCompare(b.date));
+  if (waiting.length > 0) {
+    console.log(`Dated ahead:     ${waiting.length}, ${waiting[0].date} to ${waiting[waiting.length - 1].date} — scheduled for 09:00 Nepal Time on their date`);
+  }
 
   if (warnings.length > 0) {
     console.log(`\n${warnings.length} warning(s):`);
@@ -365,12 +427,16 @@ async function main() {
   // ── Articles ──
   let created = 0;
   let updated = 0;
-  for (const p of ALL_POSTS) {
+  let scheduled = 0;
+  const writing = ONLY.size ? ALL_POSTS.filter((p) => ONLY.has(p.cluster)) : ALL_POSTS;
+  if (ONLY.size) {
+    console.log(`Writing ${writing.length} of ${ALL_POSTS.length} articles (--only=${[...ONLY].join(",")})`);
+  }
+  for (const p of writing) {
     const data = {
       title: p.title,
       author: AUTHOR.name,
       authorSlug: AUTHOR.slug,
-      publishedDate: new Date(`${p.date}T06:00:00.000Z`),
       heroImage: p.hero.image,
       excerpt: p.excerpt,
       content: rendered.get(p.slug)!,
@@ -380,18 +446,32 @@ async function main() {
       keywords: p.meta.keywords,
       ogImage: p.hero.image,
       faqs: JSON.stringify(p.faqs),
-      status: "published",
     };
-    const existing = await prisma.blogPost.findUnique({ where: { slug: p.slug }, select: { id: true } });
-    if (existing) {
-      await prisma.blogPost.update({ where: { slug: p.slug }, data });
-      updated++;
-    } else {
-      await prisma.blogPost.create({ data: { ...data, slug: p.slug } });
+    const publishAt = nepalDateToPublishAt(p.date)!;
+    const ahead = !isLive(p);
+    const existing = await prisma.blogPost.findUnique({ where: { slug: p.slug }, select: { status: true } });
+    if (!existing) {
+      await prisma.blogPost.create({
+        data: { ...data, slug: p.slug, publishedDate: publishAt, status: ahead ? "scheduled" : "published" },
+      });
       created++;
+      if (ahead) scheduled++;
+    } else {
+      // Still waiting: the file owns the schedule, so a changed `date` moves
+      // it. Anything else keeps the date and status it has in the database.
+      const reschedule = existing.status === "scheduled" && ahead;
+      await prisma.blogPost.update({
+        where: { slug: p.slug },
+        data: reschedule ? { ...data, publishedDate: publishAt } : data,
+      });
+      updated++;
     }
   }
-  console.log(`Articles: ${created} created, ${updated} updated`);
+  console.log(`Articles: ${created} created (${scheduled} scheduled), ${updated} updated`);
+  if (scheduled > 0) {
+    const first = writing.filter((p) => !isLive(p)).sort((a, b) => a.date.localeCompare(b.date))[0];
+    console.log(`Next to go live: ${first.slug} — ${formatNepalDateTime(nepalDateToPublishAt(first.date)!)} Nepal Time`);
+  }
 
   // ── Product pages ──
   for (const u of productUpdates) {

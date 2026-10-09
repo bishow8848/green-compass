@@ -6,7 +6,7 @@ export const eastC: BlogContent[] = [
     slug: "api-himal-base-camp-trek-guide",
     title: "Api Himal Base Camp Trek: Nepal's Far-Western Frontier",
     cluster: "east",
-    date: "2026-10-02",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/api-himal-base-camp-trek/api-himal-base-camp-trek-00-mountain-village-and-river-landscape-of-darchula-in-api-namp",
       alt: "Mountain village and river landscape in Darchula, Api Nampa Conservation Area, Nepal.",
@@ -141,7 +141,7 @@ export const eastC: BlogContent[] = [
     slug: "rolwaling-valley-and-tashi-lapcha-guide",
     title: "Rolwaling Valley and the Tashi Lapcha: Nepal's Hidden Valley",
     cluster: "east",
-    date: "2026-10-06",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/rolwaling-valley-trek/rolwaling-valley-trek-00-on-the-way-to-tsho-rolpa-glacier-lake",
       alt: "The approach to Tsho Rolpa glacial lake, Rolwaling valley, Nepal.",
@@ -270,7 +270,7 @@ export const eastC: BlogContent[] = [
     slug: "off-the-beaten-path-treks-in-nepal",
     title: "Off the Beaten Path Treks in Nepal: 15 Routes Almost Nobody Walks",
     cluster: "east",
-    date: "2026-10-09",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/mundum-trek/mundum-trek-01-from-tyamke-peak-3010mtrs-khotang-bhojpur",
       alt: "The view from Tyamke Peak in Khotang, eastern Nepal.",

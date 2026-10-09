@@ -6,7 +6,7 @@ export const annapurnaE: BlogContent[] = [
     slug: "pokhara-travel-guide",
     title: "Pokhara Travel Guide: Nepal's Lakeside Adventure Capital",
     cluster: "annapurna",
-    date: "2026-06-30",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/pokhara-day-tour/pokhara-day-tour-00-phewa-lake-of-pokhara-city",
       alt: "Phewa Lake in Pokhara with the Annapurna range beyond, Nepal.",
@@ -139,7 +139,7 @@ export const annapurnaE: BlogContent[] = [
     slug: "annapurna-circuit-road-and-jeep-changes",
     title: "Has the Road Ruined the Annapurna Circuit? An Honest Answer",
     cluster: "annapurna",
-    date: "2026-07-03",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/short-annapurna-circuit-trek/short-annapurna-circuit-trek-00-upper-pisang-manang-annapurna-consercvation-area-nepal",
       alt: "Upper Pisang and the high route towards Manang, Annapurna Circuit, Nepal.",
@@ -260,7 +260,7 @@ export const annapurnaE: BlogContent[] = [
     slug: "annapurna-region-permits-acap-guide",
     title: "Annapurna Region Permits: The ACAP Explained",
     cluster: "annapurna",
-    date: "2026-07-07",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/annapurna-circuit-trek/annapurna-circuit-trek-06-muktinath-valley-entrance-nepal",
       alt: "Teahouses and terraced hillsides at Muktinath in the Annapurna Conservation Area, Nepal.",

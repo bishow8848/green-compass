@@ -6,7 +6,7 @@ export const toursB: BlogContent[] = [
     slug: "nepal-festival-calendar",
     title: "Nepal Festival Calendar: What Is Happening When",
     cluster: "tours",
-    date: "2026-12-08",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/nepal-cultural-tour/nepal-cultural-tour-00-taleju-temple-patan-durbar-square",
       alt: "Taleju temple at Patan Durbar Square, Kathmandu Valley, Nepal.",
@@ -134,7 +134,7 @@ export const toursB: BlogContent[] = [
     slug: "muktinath-pilgrimage-guide",
     title: "Muktinath Pilgrimage Guide: The 108 Spouts and the Eternal Flame",
     cluster: "tours",
-    date: "2026-12-11",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/muktinath-pilgrimage-tour/muktinath-pilgrimage-tour-00-jomsom-main-street-nepal-15538157347",
       alt: "Jomsom main street in the Kali Gandaki valley, Mustang, Nepal.",
@@ -251,7 +251,7 @@ export const toursB: BlogContent[] = [
     slug: "lumbini-travel-guide",
     title: "Lumbini Travel Guide: The Birthplace of the Buddha",
     cluster: "tours",
-    date: "2026-12-15",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/lumbini-tour/lumbini-tour-00-maya-devi-temple-and-ashoka-pillar-lumbini-rupandehi-nepal",
       alt: "Maya Devi Temple and the Ashoka Pillar at Lumbini, Nepal.",

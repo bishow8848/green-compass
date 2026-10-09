@@ -6,7 +6,7 @@ export const planningE: BlogContent[] = [
     slug: "how-to-train-for-a-nepal-trek",
     title: "How to Train for a Nepal Trek: A 12-Week Plan",
     cluster: "planning",
-    date: "2026-02-17",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/annapurna-base-camp-trek/annapurna-base-camp-trek-03-ghandruk-jhinudanda-54-modi-khola-dorf-2013-gje",
       alt: "Terraced hillsides and stone villages near Ghandruk, Annapurna Base Camp trek, Nepal.",
@@ -136,7 +136,7 @@ export const planningE: BlogContent[] = [
     slug: "nepal-trek-difficulty-grades-explained",
     title: "Nepal Trek Difficulty Grades Explained: Easy to Extreme",
     cluster: "planning",
-    date: "2026-02-20",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/manaslu-circuit-trek/manaslu-circuit-trek-03-larkya-glacier-lake-and-himalayan-panorama-near-larke-pass-m",
       alt: "Larkya glacier lake and the Himalayan panorama near Larke Pass, Manaslu Circuit trek, Nepal.",
@@ -251,7 +251,7 @@ export const planningE: BlogContent[] = [
     slug: "first-time-trekking-in-nepal-what-to-know",
     title: "First Time Trekking in Nepal: 18 Things Worth Knowing",
     cluster: "planning",
-    date: "2026-02-24",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/poonhill-trek/poonhill-trek-04-ghorepaani-ghandruk-trail-1",
       alt: "Stone houses at Ghandruk on the Poon Hill trek, Annapurna region, Nepal.",

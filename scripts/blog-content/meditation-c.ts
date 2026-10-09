@@ -6,7 +6,7 @@ export const meditationC: BlogContent[] = [
     slug: "where-to-meditate-in-kathmandu-before-a-trek",
     title: "Where to Meditate in Kathmandu Before a Trek",
     cluster: "meditation",
-    date: "2028-01-16",
+    date: "2026-10-03",
     hero: {
       image: "mardi-treks/kathmandu-day-tour/kathmandu-day-tour-04-a-view-of-boudhanath-premises-2017-31",
       alt: "The Boudhanath stupa precinct in Kathmandu with prayer flags, a centre of Tibetan Buddhist practice.",
@@ -217,7 +217,7 @@ export const meditationC: BlogContent[] = [
     slug: "meditation-and-yoga-in-pokhara-after-a-trek",
     title: "Meditation and Yoga in Pokhara After a Trek",
     cluster: "meditation",
-    date: "2028-01-22",
+    date: "2026-10-03",
     hero: {
       image: "mardi-treks/pokhara-day-tour/pokhara-day-tour-01-sunrise-over-pokhara-peace-pagoda-and-annapurna-range",
       alt: "Sunrise over the World Peace Pagoda and the Annapurna range above Pokhara, Nepal.",
@@ -414,7 +414,7 @@ export const meditationC: BlogContent[] = [
     slug: "singing-bowl-sound-healing-after-a-trek",
     title: "Singing Bowl Sound Healing After a Trek: What to Expect",
     cluster: "meditation",
-    date: "2028-01-28",
+    date: "2026-10-03",
     hero: {
       image: "mardi-treks/nepal-cultural-tour/nepal-cultural-tour-02-the-process-of-making-metal-buddha-statues-by-newar-artisans",
       alt: "Newar metalworkers at work in the Kathmandu Valley, where singing bowls and Buddhist statues are made by hand.",

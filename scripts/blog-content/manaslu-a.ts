@@ -6,7 +6,7 @@ export const manasluA: BlogContent[] = [
     slug: "manaslu-circuit-trek-complete-guide",
     title: "Manaslu Circuit Trek: The Complete Guide",
     cluster: "manaslu",
-    date: "2026-08-07",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/manaslu-circuit-trek/manaslu-circuit-trek-00-samagaun-village-manaslu-circuit-03",
       alt: "Samagaun village on the Manaslu Circuit beneath Manaslu, Nepal.",
@@ -237,7 +237,7 @@ export const manasluA: BlogContent[] = [
     slug: "larke-la-pass-crossing-guide",
     title: "Crossing the Larke La: The Manaslu Circuit's Big Day",
     cluster: "manaslu",
-    date: "2026-08-11",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/larke-pass-trek/larke-pass-trek-00-larkya-glacier-lake-and-himalayan-panorama-near-larke-pass-m",
       alt: "The Larkya glacier lake and Himalayan panorama near Larke La, Manaslu region, Nepal.",
@@ -367,7 +367,7 @@ export const manasluA: BlogContent[] = [
     slug: "tsum-valley-trek-guide",
     title: "Tsum Valley Trek: The Hidden Valley Where Hunting Is Forbidden",
     cluster: "manaslu",
-    date: "2026-08-14",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/tsum-valley-trek/tsum-valley-trek-00-tsumvalleygorkha",
       alt: "The Tsum Valley in Gorkha district, Manaslu region, Nepal.",

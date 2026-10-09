@@ -6,7 +6,7 @@ export const toursG: BlogContent[] = [
     slug: "pharping-dakshinkali-tour-guide",
     title: "Pharping & Dakshinkali Tour: The Complete Guide",
     cluster: "tours",
-    date: "2027-05-26",
+    date: "2026-09-19",
     hero: {
       image: "mardi-treks/pharping-dakshinkali-tour/pharping-dakshinkali-tour-00-phamting-vajra-yogini-temple-pharping",
       alt: "The Vajra Yogini temple at Pharping, Kathmandu valley, Nepal.",
@@ -183,7 +183,7 @@ export const toursG: BlogContent[] = [
     slug: "chandragiri-cable-car-tour-guide",
     title: "Chandragiri Cable Car Tour: The Complete Guide",
     cluster: "tours",
-    date: "2027-05-29",
+    date: "2026-09-19",
     hero: {
       image: "mardi-treks/chandragiri-cable-car-tour/chandragiri-cable-car-tour-00-chandragiri-cable-car-hills",
       alt: "The Chandragiri cable car above the Kathmandu valley, Nepal.",
@@ -370,7 +370,7 @@ export const toursG: BlogContent[] = [
     slug: "dhulikhel-namobuddha-hike-guide",
     title: "Dhulikhel to Namobuddha Hike: The Complete Guide",
     cluster: "tours",
-    date: "2027-06-02",
+    date: "2026-09-19",
     hero: {
       image: "mardi-treks/dhulikhel-namobuddha-hike/dhulikhel-namobuddha-hike-00-dhulikhel-as-seen-from-talu-dada",
       alt: "Dhulikhel seen from Talu Dada, Kavre district, Nepal.",
@@ -537,7 +537,7 @@ export const toursG: BlogContent[] = [
     slug: "secret-food-tour-in-kathmandu-guide",
     title: "Secret Food Tour in Kathmandu: The Complete Guide",
     cluster: "tours",
-    date: "2027-06-05",
+    date: "2026-09-19",
     hero: {
       image: "mardi-treks/secret-food-tour-in-kathmandu/secret-food-tour-in-kathmandu-00-fish-god-or-min-bhairav-temple-ason-kathmandu-nepal-rajesh-d",
       alt: "The Min Bhairav temple at Ason, the old bazaar quarter of Kathmandu, Nepal.",

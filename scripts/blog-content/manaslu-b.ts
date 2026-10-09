@@ -6,7 +6,7 @@ export const manasluB: BlogContent[] = [
     slug: "manaslu-vs-annapurna-circuit",
     title: "Manaslu Circuit vs Annapurna Circuit: Which Is the Better Trek?",
     cluster: "manaslu",
-    date: "2026-08-18",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/manaslu-circuit-trek/manaslu-circuit-trek-01-himalayas-budhi-gandaki-valley-next-to-samagaun-and-samdo-vi",
       alt: "Manaslu seen from Samdo and Birendra Lake on the Manaslu Circuit, Nepal.",
@@ -144,7 +144,7 @@ export const manasluB: BlogContent[] = [
     slug: "restricted-area-trekking-permits-in-nepal",
     title: "Restricted Area Trekking Permits in Nepal: The Complete List",
     cluster: "manaslu",
-    date: "2026-08-21",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/upper-mustang-trek/upper-mustang-trek-03-chhoser-upper-mustang-1",
       alt: "Chhoser in Upper Mustang, a restricted area of Nepal.",
@@ -287,7 +287,7 @@ export const manasluB: BlogContent[] = [
     slug: "upper-mustang-trek-complete-guide",
     title: "Upper Mustang Trek: The Walled Kingdom of Lo",
     cluster: "manaslu",
-    date: "2026-08-25",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/upper-mustang-trek/upper-mustang-trek-00-choprang-gompa-lo-manthang-15377480134",
       alt: "Choprang Gompa at Lo Manthang, Upper Mustang, Nepal.",

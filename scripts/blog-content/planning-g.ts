@@ -6,7 +6,7 @@ export const planningG: BlogContent[] = [
     slug: "winter-trekking-in-nepal-best-routes",
     title: "Winter Trekking in Nepal: The Best Routes from December to February",
     cluster: "planning",
-    date: "2026-03-10",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/pikey-peak-trek/pikey-peak-trek-00-first-light-over-the-himalayas-from-pikey-peak-solukhumbu",
       alt: "First light over the Himalaya from Pikey Peak, Solukhumbu, Nepal.",
@@ -129,7 +129,7 @@ export const planningG: BlogContent[] = [
     slug: "solo-female-trekking-in-nepal",
     title: "Solo Female Trekking in Nepal: Safety, Practicalities, and Routes",
     cluster: "planning",
-    date: "2026-03-13",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/langtang-valley-trek/langtang-valley-trek-05-shova-kumari-lama-2",
       alt: "Daily life along the Langtang trekking route, Langtang National Park, Nepal.",

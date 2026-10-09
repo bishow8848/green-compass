@@ -6,7 +6,7 @@ export const peaksB: BlogContent[] = [
     slug: "dhampus-peak-climbing-guide",
     title: "Dhampus Peak Climbing: The Complete Guide",
     cluster: "climbing",
-    date: "2027-08-04",
+    date: "2026-09-19",
     hero: {
       image: "mardi-treks/dhampus-peak-climbing/dhampus-peak-climbing-00-dhaulagiri-peak-as-seen-from-jomsom-bazar",
       alt: "Dhaulagiri seen from Jomsom bazaar, Mustang, Nepal.",
@@ -179,7 +179,7 @@ export const peaksB: BlogContent[] = [
     slug: "singu-chuli-peak-climbing-guide",
     title: "Singu Chuli Peak Climbing: The Complete Guide",
     cluster: "climbing",
-    date: "2027-08-07",
+    date: "2026-09-19",
     hero: {
       image: "mardi-treks/singu-chuli-peak-climbing/singu-chuli-peak-climbing-00-annapurna-south-and-machapuchare-from-ghandruk-2",
       alt: "Annapurna South and Machhapuchhre seen from Ghandruk, Nepal.",
@@ -362,7 +362,7 @@ export const peaksB: BlogContent[] = [
     slug: "tukuche-peak-expedition-guide",
     title: "Tukuche Peak Expedition: The Complete Guide",
     cluster: "climbing",
-    date: "2027-08-11",
+    date: "2026-09-19",
     hero: {
       image: "mardi-treks/tukuche-peak-expedition/tukuche-peak-expedition-00-dhaulagiri-himal-tukuche-himalaya-nepal",
       alt: "Tukuche Peak in the Dhaulagiri Himal, Nepal.",
@@ -554,7 +554,7 @@ export const peaksB: BlogContent[] = [
     slug: "tilicho-peak-expedition-guide",
     title: "Tilicho Peak Expedition: The Complete Guide",
     cluster: "climbing",
-    date: "2027-08-14",
+    date: "2026-09-19",
     hero: {
       image: "mardi-treks/tilicho-peak-expedition/tilicho-peak-expedition-00-tilicho-peak-seen-from-manang-panoramio",
       alt: "Tilicho Peak seen from Manang, Annapurna region, Nepal.",

@@ -6,7 +6,7 @@ export const annapurnaD: BlogContent[] = [
     slug: "short-treks-from-pokhara",
     title: "Short Treks from Pokhara: Himalayan Walks in 3 to 10 Days",
     cluster: "annapurna",
-    date: "2026-06-19",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/pokhara-day-tour/pokhara-day-tour-01-sunrise-over-pokhara-peace-pagoda-and-annapurna-range",
       alt: "Sunrise over Pokhara with the Annapurna range behind, Nepal.",
@@ -126,7 +126,7 @@ export const annapurnaD: BlogContent[] = [
     slug: "rhododendron-season-in-the-annapurna-region",
     title: "Rhododendron Season in Nepal: Where and When the Forests Flower",
     cluster: "annapurna",
-    date: "2026-06-23",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/mardi-himal-trek-with-annapurna-base-camp/mardi-himal-trek-with-annapurna-base-camp-05-dense-rhododendron-forests-with-background-of-machapuchare-m",
       alt: "Dense rhododendron forest below Machhapuchhre, Annapurna region, Nepal.",
@@ -246,7 +246,7 @@ export const annapurnaD: BlogContent[] = [
     slug: "jomsom-muktinath-trek-guide",
     title: "Jomsom Muktinath Trek: Pilgrimage and Desert in the Kali Gandaki",
     cluster: "annapurna",
-    date: "2026-06-26",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/jomsom-muktinath-trek/jomsom-muktinath-trek-00-way-to-muktinath-from-jomsom-nepal",
       alt: "The trail to Muktinath from Jomsom in the Kali Gandaki valley, Nepal.",

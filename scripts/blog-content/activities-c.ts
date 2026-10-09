@@ -6,7 +6,7 @@ export const activitiesC: BlogContent[] = [
     slug: "nepal-adventure-activities-for-non-trekkers",
     title: "Nepal Adventure Activities for People Who Do Not Want to Trek",
     cluster: "activities",
-    date: "2027-01-30",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/paragliding-in-pokhara/paragliding-in-pokhara-04-a-sunset-paragliding-and-nature-of-nepal",
       alt: "Paragliding at sunset over Pokhara, Nepal.",
@@ -147,7 +147,7 @@ export const activitiesC: BlogContent[] = [
     slug: "nagarkot-and-sunrise-viewpoints-near-kathmandu",
     title: "Nagarkot and the Sunrise Viewpoints Near Kathmandu",
     cluster: "activities",
-    date: "2027-02-03",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/kathmandu-valley-tour/kathmandu-valley-tour-06-sunrise-at-nagarkot-nepal-3",
       alt: "Sunrise over the Himalaya seen from Nagarkot, Kathmandu Valley rim, Nepal.",

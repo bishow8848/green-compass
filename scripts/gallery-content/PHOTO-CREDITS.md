@@ -1041,3 +1041,132 @@ on the page and both are reused under the licence named in the row.
 | zip-flyer-in-kushma | mardi-treks/zip-flyer-in-kushma/zip-flyer-in-kushma-04-bungee-jumping-from-gorsabrua-gorsa-bridge | Lyngenfjord Bungee | CC BY-SA 4.0 |
 | zip-flyer-in-kushma | mardi-treks/zip-flyer-in-kushma/zip-flyer-in-kushma-05-bungee-jump-is-freedom | Poni Abraham | CC0 |
 | zip-flyer-in-kushma | mardi-treks/zip-flyer-in-kushma/zip-flyer-in-kushma-06-sunrise-annapurna-pokhara-nepal-feb13-dsc-1583 | Timothy A. Gonsalves | CC BY-SA 4.0 |
+
+## Photography and Honeymoon tours
+
+Hero images are listed here alongside the gallery photographs; both are shown
+on the page and both are reused under the licence named in the row.
+
+| Product | Cloudinary image | Photographer | Licence |
+| --- | --- | --- | --- |
+| kathmandu-photography-tour | mardi-treks/kathmandu-photography-tour/kathmandu-photography-tour-00-bouddha-stupa-kathmandu-01 | Aalokshishya | CC BY-SA 4.0 |
+| kathmandu-photography-tour | mardi-treks/kathmandu-photography-tour/kathmandu-photography-tour-01-a-foggy-morning-in-bhaktapur-durbar-square | Amit Shrestha101 | CC BY-SA 4.0 |
+| kathmandu-photography-tour | mardi-treks/kathmandu-photography-tour/kathmandu-photography-tour-02-kathmandu-nepal-sadhu | Vyacheslav Argenberg | CC BY 4.0 |
+| kathmandu-photography-tour | mardi-treks/kathmandu-photography-tour/kathmandu-photography-tour-03-bhaktapur-toepferplatz-18-toepferscheibe-2013-gje | Gerd Eichmann | CC BY-SA 4.0 |
+| kathmandu-photography-tour | mardi-treks/kathmandu-photography-tour/kathmandu-photography-tour-04-bhaktapur-toepferplatz-26-2013-gje | Gerd Eichmann | CC BY-SA 4.0 |
+| kathmandu-photography-tour | mardi-treks/kathmandu-photography-tour/kathmandu-photography-tour-05-pashupatinath-bagmati-river-2 | Sgroey | CC BY-SA 4.0 |
+| kathmandu-photography-tour | mardi-treks/kathmandu-photography-tour/kathmandu-photography-tour-06-durbar-square-patan-kathmandu-21 | Goutam1962 | CC BY-SA 4.0 |
+| annapurna-photography-tour | mardi-treks/annapurna-photography-tour/annapurna-photography-tour-00-morning-ghandruk | Utsab Raj Giri | CC BY-SA 4.0 |
+| annapurna-photography-tour | mardi-treks/annapurna-photography-tour/annapurna-photography-tour-01-sunrise-annapurna-pokhara-nepal-feb13-dsc-1583 | Timothy A. Gonsalves | CC BY-SA 4.0 |
+| annapurna-photography-tour | mardi-treks/annapurna-photography-tour/annapurna-photography-tour-02-dhampus-nepal-himalayas | Ahmed.magdy.88 | CC BY-SA 4.0 |
+| annapurna-photography-tour | mardi-treks/annapurna-photography-tour/annapurna-photography-tour-03-view-of-annapurna-range-from-australian-base-camp-01 | Sabina Bajracharya | CC BY-SA 4.0 |
+| annapurna-photography-tour | mardi-treks/annapurna-photography-tour/annapurna-photography-tour-04-burning-sky-and-mt-fishtail | Saroj Pandey | CC BY-SA 3.0 |
+| annapurna-photography-tour | mardi-treks/annapurna-photography-tour/annapurna-photography-tour-05-annapurna-range-and-the-phewa-lake | Saroj Pandey | CC BY-SA 3.0 |
+| annapurna-photography-tour | mardi-treks/annapurna-photography-tour/annapurna-photography-tour-06-bancales-en-ghandruk-panoramio | Manuel Velazquez | CC BY 3.0 |
+| nepal-photography-tour | mardi-treks/nepal-photography-tour/nepal-photography-tour-00-mansiri-himal-range | Rajivkilanashrestha | CC BY-SA 4.0 |
+| nepal-photography-tour | mardi-treks/nepal-photography-tour/nepal-photography-tour-01-misty-morning-at-sauraha | Myself Roman | CC BY-SA 4.0 |
+| nepal-photography-tour | mardi-treks/nepal-photography-tour/nepal-photography-tour-02-one-horn-rhinoceros-chitwan | Nabin K. Sapkota | CC BY-SA 4.0 |
+| nepal-photography-tour | mardi-treks/nepal-photography-tour/nepal-photography-tour-03-mountain-view-from-bandipur-nepal | Rajivkilanashrestha | CC BY-SA 4.0 |
+| nepal-photography-tour | mardi-treks/nepal-photography-tour/nepal-photography-tour-04-sunrise-at-nagarkot-nepal-1 | NSaad (WMF) | CC BY-SA 4.0 |
+| nepal-photography-tour | mardi-treks/nepal-photography-tour/nepal-photography-tour-05-bouddha-stupa-2026-05 | Aalokshishya | CC BY-SA 4.0 |
+| nepal-photography-tour | mardi-treks/nepal-photography-tour/nepal-photography-tour-06-boats-on-phewa-lake-9207546652 | দেবর্ষি রায় from Brno, Czech Republic | CC BY-SA 2.0 |
+| upper-mustang-photography-tour | mardi-treks/upper-mustang-photography-tour/upper-mustang-photography-tour-00-tsarang-monastery | Jmhullot | CC BY 3.0 |
+| upper-mustang-photography-tour | mardi-treks/upper-mustang-photography-tour/upper-mustang-photography-tour-01-inside-the-walled-city-of-lo-manthang-15988238142 | Jean-Marie Hullot from France | CC BY 2.0 |
+| upper-mustang-photography-tour | mardi-treks/upper-mustang-photography-tour/upper-mustang-photography-tour-02-daily-life-in-lo-manthang-15804347980 | Jean-Marie Hullot from France | CC BY 2.0 |
+| upper-mustang-photography-tour | mardi-treks/upper-mustang-photography-tour/upper-mustang-photography-tour-03-dhakmar-cliffs | Jmhullot | CC BY 3.0 |
+| upper-mustang-photography-tour | mardi-treks/upper-mustang-photography-tour/upper-mustang-photography-tour-04-chhoser-cave-area | Nishan Hitang | CC BY-SA 4.0 |
+| upper-mustang-photography-tour | mardi-treks/upper-mustang-photography-tour/upper-mustang-photography-tour-05-kaagbeni-mustang-nepal | Bhattarai84 | CC BY-SA 4.0 |
+| upper-mustang-photography-tour | mardi-treks/upper-mustang-photography-tour/upper-mustang-photography-tour-06-lo-manthang-upper-mustang-nepal | Safalphotos | CC BY-SA 4.0 |
+| pokhara-honeymoon-tour | mardi-treks/pokhara-honeymoon-tour/pokhara-honeymoon-tour-00-a-fisherman-in-a-boat-in-phewa-lake | Kushaltmg | CC BY-SA 4.0 |
+| pokhara-honeymoon-tour | mardi-treks/pokhara-honeymoon-tour/pokhara-honeymoon-tour-01-phewa-lake-and-taal-barahi-temple | Aaswastha | CC BY-SA 4.0 |
+| pokhara-honeymoon-tour | mardi-treks/pokhara-honeymoon-tour/pokhara-honeymoon-tour-02-begnas-lake-and-annapurna-massif | Qrystal45 | CC BY-SA 4.0 |
+| pokhara-honeymoon-tour | mardi-treks/pokhara-honeymoon-tour/pokhara-honeymoon-tour-03-nepal-pokhara-world-peace-pagoda | Wolkenkratzer | CC BY-SA 3.0 |
+| pokhara-honeymoon-tour | mardi-treks/pokhara-honeymoon-tour/pokhara-honeymoon-tour-04-cold-mountain-sunrise | Kate Bathurst | CC BY-SA 4.0 |
+| pokhara-honeymoon-tour | mardi-treks/pokhara-honeymoon-tour/pokhara-honeymoon-tour-05-begnas-lake-pokhara-2023-10 | Nabin K. Sapkota | CC BY-SA 4.0 |
+| pokhara-honeymoon-tour | mardi-treks/pokhara-honeymoon-tour/pokhara-honeymoon-tour-06-boats-on-phewa-lake-nepal-2014 | Abhishekchand11011 | CC BY-SA 4.0 |
+| kathmandu-pokhara-honeymoon-tour | mardi-treks/kathmandu-pokhara-honeymoon-tour/kathmandu-pokhara-honeymoon-tour-00-boats-waiting-to-be-boarded-at-phewa-lake | Saroj Pandey | CC BY-SA 3.0 |
+| kathmandu-pokhara-honeymoon-tour | mardi-treks/kathmandu-pokhara-honeymoon-tour/kathmandu-pokhara-honeymoon-tour-01-garden-of-dreams-kathmandu-nepal-feb-2013-8570556975 | calflier001 | CC BY-SA 2.0 |
+| kathmandu-pokhara-honeymoon-tour | mardi-treks/kathmandu-pokhara-honeymoon-tour/kathmandu-pokhara-honeymoon-tour-02-gunla-festival-at-swayambhunath-stupa | Safalphotos | CC BY-SA 4.0 |
+| kathmandu-pokhara-honeymoon-tour | mardi-treks/kathmandu-pokhara-honeymoon-tour/kathmandu-pokhara-honeymoon-tour-03-durbar-square-patan-kathmandu-108 | Goutam1962 | CC BY-SA 4.0 |
+| kathmandu-pokhara-honeymoon-tour | mardi-treks/kathmandu-pokhara-honeymoon-tour/kathmandu-pokhara-honeymoon-tour-04-barahi-temple-island-lake-and-mountain | Dipeshakya | CC BY-SA 4.0 |
+| kathmandu-pokhara-honeymoon-tour | mardi-treks/kathmandu-pokhara-honeymoon-tour/kathmandu-pokhara-honeymoon-tour-05-peace-pagoda-pokhara | Kazzwani | CC BY-SA 3.0 |
+| kathmandu-pokhara-honeymoon-tour | mardi-treks/kathmandu-pokhara-honeymoon-tour/kathmandu-pokhara-honeymoon-tour-06-bhaktapur-dubar-square-mg-4026 | Bijaya2043 | CC BY-SA 4.0 |
+| nepal-honeymoon-tour | mardi-treks/nepal-honeymoon-tour/nepal-honeymoon-tour-00-boats-on-lake-phewa-pokhara-nepal-panoramio | Sergey Ashmarin | CC BY-SA 3.0 |
+| nepal-honeymoon-tour | mardi-treks/nepal-honeymoon-tour/nepal-honeymoon-tour-01-sauraha-boating | Rajivkilanashrestha | CC BY-SA 4.0 |
+| nepal-honeymoon-tour | mardi-treks/nepal-honeymoon-tour/nepal-honeymoon-tour-02-chital-also-known-as-spotted-deer-or-axis-deer | Shlok Maharjan | CC BY-SA 4.0 |
+| nepal-honeymoon-tour | mardi-treks/nepal-honeymoon-tour/nepal-honeymoon-tour-03-rapti-river-chitwan | Nabin K. Sapkota | CC BY-SA 4.0 |
+| nepal-honeymoon-tour | mardi-treks/nepal-honeymoon-tour/nepal-honeymoon-tour-04-kathmandu-garden-of-dreams-04-amphitheater-2013-gje | Gerd Eichmann | CC BY-SA 4.0 |
+| nepal-honeymoon-tour | mardi-treks/nepal-honeymoon-tour/nepal-honeymoon-tour-05-dawn-s-embrace-on-nepalese-peaks | Gaurav Bhandari | CC BY-SA 4.0 |
+| nepal-honeymoon-tour | mardi-treks/nepal-honeymoon-tour/nepal-honeymoon-tour-06-boat-on-phewa-tal-lake-pokhara-nepal-34210652990 | Jon Gudorf Photography | CC BY-SA 2.0 |
+| luxury-nepal-honeymoon-tour | mardi-treks/luxury-nepal-honeymoon-tour/luxury-nepal-honeymoon-tour-00-a-morning-view-from-pokhara-nepal | Gaurav Bhandari | CC BY-SA 4.0 |
+| luxury-nepal-honeymoon-tour | mardi-treks/luxury-nepal-honeymoon-tour/luxury-nepal-honeymoon-tour-01-closeup-machhapuchhre-mt-fishtail | Saroj Pandey | CC BY-SA 3.0 |
+| luxury-nepal-honeymoon-tour | mardi-treks/luxury-nepal-honeymoon-tour/luxury-nepal-honeymoon-tour-02-evening-on-lake-phewa-pokhara-nepal-panoramio | Sergey Ashmarin | CC BY-SA 3.0 |
+| luxury-nepal-honeymoon-tour | mardi-treks/luxury-nepal-honeymoon-tour/luxury-nepal-honeymoon-tour-03-phewa-lake-pokhara-nepal-unsplash | Igor Ovsyannykov igorovsyannykov | CC0 |
+| luxury-nepal-honeymoon-tour | mardi-treks/luxury-nepal-honeymoon-tour/luxury-nepal-honeymoon-tour-04-chitwan-sauraha-evening-sky | Prakritinature | CC BY-SA 4.0 |
+| luxury-nepal-honeymoon-tour | mardi-treks/luxury-nepal-honeymoon-tour/luxury-nepal-honeymoon-tour-05-one-horned-5118695000 | Prateek Rungta from Delhi, India | CC BY 2.0 |
+| luxury-nepal-honeymoon-tour | mardi-treks/luxury-nepal-honeymoon-tour/luxury-nepal-honeymoon-tour-06-begnas-lake-from-view-tower | Qrystal45 | CC BY-SA 4.0 |
+
+## Dashain blog series
+
+Hero images are listed here alongside the gallery photographs; both are shown
+on the page and both are reused under the licence named in the row.
+
+| Product | Cloudinary image | Photographer | Licence |
+| --- | --- | --- | --- |
+| blog-dashain | mardi-treks/blog-dashain/blog-dashain-00-dashain-swing | Mithunkunwar9 | CC BY-SA 4.0 |
+| blog-dashain | mardi-treks/blog-dashain/blog-dashain-01-soaring-high-in-dashain | Safalphotos | CC BY-SA 4.0 |
+| blog-dashain | mardi-treks/blog-dashain/blog-dashain-02-jamara1 | Janak Bhatta | CC BY-SA 4.0 |
+| blog-dashain | mardi-treks/blog-dashain/blog-dashain-03-aakshta | Gaurav Dhwaj Khadka | CC BY-SA 4.0 |
+| blog-dashain | mardi-treks/blog-dashain/blog-dashain-04-sweets-and-fruits-with-dashain-jamara | Nirajan_pant | CC BY-SA 3.0 |
+| blog-dashain | mardi-treks/blog-dashain/blog-dashain-05-dashain-ritual | AjayKumarShrestha | CC BY-SA 4.0 |
+| blog-dashain | mardi-treks/blog-dashain/blog-dashain-06-preparing-house-for-dashain-festival | Mithunkunwar9 | CC BY-SA 4.0 |
+| blog-dashain | mardi-treks/blog-dashain/blog-dashain-07-women-carrying-mud-to-paint-home-for-the-dashain-festival | Mithunkunwar9 | CC BY-SA 4.0 |
+| blog-dashain | mardi-treks/blog-dashain/blog-dashain-08-dashain-1856 | Henry Ambrose Oldfield | Public domain |
+| blog-dashain | mardi-treks/blog-dashain/blog-dashain-09-nava-durga-dance | Prayash Shrestha | CC BY-SA 4.0 |
+| blog-dashain | mardi-treks/blog-dashain/blog-dashain-10-goddess-mahakali-nava-durga | Wikimedman | CC BY-SA 4.0 |
+| blog-dashain | mardi-treks/blog-dashain/blog-dashain-11-sel-roti-nepal | Janak Bhatta | CC BY-SA 4.0 |
+| blog-dashain | mardi-treks/blog-dashain/blog-dashain-12-traditional-nepali-thali | Antara.upadhyay7 | CC BY-SA 4.0 |
+| blog-dashain | mardi-treks/blog-dashain/blog-dashain-13-flush-of-goat-mustang-02 | Anup Raj Rai | CC BY-SA 4.0 |
+| blog-dashain | mardi-treks/blog-dashain/blog-dashain-14-abc-goats-crossing-a-suspension-footbridge-on-the-approach-t | Josep M. Gracia | CC BY-SA 4.0 |
+| blog-dashain | mardi-treks/blog-dashain/blog-dashain-15-gorkha-durbar-view | Bijayshrestha1 | CC BY-SA 3.0 |
+| blog-dashain | mardi-treks/blog-dashain/blog-dashain-16-manakamana-cable-car-01 | Krish Dulal | CC BY-SA 3.0 |
+| blog-dashain | mardi-treks/blog-dashain/blog-dashain-17-manakamana-temple-mankamana-gorkha-nepal-rajesh-dhungana-3 | Rajesh Dhungana | CC BY-SA 4.0 |
+| blog-dashain | mardi-treks/blog-dashain/blog-dashain-18-05-taleju-temple | Kuber Bahadur Singh | CC BY-SA 4.0 |
+| blog-dashain | mardi-treks/blog-dashain/blog-dashain-19-asan-bazaar-in-kathmandu-nepal-24342552331 | Matt Zimmerman | CC BY 2.0 |
+| blog-dashain | mardi-treks/blog-dashain/blog-dashain-20-night-scene-of-hanuman-dhoka | Blackmazic | CC BY-SA 3.0 |
+| blog-dashain | mardi-treks/blog-dashain/blog-dashain-21-bindhyabasini-temple-9048739188 | দেবর্ষি রায় from Brno, Czech Republic | CC BY-SA 2.0 |
+| blog-dashain | mardi-treks/blog-dashain/blog-dashain-22-goddess-durga-fighting-mahishasura-the-buffalo-demon-hindu-m | Bijay chaurasia | CC BY-SA 4.0 |
+| blog-dashain | mardi-treks/blog-dashain/blog-dashain-23-manakamana-cable-car-gorkha | Sooshil007 | CC BY-SA 4.0 |
+| blog-dashain | mardi-treks/blog-dashain/blog-dashain-24-flock-of-goats | Sudeepacharya076 | CC BY-SA 4.0 |
+| blog-dashain | mardi-treks/blog-dashain/blog-dashain-25-nawa-durga-temple-bhaktapur-nepal-rajesh-dhungana-1 | Rajesh Dhungana | CC BY-SA 4.0 |
+
+## Tihar, Chhath and autumn 2026 blog series
+
+Photographs uploaded for the blog itself; no product page carries them. Each is
+reused under the licence named in the row.
+
+| Product | Cloudinary image | Photographer | Licence |
+| --- | --- | --- | --- |
+| blog-festivals | mardi-treks/blog-festivals/blog-festivals-00-sister-lighting-traditional-lamp-during-tihar-festival | Mithunkunwar9 | CC BY-SA 4.0 |
+| blog-festivals | mardi-treks/blog-festivals/blog-festivals-01-kathmandu-tihar-swayambhu | Rahul Kumar Shakya | CC BY-SA 4.0 |
+| blog-festivals | mardi-treks/blog-festivals/blog-festivals-02-kukur-tihar-where-we-worship-dogs | Alish Bhandarii | CC BY-SA 4.0 |
+| blog-festivals | mardi-treks/blog-festivals/blog-festivals-03-dog-in-kathmandu-after-kukur-puja | Manju | CC BY-SA 4.0 |
+| blog-festivals | mardi-treks/blog-festivals/blog-festivals-04-the-cow-worship | Subarna Majhi | CC BY-SA 4.0 |
+| blog-festivals | mardi-treks/blog-festivals/blog-festivals-05-sapta-rangi-tika-for-bhai-tika | Gaurav Dhwaj Khadka | CC BY-SA 4.0 |
+| blog-festivals | mardi-treks/blog-festivals/blog-festivals-06-bhaitika-02 | Krish Dulal | CC BY-SA 3.0 |
+| blog-festivals | mardi-treks/blog-festivals/blog-festivals-07-tihar-traditional-rangoli-in-janakpur-nepal-2016-10-30 | Tulsi Bhagat | CC BY-SA 4.0 |
+| blog-festivals | mardi-treks/blog-festivals/blog-festivals-08-the-colourful-rangoli | Subarna Majhi | CC BY-SA 4.0 |
+| blog-festivals | mardi-treks/blog-festivals/blog-festivals-09-saving-culture | Madan06 | CC BY-SA 4.0 |
+| blog-festivals | mardi-treks/blog-festivals/blog-festivals-10-flower-shop-in-naxal | BhattaraiAbhishek | CC BY-SA 4.0 |
+| blog-festivals | mardi-treks/blog-festivals/blog-festivals-11-kirat-welfare-trust-deusi-bhailo-2079-bs-5 | Devils.010 | CC BY-SA 4.0 |
+| blog-festivals | mardi-treks/blog-festivals/blog-festivals-12-large-billed-crow-wild-crow-hiledole-height-tarkeshwor-munic | Rajesh Dhungana | CC BY-SA 4.0 |
+| blog-festivals | mardi-treks/blog-festivals/blog-festivals-13-chhath-festival-at-gangasagar-janakpur-20221031 | Tulsi Bhagat | CC BY-SA 4.0 |
+| blog-festivals | mardi-treks/blog-festivals/blog-festivals-14-celebrating-chhath-in-kataiya-saptari-by-giving-argha-to-sun | Subhmanish | CC BY-SA 4.0 |
+| blog-festivals | mardi-treks/blog-festivals/blog-festivals-15-chhath-puja-prasad | Gaurav Dhwaj Khadka | CC BY-SA 4.0 |
+| blog-festivals | mardi-treks/blog-festivals/blog-festivals-16-janaki-temple-janakpur-dhanusha-nepal-rajesh-dhungana-32 | Rajesh Dhungana | CC BY-SA 4.0 |
+| blog-festivals | mardi-treks/blog-festivals/blog-festivals-17-mani-rimdu-festival-tengboche-monastery-nepal-01 | Rohit Sharma | CC BY-SA 4.0 |
+| blog-festivals | mardi-treks/blog-festivals/blog-festivals-18-mani-rimdu-festival-tengboche-monastery-nepal-02 | Rohit Sharma | CC BY-SA 4.0 |
+| blog-festivals | mardi-treks/blog-festivals/blog-festivals-19-life-in-terai-nepal-01 | Nirmal Dulal | CC BY-SA 4.0 |
+| blog-festivals | mardi-treks/blog-festivals/blog-festivals-20-lukla-airport-dhc-6-twin-otter-yeti-airlines-nepal | Vyacheslav Argenberg | CC BY 4.0 |
+| blog-festivals | mardi-treks/blog-festivals/blog-festivals-21-hindu-festival-of-tihar-08 | Sushan116 | CC BY-SA 4.0 |
+| blog-festivals | mardi-treks/blog-festivals/blog-festivals-22-kukur-tihar-2 | rubber bullets | CC BY 2.0 |

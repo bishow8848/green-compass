@@ -6,7 +6,7 @@ export const everestC: BlogContent[] = [
     slug: "kala-patthar-vs-everest-base-camp",
     title: "Kala Patthar vs Everest Base Camp: Which Is the Better View?",
     cluster: "everest",
-    date: "2026-04-07",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/everest-base-camp-trek-with-helicopter-return/everest-base-camp-trek-with-helicopter-return-05-kala-patthar-peak-nepal-asia",
       alt: "The Himalayan panorama from Kala Patthar, Everest Base Camp trek, Nepal.",
@@ -132,7 +132,7 @@ export const everestC: BlogContent[] = [
     slug: "gokyo-lakes-trek-guide",
     title: "Gokyo Lakes Trek: A Complete Guide to the Khumbu's Quieter Valley",
     cluster: "everest",
-    date: "2026-04-10",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/gokyo-lake-trek/gokyo-lake-trek-00-machhermo-peaks-gokyo-lake-nepal-himalayas",
       alt: "Peaks above Machhermo on the Gokyo Lake trek, Nepal Himalaya.",
@@ -269,7 +269,7 @@ export const everestC: BlogContent[] = [
     slug: "everest-three-passes-trek-guide",
     title: "Everest Three Passes Trek: The Complete Khumbu Circuit",
     cluster: "everest",
-    date: "2026-04-14",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/everest-three-pass-trek/everest-three-pass-trek-00-south-face-of-mount-everest-from-renjo-la-pass-5345m-with-go",
       alt: "The south face of Everest from Renjo La pass with the Gokyo valley below, Nepal.",

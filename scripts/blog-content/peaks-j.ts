@@ -6,7 +6,7 @@ export const peaksJ: BlogContent[] = [
     slug: "gangapurna-expedition-guide",
     title: "Gangapurna Expedition: The Complete Guide",
     cluster: "climbing",
-    date: "2027-11-20",
+    date: "2026-09-19",
     hero: {
       image: "mardi-treks/gangapurna-expedition/gangapurna-expedition-00-manang-annapurna3-gangapurna",
       alt: "Annapurna III and Gangapurna above Manang, Nepal.",
@@ -171,7 +171,7 @@ export const peaksJ: BlogContent[] = [
     slug: "annapurna-south-expedition-guide",
     title: "Annapurna South Expedition: The Complete Guide",
     cluster: "climbing",
-    date: "2027-11-24",
+    date: "2026-09-19",
     hero: {
       image: "mardi-treks/annapurna-south-expedition/annapurna-south-expedition-00-annapurna-south-hiunchuli-peak",
       alt: "Annapurna South and Hiunchuli, Annapurna Sanctuary, Nepal.",
@@ -336,7 +336,7 @@ export const peaksJ: BlogContent[] = [
     slug: "kang-guru-expedition-guide",
     title: "Kang Guru Expedition: The Complete Guide",
     cluster: "climbing",
-    date: "2027-11-27",
+    date: "2026-09-19",
     hero: {
       image: "mardi-treks/kang-guru-expedition/kang-guru-expedition-00-hills-mountains-in-manang",
       alt: "Hills and mountains in the Manang district, Nepal.",

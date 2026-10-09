@@ -6,7 +6,7 @@ export const remoteA: BlogContent[] = [
     slug: "dhaulagiri-circuit-trek-guide",
     title: "Dhaulagiri Circuit Trek: The Complete Guide",
     cluster: "remote",
-    date: "2027-02-06",
+    date: "2026-09-19",
     hero: {
       image: "mardi-treks/dhaulagiri-circuit-trek/dhaulagiri-circuit-trek-00-dhaulagiri-tukuche-dhampus",
       alt: "Dhaulagiri I above the Tukuche and Dhampus skyline, Nepal Himalaya.",
@@ -220,7 +220,7 @@ export const remoteA: BlogContent[] = [
     slug: "churen-himal-base-camp-trek-guide",
     title: "Churen Himal Base Camp Trek: The Complete Guide",
     cluster: "remote",
-    date: "2027-02-10",
+    date: "2026-09-19",
     hero: {
       image: "mardi-treks/churen-himal-base-camp-trek/churen-himal-base-camp-trek-00-dhorpatan-dhorpatan-hunting-reserve-sunrise",
       alt: "Sunrise over the Dhorpatan Hunting Reserve, western Nepal.",
@@ -423,7 +423,7 @@ export const remoteA: BlogContent[] = [
     slug: "ganesh-himal-trek-guide",
     title: "Ganesh Himal Trek: The Complete Guide",
     cluster: "remote",
-    date: "2027-02-13",
+    date: "2026-09-19",
     hero: {
       image: "mardi-treks/ganesh-himal-trek/ganesh-himal-trek-00-ganesh-himal-from-deurali",
       alt: "The Ganesh Himal massif seen from Deurali, central Nepal.",
@@ -615,7 +615,7 @@ export const remoteA: BlogContent[] = [
     slug: "khori-himal-trek-guide",
     title: "Khori Himal Trek: The Complete Guide to Kori Danda",
     cluster: "remote",
-    date: "2027-02-17",
+    date: "2026-09-19",
     hero: {
       image: "mardi-treks/khori-himal-trek/khori-himal-trek-00-sikles-village",
       alt: "The stone houses of Sikles village above the Madi valley, Annapurna region, Nepal.",

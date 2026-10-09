@@ -6,7 +6,7 @@ export const annapurnaC: BlogContent[] = [
     slug: "khopra-danda-trek-guide",
     title: "Khopra Danda Trek: A Ridge with Dhaulagiri in Front of You",
     cluster: "annapurna",
-    date: "2026-06-05",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/khopra-danda-trek/khopra-danda-trek-00-ghorepani-poon-hill-trek",
       alt: "The trail through Ghorepani towards Khopra Danda, Annapurna region, Nepal.",
@@ -138,7 +138,7 @@ export const annapurnaC: BlogContent[] = [
     slug: "mohare-danda-community-trek-guide",
     title: "Mohare Danda Trek: Nepal's Best Community Lodge Trail",
     cluster: "annapurna",
-    date: "2026-06-09",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/mohare-danda-trek/mohare-danda-trek-00-annapurna-i-annapurna-south-and-himchuli-from-ghorepani-poon",
       alt: "Annapurna I, Annapurna South and Hiunchuli from the Ghorepani ridge, Nepal.",
@@ -267,7 +267,7 @@ export const annapurnaC: BlogContent[] = [
     slug: "nar-phu-valley-trek-guide",
     title: "Nar Phu Valley Trek: Two Medieval Villages Behind the Annapurnas",
     cluster: "annapurna",
-    date: "2026-06-12",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/nar-phu-valley-trek/nar-phu-valley-trek-00-khatung-kang-from-manang",
       alt: "Khatung Kang seen from Manang, Nar Phu Valley trek, Nepal.",
@@ -401,7 +401,7 @@ export const annapurnaC: BlogContent[] = [
     slug: "mardi-himal-vs-poon-hill-vs-annapurna-base-camp",
     title: "Mardi Himal vs Poon Hill vs Annapurna Base Camp: Which to Choose",
     cluster: "annapurna",
-    date: "2026-06-16",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/mardi-himal-trek/mardi-himal-trek-02-sunrise-from-mardi",
       alt: "Sunrise from the Mardi Himal ridge, Annapurna region, Nepal.",

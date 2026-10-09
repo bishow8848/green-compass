@@ -6,7 +6,7 @@ export const toursD: BlogContent[] = [
     slug: "nepal-cultural-tour-itineraries",
     title: "Nepal Cultural Tour Itineraries: 5 to 14 Days Without Trekking",
     cluster: "tours",
-    date: "2026-12-29",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/nepal-cultural-tour/nepal-cultural-tour-02-the-process-of-making-metal-buddha-statues-by-newar-artisans",
       alt: "Newar artisans casting metal Buddha statues in Kathmandu, Nepal.",
@@ -127,7 +127,7 @@ export const toursD: BlogContent[] = [
     slug: "chitwan-national-park-guide",
     title: "Chitwan National Park Guide: Rhino, Tiger, and the Terai",
     cluster: "tours",
-    date: "2027-01-02",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/chitwan-national-park-tour-3-days/chitwan-national-park-tour-3-days-00-chital-or-spotted-deer-at-chitwan-national-park-2",
       alt: "Spotted deer in Chitwan National Park, Nepal.",
@@ -264,7 +264,7 @@ export const toursD: BlogContent[] = [
     slug: "bardia-national-park-guide",
     title: "Bardia National Park Guide: Nepal's Best Chance of a Tiger",
     cluster: "tours",
-    date: "2027-01-05",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/bardia-national-park-tour-4-days/bardia-national-park-tour-4-days-00-grassland-of-bardia-national-park",
       alt: "Grassland in Bardia National Park, western Nepal.",

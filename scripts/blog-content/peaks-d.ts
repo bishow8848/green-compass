@@ -6,7 +6,7 @@ export const peaksD: BlogContent[] = [
     slug: "nirekha-peak-climbing-guide",
     title: "Nirekha Peak Climbing: The Complete Guide",
     cluster: "climbing",
-    date: "2027-09-01",
+    date: "2026-09-19",
     hero: {
       image: "mardi-treks/nirekha-peak-climbing/nirekha-peak-climbing-00-gokyo-valley-view-from-gokyo-ri-panorama",
       alt: "Panorama of the Gokyo valley from Gokyo Ri, Everest region, Nepal.",
@@ -184,7 +184,7 @@ export const peaksD: BlogContent[] = [
     slug: "kusum-kanguru-peak-climbing-guide",
     title: "Kusum Kanguru Peak Climbing: The Complete Guide",
     cluster: "climbing",
-    date: "2027-09-04",
+    date: "2026-09-19",
     hero: {
       image: "mardi-treks/kusum-kanguru-peak-climbing/kusum-kanguru-peak-climbing-00-kusum-kanguru-se-face",
       alt: "The south-east face of Kusum Kanguru, Everest region, Nepal.",
@@ -384,7 +384,7 @@ export const peaksD: BlogContent[] = [
     slug: "cholatse-expedition-guide",
     title: "Cholatse Expedition: The Complete Guide",
     cluster: "climbing",
-    date: "2027-09-08",
+    date: "2026-09-19",
     hero: {
       image: "mardi-treks/cholatse-expedition/cholatse-expedition-00-cholatse-from-the-east",
       alt: "Cholatse seen from the east, Everest region, Nepal.",
@@ -558,7 +558,7 @@ export const peaksD: BlogContent[] = [
     slug: "thamserku-expedition-guide",
     title: "Thamserku Expedition: The Complete Guide",
     cluster: "climbing",
-    date: "2027-09-11",
+    date: "2026-09-19",
     hero: {
       image: "mardi-treks/thamserku-expedition/thamserku-expedition-00-from-left-kangtega-and-thamserku-behind-a-mani-wall-in-phort",
       alt: "Kangtega and Thamserku behind a mani wall at Phortse, Everest region, Nepal.",

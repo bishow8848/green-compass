@@ -6,7 +6,7 @@ export const planningA: BlogContent[] = [
     slug: "best-time-to-visit-nepal-trekking-seasons",
     title: "Best Time to Visit Nepal: A Month-by-Month Trekking Guide",
     cluster: "planning",
-    date: "2026-01-06",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/poonhill-trek/poonhill-trek-00-landscape-view-of-poon-hill",
       alt: "Sunrise over the Annapurna range from Poon Hill, Nepal.",
@@ -161,7 +161,7 @@ export const planningA: BlogContent[] = [
     slug: "nepal-trekking-permits-explained",
     title: "Nepal Trekking Permits Explained: TIMS, Park Fees, and Restricted Areas",
     cluster: "planning",
-    date: "2026-01-09",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/langtang-valley-trek/langtang-valley-trek-00-enroute-to-kyanjin-gompa",
       alt: "The trail to Kyanjin Gompa in Langtang National Park, Nepal.",
@@ -309,7 +309,7 @@ export const planningA: BlogContent[] = [
     slug: "altitude-sickness-in-nepal-prevention-and-treatment",
     title: "Altitude Sickness in Nepal: Prevention, Symptoms, and Treatment",
     cluster: "planning",
-    date: "2026-01-13",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/everest-base-camp-trek/everest-base-camp-trek-01-kala-patthar-38-everest-lhotse-nuptse-2007-gje",
       alt: "Everest, Lhotse and Nuptse from Kala Patthar at 5,545 m, Everest Base Camp trek, Nepal.",

@@ -6,7 +6,7 @@ export const meditationB: BlogContent[] = [
     slug: "breathing-exercises-for-high-altitude-trekking",
     title: "Breathing Exercises for High-Altitude Trekking in Nepal",
     cluster: "meditation",
-    date: "2027-12-29",
+    date: "2026-10-03",
     hero: {
       image: "mardi-treks/annapurna-circuit-trek/annapurna-circuit-trek-00-annapurna-range-between-ledar-and-thorong-phedi",
       alt: "The Annapurna range between Ledar and Thorong Phedi on the Annapurna Circuit, Nepal.",
@@ -217,7 +217,7 @@ export const meditationB: BlogContent[] = [
     slug: "yoga-for-trekkers-before-and-after-the-trail",
     title: "Yoga for Trekkers: What to Do Before and After the Trail",
     cluster: "meditation",
-    date: "2028-01-04",
+    date: "2026-10-03",
     hero: {
       image: "mardi-treks/pokhara-day-tour/pokhara-day-tour-00-phewa-lake-of-pokhara-city",
       alt: "Phewa Lake in Pokhara, Nepal, where many trekkers take yoga classes before and after a trek.",
@@ -403,7 +403,7 @@ export const meditationB: BlogContent[] = [
     slug: "walking-meditation-on-a-nepal-trek",
     title: "Walking Meditation: How to Trek Mindfully in Nepal",
     cluster: "meditation",
-    date: "2028-01-10",
+    date: "2026-10-03",
     hero: {
       image: "mardi-treks/poonhill-trek/poonhill-trek-04-ghorepaani-ghandruk-trail-1",
       alt: "Forest trail between Ghorepani and Ghandruk in the Annapurna region, Nepal.",

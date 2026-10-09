@@ -6,7 +6,7 @@ export const activitiesE: BlogContent[] = [
     slug: "parahawking-in-pokhara-guide",
     title: "Parahawking in Pokhara: The Complete Guide",
     cluster: "activities",
-    date: "2027-07-14",
+    date: "2026-09-19",
     hero: {
       image: "mardi-treks/parahawking-in-pokhara/parahawking-in-pokhara-00-parahawking-in-nepal",
       alt: "Parahawking with a bird of prey above Pokhara, Nepal.",
@@ -196,7 +196,7 @@ export const activitiesE: BlogContent[] = [
     slug: "pokhara-helicopter-sightseeing-tour-guide",
     title: "Pokhara Helicopter Sightseeing Tour: The Complete Guide",
     cluster: "activities",
-    date: "2027-07-17",
+    date: "2026-09-19",
     hero: {
       image: "mardi-treks/pokhara-helicopter-sightseeing-tour/pokhara-helicopter-sightseeing-tour-00-helicopter-in-mount-nilgiri",
       alt: "A helicopter below Nilgiri in the Annapurna region, Nepal.",

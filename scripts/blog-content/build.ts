@@ -55,7 +55,7 @@ export type BlogContent = {
   title: string;
   /** Grouping label used only for reporting. */
   cluster: string;
-  /** ISO date (YYYY-MM-DD) — drives ordering on the blog index. */
+  /** The day it goes out, in Nepal (YYYY-MM-DD). Dated ahead, it is scheduled for 09:00 that day. */
   date: string;
   hero: Figure;
   excerpt: string;

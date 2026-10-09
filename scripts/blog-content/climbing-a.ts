@@ -6,7 +6,7 @@ export const climbingA: BlogContent[] = [
     slug: "peak-climbing-in-nepal-beginners-guide",
     title: "Peak Climbing in Nepal: A Beginner's Guide to Trekking Peaks",
     cluster: "climbing",
-    date: "2026-10-13",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/island-peak-climbing/island-peak-climbing-00-island-peak-nepal",
       alt: "Island Peak (Imja Tse) at 6,189 m, Everest region, Nepal.",
@@ -144,7 +144,7 @@ export const climbingA: BlogContent[] = [
     slug: "island-peak-climbing-guide",
     title: "Island Peak Climbing Guide: Nepal's Classic First 6,000 m Summit",
     cluster: "climbing",
-    date: "2026-10-16",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/island-peak-climbing/island-peak-climbing-01-island-peak-imja-tse-from-dingboche-village",
       alt: "Island Peak (Imja Tse) seen from Dingboche, Everest region, Nepal.",
@@ -285,7 +285,7 @@ export const climbingA: BlogContent[] = [
     slug: "mera-peak-climbing-guide",
     title: "Mera Peak Climbing Guide: Nepal's Highest Trekking Peak",
     cluster: "climbing",
-    date: "2026-10-20",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/mera-peak-climbing/mera-peak-climbing-00-mera-peak-10003",
       alt: "Mera Peak at 6,476 m, Hinku valley, Nepal.",

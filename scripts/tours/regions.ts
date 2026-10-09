@@ -55,4 +55,17 @@ export const TOUR_REGIONS: TourRegion[] = [
     slug: "helicopter-tours",
     merged: ["Helicopter Tour in Nepal", "Helicopter Flights in Nepal"],
   },
+  // Added after the original eight. Both are sold by the kind of traveller
+  // rather than by the kind of day, and the same places appear in the packages
+  // above — what differs is the timing, the hotels and what is included.
+  {
+    name: "Photography Tour",
+    slug: "photography-tour",
+    merged: ["Photography Tour"],
+  },
+  {
+    name: "Honeymoon Tour",
+    slug: "honeymoon-tour",
+    merged: ["Honeymoon Tour"],
+  },
 ];

@@ -6,7 +6,7 @@ export const toursC: BlogContent[] = [
     slug: "helicopter-tours-in-nepal-guide",
     title: "Helicopter Tours in Nepal: Every Route and What It Costs",
     cluster: "tours",
-    date: "2026-12-18",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/everest-base-camp-helicopter-tour/everest-base-camp-helicopter-tour-04-aerial-view-of-peaks-of-khumbu-ngozumpa-glacier-and-gokyo-la",
       alt: "Aerial view of the Khumbu peaks, Ngozumpa glacier and Gokyo lakes, Nepal.",
@@ -139,7 +139,7 @@ export const toursC: BlogContent[] = [
     slug: "everest-base-camp-helicopter-tour-guide",
     title: "Everest Base Camp Helicopter Tour: A Morning at 5,545 m",
     cluster: "tours",
-    date: "2026-12-22",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/everest-base-camp-helicopter-tour/everest-base-camp-helicopter-tour-00-close-up-view-of-mount-everest-from-kala-patthar-5644-m-in-2",
       alt: "A close view of Mount Everest from Kala Patthar, Khumbu region, Nepal.",
@@ -275,7 +275,7 @@ export const toursC: BlogContent[] = [
     slug: "annapurna-base-camp-helicopter-tour-guide",
     title: "Annapurna Base Camp Helicopter Tour: Into the Sanctuary in Two Hours",
     cluster: "tours",
-    date: "2026-12-25",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/annapurna-base-camp-helicopter-tour/annapurna-base-camp-helicopter-tour-03-machhapuchhre-or-fishtail-mountain-6-993-m-22-943-ft-img-524",
       alt: "Machhapuchhre, the Fishtail mountain at 6,993 m, Annapurna region, Nepal.",

@@ -6,7 +6,7 @@ export const everestE: BlogContent[] = [
     slug: "everest-base-camp-trek-altitude-profile",
     title: "Everest Base Camp Altitude Profile: Night by Night",
     cluster: "everest",
-    date: "2026-05-01",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/everest-base-camp-trek-with-helicopter-return/everest-base-camp-trek-with-helicopter-return-02-gorak-shep-06-kala-patthar-pumori-2007-gje",
       alt: "Pumori and Kala Patthar above Gorak Shep at 5,160 m, Nepal.",
@@ -149,7 +149,7 @@ export const everestE: BlogContent[] = [
     slug: "everest-base-camp-packing-list",
     title: "Everest Base Camp Packing List: Tested Against 5,160 m",
     cluster: "everest",
-    date: "2026-05-05",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/everest-three-pass-trek/everest-three-pass-trek-06-namche-bazaar-from-above",
       alt: "Namche Bazaar from above, Everest region, Nepal.",
@@ -313,7 +313,7 @@ export const everestE: BlogContent[] = [
     slug: "everest-base-camp-vs-annapurna-base-camp",
     title: "Everest Base Camp vs Annapurna Base Camp: Which Trek to Choose",
     cluster: "everest",
-    date: "2026-05-08",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/annapurna-base-camp-trek/annapurna-base-camp-trek-02-annapurna-base-camp-2008",
       alt: "Teahouses and glacial moraine at Annapurna Base Camp, Nepal Himalaya.",

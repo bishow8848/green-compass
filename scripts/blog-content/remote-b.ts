@@ -6,7 +6,7 @@ export const remoteB: BlogContent[] = [
     slug: "guerrilla-trek-guide",
     title: "Guerrilla Trek: The Complete Guide to Rukum and Rolpa",
     cluster: "remote",
-    date: "2027-02-20",
+    date: "2026-09-19",
     hero: {
       image: "mardi-treks/guerrilla-trek/guerrilla-trek-00-jaljala-peak-1",
       alt: "Jaljala peak above the grasslands of mid-western Nepal.",
@@ -197,7 +197,7 @@ export const remoteB: BlogContent[] = [
     slug: "lamjung-himal-trek-guide",
     title: "Lamjung Himal Trek: The Complete Guide",
     cluster: "remote",
-    date: "2027-02-24",
+    date: "2026-09-19",
     hero: {
       image: "mardi-treks/lamjung-himal-trek/lamjung-himal-trek-00-ngadi-bazar-north",
       alt: "The valley north of Ngadi Bazar, eastern Annapurna region, Nepal.",
@@ -388,7 +388,7 @@ export const remoteB: BlogContent[] = [
     slug: "helambu-trek-guide",
     title: "Helambu Trek: The Complete Guide",
     cluster: "remote",
-    date: "2027-02-27",
+    date: "2026-09-19",
     hero: {
       image: "mardi-treks/helambu-trek/helambu-trek-00-amayangri-tarkeghyang-2-20250503",
       alt: "Ama Yangri above Tarke Ghyang in the Helambu region, Nepal.",
@@ -578,7 +578,7 @@ export const remoteB: BlogContent[] = [
     slug: "badimalika-trek-guide",
     title: "Badimalika Trek: The Complete Guide",
     cluster: "remote",
-    date: "2027-03-03",
+    date: "2026-09-19",
     hero: {
       image: "mardi-treks/badimalika-trek/badimalika-trek-00-badimalika-temple-bajura-nepal",
       alt: "The Badimalika temple on its ridge in Bajura district, far-western Nepal.",

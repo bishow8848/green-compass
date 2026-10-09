@@ -6,7 +6,7 @@ export const peaksH: BlogContent[] = [
     slug: "lhotse-expedition-guide",
     title: "Lhotse Expedition: The Complete Guide",
     cluster: "climbing",
-    date: "2027-10-27",
+    date: "2026-09-19",
     hero: {
       image: "mardi-treks/lhotse-expedition/lhotse-expedition-00-everest-lhotse-nuptse-and-khumbu-glacier",
       alt: "Everest, Lhotse, Nuptse and the Khumbu glacier, Nepal.",
@@ -194,7 +194,7 @@ export const peaksH: BlogContent[] = [
     slug: "makalu-expedition-guide",
     title: "Makalu Expedition: The Complete Guide",
     cluster: "climbing",
-    date: "2027-10-30",
+    date: "2026-09-19",
     hero: {
       image: "mardi-treks/makalu-expedition/makalu-expedition-00-makalu-best-seen-at-sunrise-panoramio",
       alt: "Makalu at sunrise, eastern Nepal.",
@@ -369,7 +369,7 @@ export const peaksH: BlogContent[] = [
     slug: "annapurna-expedition-guide",
     title: "Annapurna I Expedition: The Complete Guide",
     cluster: "climbing",
-    date: "2027-11-03",
+    date: "2026-09-19",
     hero: {
       image: "mardi-treks/annapurna-expedition/annapurna-expedition-00-mt-annapurna-miristi-khola-valley-panoramio",
       alt: "Annapurna I above the Miristi Khola valley, Nepal.",

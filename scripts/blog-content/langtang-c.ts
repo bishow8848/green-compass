@@ -6,7 +6,7 @@ export const langtangC: BlogContent[] = [
     slug: "ama-yangri-trek-guide",
     title: "Ama Yangri Trek: A Sacred Ridge Five Days from Kathmandu",
     cluster: "langtang",
-    date: "2026-07-31",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/ama-yangri-trek/ama-yangri-trek-00-amayangri-tarkeghyang-20250503",
       alt: "The Ama Yangri ridge above Tarkeghyang, Helambu, Nepal.",
@@ -127,7 +127,7 @@ export const langtangC: BlogContent[] = [
     slug: "panch-pokhari-trek-guide",
     title: "Panch Pokhari Trek: Five Sacred Lakes in the Jugal Himal",
     cluster: "langtang",
-    date: "2026-08-04",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/panch-pokhari-trek/panch-pokhari-trek-00-dorje-lakpa-mountain-captured-from-panchpokhari",
       alt: "Dorje Lakpa seen from Panch Pokhari, Jugal Himal, Nepal.",

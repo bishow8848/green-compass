@@ -6,7 +6,7 @@ export const planningD: BlogContent[] = [
     slug: "guides-and-porters-in-nepal-rules-and-costs",
     title: "Guides and Porters in Nepal: Rules, Costs, and What They Actually Do",
     cluster: "planning",
-    date: "2026-02-06",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/langtang-valley-trek/langtang-valley-trek-04-shova-kumari-lama-1",
       alt: "A Langtang resident on the valley trail, Langtang Valley trek, Nepal.",
@@ -140,7 +140,7 @@ export const planningD: BlogContent[] = [
     slug: "nepal-visa-on-arrival-guide",
     title: "Nepal Visa on Arrival: A Step-by-Step Guide for Trekkers",
     cluster: "planning",
-    date: "2026-02-10",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/seven-world-heritage-kathmandu-day-tour/seven-world-heritage-kathmandu-day-tour-00-kathmandu-durbar-square-basantapur",
       alt: "Kathmandu Durbar Square at Basantapur, Kathmandu, Nepal.",
@@ -250,7 +250,7 @@ export const planningD: BlogContent[] = [
     slug: "domestic-flights-in-nepal-for-trekkers",
     title: "Domestic Flights in Nepal: Lukla, Pokhara, Jomsom, and Delays",
     cluster: "planning",
-    date: "2026-02-13",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/everest-view-trek/everest-view-trek-05-lukla-airport-during-everest-base-camp-trek-0092",
       alt: "Lukla airstrip on the Everest Base Camp trek route, Nepal.",

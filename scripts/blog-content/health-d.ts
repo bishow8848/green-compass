@@ -6,7 +6,7 @@ export const healthD: BlogContent[] = [
     slug: "post-trek-recovery-what-your-body-needs",
     title: "Post-Trek Recovery: What Your Body Needs in the First Two Weeks",
     cluster: "health",
-    date: "2028-02-06",
+    date: "2026-10-03",
     hero: {
       image: "mardi-treks/mardi-himal-trek/mardi-himal-trek-06-pokhara-phewa-lake-2-nepal",
       alt: "Boats on Phewa Lake in Pokhara, Nepal, where many trekkers recover after a trek.",
@@ -235,7 +235,7 @@ export const healthD: BlogContent[] = [
     slug: "illness-after-a-nepal-trek-symptoms-not-to-ignore",
     title: "Illness After a Nepal Trek: Symptoms You Should Not Ignore",
     cluster: "health",
-    date: "2028-02-12",
+    date: "2026-10-03",
     hero: {
       image: "mardi-treks/mera-peak-climbing/mera-peak-climbing-01-lukla-village",
       alt: "Lukla village in the Khumbu, the start and end point of Everest region treks, Nepal.",
@@ -462,7 +462,7 @@ export const healthD: BlogContent[] = [
     slug: "buying-medicine-in-kathmandu-and-pokhara",
     title: "Buying Medicine in Kathmandu and Pokhara: Pharmacies and Clinics",
     cluster: "health",
-    date: "2028-02-18",
+    date: "2026-10-03",
     hero: {
       image: "mardi-treks/seven-world-heritage-kathmandu-day-tour/seven-world-heritage-kathmandu-day-tour-04-kathmandu-durbar-square-2026",
       alt: "Kathmandu Durbar Square in the old city of Kathmandu, Nepal.",

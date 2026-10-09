@@ -6,7 +6,7 @@ export const activitiesD: BlogContent[] = [
     slug: "bungee-jump-in-bhote-koshi-guide",
     title: "Bungee Jump in Bhote Koshi: The Complete Guide",
     cluster: "activities",
-    date: "2027-07-03",
+    date: "2026-09-19",
     hero: {
       image: "mardi-treks/bungee-jump-in-bhote-koshi/bungee-jump-in-bhote-koshi-00-bhote-koshi-river-in-tataopani-sindhupalchok-district-nepal",
       alt: "The Bhote Koshi river at Tatopani, Sindhupalchok district, Nepal.",
@@ -187,7 +187,7 @@ export const activitiesD: BlogContent[] = [
     slug: "rafting-in-bhote-koshi-river-guide",
     title: "Rafting the Bhote Koshi: The Complete Guide",
     cluster: "activities",
-    date: "2027-07-07",
+    date: "2026-09-19",
     hero: {
       image: "mardi-treks/rafting-in-bhote-koshi-river/rafting-in-bhote-koshi-river-00-rafting-at-bhotekoshi-river-3",
       alt: "Rafting on the Bhote Koshi river, Nepal.",
@@ -374,7 +374,7 @@ export const activitiesD: BlogContent[] = [
     slug: "rafting-in-marsyangdi-river-guide",
     title: "Rafting the Marsyangdi: The Complete Guide",
     cluster: "activities",
-    date: "2027-07-10",
+    date: "2026-09-19",
     hero: {
       image: "mardi-treks/rafting-in-marsyangdi-river/rafting-in-marsyangdi-river-00-marsyangdi-river-gorge-annapurna-circuit-nepal-panoramio",
       alt: "The Marsyangdi river gorge on the Annapurna Circuit, Nepal.",

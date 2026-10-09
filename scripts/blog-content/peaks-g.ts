@@ -6,7 +6,7 @@ export const peaksG: BlogContent[] = [
     slug: "samdo-peak-climbing-guide",
     title: "Samdo Peak Climbing: The Complete Guide",
     cluster: "climbing",
-    date: "2027-10-13",
+    date: "2026-09-19",
     hero: {
       image: "mardi-treks/samdo-peak-climbing/samdo-peak-climbing-00-himalayas-budhi-gandaki-valley-next-to-samagaun-and-samdo-vi",
       alt: "The Himalaya above the Budhi Gandaki valley near Samagaon and Samdo, Nepal.",
@@ -172,7 +172,7 @@ export const peaksG: BlogContent[] = [
     slug: "larkya-peak-climbing-guide",
     title: "Larkya Peak Climbing: The Complete Guide",
     cluster: "climbing",
-    date: "2027-10-16",
+    date: "2026-09-19",
     hero: {
       image: "mardi-treks/larkya-peak-climbing/larkya-peak-climbing-00-nepal-manaslu-circuit-day-13-samagaon-to-samdo-unsplash",
       alt: "The Manaslu Circuit trail between Samagaon and Samdo, Nepal.",
@@ -349,7 +349,7 @@ export const peaksG: BlogContent[] = [
     slug: "abi-peak-climbing-guide",
     title: "Abi Peak Climbing: The Complete Guide",
     cluster: "climbing",
-    date: "2027-10-20",
+    date: "2026-09-19",
     hero: {
       image: "mardi-treks/abi-peak-climbing/abi-peak-climbing-00-annapurna-conservation-area-jomsom-mustang-district-nepal-14",
       alt: "The Annapurna Conservation Area near Jomsom, Mustang district, Nepal.",
@@ -533,7 +533,7 @@ export const peaksG: BlogContent[] = [
     slug: "saribung-peak-climbing-guide",
     title: "Saribung Peak Climbing: The Complete Guide",
     cluster: "climbing",
-    date: "2027-10-23",
+    date: "2026-09-19",
     hero: {
       image: "mardi-treks/saribung-peak-climbing/saribung-peak-climbing-00-lomanthang-1",
       alt: "Lo Manthang, the walled capital of Upper Mustang, Nepal.",

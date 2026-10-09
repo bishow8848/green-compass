@@ -6,7 +6,7 @@ export const langtangA: BlogContent[] = [
     slug: "langtang-valley-trek-complete-guide",
     title: "Langtang Valley Trek: The Complete Guide",
     cluster: "langtang",
-    date: "2026-07-10",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/langtang-valley-trek/langtang-valley-trek-00-enroute-to-kyanjin-gompa",
       alt: "The trail to Kyanjin Gompa in the upper Langtang valley, Nepal.",
@@ -230,7 +230,7 @@ export const langtangA: BlogContent[] = [
     slug: "gosaikunda-lake-trek-guide",
     title: "Gosaikunda Lake Trek: Sacred Lakes at 4,380 m",
     cluster: "langtang",
-    date: "2026-07-14",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/gosaikunda-lake-trek/gosaikunda-lake-trek-00-view-from-dhunche-gosaikunda-img07",
       alt: "The view from Dhunche towards the Gosaikunda lakes, Langtang National Park, Nepal.",
@@ -361,7 +361,7 @@ export const langtangA: BlogContent[] = [
     slug: "tamang-heritage-trail-guide",
     title: "Tamang Heritage Trail: Villages, Hot Springs, and a Tibet Border View",
     cluster: "langtang",
-    date: "2026-07-17",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/tamang-heritage-trek/tamang-heritage-trek-00-gatlang-village-langtang",
       alt: "Gatlang village in the Tamang Heritage region, Rasuwa, Nepal.",

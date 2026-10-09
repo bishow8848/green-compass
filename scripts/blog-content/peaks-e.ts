@@ -6,7 +6,7 @@ export const peaksE: BlogContent[] = [
     slug: "naya-kanga-peak-climbing-guide",
     title: "Naya Kanga Peak Climbing: The Complete Guide",
     cluster: "climbing",
-    date: "2027-09-15",
+    date: "2026-09-19",
     hero: {
       image: "mardi-treks/naya-kanga-peak-climbing/naya-kanga-peak-climbing-00-kyanjin-gompa-langtang",
       alt: "Kyanjin Gompa in the Langtang valley, Nepal.",
@@ -183,7 +183,7 @@ export const peaksE: BlogContent[] = [
     slug: "paldor-peak-climbing-guide",
     title: "Paldor Peak Climbing: The Complete Guide",
     cluster: "climbing",
-    date: "2027-09-18",
+    date: "2026-09-19",
     hero: {
       image: "mardi-treks/paldor-peak-climbing/paldor-peak-climbing-00-ganesh-himal-nepal",
       alt: "The Ganesh Himal range, central Nepal.",
@@ -373,7 +373,7 @@ export const peaksE: BlogContent[] = [
     slug: "langshisha-ri-expedition-guide",
     title: "Langshisha Ri Expedition: The Complete Guide",
     cluster: "climbing",
-    date: "2027-09-22",
+    date: "2026-09-19",
     hero: {
       image: "mardi-treks/langshisha-ri-expedition/langshisha-ri-expedition-00-mt-gangchempo-6387-m-kyanjin-gompa-lantang-valley-img-2731",
       alt: "Gangchempo at 6,387 m above Kyanjin Gompa, Langtang valley, Nepal.",
@@ -546,7 +546,7 @@ export const peaksE: BlogContent[] = [
     slug: "jugal-himal-gyalzen-peak-climbing-guide",
     title: "Gyalzen Peak & the Jugal Himal: The Complete Guide",
     cluster: "climbing",
-    date: "2027-09-25",
+    date: "2026-09-19",
     hero: {
       image: "mardi-treks/jugal-himal-gyalzen-peak-climbing/jugal-himal-gyalzen-peak-climbing-00-panch-pokhari",
       alt: "The sacred lakes at Panch Pokhari below the Jugal Himal, Nepal.",

@@ -68,8 +68,31 @@ import { healthA } from "./health-a";
 import { healthB } from "./health-b";
 import { healthC } from "./health-c";
 import { healthD } from "./health-d";
+import { dashainA } from "./dashain-a";
+import { dashainB } from "./dashain-b";
+import { dashainC } from "./dashain-c";
+import { dashainD } from "./dashain-d";
+import { dashainE } from "./dashain-e";
+import { dashainF } from "./dashain-f";
+import { dashainG } from "./dashain-g";
+import { dashainH } from "./dashain-h";
+import { seasonalA } from "./seasonal-a";
+import { seasonalB } from "./seasonal-b";
+import { seasonalC } from "./seasonal-c";
+import { seasonalD } from "./seasonal-d";
+import { seasonalE } from "./seasonal-e";
+import { seasonalF } from "./seasonal-f";
+import { tiharA } from "./tihar-a";
+import { tiharB } from "./tihar-b";
+import { tiharC } from "./tihar-c";
+import { tiharD } from "./tihar-d";
 
-/** Every article on the site, in no particular order — `date` drives ordering. */
+/**
+ * Every article on the site, in no particular order.
+ *
+ * `date` is the day the article goes out, in Nepal. One dated ahead is created
+ * as a scheduled post and published by itself at 09:00 Nepal Time that day.
+ */
 export const ALL_POSTS: BlogContent[] = [
   ...planningA,
   ...planningB,
@@ -140,4 +163,22 @@ export const ALL_POSTS: BlogContent[] = [
   ...healthB,
   ...healthC,
   ...healthD,
+  ...dashainA,
+  ...dashainB,
+  ...dashainC,
+  ...dashainD,
+  ...dashainE,
+  ...dashainF,
+  ...dashainG,
+  ...dashainH,
+  ...seasonalA,
+  ...seasonalB,
+  ...seasonalC,
+  ...seasonalD,
+  ...seasonalE,
+  ...seasonalF,
+  ...tiharA,
+  ...tiharB,
+  ...tiharC,
+  ...tiharD,
 ];

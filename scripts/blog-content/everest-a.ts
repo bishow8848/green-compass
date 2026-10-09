@@ -6,7 +6,7 @@ export const everestA: BlogContent[] = [
     slug: "everest-base-camp-trek-complete-guide",
     title: "Everest Base Camp Trek: The Complete Guide",
     cluster: "everest",
-    date: "2026-03-17",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/everest-base-camp-trek/everest-base-camp-trek-00-kala-patthar-26-everest-lhotse-2007-gje",
       alt: "Everest and Lhotse from Kala Patthar, Everest Base Camp trek, Nepal.",
@@ -264,7 +264,7 @@ export const everestA: BlogContent[] = [
     slug: "everest-base-camp-trek-itinerary-day-by-day",
     title: "Everest Base Camp Trek Itinerary: Day by Day",
     cluster: "everest",
-    date: "2026-03-20",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/everest-base-camp-trek/everest-base-camp-trek-02-view-of-tengboche-from-phortse-on-the-way-to-pheriche-nepal",
       alt: "Tengboche monastery seen from Phortse on the way to Pheriche, Everest Base Camp trek, Nepal.",
@@ -401,7 +401,7 @@ export const everestA: BlogContent[] = [
     slug: "everest-base-camp-trek-cost-breakdown",
     title: "Everest Base Camp Trek Cost: A Complete Breakdown",
     cluster: "everest",
-    date: "2026-03-24",
+    date: "2026-09-10",
     hero: {
       image: "mardi-treks/everest-base-camp-trek/everest-base-camp-trek-04-namche-bazaar-from-hotel-everest-view-trail",
       alt: "Everest from the Hotel Everest View trail above Namche Bazaar, Nepal.",
