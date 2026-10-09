@@ -12,6 +12,7 @@ import { demoteH1, injectHeadingIds } from "@/lib/headings";
 import { sanitizeRichText } from "@/lib/sanitize";
 import { extractFaqsFromHtml } from "@/lib/faq-block";
 import { getBlogRelations } from "@/lib/blog-related";
+import { unlinkUnpublishedPosts } from "@/lib/blog-links";
 import { readTimeMinutes } from "@/lib/read-time";
 import BlogSidebar from "@/components/blog/BlogSidebar";
 import { BlogCard } from "@/components/blog/BlogCard";
@@ -121,8 +122,10 @@ export async function generateMetadata({
   const { slug } = await params;
   const post = await getCachedOrFetch(
     cacheKeys.blogPostMeta(slug),
+    // Published only, like the page itself: the URL of a draft or scheduled
+    // post must not give away its title and summary through the meta tags.
     () => prisma.blogPost.findUnique({
-      where: { slug },
+      where: { slug, status: "published" },
       select: { title: true, excerpt: true, metaTitle: true, metaDescription: true, keywords: true, heroImage: true, ogImage: true, publishedDate: true, updatedAt: true, author: true },
     }),
     CACHE_TTL.DAILY
@@ -183,7 +186,7 @@ export default async function BlogPostPage({
 
   // Keep the blog CTA in sync with the contact form configured for the home
   // page instead of duplicating editable content for every article.
-  const [homeSettings, relatedTreks, relatedPosts] = await Promise.all([
+  const [homeSettings, relatedTreks, relatedPosts, publishedSlugs] = await Promise.all([
     getCachedOrFetch(
       cacheKeys.homeContactSettings,
       () => prisma.homePageSettings.findUnique({
@@ -198,7 +201,18 @@ export default async function BlogPostPage({
     ),
     getRelatedTreks(relations.trekSlugs),
     getRelatedPosts(relations.postSlugs),
+    getCachedOrFetch(
+      cacheKeys.blogPublishedSlugs,
+      async () => {
+        const rows = await prisma.blogPost.findMany({ where: { status: "published" }, select: { slug: true } });
+        return rows.map((row) => row.slug);
+      },
+      CACHE_TTL.DAILY
+    ),
   ]);
+  // A link to an article still waiting for its publish date shows as plain
+  // text until that article is live.
+  const body = unlinkUnpublishedPosts(post.content || "", new Set(publishedSlugs));
   let contactInfoCards: { title: string; description: string }[] = [];
   if (homeSettings?.contactInfoCards) {
     try {
@@ -435,7 +449,7 @@ export default async function BlogPostPage({
           <div className="flex min-w-0 flex-col space-y-0 lg:col-span-2">
             {/* Content */}
             <article className="blog-content">
-              <RichTextContent html={sanitizeRichText(injectHeadingIds(demoteH1(post.content || "")))} />
+              <RichTextContent html={sanitizeRichText(injectHeadingIds(demoteH1(body)))} />
             </article>
 
             {/* FAQs (like the trek detail page). This and the sections below

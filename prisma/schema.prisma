@@ -313,7 +313,7 @@ model BlogPost {
   slug            String   @unique
   author          String
   authorSlug      String?  // links to Author.slug
-  publishedDate   DateTime
+  publishedDate   DateTime // when it went live; for a scheduled post, when it will
   heroImage       String? // Cloudinary public ID
   excerpt         String
   content         String // rich text HTML
@@ -323,7 +323,7 @@ model BlogPost {
   keywords        String?
   ogImage         String?
   faqs            String? // JSON array of { question, answer }
-  status          String   @default("draft") // draft | published
+  status          String   @default("draft") // draft | scheduled | published (lib/blog-schedule.ts)
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 

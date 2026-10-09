@@ -231,6 +231,8 @@ export const cacheKeys = {
   blogPostsPage: (page: number, perPage: number) => `blog:list:page:v2:${perPage}:${page}`,
   blogSearchIndex: (authorSlug?: string) => (authorSlug ? `blog:search-index:${authorSlug}` : "blog:search-index"),
   blogPost: (slug: string) => `blog:${slug}`,
+  /** Slugs of every live post — what an article may link to. */
+  blogPublishedSlugs: "blog:published-slugs",
   blogPostMeta: (slug: string) => `blog:${slug}:meta`,
 
   // Layout
