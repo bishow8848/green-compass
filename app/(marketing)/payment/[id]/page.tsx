@@ -1,26 +1,14 @@
-"use client";
-
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { ArrowLeft, Loader2, CreditCard, CheckCircle } from "lucide-react";
-import * as m from "framer-motion/m";
+import { auth } from "@/lib/auth";
 import { MotionLink, Reveal } from "@/components/motion";
 
 // ============================================================
 // PAYMENT INTEGRATION PLACEHOLDER
-// Full payment flow is commented out below. Uncomment to restore.
+// Full payment flow is commented out below.
 // ============================================================
 
-export default function PaymentPage({ params }: { params: Promise<{ id: string }> }) {
-  const router = useRouter();
-  const { data: session } = useSession();
-  const [bookingId, setBookingId] = useState<string>("");
-
-  useEffect(() => {
-    params.then((p) => setBookingId(p.id));
-  }, [params]);
+export default async function PaymentPage({ params }: { params: Promise<{ id: string }> }) {
+  const [{ id: bookingId }, session] = await Promise.all([params, auth()]);
 
   if (!session) {
     return (
@@ -39,16 +27,11 @@ export default function PaymentPage({ params }: { params: Promise<{ id: string }
 
   return (
     <Reveal from="scale" className="mx-auto max-w-lg px-4 py-20 text-center">
-      <m.div
-        className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-primary/10"
-        initial={{ scale: 0.5, rotate: -12, opacity: 0 }}
-        animate={{ scale: 1, rotate: 0, opacity: 1 }}
-        transition={{ type: "spring", stiffness: 320, damping: 18, delay: 0.15 }}
-      >
+      <Reveal from="pop" delay={0.15} className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
         <svg className="h-8 w-8 text-primary" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
         </svg>
-      </m.div>
+      </Reveal>
       <h1 className="mt-6 text-2xl font-bold text-foreground">Payment Integration Under Process</h1>
       <p className="mt-3 text-sm text-muted leading-relaxed max-w-sm mx-auto">
         We have received your email. Our team will review your booking and get back to you shortly.
@@ -66,7 +49,9 @@ export default function PaymentPage({ params }: { params: Promise<{ id: string }
 
 // ===================================================================
 // ORIGINAL PAYMENT FLOW — commented out for placeholder.
-// Remove the placeholder above and uncomment below to restore.
+// To restore: move this into a client component under components/payment/
+// (it uses hooks) and render that from the page above, which stays a server
+// component.
 // ===================================================================
 
 // const paymentMethods = [
