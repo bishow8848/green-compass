@@ -1,7 +1,5 @@
-"use client";
-
-import { useEffect, useRef, useState } from "react";
 import { Search, ClipboardCheck, Calendar, Backpack, Compass, MessageCircle, Calculator, MousePointerClick, FileText, CreditCard } from "lucide-react";
+import { Reveal, Stagger, StaggerItem } from "@/components/motion";
 
 interface ProcessStep {
   step?: string;
@@ -33,36 +31,10 @@ const defaultSteps: ProcessStep[] = [
 ];
 
 function ProcessCard({ step, index }: { step: ProcessStep; index: number }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [visible, setVisible] = useState(false);
   const Icon = iconMap[step.icon || ""] || defaultIcon;
 
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setVisible(true);
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.15 }
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-
   return (
-    <div
-      ref={ref}
-      style={{ transitionDelay: visible ? `${index * 100}ms` : "0ms" }}
-      className={`group relative overflow-hidden rounded-3xl border border-border bg-surface p-7 shadow-sm transition-all duration-500 ease-out hover:-translate-y-1 hover:border-primary/40 hover:shadow-lg ${
-        visible ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"
-      }`}
-    >
+    <div className="group relative h-full overflow-hidden rounded-3xl border border-border bg-surface p-7 shadow-sm transition-all duration-500 ease-out hover:-translate-y-1 hover:border-primary/40 hover:shadow-lg">
       {/* Corner accent with step number inside */}
       <div
         aria-hidden="true"
@@ -96,17 +68,21 @@ export function ProcessSteps({ heading, description, steps, badge }: ProcessStep
   return (
     <section className="bg-background py-12 sm:py-16">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center gap-3">
-          <span className="h-px w-8 bg-secondary" aria-hidden="true" />
-          <span className="text-xs font-semibold uppercase tracking-[0.12em] text-secondary">{badge || "How It Works"}</span>
-        </div>
-        <h2 className="mt-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-          {heading || "How to Book Your Trek"}
-        </h2>
+        <Stagger>
+          <StaggerItem from="left" className="flex items-center gap-3">
+            <span className="h-px w-8 bg-secondary" aria-hidden="true" />
+            <span className="text-xs font-semibold uppercase tracking-[0.12em] text-secondary">{badge || "How It Works"}</span>
+          </StaggerItem>
+          <StaggerItem as="h2" className="mt-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+            {heading || "How to Book Your Trek"}
+          </StaggerItem>
+        </Stagger>
 
         <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {resolvedSteps.map((step, i) => (
-            <ProcessCard key={i} step={step} index={i} />
+            <Reveal key={i} delay={(i % 3) * 0.1} className="h-full">
+              <ProcessCard step={step} index={i} />
+            </Reveal>
           ))}
         </div>
       </div>

@@ -57,6 +57,7 @@
     "cli-color": "^2.0.4",
     "cloudinary": "^2.10.0",
     "clsx": "^2.1.1",
+    "framer-motion": "^14.1.0",
     "graphql": "^16.14.2",
     "imapflow": "^1.5.0",
     "lucide-react": "^1.24.0",

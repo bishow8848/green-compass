@@ -6,6 +6,9 @@ import { loadStripe, Stripe } from "@stripe/stripe-js";
 import { Elements, PaymentElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import { ArrowLeft, Loader2 } from "lucide-react";
 import Link from "next/link";
+import { AnimatePresence } from "framer-motion";
+import * as m from "framer-motion/m";
+import { Reveal } from "@/components/motion";
 
 function CheckoutForm({ bookingId, onComplete }: { bookingId: string; onComplete: () => void }) {
   const stripe = useStripe();
@@ -36,12 +39,24 @@ function CheckoutForm({ bookingId, onComplete }: { bookingId: string; onComplete
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <PaymentElement />
-      {error && (
-        <div className="rounded-xl bg-error/10 border border-error/20 p-4 text-sm text-error">⚠️ {error}</div>
-      )}
-      <button
+      <AnimatePresence initial={false}>
+        {error && (
+          <m.div
+            key="error"
+            className="rounded-xl bg-error/10 border border-error/20 p-4 text-sm text-error"
+            initial={{ opacity: 0, y: -6 }}
+            animate={{ opacity: 1, y: 0, x: [0, -6, 6, -3, 3, 0] }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.4 }}
+          >
+            ⚠️ {error}
+          </m.div>
+        )}
+      </AnimatePresence>
+      <m.button
         type="submit"
         disabled={!stripe || processing}
+        whileTap={!stripe || processing ? undefined : { scale: 0.98 }}
         className="w-full rounded-xl bg-gradient-to-r from-primary to-primary-dark px-6 py-3 text-sm font-semibold text-white shadow-sm hover:from-primary-dark hover:to-primary-dark disabled:opacity-50"
       >
         {processing ? (
@@ -49,7 +64,7 @@ function CheckoutForm({ bookingId, onComplete }: { bookingId: string; onComplete
         ) : (
           "Pay Now"
         )}
-      </button>
+      </m.button>
     </form>
   );
 }
@@ -118,13 +133,13 @@ export default function StripePaymentPage({ params }: { params: Promise<{ id: st
 
   if (error) {
     return (
-      <div className="mx-auto max-w-lg px-4 py-20 text-center">
+      <Reveal from="scale" className="mx-auto max-w-lg px-4 py-20 text-center">
         <h1 className="text-2xl font-bold text-foreground">Payment Error</h1>
         <p className="mt-2 text-sm text-muted">{error}</p>
         <Link href={`/payment/${bookingId}`} className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:text-primary-dark">
           <ArrowLeft className="h-4 w-4" /> Back to payment options
         </Link>
-      </div>
+      </Reveal>
     );
   }
 
@@ -139,14 +154,16 @@ export default function StripePaymentPage({ params }: { params: Promise<{ id: st
         <ArrowLeft className="h-4 w-4" /> Back to payment options
       </Link>
 
-      <h1 className="text-2xl font-bold text-foreground">Pay with Card</h1>
-      <p className="mt-1 text-sm text-muted">Enter your card details to complete payment</p>
+      <Reveal>
+        <h1 className="text-2xl font-bold text-foreground">Pay with Card</h1>
+        <p className="mt-1 text-sm text-muted">Enter your card details to complete payment</p>
+      </Reveal>
 
-      <div className="mt-8 rounded-2xl border border-border bg-surface p-6 shadow-sm">
+      <Reveal from="scale" delay={0.1} className="mt-8 rounded-2xl border border-border bg-surface p-6 shadow-sm">
         <Elements stripe={stripePromise} options={{ clientSecret }}>
           <CheckoutForm bookingId={bookingId} onComplete={() => {}} />
         </Elements>
-      </div>
+      </Reveal>
 
       <p className="mt-4 text-center text-xs text-muted">
         🔒 Secured by Stripe. Your card info is never stored on our servers.

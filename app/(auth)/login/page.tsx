@@ -7,6 +7,9 @@ import Link from "next/link";
 import { Mountain, Mail, Lock, Eye, EyeOff } from "lucide-react";
 import { useAuthImage } from "@/components/auth/AuthImageProvider";
 import { DEFAULT_AUTH_IMAGE } from "@/lib/auth-image";
+import { AnimatePresence } from "framer-motion";
+import * as m from "framer-motion/m";
+import { KenBurns, Reveal } from "@/components/motion";
 
 export default function LoginPage() {
   // Left-side photo — shared by all auth pages, set in Admin -> Site Settings -> Auth.
@@ -88,19 +91,21 @@ export default function LoginPage() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4 py-12">
       <div className="w-full max-w-4xl">
-        <div
+        <Reveal
+          from="scale"
           className="overflow-hidden rounded-3xl bg-white"
           style={{ border: "1px solid var(--color-border)", boxShadow: "0 20px 60px rgba(0,0,0,0.06)" }}
         >
           <div className="grid gap-0 lg:grid-cols-2">
             {/* Left — bright photo, no overlay, no copy */}
-            <div
-              className="hidden bg-cover bg-center lg:block"
-              style={{ backgroundImage: `url(${imageUrl})` }}
-            />
+            <div className="relative hidden overflow-hidden lg:block">
+              <KenBurns>
+                <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${imageUrl})` }} />
+              </KenBurns>
+            </div>
 
             {/* Right — form */}
-            <div className="p-8 sm:p-10 lg:p-12">
+            <Reveal from="right" delay={0.12} className="p-8 sm:p-10 lg:p-12">
               <div className="mb-8 text-center lg:hidden">
                 <Mountain className="mx-auto h-9 w-9 text-primary" />
               </div>
@@ -149,17 +154,27 @@ export default function LoginPage() {
                       className="w-full rounded-lg border border-border bg-background py-2.5 pl-10 pr-10 text-sm text-foreground placeholder:text-text-muted focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
                       placeholder="••••••••"
                     />
-                    <button
+                    <m.button
+                      whileTap={{ scale: 0.97 }}
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
                       className="absolute right-3 top-1/2 -translate-y-1/2 text-text-muted hover:text-foreground"
                     >
                       {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                    </button>
+                    </m.button>
                   </div>
                 </div>
 
+                <AnimatePresence initial={false}>
                 {error && (
+                  <m.div
+                    key="error"
+                    className="overflow-hidden"
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    exit={{ opacity: 0, height: 0 }}
+                    transition={{ duration: 0.22 }}
+                  >
                   <div className="rounded-lg bg-red-50 p-3 text-sm text-error">
                     {error}
                     {isUnverified && (
@@ -169,7 +184,8 @@ export default function LoginPage() {
                             {resentMessage}
                           </p>
                         ) : (
-                          <button
+                          <m.button
+                            whileTap={{ scale: 0.97 }}
                             type="button"
                             onClick={handleResendVerification}
                             disabled={isResending}
@@ -178,20 +194,23 @@ export default function LoginPage() {
                             {isResending
                               ? "Sending..."
                               : "Verify now — resend verification email"}
-                          </button>
+                          </m.button>
                         )}
                       </div>
                     )}
                   </div>
+                  </m.div>
                 )}
+                </AnimatePresence>
 
-                <button
+                <m.button
+                  whileTap={{ scale: 0.97 }}
                   type="submit"
                   disabled={isLoading}
                   className="w-full rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-primary-dark disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   {isLoading ? "Signing in..." : "Sign In"}
-                </button>
+                </m.button>
               </form>
 
               <div className="mt-6">
@@ -204,7 +223,8 @@ export default function LoginPage() {
                   </div>
                 </div>
 
-                <button
+                <m.button
+                  whileTap={{ scale: 0.97 }}
                   onClick={() => signIn("google", { callbackUrl: "/dashboard" })}
                   className="mt-4 flex w-full items-center justify-center gap-2 rounded-lg border border-border px-4 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-surface"
                 >
@@ -227,7 +247,7 @@ export default function LoginPage() {
                     />
                   </svg>
                   Google
-                </button>
+                </m.button>
               </div>
 
               <p className="mt-6 text-center text-sm text-text-muted">
@@ -236,9 +256,9 @@ export default function LoginPage() {
                   Sign up
                 </Link>
               </p>
-            </div>
+            </Reveal>
           </div>
-        </div>
+        </Reveal>
       </div>
     </div>
   );

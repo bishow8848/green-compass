@@ -7,6 +7,7 @@ import {
   AlertCircle, Ban
 } from "lucide-react";
 import { formatDate, formatPrice } from "@/lib/utils";
+import { MotionLink, Reveal, Stagger, StaggerItem } from "@/components/motion";
 
 const statusStyles: Record<string, string> = {
   PENDING_REVIEW: "bg-amber-50 text-amber-700 border-amber-200",
@@ -121,7 +122,7 @@ export default async function AdminDashboard() {
   return (
     <div className="space-y-6">
       {/* Page Header */}
-      <div className="flex items-center justify-between">
+      <Reveal from="left" className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-slate-900">Dashboard</h1>
           <p className="mt-1 text-sm text-slate-500">
@@ -132,15 +133,15 @@ export default async function AdminDashboard() {
           <Calendar className="h-3.5 w-3.5" />
           {formatDate(now)}
         </div>
-      </div>
+      </Reveal>
 
       {/* Stats Cards with Gradients */}
-      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+      <Stagger gap={0.06} className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
         {statsCards.map((card) => (
-          <Link
-            key={card.label}
+          <StaggerItem key={card.label}>
+          <MotionLink
             href={card.href}
-            className="group relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md"
+            className="group relative block overflow-hidden rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition-shadow duration-200 hover:shadow-md"
           >
             <div className="flex items-start justify-between">
               <div className={`rounded-xl ${card.lightBg} p-2.5 ${card.iconColor} transition-transform group-hover:scale-110`}>
@@ -159,13 +160,14 @@ export default async function AdminDashboard() {
             <p className="text-sm text-slate-500">{card.label}</p>
             {/* Decorative gradient bar */}
             <div className={`absolute bottom-0 left-0 h-1 w-0 bg-gradient-to-r ${card.gradient} transition-all duration-300 group-hover:w-full`} />
-          </Link>
+          </MotionLink>
+          </StaggerItem>
         ))}
-      </div>
+      </Stagger>
 
       {/* Secondary Stats */}
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
+      <Stagger gap={0.06} delay={0.15} className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <StaggerItem className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
           <div className="flex items-center gap-3">
             <div className="rounded-lg bg-emerald-50 p-2">
               <CheckCircle2 className="h-4 w-4 text-emerald-600" />
@@ -175,8 +177,8 @@ export default async function AdminDashboard() {
               <p className="text-xs text-slate-500">Confirmed</p>
             </div>
           </div>
-        </div>
-        <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
+        </StaggerItem>
+        <StaggerItem className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
           <div className="flex items-center gap-3">
             <div className="rounded-lg bg-amber-50 p-2">
               <Clock className="h-4 w-4 text-amber-600" />
@@ -186,8 +188,8 @@ export default async function AdminDashboard() {
               <p className="text-xs text-slate-500">Pending Review</p>
             </div>
           </div>
-        </div>
-        <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
+        </StaggerItem>
+        <StaggerItem className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
           <div className="flex items-center gap-3">
             <div className="rounded-lg bg-blue-50 p-2">
               <Activity className="h-4 w-4 text-blue-600" />
@@ -197,8 +199,8 @@ export default async function AdminDashboard() {
               <p className="text-xs text-slate-500">Conversion Rate</p>
             </div>
           </div>
-        </div>
-        <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
+        </StaggerItem>
+        <StaggerItem className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
           <div className="flex items-center gap-3">
             <div className="rounded-lg bg-slate-50 p-2">
               <ImageIcon className="h-4 w-4 text-slate-600" />
@@ -208,13 +210,13 @@ export default async function AdminDashboard() {
               <p className="text-xs text-slate-500">Media Files</p>
             </div>
           </div>
-        </div>
-      </div>
+        </StaggerItem>
+      </Stagger>
 
       {/* Main Content Grid */}
       <div className="grid gap-6 lg:grid-cols-3">
         {/* Recent Bookings */}
-        <div className="rounded-2xl border border-slate-200 bg-white shadow-sm lg:col-span-2">
+        <Reveal className="rounded-2xl border border-slate-200 bg-white shadow-sm lg:col-span-2">
           <div className="flex items-center justify-between border-b border-slate-100 px-5 py-4">
             <div>
               <h2 className="text-sm font-bold text-slate-900">Recent Bookings</h2>
@@ -238,7 +240,7 @@ export default async function AdminDashboard() {
               {recentBookings.map((b) => {
                 const StatusIcon = statusIcons[b.status] || AlertCircle;
                 return (
-                  <div key={b.id} className="flex items-center gap-4 px-5 py-3.5 transition-colors hover:bg-slate-50">
+                  <Reveal from="left" distance={12} key={b.id} className="flex items-center gap-4 px-5 py-3.5 transition-colors hover:bg-slate-50">
                     <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-100 text-xs font-bold text-slate-600">
                       {b.groupSize}
                     </div>
@@ -255,17 +257,17 @@ export default async function AdminDashboard() {
                         {b.status.replace(/_/g, " ")}
                       </span>
                     </div>
-                  </div>
+                  </Reveal>
                 );
               })}
             </div>
           )}
-        </div>
+        </Reveal>
 
         {/* Right Column */}
         <div className="space-y-6">
           {/* Popular Treks */}
-          <div className="rounded-2xl border border-slate-200 bg-white shadow-sm">
+          <Reveal className="rounded-2xl border border-slate-200 bg-white shadow-sm">
             <div className="border-b border-slate-100 px-5 py-4">
               <h2 className="text-sm font-bold text-slate-900">Popular Treks</h2>
               <p className="text-xs text-slate-500">Most booked packages</p>
@@ -297,10 +299,10 @@ export default async function AdminDashboard() {
                 })}
               </div>
             )}
-          </div>
+          </Reveal>
 
           {/* Quick Actions */}
-          <div className="rounded-2xl border border-slate-200 bg-white shadow-sm">
+          <Reveal className="rounded-2xl border border-slate-200 bg-white shadow-sm">
             <div className="border-b border-slate-100 px-5 py-4">
               <h2 className="text-sm font-bold text-slate-900">Quick Actions</h2>
             </div>
@@ -310,13 +312,13 @@ export default async function AdminDashboard() {
               <QuickActionBtn href="/admin/bookings" label="Manage Bookings" desc="Review pending requests" color="amber" />
               <QuickActionBtn href="/admin/media" label="Upload Media" desc="Add images to library" color="violet" />
             </div>
-          </div>
+          </Reveal>
         </div>
       </div>
 
       {/* Draft Reminder */}
       {draftTreks > 0 && (
-        <div className="rounded-2xl border border-amber-200 bg-amber-50/50 px-5 py-4">
+        <Reveal className="rounded-2xl border border-amber-200 bg-amber-50/50 px-5 py-4">
           <div className="flex items-center gap-3">
             <div className="rounded-full bg-amber-100 p-2">
               <AlertCircle className="h-4 w-4 text-amber-600" />
@@ -334,7 +336,7 @@ export default async function AdminDashboard() {
               View Treks
             </Link>
           </div>
-        </div>
+        </Reveal>
       )}
     </div>
   );
@@ -350,16 +352,16 @@ function QuickActionBtn({ href, label, desc, color }: {
     violet: "from-violet-50 to-violet-100/50 text-violet-700 hover:shadow-violet-200/50",
   };
   return (
-    <Link
+    <MotionLink
       href={href}
-      className={`flex items-center gap-3 rounded-xl bg-gradient-to-r ${colorClasses[color]} px-4 py-3 text-sm font-medium shadow-sm transition-all hover:shadow-md`}
+      className={`group flex items-center gap-3 rounded-xl bg-gradient-to-r ${colorClasses[color]} px-4 py-3 text-sm font-medium shadow-sm transition-shadow hover:shadow-md`}
     >
       <span className="text-lg">{label.includes("Trek") ? "🏔️" : label.includes("Blog") ? "📝" : label.includes("Bookings") ? "📋" : "🖼️"}</span>
       <div>
         <p>{label}</p>
         <p className="text-xs opacity-70">{desc}</p>
       </div>
-      <ArrowUpRight className="ml-auto h-4 w-4 opacity-50" />
-    </Link>
+      <ArrowUpRight className="ml-auto h-4 w-4 opacity-50 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+    </MotionLink>
   );
 }

@@ -6,6 +6,18 @@ import Link from "next/link";
 import { ArrowLeft, Plus, Trash2, Loader2, Minus, Users, Calendar, Package, AlertCircle } from "lucide-react";
 import { travelerDetailSchema } from "@/lib/validations";
 import { getPriceForGroupSize } from "@/lib/pricing";
+import { AnimatePresence } from "framer-motion";
+import * as m from "framer-motion/m";
+import { Reveal } from "@/components/motion";
+import { EASE_OUT } from "@/components/motion/presets";
+
+/** Validation messages slide open under their field. */
+const fieldErrorMotion = {
+  initial: { opacity: 0, height: 0 },
+  animate: { opacity: 1, height: "auto" },
+  exit: { opacity: 0, height: 0 },
+  transition: { duration: 0.2, ease: EASE_OUT },
+};
 
 interface TravelerForm {
   fullName: string;
@@ -413,7 +425,7 @@ export default function BookingPage({
             Back to {trek.title}
           </Link>
 
-          <section
+          <Reveal as="section" from="scale"
             className="rounded-3xl border p-7 shadow-sm sm:p-10"
             style={{ backgroundColor: "var(--color-surface)", borderColor: "var(--color-border)" }}
           >
@@ -440,7 +452,8 @@ export default function BookingPage({
                 </span>
               </Link>
 
-              <button
+              <m.button
+                whileTap={{ scale: 0.97 }}
                 type="button"
                 onClick={() => setContinueAsGuest(true)}
                 className="rounded-2xl border p-6 text-left transition hover:-translate-y-0.5 hover:shadow-md"
@@ -450,9 +463,9 @@ export default function BookingPage({
                 <span className="mt-2 block text-sm text-white/80">
                   Book using your contact details. We will create an account and email your temporary password.
                 </span>
-              </button>
+              </m.button>
             </div>
-          </section>
+          </Reveal>
         </div>
       </div>
     );
@@ -461,7 +474,7 @@ export default function BookingPage({
   // Booking summary card — shown at the top of the page on mobile and in the
   // sticky sidebar on desktop.
   const summaryCard = (
-    <div
+    <Reveal
       className="rounded-3xl border p-6 sm:p-7"
       style={{ backgroundColor: "var(--color-surface)", borderColor: "var(--color-border)" }}
     >
@@ -499,10 +512,11 @@ export default function BookingPage({
         </div>
       </div>
 
-      <button
+      <m.button
+        whileTap={{ scale: 0.97 }}
         type="submit"
         disabled={isSubmitting}
-        className="mt-6 hidden w-full rounded-full px-6 py-3.5 text-base font-semibold text-white shadow-sm transition-all hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50 lg:block"
+        className="mt-6 hidden w-full rounded-full px-6 py-3.5 text-base font-semibold text-white shadow-sm transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50 lg:block"
         style={{ backgroundColor: "var(--color-primary)" }}
       >
         {isSubmitting ? (
@@ -512,40 +526,42 @@ export default function BookingPage({
         ) : (
           `${session ? "Book Now" : "Request Guest Booking"} - $${totalPrice.toLocaleString()}`
         )}
-      </button>
+      </m.button>
       <p className="mt-3 text-center text-xs" style={{ color: "var(--color-text-muted)" }}>
         No payment charged yet &mdash; you&apos;ll confirm on the next step
       </p>
-    </div>
+    </Reveal>
   );
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: "var(--color-background)" }}>
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-        <Link
-          href={`/${trek.category?.slug || "treks"}/${slug}`}
-          className="mb-6 inline-flex items-center gap-1.5 text-sm font-medium transition-colors"
-          style={{ color: "var(--color-text-muted)" }}
-        >
-          <ArrowLeft className="h-4 w-4" />
-          Back to {trek.title}
-        </Link>
+        <Reveal from="left">
+          <Link
+            href={`/${trek.category?.slug || "treks"}/${slug}`}
+            className="group mb-6 inline-flex items-center gap-1.5 text-sm font-medium transition-colors"
+            style={{ color: "var(--color-text-muted)" }}
+          >
+            <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
+            Back to {trek.title}
+          </Link>
+        </Reveal>
 
-        <h1 className="text-3xl font-bold sm:text-4xl" style={{ color: "var(--color-secondary)" }}>
+        <Reveal as="h1" delay={0.05} className="text-3xl font-bold sm:text-4xl" style={{ color: "var(--color-secondary)" }}>
           Book Your Trek
-        </h1>
-        <p className="mt-2" style={{ color: "var(--color-text-muted)" }}>{trek.title}</p>
+        </Reveal>
+        <Reveal as="p" delay={0.1} className="mt-2" style={{ color: "var(--color-text-muted)" }}>{trek.title}</Reveal>
 
         {session ? (
-          <div
+          <Reveal
             className="mt-6 rounded-2xl border px-5 py-4 text-sm"
             style={{ backgroundColor: "var(--color-surface)", borderColor: "var(--color-border)" }}
           >
             This booking will be linked to <strong>{session.user?.email}</strong> and will appear
             in your dashboard.
-          </div>
+          </Reveal>
         ) : (
-          <div
+          <Reveal
             className="mt-6 rounded-2xl border px-5 py-4"
             style={{ backgroundColor: "var(--color-surface)", borderColor: "var(--color-border)" }}
           >
@@ -566,7 +582,7 @@ export default function BookingPage({
                 Sign in before booking
               </Link>
             </p>
-          </div>
+          </Reveal>
         )}
 
         <form onSubmit={handleSubmit} className="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-3 lg:items-start">
@@ -578,7 +594,7 @@ export default function BookingPage({
           {/* Main column */}
           <div className="space-y-6 lg:col-span-2">
             {/* Date & Travelers */}
-            <div
+            <Reveal
               className="rounded-3xl border p-6 sm:p-7"
               style={{ backgroundColor: "var(--color-surface)", borderColor: "var(--color-border)" }}
             >
@@ -629,12 +645,14 @@ export default function BookingPage({
                     }}
                     data-error={formErrors.startDate ? "true" : undefined}
                   />
-                  {formErrors.startDate && (
-                    <p className="mt-1.5 flex items-center gap-1 text-xs" style={{ color: "var(--color-error)" }}>
-                      <AlertCircle className="h-3 w-3" />
-                      {formErrors.startDate}
-                    </p>
-                  )}
+                  <AnimatePresence initial={false}>
+                    {formErrors.startDate && (
+                      <m.p {...fieldErrorMotion} className="mt-1.5 flex items-center gap-1 text-xs overflow-hidden" style={{ color: "var(--color-error)" }}>
+                        <AlertCircle className="h-3 w-3" />
+                        {formErrors.startDate}
+                      </m.p>
+                    )}
+                  </AnimatePresence>
                 </div>
 
                 <div>
@@ -646,7 +664,8 @@ export default function BookingPage({
                     className="flex items-center justify-between rounded-xl border px-4 py-2"
                     style={{ borderColor: "var(--color-border)", backgroundColor: "white" }}
                   >
-                    <button
+                    <m.button
+                      whileTap={{ scale: 0.97 }}
                       type="button"
                       onClick={() => {
                         const newCount = Math.max(1, travelerCount - 1);
@@ -657,11 +676,12 @@ export default function BookingPage({
                       style={{ borderColor: "var(--color-border)", backgroundColor: "var(--color-surface)", color: "var(--color-secondary)" }}
                     >
                       <Minus className="h-4 w-4" />
-                    </button>
+                    </m.button>
                     <span className="text-xl font-bold tabular-nums" style={{ color: "var(--color-foreground)" }}>
                       {travelerCount}
                     </span>
-                    <button
+                    <m.button
+                      whileTap={{ scale: 0.97 }}
                       type="button"
                       onClick={() => {
                         const newCount = Math.min(effectiveMaxGroupSize, travelerCount + 1);
@@ -672,18 +692,18 @@ export default function BookingPage({
                       style={{ borderColor: "var(--color-border)", backgroundColor: "var(--color-surface)", color: "var(--color-secondary)" }}
                     >
                       <Plus className="h-4 w-4" />
-                    </button>
+                    </m.button>
                   </div>
                   <p className="mt-1.5 text-xs" style={{ color: "var(--color-text-muted)" }}>
                     Max {effectiveMaxGroupSize} travelers per booking
                   </p>
                 </div>
               </div>
-            </div>
+            </Reveal>
 
             {/* Add-ons */}
             {trekAddons.length > 0 && (
-              <div
+              <Reveal
                 className="rounded-3xl border p-6 sm:p-7"
                 style={{ backgroundColor: "var(--color-surface)", borderColor: "var(--color-border)" }}
               >
@@ -721,7 +741,8 @@ export default function BookingPage({
                           style={{ borderColor: "var(--color-border)" }}
                         >
                           <div className="flex shrink-0 items-center gap-2">
-                            <button
+                            <m.button
+                              whileTap={{ scale: 0.97 }}
                               type="button"
                               onClick={() => setSelectedAddons((prev) => {
                                 const existing = prev.find((a) => a.title === addon.title);
@@ -733,11 +754,12 @@ export default function BookingPage({
                               style={{ borderColor: "var(--color-border)", backgroundColor: "var(--color-surface)", color: "var(--color-secondary)" }}
                             >
                               <Minus className="h-3.5 w-3.5" />
-                            </button>
+                            </m.button>
                             <span className="w-6 text-center text-sm font-bold tabular-nums" style={{ color: "var(--color-foreground)" }}>
                               {qty}
                             </span>
-                            <button
+                            <m.button
+                              whileTap={{ scale: 0.97 }}
                               type="button"
                               onClick={() => setSelectedAddons((prev) => {
                                 const existing = prev.find((a) => a.title === addon.title);
@@ -748,7 +770,7 @@ export default function BookingPage({
                               style={{ borderColor: "var(--color-border)", backgroundColor: "var(--color-surface)", color: "var(--color-secondary)" }}
                             >
                               <Plus className="h-3.5 w-3.5" />
-                            </button>
+                            </m.button>
                           </div>
                           <span className="shrink-0 text-right text-sm font-semibold tabular-nums" style={{ color: "var(--color-primary)" }}>
                             ${(qty * addon.pricePerUnit).toLocaleString()}
@@ -758,11 +780,11 @@ export default function BookingPage({
                     );
                   })}
                 </div>
-              </div>
+              </Reveal>
             )}
 
             {/* Lead Traveler Details — only one form, the count is used for pricing */}
-            <div
+            <Reveal
               className="rounded-3xl border p-6 sm:p-7"
               style={{ backgroundColor: "var(--color-surface)", borderColor: "var(--color-border)" }}
             >
@@ -776,9 +798,17 @@ export default function BookingPage({
               </p>
 
               <div className="mt-5 space-y-4">
+                <AnimatePresence initial={false}>
                 {travelers.map((traveler, index) => (
-                  <div
+                  <m.div
                     key={index}
+                    className="overflow-hidden"
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    exit={{ opacity: 0, height: 0 }}
+                    transition={{ duration: 0.3, ease: EASE_OUT }}
+                  >
+                  <div
                     className="rounded-2xl border-2 p-5"
                     style={{ borderColor: "var(--color-border)", backgroundColor: "var(--color-surface)" }}
                   >
@@ -787,15 +817,16 @@ export default function BookingPage({
                         {index === 0 ? "Lead Traveler" : `Traveler ${index + 1}`}
                       </h3>
                       {index > 0 && (
-                        <button
+                        <m.button
+                          whileTap={{ scale: 0.97 }}
                           type="button"
                           onClick={() => removeTraveler(index)}
-                          className="inline-flex items-center gap-1 rounded-lg px-2 py-1 text-xs font-medium transition hover:opacity-80"
+                          className="inline-flex items-center gap-1 rounded-lg px-2 py-1 text-xs font-medium transition-opacity hover:opacity-80"
                           style={{ color: "var(--color-error)" }}
                         >
                           <Trash2 className="h-3.5 w-3.5" />
                           Remove
-                        </button>
+                        </m.button>
                       )}
                     </div>
 
@@ -815,12 +846,14 @@ export default function BookingPage({
                           }}
                           data-error={getFieldError(index, "fullName") ? "true" : undefined}
                         />
-                        {isFieldTouched(index, "fullName") && getFieldError(index, "fullName") && (
-                          <p className="mt-1 flex items-center gap-1 text-xs" style={{ color: "var(--color-error)" }}>
-                            <AlertCircle className="h-3 w-3" />
-                            {getFieldError(index, "fullName")}
-                          </p>
-                        )}
+                        <AnimatePresence initial={false}>
+                          {isFieldTouched(index, "fullName") && getFieldError(index, "fullName") && (
+                            <m.p {...fieldErrorMotion} className="mt-1 flex items-center gap-1 text-xs overflow-hidden" style={{ color: "var(--color-error)" }}>
+                              <AlertCircle className="h-3 w-3" />
+                              {getFieldError(index, "fullName")}
+                            </m.p>
+                          )}
+                        </AnimatePresence>
                       </div>
                       <div>
                         <label className="block text-xs font-medium" style={{ color: "var(--color-text-muted)" }}>Email *</label>
@@ -837,12 +870,14 @@ export default function BookingPage({
                           }}
                           data-error={getFieldError(index, "email") ? "true" : undefined}
                         />
-                        {isFieldTouched(index, "email") && getFieldError(index, "email") && (
-                          <p className="mt-1 flex items-center gap-1 text-xs" style={{ color: "var(--color-error)" }}>
-                            <AlertCircle className="h-3 w-3" />
-                            {getFieldError(index, "email")}
-                          </p>
-                        )}
+                        <AnimatePresence initial={false}>
+                          {isFieldTouched(index, "email") && getFieldError(index, "email") && (
+                            <m.p {...fieldErrorMotion} className="mt-1 flex items-center gap-1 text-xs overflow-hidden" style={{ color: "var(--color-error)" }}>
+                              <AlertCircle className="h-3 w-3" />
+                              {getFieldError(index, "email")}
+                            </m.p>
+                          )}
+                        </AnimatePresence>
                       </div>
                       <div>
                         <label className="block text-xs font-medium" style={{ color: "var(--color-text-muted)" }}>Phone *</label>
@@ -859,12 +894,14 @@ export default function BookingPage({
                           }}
                           data-error={getFieldError(index, "phone") ? "true" : undefined}
                         />
-                        {isFieldTouched(index, "phone") && getFieldError(index, "phone") && (
-                          <p className="mt-1 flex items-center gap-1 text-xs" style={{ color: "var(--color-error)" }}>
-                            <AlertCircle className="h-3 w-3" />
-                            {getFieldError(index, "phone")}
-                          </p>
-                        )}
+                        <AnimatePresence initial={false}>
+                          {isFieldTouched(index, "phone") && getFieldError(index, "phone") && (
+                            <m.p {...fieldErrorMotion} className="mt-1 flex items-center gap-1 text-xs overflow-hidden" style={{ color: "var(--color-error)" }}>
+                              <AlertCircle className="h-3 w-3" />
+                              {getFieldError(index, "phone")}
+                            </m.p>
+                          )}
+                        </AnimatePresence>
                       </div>
                       <div>
                         <label className="block text-xs font-medium" style={{ color: "var(--color-text-muted)" }}>Nationality *</label>
@@ -881,12 +918,14 @@ export default function BookingPage({
                           }}
                           data-error={getFieldError(index, "nationality") ? "true" : undefined}
                         />
-                        {isFieldTouched(index, "nationality") && getFieldError(index, "nationality") && (
-                          <p className="mt-1 flex items-center gap-1 text-xs" style={{ color: "var(--color-error)" }}>
-                            <AlertCircle className="h-3 w-3" />
-                            {getFieldError(index, "nationality")}
-                          </p>
-                        )}
+                        <AnimatePresence initial={false}>
+                          {isFieldTouched(index, "nationality") && getFieldError(index, "nationality") && (
+                            <m.p {...fieldErrorMotion} className="mt-1 flex items-center gap-1 text-xs overflow-hidden" style={{ color: "var(--color-error)" }}>
+                              <AlertCircle className="h-3 w-3" />
+                              {getFieldError(index, "nationality")}
+                            </m.p>
+                          )}
+                        </AnimatePresence>
                       </div>
                       <div>
                         <label className="block text-xs font-medium" style={{ color: "var(--color-text-muted)" }}>Emergency Contact</label>
@@ -915,12 +954,14 @@ export default function BookingPage({
                           }}
                           data-error={getFieldError(index, "age") ? "true" : undefined}
                         />
-                        {isFieldTouched(index, "age") && getFieldError(index, "age") && (
-                          <p className="mt-1 flex items-center gap-1 text-xs" style={{ color: "var(--color-error)" }}>
-                            <AlertCircle className="h-3 w-3" />
-                            {getFieldError(index, "age")}
-                          </p>
-                        )}
+                        <AnimatePresence initial={false}>
+                          {isFieldTouched(index, "age") && getFieldError(index, "age") && (
+                            <m.p {...fieldErrorMotion} className="mt-1 flex items-center gap-1 text-xs overflow-hidden" style={{ color: "var(--color-error)" }}>
+                              <AlertCircle className="h-3 w-3" />
+                              {getFieldError(index, "age")}
+                            </m.p>
+                          )}
+                        </AnimatePresence>
                       </div>
                     </div>
 
@@ -938,37 +979,48 @@ export default function BookingPage({
                       </div>
                     )}
                   </div>
+                  </m.div>
                 ))}
+                </AnimatePresence>
 
                 {canAddTraveler && (
-                  <button
+                  <m.button
+                    whileTap={{ scale: 0.97 }}
                     type="button"
                     onClick={addTraveler}
-                    className="flex w-full items-center justify-center gap-2 rounded-2xl border-2 border-dashed px-4 py-3 text-sm font-semibold transition hover:opacity-80"
+                    className="flex w-full items-center justify-center gap-2 rounded-2xl border-2 border-dashed px-4 py-3 text-sm font-semibold transition-opacity hover:opacity-80"
                     style={{ borderColor: "var(--color-border)", color: "var(--color-primary)" }}
                   >
                     <Plus className="h-4 w-4" />
                     Add traveler {travelers.length + 1} of {travelerCount}
-                  </button>
+                  </m.button>
                 )}
               </div>
-            </div>
+            </Reveal>
 
-            {error && (
-              <div
-                className="flex items-start gap-2 rounded-2xl px-4 py-3 text-sm"
-                style={{ backgroundColor: "var(--color-accent-light)", color: "var(--color-error)" }}
-              >
-                <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
-                {error}
-              </div>
-            )}
+            <AnimatePresence initial={false}>
+              {error && (
+                <m.div
+                  key="error"
+                  className="flex items-start gap-2 rounded-2xl px-4 py-3 text-sm"
+                  style={{ backgroundColor: "var(--color-accent-light)", color: "var(--color-error)" }}
+                  initial={{ opacity: 0, y: -8 }}
+                  animate={{ opacity: 1, y: 0, x: [0, -6, 6, -3, 3, 0] }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.4 }}
+                >
+                  <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
+                  {error}
+                </m.div>
+              )}
+            </AnimatePresence>
 
             {/* Submit on mobile (summary card duplicates the button on desktop) */}
-            <button
+            <m.button
+              whileTap={{ scale: 0.97 }}
               type="submit"
               disabled={isSubmitting}
-              className="w-full rounded-full px-6 py-3.5 text-base font-semibold text-white shadow-sm transition-all hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50 lg:hidden"
+              className="w-full rounded-full px-6 py-3.5 text-base font-semibold text-white shadow-sm transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50 lg:hidden"
               style={{ backgroundColor: "var(--color-primary)" }}
             >
               {isSubmitting ? (
@@ -978,7 +1030,7 @@ export default function BookingPage({
               ) : (
                 `${session ? "Book Now" : "Request Guest Booking"} - $${totalPrice.toLocaleString()}`
               )}
-            </button>
+            </m.button>
           </div>
 
           {/* Summary sidebar (desktop only) */}

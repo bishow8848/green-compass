@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { prisma } from "@/lib/prisma";
 import { getCachedOrFetch, cacheKeys, CACHE_TTL } from "@/lib/redis";
@@ -6,6 +5,7 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import { SITE_URL, seoImageUrl } from "@/lib/seo";
 import { BlogCard } from "@/components/blog/BlogCard";
 import { readTimeMinutes } from "@/lib/read-time";
+import { MotionLink, Reveal } from "@/components/motion";
 
 export async function LatestBlogPosts({
   heading,
@@ -93,7 +93,7 @@ export async function LatestBlogPosts({
       <section className="bg-background py-16 sm:py-24" aria-labelledby="latest-blog-posts-heading">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           {/* Section header */}
-          <div className="text-center">
+          <Reveal className="text-center">
             <h2
               id="latest-blog-posts-heading"
               className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl"
@@ -103,34 +103,35 @@ export async function LatestBlogPosts({
             <p className="mt-3 text-lg text-text-muted">
               {description || "Trekking tips, destination guides, and stories from the Himalayas"}
             </p>
-          </div>
+          </Reveal>
 
           {/* Blog card grid */}
           <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {postsWithMeta.map((post) => (
-              <BlogCard
-                key={post.slug}
-                slug={post.slug}
-                title={post.title}
-                excerpt={post.excerpt}
-                heroImage={post.heroImage}
-                tags={post.tags}
-                date={post.date}
-                readTime={post.readTime}
-              />
+            {postsWithMeta.map((post, i) => (
+              <Reveal key={post.slug} delay={(i % 3) * 0.08} className="h-full">
+                <BlogCard
+                  slug={post.slug}
+                  title={post.title}
+                  excerpt={post.excerpt}
+                  heroImage={post.heroImage}
+                  tags={post.tags}
+                  date={post.date}
+                  readTime={post.readTime}
+                />
+              </Reveal>
             ))}
           </div>
 
           {/* View all CTA */}
-          <div className="mt-12 text-center">
-            <Link
+          <Reveal className="mt-12 text-center">
+            <MotionLink
               href="/blog"
-              className="inline-flex items-center gap-2 rounded-xl bg-primary px-6 py-3 text-base font-semibold text-white shadow-lg transition-all hover:bg-primary-dark"
+              className="group inline-flex items-center gap-2 rounded-xl bg-primary px-6 py-3 text-base font-semibold text-white shadow-lg transition-colors hover:bg-primary-dark"
             >
               View All Articles
-              <ArrowRight className="h-5 w-5" />
-            </Link>
-          </div>
+              <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
+            </MotionLink>
+          </Reveal>
         </div>
       </section>
     </>

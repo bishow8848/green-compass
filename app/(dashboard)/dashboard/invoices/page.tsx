@@ -6,6 +6,7 @@ import Link from "next/link";
 // Invoices show live per-user payment data — never cache.
 export const dynamic = "force-dynamic";
 import { ArrowLeft, Download, FileText, CheckCircle, AlertCircle, Clock, CreditCard } from "lucide-react";
+import { MotionLink, Reveal, Stagger, StaggerItem } from "@/components/motion";
 
 const paymentStyles: Record<string, React.CSSProperties> = {
   PENDING: { background: "var(--color-accent-light)", color: "var(--color-secondary-dark)" },
@@ -68,14 +69,15 @@ export default async function InvoicesPage() {
     <div className="min-h-screen" style={{ background: "var(--color-background)" }}>
       <div className="mx-auto max-w-5xl space-y-8 px-4 py-8 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="flex items-center gap-4">
-          <Link
+        <Reveal from="left" className="flex items-center gap-4">
+          <MotionLink
             href="/dashboard"
-            className="flex h-10 w-10 items-center justify-center rounded-xl border transition-all hover:opacity-80"
+            lift={0}
+            className="group flex h-10 w-10 items-center justify-center rounded-xl border transition-opacity hover:opacity-80"
             style={{ borderColor: "var(--color-border)" }}
           >
-            <ArrowLeft className="h-5 w-5" style={{ color: "var(--color-foreground)" }} />
-          </Link>
+            <ArrowLeft className="h-5 w-5 transition-transform group-hover:-translate-x-0.5" style={{ color: "var(--color-foreground)" }} />
+          </MotionLink>
           <div>
             <h1 className="text-2xl font-bold" style={{ color: "var(--color-secondary-dark)" }}>
               Invoice Ledger
@@ -84,11 +86,11 @@ export default async function InvoicesPage() {
               All your bookings and payment records
             </p>
           </div>
-        </div>
+        </Reveal>
 
         {/* Summary Cards */}
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-          <div
+        <Stagger className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+          <StaggerItem
             className="rounded-2xl border p-5 shadow-sm"
             style={{ background: "var(--color-surface)", borderColor: "var(--color-border)" }}
           >
@@ -96,8 +98,8 @@ export default async function InvoicesPage() {
             <p className="mt-1 text-2xl font-bold" style={{ color: "var(--color-secondary-dark)" }}>
               ${totalSpent.toLocaleString()}
             </p>
-          </div>
-          <div
+          </StaggerItem>
+          <StaggerItem
             className="rounded-2xl border p-5 shadow-sm"
             style={{ background: "var(--color-surface)", borderColor: "var(--color-border)" }}
           >
@@ -105,8 +107,8 @@ export default async function InvoicesPage() {
             <p className="mt-1 text-2xl font-bold" style={{ color: "var(--color-success)" }}>
               ${totalPaid.toLocaleString()}
             </p>
-          </div>
-          <div
+          </StaggerItem>
+          <StaggerItem
             className="rounded-2xl border p-5 shadow-sm"
             style={{ background: "var(--color-surface)", borderColor: "var(--color-border)" }}
           >
@@ -117,12 +119,13 @@ export default async function InvoicesPage() {
             >
               ${totalRemaining.toLocaleString()}
             </p>
-          </div>
-        </div>
+          </StaggerItem>
+        </Stagger>
 
         {/* Invoices List */}
         {bookings.length === 0 ? (
-          <div
+          <Reveal
+            from="scale"
             className="rounded-2xl border py-16 text-center"
             style={{ background: "var(--color-surface)", borderColor: "var(--color-border)" }}
           >
@@ -138,10 +141,10 @@ export default async function InvoicesPage() {
             <p className="mt-1 text-sm" style={{ color: "var(--color-text-muted)" }}>
               Book a trek to see your invoices here.
             </p>
-          </div>
+          </Reveal>
         ) : (
           <div className="space-y-4">
-            {bookings.map((b) => {
+            {bookings.map((b, i) => {
               const paid = paidAmountFor(b);
               const remaining = Math.max(0, (b.totalPrice || 0) - paid);
               const progress = b.totalPrice > 0 ? Math.round((paid / b.totalPrice) * 100) : 0;
@@ -149,9 +152,10 @@ export default async function InvoicesPage() {
               const isPaid = ps === "FULLY_PAID";
 
               return (
-                <div
+                <Reveal
                   key={b.id}
-                  className="rounded-2xl border p-5 shadow-sm transition-all hover:shadow-md"
+                  delay={Math.min(i, 5) * 0.05}
+                  className="rounded-2xl border p-5 shadow-sm transition-shadow hover:shadow-md"
                   style={{ background: "var(--color-surface)", borderColor: "var(--color-border)" }}
                 >
                   <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
@@ -223,8 +227,11 @@ export default async function InvoicesPage() {
                         className="h-2 w-full overflow-hidden rounded-full"
                         style={{ background: "var(--color-border)" }}
                       >
-                        <div
-                          className="h-full rounded-full transition-all"
+                        <Reveal
+                          from="grow"
+                          duration={1}
+                          delay={0.2}
+                          className="h-full origin-left rounded-full"
                           style={{
                             width: `${progress}%`,
                             background: progress > 0 ? "var(--color-success)" : "var(--color-border)",
@@ -237,7 +244,7 @@ export default async function InvoicesPage() {
                       </div>
                     </div>
                   )}
-                </div>
+                </Reveal>
               );
             })}
           </div>

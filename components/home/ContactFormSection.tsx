@@ -1,7 +1,60 @@
 "use client";
 
-import { useState, FormEvent } from "react";
+import { useState, type SyntheticEvent } from "react";
 import { Send, CheckCircle, AlertCircle, Loader2 } from "lucide-react";
+import { AnimatePresence } from "framer-motion";
+import * as m from "framer-motion/m";
+import { Reveal, Stagger, StaggerItem } from "@/components/motion";
+import { EASE_OUT, SPRING_SNAPPY } from "@/components/motion/presets";
+
+/** Validation message that slides open under its field. */
+function FieldError({ message }: { message?: string }) {
+  return (
+    <AnimatePresence initial={false}>
+      {message && (
+        <m.span
+          key="error"
+          className="block overflow-hidden text-xs font-medium text-error"
+          initial={{ opacity: 0, height: 0, y: -4 }}
+          animate={{ opacity: 1, height: "auto", y: 0 }}
+          exit={{ opacity: 0, height: 0 }}
+          transition={{ duration: 0.2, ease: EASE_OUT }}
+        >
+          {message}
+        </m.span>
+      )}
+    </AnimatePresence>
+  );
+}
+
+/** Success / error banner above the submit button. */
+function StatusBanner({ tone, children }: { tone: "success" | "error"; children: React.ReactNode }) {
+  return (
+    <m.div
+      className="overflow-hidden"
+      initial={{ opacity: 0, height: 0 }}
+      animate={{ opacity: 1, height: "auto" }}
+      exit={{ opacity: 0, height: 0 }}
+      transition={{ duration: 0.25, ease: EASE_OUT }}
+    >
+      <div
+        className={`flex items-center gap-2 rounded-xl px-4 py-3 text-sm font-medium ${
+          tone === "success" ? "bg-success/10 text-success" : "bg-error/10 text-error"
+        }`}
+      >
+        <m.span
+          className="inline-flex"
+          initial={{ scale: 0, rotate: -30 }}
+          animate={{ scale: 1, rotate: 0 }}
+          transition={{ ...SPRING_SNAPPY, delay: 0.1 }}
+        >
+          {tone === "success" ? <CheckCircle className="h-5 w-5" /> : <AlertCircle className="h-5 w-5" />}
+        </m.span>
+        {children}
+      </div>
+    </m.div>
+  );
+}
 
 interface InfoCard {
   title: string;
@@ -114,7 +167,7 @@ export function ContactFormSection({
     }`;
   }
 
-  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: SyntheticEvent) {
     e.preventDefault();
     setErrorMsg("");
 
@@ -168,7 +221,7 @@ export function ContactFormSection({
   return (
     <section className={`bg-background ${className || "py-12 sm:py-16"}`}>
       <div className={embedded ? "w-full" : "mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"}>
-        <div
+        <Reveal
           className="overflow-hidden rounded-3xl bg-surface"
           style={{ border: "1px solid var(--color-border)", boxShadow: "0 25px 80px rgba(0, 0, 0, 0.08)" }}
         >
@@ -181,64 +234,71 @@ export function ContactFormSection({
               }}
             >
               {/* Primary color bubbles */}
-              <div
+              <Reveal
+                from="scale"
+                duration={1.2}
                 className="absolute -right-12 -top-12 h-40 w-40 rounded-full opacity-30"
                 style={{ backgroundColor: "var(--color-primary)" }}
               />
-              <div
+              <Reveal
+                from="scale"
+                duration={1.2}
+                delay={0.15}
                 className="absolute -bottom-10 -left-10 h-36 w-36 rounded-full opacity-30"
                 style={{ backgroundColor: "var(--color-primary)" }}
               />
 
-              <div className="relative">
-                <span
+              <Stagger className="relative">
+                <StaggerItem
+                  as="span"
                   className="inline-flex rounded-full border px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.25em]"
                   style={{ borderColor: "rgba(255, 255, 255, 0.2)", backgroundColor: "rgba(255, 255, 255, 0.1)" }}
                 >
                   Contact Us
-                </span>
+                </StaggerItem>
 
-                <h2 className="mt-5 text-3xl font-bold leading-tight md:text-4xl">
+                <StaggerItem as="h2" className="mt-5 text-3xl font-bold leading-tight md:text-4xl">
                   {heading || "Plan your next adventure with confidence."}
-                </h2>
+                </StaggerItem>
 
                 {(description) && (
-                  <p className="mt-4 max-w-md text-sm leading-7 md:text-base" style={{ color: "rgba(255, 255, 255, 0.9)" }}>
+                  <StaggerItem as="p" className="mt-4 max-w-md text-sm leading-7 md:text-base" style={{ color: "rgba(255, 255, 255, 0.9)" }}>
                     {description}
-                  </p>
+                  </StaggerItem>
                 )}
 
                 {/* Dynamic Info Cards */}
                 <div className="mt-8 space-y-4">
                   {cards.map((card, index) => (
-                    <div
+                    <StaggerItem
                       key={index}
+                      from="left"
                       className="rounded-2xl border border-white/15 bg-white/10 p-4 backdrop-blur-sm"
                     >
                       <p className="text-sm font-semibold">{card.title}</p>
                       <p className="mt-1 text-sm" style={{ color: "rgba(255, 255, 255, 0.85)" }}>
                         {card.description}
                       </p>
-                    </div>
+                    </StaggerItem>
                   ))}
                 </div>
-              </div>
+              </Stagger>
             </div>
 
             {/* Right Panel — Form */}
             <div className="p-6 md:p-10">
-              <form onSubmit={handleSubmit} className="space-y-5">
-                <div>
+              <Stagger as="form" gap={0.05} delay={0.15} onSubmit={handleSubmit} className="space-y-5">
+                <StaggerItem>
                   <h3 className="text-2xl font-bold" style={{ color: "var(--color-foreground)" }}>
                     Send us a message
                   </h3>
                   <p className="mt-2 text-sm text-text-muted">
                     Fill in your details below and we&apos;ll reach out as soon as possible.
                   </p>
-                </div>
+                </StaggerItem>
 
                 {/* Name + Email on one row */}
-                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                <StaggerItem className="grid grid-cols-1 gap-4 md:grid-cols-2">
                   <label className="space-y-1.5 text-sm font-medium text-foreground">
                     Full name
                     <input
@@ -250,9 +310,7 @@ export function ContactFormSection({
                       className={fieldClassName("name")}
                       aria-invalid={fieldErrors.name ? "true" : undefined}
                     />
-                    {fieldErrors.name && (
-                      <span className="block text-xs font-medium text-error">{fieldErrors.name}</span>
-                    )}
+                    <FieldError message={fieldErrors.name} />
                   </label>
 
                   <label className="space-y-1.5 text-sm font-medium text-foreground">
@@ -267,14 +325,12 @@ export function ContactFormSection({
                       className={fieldClassName("email")}
                       aria-invalid={fieldErrors.email ? "true" : undefined}
                     />
-                    {fieldErrors.email && (
-                      <span className="block text-xs font-medium text-error">{fieldErrors.email}</span>
-                    )}
+                    <FieldError message={fieldErrors.email} />
                   </label>
-                </div>
+                </StaggerItem>
 
                 {/* Country */}
-                <label className="block space-y-1.5 text-sm font-medium text-foreground">
+                <StaggerItem as="label" className="block space-y-1.5 text-sm font-medium text-foreground">
                   Country
                   <input
                     value={country}
@@ -285,13 +341,11 @@ export function ContactFormSection({
                     className={fieldClassName("country")}
                     aria-invalid={fieldErrors.country ? "true" : undefined}
                   />
-                  {fieldErrors.country && (
-                    <span className="block text-xs font-medium text-error">{fieldErrors.country}</span>
-                  )}
-                </label>
+                  <FieldError message={fieldErrors.country} />
+                </StaggerItem>
 
                 {/* Phone */}
-                <label className="block space-y-1.5 text-sm font-medium text-foreground">
+                <StaggerItem as="label" className="block space-y-1.5 text-sm font-medium text-foreground">
                   Phone number
                   <input
                     type="tel"
@@ -303,13 +357,11 @@ export function ContactFormSection({
                     className={fieldClassName("phone")}
                     aria-invalid={fieldErrors.phone ? "true" : undefined}
                   />
-                  {fieldErrors.phone && (
-                    <span className="block text-xs font-medium text-error">{fieldErrors.phone}</span>
-                  )}
-                </label>
+                  <FieldError message={fieldErrors.phone} />
+                </StaggerItem>
 
                 {/* Subject */}
-                <label className="block space-y-1.5 text-sm font-medium text-foreground">
+                <StaggerItem as="label" className="block space-y-1.5 text-sm font-medium text-foreground">
                   Subject
                   <input
                     value={subject}
@@ -320,13 +372,11 @@ export function ContactFormSection({
                     className={fieldClassName("subject")}
                     aria-invalid={fieldErrors.subject ? "true" : undefined}
                   />
-                  {fieldErrors.subject && (
-                    <span className="block text-xs font-medium text-error">{fieldErrors.subject}</span>
-                  )}
-                </label>
+                  <FieldError message={fieldErrors.subject} />
+                </StaggerItem>
 
                 {/* Message */}
-                <label className="block space-y-1.5 text-sm font-medium text-foreground">
+                <StaggerItem as="label" className="block space-y-1.5 text-sm font-medium text-foreground">
                   Message
                   <textarea
                     value={message}
@@ -338,47 +388,65 @@ export function ContactFormSection({
                     className={`${fieldClassName("message")} resize-y`}
                     aria-invalid={fieldErrors.message ? "true" : undefined}
                   />
-                  {fieldErrors.message && (
-                    <span className="block text-xs font-medium text-error">{fieldErrors.message}</span>
-                  )}
-                </label>
+                  <FieldError message={fieldErrors.message} />
+                </StaggerItem>
 
                 {/* Status messages */}
-                {status === "success" && (
-                  <div className="flex items-center gap-2 rounded-xl bg-success/10 px-4 py-3 text-sm font-medium text-success">
-                    <CheckCircle className="h-5 w-5" />
-                    Message sent successfully. We&apos;ll get back to you soon.
-                  </div>
-                )}
-
-                {status === "error" && (
-                  <div className="flex items-center gap-2 rounded-xl bg-error/10 px-4 py-3 text-sm font-medium text-error">
-                    <AlertCircle className="h-5 w-5" />
-                    {errorMsg || "Something went wrong. Please try again later."}
-                  </div>
-                )}
-
-                <button
-                  type="submit"
-                  disabled={status === "sending"}
-                  className="w-full rounded-2xl bg-primary px-6 py-3.5 font-semibold text-white shadow-lg transition hover:bg-primary-dark disabled:cursor-not-allowed disabled:opacity-70"
-                >
-                  {status === "sending" ? (
-                    <span className="inline-flex items-center gap-2">
-                      <Loader2 className="h-5 w-5 animate-spin" />
-                      Sending…
-                    </span>
-                  ) : (
-                    <span className="inline-flex items-center justify-center gap-2">
-                      <Send className="h-5 w-5" />
-                      Send Message
-                    </span>
+                <AnimatePresence initial={false} mode="wait">
+                  {status === "success" && (
+                    <StatusBanner key="success" tone="success">
+                      Message sent successfully. We&apos;ll get back to you soon.
+                    </StatusBanner>
                   )}
-                </button>
-              </form>
+                  {status === "error" && (
+                    <StatusBanner key="error" tone="error">
+                      {errorMsg || "Something went wrong. Please try again later."}
+                    </StatusBanner>
+                  )}
+                </AnimatePresence>
+
+                <StaggerItem>
+                  <m.button
+                    type="submit"
+                    disabled={status === "sending"}
+                    whileHover={status === "sending" ? undefined : { y: -2 }}
+                    whileTap={status === "sending" ? undefined : { scale: 0.98 }}
+                    transition={SPRING_SNAPPY}
+                    className="group w-full rounded-2xl bg-primary px-6 py-3.5 font-semibold text-white shadow-lg transition-[background-color,box-shadow,opacity] hover:bg-primary-dark hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-70"
+                  >
+                    <AnimatePresence mode="wait" initial={false}>
+                      {status === "sending" ? (
+                        <m.span
+                          key="sending"
+                          className="inline-flex items-center gap-2"
+                          initial={{ opacity: 0, y: 8 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -8 }}
+                          transition={{ duration: 0.15 }}
+                        >
+                          <Loader2 className="h-5 w-5 animate-spin" />
+                          Sending…
+                        </m.span>
+                      ) : (
+                        <m.span
+                          key="idle"
+                          className="inline-flex items-center justify-center gap-2"
+                          initial={{ opacity: 0, y: 8 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -8 }}
+                          transition={{ duration: 0.15 }}
+                        >
+                          <Send className="h-5 w-5 transition-transform duration-300 group-hover:-rotate-12 group-hover:translate-x-0.5" />
+                          Send Message
+                        </m.span>
+                      )}
+                    </AnimatePresence>
+                  </m.button>
+                </StaggerItem>
+              </Stagger>
             </div>
           </div>
-        </div>
+        </Reveal>
       </div>
     </section>
   );

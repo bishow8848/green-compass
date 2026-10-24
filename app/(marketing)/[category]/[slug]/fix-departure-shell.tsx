@@ -1,6 +1,7 @@
 import { FixDepartureTable, type FixDepartureTrek } from "@/components/trek/FixDepartureTable";
 import { CLOUDINARY_CLOUD_NAME } from "@/lib/cloudinary-url";
 import { CalendarDays } from "lucide-react";
+import { KenBurns, Stagger, StaggerItem } from "@/components/motion";
 
 function parseJsonArray(val: string | null | undefined): any[] {
   if (!val) return [];
@@ -54,11 +55,13 @@ export function FixDeparturePageShell({
       {/* Hero */}
       <section className="relative flex min-h-[320px] items-end overflow-hidden bg-gradient-to-br from-secondary-dark via-primary-dark/30 to-gray-900">
         {heroImage ? (
-          <img
-            src={`https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/c_fill,w_1600,q_auto,f_auto/${heroImage}`}
-            alt=""
-            className="absolute inset-0 h-full w-full object-cover"
-          />
+          <KenBurns>
+            <img
+              src={`https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/c_fill,w_1600,q_auto,f_auto/${heroImage}`}
+              alt=""
+              className="absolute inset-0 h-full w-full object-cover"
+            />
+          </KenBurns>
         ) : (
           <div className="absolute inset-0 bg-gradient-to-br from-secondary-dark via-primary-dark/30 to-gray-900" />
         )}
@@ -66,17 +69,17 @@ export function FixDeparturePageShell({
           className="absolute inset-0"
           style={{ background: "rgba(70, 55, 40, 0.45)", mixBlendMode: "multiply" as any }}
         />
-        <div className="relative z-10 mx-auto w-full max-w-screen-2xl px-4 pb-12 sm:px-6 lg:px-8">
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-white/80 backdrop-blur">
+        <Stagger className="relative z-10 mx-auto w-full max-w-screen-2xl px-4 pb-12 sm:px-6 lg:px-8">
+          <StaggerItem as="span" from="left" className="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-white/80 backdrop-blur">
             <CalendarDays className="h-3.5 w-3.5" /> {badge}
-          </span>
-          <h1 className="mt-4 text-4xl font-bold leading-tight text-white sm:text-5xl md:text-6xl">
+          </StaggerItem>
+          <StaggerItem as="h1" className="mt-4 text-4xl font-bold leading-tight text-white sm:text-5xl md:text-6xl">
             {title}
-          </h1>
-          <p className="mt-4 max-w-2xl text-base leading-relaxed text-white/80 sm:text-lg">
+          </StaggerItem>
+          <StaggerItem as="p" className="mt-4 max-w-2xl text-base leading-relaxed text-white/80 sm:text-lg">
             {description}
-          </p>
-        </div>
+          </StaggerItem>
+        </Stagger>
       </section>
 
       {/* Content */}

@@ -18,6 +18,7 @@ import {
   Compass,
   Wallet,
 } from "lucide-react";
+import { MotionLink, Reveal, Stagger, StaggerItem } from "@/components/motion";
 
 const statusStyles: Record<string, React.CSSProperties> = {
   PENDING_REVIEW: { background: "var(--color-warning)", color: "#fff" },
@@ -193,7 +194,7 @@ export default async function DashboardPage() {
 
       <div className="relative mx-auto max-w-7xl space-y-8 px-4 py-8 sm:px-6 lg:px-8">
         {/* ── Header ── */}
-        <div
+        <Reveal
           className="relative flex flex-col items-start justify-between gap-4 overflow-hidden rounded-3xl border p-6 shadow-sm sm:flex-row sm:items-center"
           style={{ background: "var(--color-surface)", borderColor: "var(--color-border)" }}
         >
@@ -220,18 +221,18 @@ export default async function DashboardPage() {
               Track your Himalayan expeditions, payments, and itinerary schedules in real-time.
             </p>
           </div>
-          <Link
+          <MotionLink
             href="/treks"
-            className="relative flex items-center gap-2 rounded-2xl px-5 py-2.5 text-sm font-medium text-white shadow-sm transition-all hover:-translate-y-0.5"
+            className="group relative flex items-center gap-2 rounded-2xl px-5 py-2.5 text-sm font-medium text-white shadow-sm transition-shadow hover:shadow-md"
             style={{ background: "linear-gradient(135deg, var(--color-primary), var(--color-primary-dark))" }}
           >
             Explore New Treks
-            <ArrowUpRight className="h-4 w-4" />
-          </Link>
-        </div>
+            <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+          </MotionLink>
+        </Reveal>
 
         {bookings.length === 0 ? (
-          <div
+          <Reveal
             className="relative overflow-hidden rounded-3xl border py-20 text-center"
             style={{ background: "var(--color-surface)", borderColor: "var(--color-border)" }}
           >
@@ -262,19 +263,19 @@ export default async function DashboardPage() {
             <p className="relative mt-2 text-sm" style={{ color: "var(--color-text-muted)" }}>
               Start your adventure by booking a trekking package.
             </p>
-            <Link
+            <MotionLink
               href="/treks"
-              className="relative mt-6 inline-flex items-center gap-2 rounded-xl px-6 py-3 text-sm font-semibold text-white shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md"
+              className="group relative mt-6 inline-flex items-center gap-2 rounded-xl px-6 py-3 text-sm font-semibold text-white shadow-sm transition-shadow hover:shadow-md"
               style={{ background: "linear-gradient(135deg, var(--color-primary), var(--color-primary-dark))" }}
             >
               Browse Treks
-              <ArrowRight className="h-4 w-4" />
-            </Link>
-          </div>
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+            </MotionLink>
+          </Reveal>
         ) : (
           <>
             {/* ── Quick Stats Grid ── */}
-            <div className="relative grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <Stagger className="relative grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
               {/* Subtle background divider */}
               <div
                 className="pointer-events-none absolute left-0 right-0 top-1/2 hidden h-px lg:block"
@@ -313,14 +314,14 @@ export default async function DashboardPage() {
                 subColor="var(--color-primary)"
                 small
               />
-            </div>
+            </Stagger>
 
             {/* ── Main Split ── */}
             <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
               {/* Left: featured expedition + upcoming list */}
               <div className="space-y-8 lg:col-span-2">
                 {featured && (
-                  <div
+                  <Reveal
                     className="relative overflow-hidden rounded-3xl border p-6 shadow-sm sm:p-8"
                     style={{ background: "var(--color-surface)", borderColor: "var(--color-border)" }}
                   >
@@ -438,12 +439,12 @@ export default async function DashboardPage() {
                         View Itinerary
                       </Link>
                     </div>
-                  </div>
+                  </Reveal>
                 )}
 
                 {/* Upcoming & Reserved Treks list */}
                 {restUpcoming.length > 0 && (
-                  <div
+                  <Reveal
                     className="relative overflow-hidden rounded-3xl border p-6 shadow-sm sm:p-8"
                     style={{ background: "var(--color-surface)", borderColor: "var(--color-border)" }}
                   >
@@ -468,7 +469,7 @@ export default async function DashboardPage() {
                         const ps = b.paymentStatus || "PENDING";
                         const remaining = Math.max(0, (b.totalPrice || 0) - paidAmountFor(b));
                         return (
-                          <div
+                          <Reveal from="left" distance={16}
                             key={b.id}
                             className="flex flex-col items-start justify-between gap-4 rounded-2xl border p-4 sm:flex-row sm:items-center"
                             style={{ background: "var(--color-surface-alt)", borderColor: "var(--color-border)" }}
@@ -497,18 +498,18 @@ export default async function DashboardPage() {
                                 {paymentLabels[ps] || ps}
                               </span>
                             </div>
-                          </div>
+                          </Reveal>
                         );
                       })}
                     </div>
-                  </div>
+                  </Reveal>
                 )}
               </div>
 
               {/* Right: sidebar */}
               <div className="space-y-8">
                 {/* Invoice Ledger */}
-                <div
+                <Reveal
                   className="relative overflow-hidden rounded-3xl border p-6 shadow-sm"
                   style={{ background: "var(--color-surface)", borderColor: "var(--color-border)" }}
                 >
@@ -529,7 +530,7 @@ export default async function DashboardPage() {
                       const ps = b.paymentStatus || "PENDING";
                       const paid = ps === "FULLY_PAID";
                       return (
-                        <div
+                        <Reveal from="right" distance={12}
                           key={b.id}
                           className="flex justify-between border-b pb-3 last:border-b-0 last:pb-0"
                           style={{ borderColor: "var(--color-border)" }}
@@ -543,22 +544,23 @@ export default async function DashboardPage() {
                           >
                             ${b.totalPrice.toLocaleString()} ({paid ? "Paid" : "Pending"})
                           </span>
-                        </div>
+                        </Reveal>
                       );
                     })}
                   </div>
-                  <Link
+                  <MotionLink
                     href="/dashboard/invoices"
-                    className="mt-4 block rounded-2xl border py-2.5 text-center text-sm font-medium transition-all hover:opacity-80"
+                    lift={1}
+                    className="mt-4 block rounded-2xl border py-2.5 text-center text-sm font-medium transition-opacity hover:opacity-80"
                     style={{ borderColor: "var(--color-border)", color: "var(--color-foreground)" }}
                   >
                     View All Invoices
-                  </Link>
-                </div>
+                  </MotionLink>
+                </Reveal>
 
                 {/* Completed Treks */}
                 {completed.length > 0 && (
-                  <div
+                  <Reveal
                     className="relative overflow-hidden rounded-3xl border p-6 shadow-sm"
                     style={{ background: "var(--color-surface)", borderColor: "var(--color-border)" }}
                   >
@@ -576,7 +578,7 @@ export default async function DashboardPage() {
                     </h3>
                     <div className="space-y-4">
                       {completed.map((b) => (
-                        <div
+                        <Reveal from="right" distance={16}
                           key={b.id}
                           className="rounded-2xl border p-4"
                           style={{ background: "var(--color-surface-alt)", borderColor: "var(--color-border)" }}
@@ -605,14 +607,14 @@ export default async function DashboardPage() {
                             <Star className="h-3 w-3" />
                             Write Review
                           </Link>
-                        </div>
+                        </Reveal>
                       ))}
                     </div>
-                  </div>
+                  </Reveal>
                 )}
 
                 {/* Support box */}
-                <div
+                <Reveal
                   className="relative overflow-hidden rounded-3xl p-6 text-white shadow-sm"
                   style={{ background: "linear-gradient(135deg, var(--color-secondary), var(--color-secondary-dark))" }}
                 >
@@ -637,23 +639,23 @@ export default async function DashboardPage() {
                       Have questions regarding gear lists, permits, or upgrading your accommodation package? Our Sherpa
                       team is here to help.
                     </p>
-                    <Link
+                    <MotionLink
                       href="/contact"
-                      className="flex items-center justify-center gap-2 rounded-2xl py-2.5 text-sm font-semibold shadow-sm transition-all hover:opacity-90 hover:-translate-y-0.5"
+                      className="group flex items-center justify-center gap-2 rounded-2xl py-2.5 text-sm font-semibold shadow-sm transition-opacity hover:opacity-90"
                       style={{ background: "var(--color-primary)" }}
                     >
                       Contact Trek Expert
-                      <ArrowRight className="h-4 w-4" />
-                    </Link>
+                      <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                    </MotionLink>
                   </div>
-                </div>
+                </Reveal>
               </div>
             </div>
 
             {/* ── Recommended Treks ── */}
             {recommended.length > 0 && (
               <section>
-                <div className="relative mb-6 flex items-center gap-3">
+                <Reveal from="left" className="relative mb-6 flex items-center gap-3">
                   <div
                     className="relative flex h-9 w-9 items-center justify-center rounded-xl shadow-sm"
                     style={{ background: "linear-gradient(135deg, var(--color-primary), var(--color-primary-dark))" }}
@@ -672,9 +674,9 @@ export default async function DashboardPage() {
                       Based on your trekking preferences
                     </p>
                   </div>
-                </div>
+                </Reveal>
                 <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-                  {recommended.map((trek) => {
+                  {recommended.map((trek, i) => {
                     const diff = (trek.difficulty || "").toLowerCase();
                     const dm = difficultyMeta[diff] || {
                       color: "var(--color-secondary)",
@@ -682,59 +684,60 @@ export default async function DashboardPage() {
                       label: trek.difficulty || "Unknown",
                     };
                     return (
-                      <Link
-                        key={trek.slug}
-                        href={`/${trek.category?.slug || "treks"}/${trek.slug}`}
-                        className="group relative flex h-full flex-col overflow-hidden rounded-3xl bg-surface shadow-[0_4px_20px_-4px_rgba(0,0,0,0.1)] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_20px_40px_-10px_rgba(234,88,12,0.25)]"
-                      >
-                        {/* Image */}
-                        <div className="relative aspect-[4/3] overflow-hidden">
-                          {trek.heroImage ? (
-                            // eslint-disable-next-line @next/next/no-img-element
-                            <img
-                              src={`https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/c_fill,w_600,q_auto,f_auto/${trek.heroImage}`}
-                              alt={trek.title}
-                              width={600}
-                              height={450}
-                              className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
-                            />
-                          ) : (
-                            <div className="flex h-full w-full items-center justify-center bg-surface-alt">
-                              <Mountain className="h-12 w-12 text-text-muted" />
-                            </div>
-                          )}
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-                        </div>
-
-                        {/* Content */}
-                        <div className="flex flex-1 flex-col p-6">
-                          <div className="mb-4 flex items-center justify-between gap-2">
-                            <span className="rounded-full bg-primary/10 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-primary transition-colors group-hover:bg-primary group-hover:text-white">
-                              {dm.label}
-                            </span>
-                            {trek.region && (
-                              <span className="flex items-center gap-1 text-xs text-text-muted">
-                                <MapPin className="h-3 w-3 text-primary" />
-                                <span className="truncate">{trek.region}</span>
-                              </span>
+                      <Reveal key={trek.slug} delay={(i % 3) * 0.08} className="h-full">
+                        <Link
+                          href={`/${trek.category?.slug || "treks"}/${trek.slug}`}
+                          className="group relative flex h-full flex-col overflow-hidden rounded-3xl bg-surface shadow-[0_4px_20px_-4px_rgba(0,0,0,0.1)] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_20px_40px_-10px_rgba(234,88,12,0.25)]"
+                        >
+                          {/* Image */}
+                          <div className="relative aspect-[4/3] overflow-hidden">
+                            {trek.heroImage ? (
+                              // eslint-disable-next-line @next/next/no-img-element
+                              <img
+                                src={`https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/c_fill,w_600,q_auto,f_auto/${trek.heroImage}`}
+                                alt={trek.title}
+                                width={600}
+                                height={450}
+                                className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+                              />
+                            ) : (
+                              <div className="flex h-full w-full items-center justify-center bg-surface-alt">
+                                <Mountain className="h-12 w-12 text-text-muted" />
+                              </div>
                             )}
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
                           </div>
-                          <h3 className="text-xl font-bold leading-tight text-foreground transition-colors group-hover:text-primary">
-                            {trek.title}
-                          </h3>
-                          <div className="mt-auto flex items-end justify-between pt-6">
-                            <div className="flex flex-col gap-1 text-xs font-medium text-text-muted">
-                              <span className="flex items-center gap-1.5">
-                                <Clock className="h-3.5 w-3.5" /> {trek.duration} Days
+
+                          {/* Content */}
+                          <div className="flex flex-1 flex-col p-6">
+                            <div className="mb-4 flex items-center justify-between gap-2">
+                              <span className="rounded-full bg-primary/10 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-primary transition-colors group-hover:bg-primary group-hover:text-white">
+                                {dm.label}
                               </span>
+                              {trek.region && (
+                                <span className="flex items-center gap-1 text-xs text-text-muted">
+                                  <MapPin className="h-3 w-3 text-primary" />
+                                  <span className="truncate">{trek.region}</span>
+                                </span>
+                              )}
                             </div>
-                            <div className="flex flex-col items-end">
-                              <span className="text-[10px] font-bold uppercase tracking-widest text-text-muted">From</span>
-                              <span className="text-xl font-black text-foreground">${trek.price.toLocaleString()}</span>
+                            <h3 className="text-xl font-bold leading-tight text-foreground transition-colors group-hover:text-primary">
+                              {trek.title}
+                            </h3>
+                            <div className="mt-auto flex items-end justify-between pt-6">
+                              <div className="flex flex-col gap-1 text-xs font-medium text-text-muted">
+                                <span className="flex items-center gap-1.5">
+                                  <Clock className="h-3.5 w-3.5" /> {trek.duration} Days
+                                </span>
+                              </div>
+                              <div className="flex flex-col items-end">
+                                <span className="text-[10px] font-bold uppercase tracking-widest text-text-muted">From</span>
+                                <span className="text-xl font-black text-foreground">${trek.price.toLocaleString()}</span>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      </Link>
+                        </Link>
+                      </Reveal>
                     );
                   })}
                 </div>
@@ -767,7 +770,7 @@ function StatCard({
   small?: boolean;
 }) {
   return (
-    <div
+    <StaggerItem
       className="flex items-center justify-between rounded-3xl border p-6 shadow-sm"
       style={{ background: "var(--color-surface)", borderColor: "var(--color-border)" }}
     >
@@ -790,6 +793,6 @@ function StatCard({
       <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl" style={{ background: iconBg }}>
         {icon}
       </div>
-    </div>
+    </StaggerItem>
   );
 }

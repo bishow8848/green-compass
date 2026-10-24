@@ -1,7 +1,5 @@
-"use client";
-
-import { useEffect, useRef, useState } from "react";
 import { Leaf, Heart, Shield, Globe, CheckCircle, Mountain, Users, ShieldCheck, HeartHandshake, Recycle } from "lucide-react";
+import { Reveal, Stagger, StaggerItem } from "@/components/motion";
 
 const iconMap: Record<string, React.ElementType> = {
   Leaf, Heart, Shield, Globe, CheckCircle, Mountain, Users, ShieldCheck, HeartHandshake, Recycle,
@@ -15,37 +13,11 @@ const defaultItems = [
   { title: "Carbon Offsetting", description: "We offset carbon emissions from vehicle transfers and domestic flights through reforestation programs.", icon: "Globe" },
 ];
 
-function CommitmentCard({ item, index }: { item: { title?: string; description?: string; icon?: string }; index: number }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [visible, setVisible] = useState(false);
+function CommitmentCard({ item }: { item: { title?: string; description?: string; icon?: string } }) {
   const Icon = iconMap[item.icon || ""] || defaultIcon;
 
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setVisible(true);
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.2 }
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-
   return (
-    <div
-      ref={ref}
-      style={{ transitionDelay: visible ? `${index * 90}ms` : "0ms" }}
-      className={`group relative overflow-hidden rounded-3xl border border-border bg-surface p-7 shadow-sm transition-all duration-500 ease-out hover:-translate-y-1 hover:border-primary/40 hover:shadow-lg ${
-        visible ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
-      }`}
-    >
+    <div className="group relative h-full overflow-hidden rounded-3xl border border-border bg-surface p-7 shadow-sm transition-all duration-500 ease-out hover:-translate-y-1 hover:border-primary/40 hover:shadow-lg">
       {/* corner accent */}
       <div
         aria-hidden="true"
@@ -85,19 +57,23 @@ export function Commitment({ heading, description, items, badge }: CommitmentPro
   return (
     <section className="relative bg-background py-12 sm:py-16">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center gap-3">
-          <span className="h-px w-8 bg-secondary" aria-hidden="true" />
-          <span className="text-xs font-semibold uppercase tracking-[0.12em] text-secondary">
-            {badge || "Responsible Tourism"}
-          </span>
-        </div>
-        <h2 className="mt-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-          {heading || "Our Commitment to Responsible Tourism"}
-        </h2>
+        <Stagger>
+          <StaggerItem from="left" className="flex items-center gap-3">
+            <span className="h-px w-8 bg-secondary" aria-hidden="true" />
+            <span className="text-xs font-semibold uppercase tracking-[0.12em] text-secondary">
+              {badge || "Responsible Tourism"}
+            </span>
+          </StaggerItem>
+          <StaggerItem as="h2" className="mt-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+            {heading || "Our Commitment to Responsible Tourism"}
+          </StaggerItem>
+        </Stagger>
 
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {resolvedItems.map((item, i) => (
-            <CommitmentCard key={item.title || i} item={item} index={i} />
+            <Reveal key={item.title || i} delay={(i % 3) * 0.09} className="h-full">
+              <CommitmentCard item={item} />
+            </Reveal>
           ))}
         </div>
       </div>

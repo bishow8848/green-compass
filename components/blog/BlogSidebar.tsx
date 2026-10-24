@@ -1,6 +1,10 @@
 "use client";
 
-import { useState, useEffect, startTransition } from "react";
+import { Fragment, useState, useEffect, startTransition } from "react";
+import { AnimatePresence, stagger } from "framer-motion";
+import * as m from "framer-motion/m";
+import { Reveal } from "@/components/motion";
+import { EASE_OUT, SPRING_SNAPPY, SPRING_SOFT } from "@/components/motion/presets";
 
 type TocItem = {
   id: string;
@@ -75,9 +79,12 @@ export default function BlogSidebar({ tocItems: providedItems }: BlogSidebarProp
   return (
     <>
       {/* Menu Button - Hidden on lg and above, positioned left, slightly below top */}
-      <button
+      <m.button
         onClick={() => setIsOpen(true)}
-        className="lg:hidden fixed top-[5.5rem] left-4 flex items-center justify-center h-10 w-10 rounded-lg border border-border/40 backdrop-blur-md shadow-sm transition-all duration-300 hover:opacity-70 z-40"
+        initial={{ opacity: 0, x: -16 }}
+        animate={{ opacity: 1, x: 0, transition: { ...SPRING_SNAPPY, delay: 0.4 } }}
+        whileTap={{ scale: 0.9 }}
+        className="lg:hidden fixed top-[5.5rem] left-4 flex items-center justify-center h-10 w-10 rounded-lg border border-border/40 backdrop-blur-md shadow-sm transition-opacity duration-300 hover:opacity-70 z-40"
         aria-label="Open table of contents"
         title="Table of Contents"
       >
@@ -94,10 +101,10 @@ export default function BlogSidebar({ tocItems: providedItems }: BlogSidebarProp
             d="M4 6h16M4 12h16M4 18h16"
           />
         </svg>
-      </button>
+      </m.button>
 
       {/* Desktop sidebar - Hidden below lg */}
-      <div className="hidden lg:flex lg:flex-col rounded-2xl border border-border/40 shadow-sm overflow-hidden max-h-[70vh]">
+      <Reveal from="right" className="hidden lg:flex lg:flex-col rounded-2xl border border-border/40 shadow-sm overflow-hidden max-h-[70vh]">
         <div className="shrink-0 px-6 py-6 border-b border-border/40">
           <div className="flex items-center gap-2">
             <div className="h-1.5 w-6 rounded-full bg-primary" />
@@ -109,17 +116,29 @@ export default function BlogSidebar({ tocItems: providedItems }: BlogSidebarProp
         <nav className="flex-1 min-h-0 overflow-y-auto p-3">
           <TocList tocItems={tocItems} activeId={activeId} onItemClick={handleItemClick} />
         </nav>
-      </div>
+      </Reveal>
 
       {/* Mobile modal */}
+      <AnimatePresence>
       {isOpen && (
-        <>
-          <div
-            className="fixed inset-0 bg-black/50 lg:hidden z-40 animate-[fade-in_0.2s_ease-out]"
+        <Fragment key="toc-modal">
+          <m.div
+            key="toc-backdrop"
+            className="fixed inset-0 bg-black/50 lg:hidden z-40"
             onClick={() => setIsOpen(false)}
             aria-hidden="true"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
           />
-          <div className="fixed top-0 left-0 h-screen w-80 max-w-[90vw] bg-surface border-r border-border/60 shadow-2xl overflow-hidden lg:hidden z-50 flex flex-col animate-[slide-in-left_0.3s_ease-out]">
+          <m.div
+            key="toc-drawer"
+            className="fixed top-0 left-0 h-screen w-80 max-w-[90vw] bg-surface border-r border-border/60 shadow-2xl overflow-hidden lg:hidden z-50 flex flex-col"
+            initial={{ x: "-100%" }}
+            animate={{ x: 0, transition: SPRING_SOFT }}
+            exit={{ x: "-100%", transition: { duration: 0.25, ease: [0.65, 0, 0.35, 1] } }}
+          >
             <div className="shrink-0 px-6 py-6 border-b border-border/40 flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <div className="h-1.5 w-6 rounded-full bg-primary" />
@@ -128,9 +147,10 @@ export default function BlogSidebar({ tocItems: providedItems }: BlogSidebarProp
                 </h3>
               </div>
 
-              <button
+              <m.button
                 onClick={() => setIsOpen(false)}
-                className="flex items-center justify-center h-8 w-8 rounded-lg transition-all duration-300 hover:opacity-70"
+                whileTap={{ scale: 0.85, rotate: 90 }}
+                className="flex items-center justify-center h-8 w-8 rounded-lg transition-opacity duration-300 hover:opacity-70"
                 aria-label="Close table of contents"
               >
                 <svg
@@ -146,15 +166,16 @@ export default function BlogSidebar({ tocItems: providedItems }: BlogSidebarProp
                     d="M6 18L18 6M6 6l12 12"
                   />
                 </svg>
-              </button>
+              </m.button>
             </div>
 
             <nav className="flex-1 min-h-0 overflow-y-auto p-3">
-              <TocList tocItems={tocItems} activeId={activeId} onItemClick={handleItemClick} />
+              <TocList tocItems={tocItems} activeId={activeId} onItemClick={handleItemClick} staggered />
             </nav>
-          </div>
-        </>
+          </m.div>
+        </Fragment>
       )}
+      </AnimatePresence>
     </>
   );
 }
@@ -163,29 +184,41 @@ function TocList({
   tocItems,
   activeId,
   onItemClick,
+  staggered = false,
 }: {
   tocItems: TocItem[];
   activeId: string;
   onItemClick: (id: string) => void;
+  /** Cascade the entries in (the mobile drawer, each time it opens). */
+  staggered?: boolean;
 }) {
   return (
-    <div className="flex flex-col gap-1">
+    <m.div
+      className="flex flex-col gap-1"
+      initial={staggered ? "hidden" : false}
+      animate="visible"
+      variants={{ visible: { transition: { delayChildren: stagger(0.03, { startDelay: 0.15 }) } } }}
+    >
       {tocItems.map((item, index) => {
         const isActive = activeId === item.id;
         return (
-          <a
+          <m.a
             key={`${item.id}-${index}`}
+            variants={{
+              hidden: { opacity: 0, x: -12 },
+              visible: { opacity: 1, x: 0, transition: { duration: 0.3, ease: EASE_OUT } },
+            }}
             href={`#${item.id}`}
             onClick={(e) => {
               e.preventDefault();
               onItemClick(item.id);
             }}
-            className={`toc-link group relative px-4 py-3 flex items-center gap-3 rounded-xl transition-all duration-300 hover:opacity-70 ${
+            className={`toc-link group relative px-4 py-3 flex items-center gap-3 rounded-xl transition-opacity duration-300 hover:opacity-70 ${
               isActive ? "opacity-80" : ""
             }`}
           >
             <div
-              className={`absolute left-0 w-1 rounded-r-full bg-primary transition-all duration-300 ${
+              className={`absolute left-0 w-1 rounded-r-full bg-primary transition-[height] duration-300 ${
                 isActive ? "h-1/2" : "h-0 group-hover:h-1/3"
               }`}
             />
@@ -203,9 +236,9 @@ function TocList({
             >
               {item.title}
             </span>
-          </a>
+          </m.a>
         );
       })}
-    </div>
+    </m.div>
   );
 }

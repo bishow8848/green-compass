@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { useParams, useSearchParams } from "next/navigation";
-import Link from "next/link";
-import { CheckCircle, Loader2 } from "lucide-react";
+import { Loader2 } from "lucide-react";
+import { MotionLink, Reveal, SuccessCheck } from "@/components/motion";
 
 export default function PaymentSuccessPage() {
   const params = useParams();
@@ -51,19 +51,19 @@ export default function PaymentSuccessPage() {
 
   if (status === "verifying") {
     return (
-      <div className="mx-auto max-w-lg px-4 py-20 text-center">
+      <Reveal from="scale" className="mx-auto max-w-lg px-4 py-20 text-center">
         <Loader2 className="mx-auto h-8 w-8 animate-spin text-primary" />
         <h1 className="mt-6 text-2xl font-bold text-foreground">Verifying Payment...</h1>
         <p className="mt-2 text-sm text-muted">
           Please wait while we confirm your payment.
         </p>
-      </div>
+      </Reveal>
     );
   }
 
   if (status === "error") {
     return (
-      <div className="mx-auto max-w-lg px-4 py-20 text-center">
+      <Reveal from="scale" className="mx-auto max-w-lg px-4 py-20 text-center">
         <h1 className="text-2xl font-bold text-foreground">Payment Received</h1>
         <p className="mt-2 text-sm text-muted">
           {error || "Your payment was processed, but verification is pending."}
@@ -72,46 +72,44 @@ export default function PaymentSuccessPage() {
           Please check your dashboard for the latest booking status.
         </p>
         <div className="mt-8 flex items-center justify-center gap-4">
-          <Link
+          <MotionLink
             href="/dashboard"
             className="rounded-xl bg-gradient-to-r from-primary to-primary-dark px-6 py-2.5 text-sm font-semibold text-white shadow-sm hover:from-primary-dark hover:to-primary-dark"
           >
             View My Bookings
-          </Link>
-          <Link
+          </MotionLink>
+          <MotionLink
             href="/treks"
             className="rounded-xl border border-border px-6 py-2.5 text-sm font-medium text-muted hover:bg-surface-alt"
           >
             Browse More Treks
-          </Link>
+          </MotionLink>
         </div>
-      </div>
+      </Reveal>
     );
   }
 
   return (
-    <div className="mx-auto max-w-lg px-4 py-20 text-center">
-      <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-success/10">
-        <CheckCircle className="h-8 w-8 text-success" />
-      </div>
+    <Reveal from="scale" className="mx-auto max-w-lg px-4 py-20 text-center">
+      <SuccessCheck className="mx-auto h-16 w-16 text-success" />
       <h1 className="mt-6 text-2xl font-bold text-foreground">Payment Successful!</h1>
       <p className="mt-2 text-sm text-muted">
         Your payment has been processed successfully. Booking #{bookingId?.slice(0, 8)} is confirmed.
       </p>
       <div className="mt-8 flex items-center justify-center gap-4">
-        <Link
+        <MotionLink
           href="/dashboard"
           className="rounded-xl bg-gradient-to-r from-teal-500 to-teal-600 px-6 py-2.5 text-sm font-semibold text-white shadow-sm hover:from-teal-600 hover:to-teal-700"
         >
           View My Bookings
-        </Link>
-        <Link
+        </MotionLink>
+        <MotionLink
           href="/treks"
           className="rounded-xl border border-slate-200 px-6 py-2.5 text-sm font-medium text-slate-500 hover:bg-slate-50"
         >
           Browse More Treks
-        </Link>
+        </MotionLink>
       </div>
-    </div>
+    </Reveal>
   );
 }

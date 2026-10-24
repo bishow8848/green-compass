@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ChevronRight, Home } from "lucide-react";
+import { Reveal } from "@/components/motion";
 
 export interface BreadcrumbItem {
   label: string;
@@ -10,7 +11,7 @@ export function Breadcrumbs({ items }: { items: BreadcrumbItem[] }) {
   if (!items || items.length === 0) return null;
 
   return (
-    <nav aria-label="Breadcrumb" className="mx-auto max-w-7xl px-4 pt-4 sm:px-6 lg:px-8">
+    <Reveal as="nav" from="left" distance={12} duration={0.5} aria-label="Breadcrumb" className="mx-auto max-w-7xl px-4 pt-4 sm:px-6 lg:px-8">
       <ol
         className="flex items-center gap-1.5 text-sm text-text-muted"
         itemScope
@@ -68,6 +69,6 @@ export function Breadcrumbs({ items }: { items: BreadcrumbItem[] }) {
           );
         })}
       </ol>
-    </nav>
+    </Reveal>
   );
 }

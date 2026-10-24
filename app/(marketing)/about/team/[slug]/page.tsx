@@ -9,6 +9,7 @@ import { getCachedOrFetch, cacheKeys, CACHE_TTL } from "@/lib/redis";
 import { PageHero } from "@/components/layout/PageHero";
 import { sanitizeRichText } from "@/lib/sanitize";
 import { demoteH1 } from "@/lib/headings";
+import { KenBurns, MotionLink, Reveal, Stagger, StaggerItem } from "@/components/motion";
 import { SITE_URL, SITE_NAME, brandedTitle, ogImages, seoDescription, seoImageUrl, serializeJsonLd } from "@/lib/seo";
 
 // Team member content is cached for 7 days and refreshed on-demand after CMS edits (revalidatePath)
@@ -151,7 +152,9 @@ export default async function TeamMemberPage({
       {/* ── Hero ── */}
       <section className="relative isolate flex min-h-[clamp(420px,70vh,720px)] flex-col overflow-hidden">
         {heroImageUrl ? (
-          <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${heroImageUrl})`, transform: "scale(1.02)" }} />
+          <KenBurns>
+            <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${heroImageUrl})`, transform: "scale(1.02)" }} />
+          </KenBurns>
         ) : (
           <div className="absolute inset-0 bg-gradient-to-br from-secondary-dark via-primary-dark/20 to-gray-900" />
         )}
@@ -159,16 +162,16 @@ export default async function TeamMemberPage({
 
         <div className="relative z-10 mt-auto w-full">
           <div className="mx-auto max-w-screen-2xl px-3 sm:px-4 lg:px-6 pb-[clamp(40px,6vw,72px)]">
-            <div className="max-w-[720px]">
-              <nav className="mb-5 flex items-center gap-2 text-sm text-white/50">
+            <Stagger className="max-w-[720px]">
+              <StaggerItem as="nav" className="mb-5 flex items-center gap-2 text-sm text-white/50">
                 <Link href="/" className="transition-colors hover:text-white/80">Home</Link>
                 <span className="text-white/30">/</span>
                 <Link href="/about" className="transition-colors hover:text-white/80">About</Link>
                 <span className="text-white/30">/</span>
                 <span className="text-white/80 truncate max-w-[250px]">{member.name}</span>
-              </nav>
+              </StaggerItem>
 
-              <div className="flex items-center gap-4">
+              <StaggerItem className="flex items-center gap-4">
                 <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full border-2 border-white/30 bg-white/10 backdrop-blur-sm">
                   {member.image ? (
                     <Image src={`https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/c_fill,w_120,h_120,q_auto,f_auto/${member.image}`} alt={member.name} width={64} height={64} className="rounded-full object-cover" />
@@ -182,11 +185,11 @@ export default async function TeamMemberPage({
                   </h1>
                   <p className="mt-1 text-lg text-white/70">{member.role}</p>
                 </div>
-              </div>
+              </StaggerItem>
 
               {/* Social links */}
               {socialLinks.length > 0 && (
-                <div className="mt-4 flex flex-wrap gap-3">
+                <StaggerItem className="mt-4 flex flex-wrap gap-3">
                   {socialLinks.map((link, i) => (
                     <a
                       key={i}
@@ -198,9 +201,9 @@ export default async function TeamMemberPage({
                       {link.platform}
                     </a>
                   ))}
-                </div>
+                </StaggerItem>
               )}
-            </div>
+            </Stagger>
           </div>
         </div>
       </section>
@@ -210,18 +213,18 @@ export default async function TeamMemberPage({
         <div className="grid gap-12 lg:grid-cols-3">
           {/* ── MAIN CONTENT ── */}
           <div className="lg:col-span-2">
-            <div className="prose-custom rich-text max-w-none" dangerouslySetInnerHTML={{ __html: sanitizeRichText(demoteH1(member.bio)) }} />
+            <Reveal className="prose-custom rich-text max-w-none" dangerouslySetInnerHTML={{ __html: sanitizeRichText(demoteH1(member.bio)) }} />
 
             {/* Back link */}
-            <div className="mt-16 border-t border-border pt-8">
-              <Link
+            <Reveal className="mt-16 border-t border-border pt-8">
+              <MotionLink
                 href="/about"
-                className="inline-flex items-center gap-1.5 rounded-xl bg-primary px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all hover:bg-primary-dark"
+                className="group inline-flex items-center gap-1.5 rounded-xl bg-primary px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-primary-dark"
               >
-                <ArrowLeft className="h-4 w-4" />
+                <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
                 Back to About
-              </Link>
-            </div>
+              </MotionLink>
+            </Reveal>
           </div>
 
           {/* ── SIDEBAR ── */}
@@ -229,7 +232,7 @@ export default async function TeamMemberPage({
             <div className="space-y-8 lg:sticky lg:top-24">
               {/* Know More About Our Team */}
               {sidebarMembers.length > 0 && (
-                <div className="rounded-2xl border border-border/40 shadow-sm overflow-hidden">
+                <Reveal from="right" className="rounded-2xl border border-border/40 shadow-sm overflow-hidden">
                   <div className="border-b border-border/40 px-5 py-4">
                     <h3 className="text-xs font-black uppercase tracking-[0.2em] text-foreground">
                       Our Team
@@ -257,12 +260,12 @@ export default async function TeamMemberPage({
                       </Link>
                     ))}
                   </div>
-                </div>
+                </Reveal>
               )}
 
               {/* ── Latest Articles ── */}
               {latestPosts.length > 0 && (
-                <div className="rounded-2xl border border-border/40 shadow-sm overflow-hidden">
+                <Reveal from="right" delay={0.1} className="rounded-2xl border border-border/40 shadow-sm overflow-hidden">
                   <div className="border-b border-border/40 px-5 py-4">
                     <h3 className="text-xs font-black uppercase tracking-[0.2em] text-foreground">
                       Latest Articles
@@ -308,7 +311,7 @@ export default async function TeamMemberPage({
                       );
                     })}
                   </div>
-                </div>
+                </Reveal>
               )}
             </div>
           </div>

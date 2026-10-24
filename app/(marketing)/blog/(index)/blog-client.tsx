@@ -1,6 +1,7 @@
 import { Mountain } from "lucide-react";
 import { BlogCard } from "@/components/blog/BlogCard";
 import { Pagination } from "@/components/ui/Pagination";
+import { Reveal } from "@/components/motion";
 
 interface BlogPost {
   slug: string;
@@ -27,7 +28,7 @@ export function BlogClient({
 }) {
   if (posts.length === 0) {
     return (
-      <div className="flex flex-col items-center py-20 text-center">
+      <Reveal from="scale" className="flex flex-col items-center py-20 text-center">
         <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-surface-alt">
           <Mountain className="h-8 w-8 text-text-muted" />
         </div>
@@ -35,26 +36,27 @@ export function BlogClient({
           {currentPage > 1 ? "This page has no posts yet" : "No published posts yet"}
         </p>
         <p className="mt-1 text-sm text-text-muted">Check back soon for new articles!</p>
-      </div>
+      </Reveal>
     );
   }
 
   return (
     <>
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {posts.map((post) => (
-          <BlogCard
-            key={post.slug}
-            slug={post.slug}
-            title={post.title}
-            excerpt={post.excerpt}
-            heroImage={post.heroImage}
-            tags={post.tags}
-            date={post.date}
-            readTime={post.readTime}
-            author={post.author}
-            authorSlug={post.authorSlug}
-          />
+        {posts.map((post, i) => (
+          <Reveal key={post.slug} delay={(i % 3) * 0.08} className="h-full">
+            <BlogCard
+              slug={post.slug}
+              title={post.title}
+              excerpt={post.excerpt}
+              heroImage={post.heroImage}
+              tags={post.tags}
+              date={post.date}
+              readTime={post.readTime}
+              author={post.author}
+              authorSlug={post.authorSlug}
+            />
+          </Reveal>
         ))}
       </div>
       <Pagination currentPage={currentPage} totalPages={totalPages} basePath="/blog" />

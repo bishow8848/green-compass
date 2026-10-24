@@ -2,8 +2,9 @@
 
 import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import Link from "next/link";
-import { Loader2, CheckCircle, XCircle, ArrowLeft } from "lucide-react";
+import { Loader2, XCircle, ArrowLeft } from "lucide-react";
+import * as m from "framer-motion/m";
+import { MotionLink, Reveal, SuccessCheck } from "@/components/motion";
 
 export default function PaymentProcessingPage({ params }: { params: Promise<{ id: string }> }) {
   const searchParams = useSearchParams();
@@ -44,36 +45,39 @@ export default function PaymentProcessingPage({ params }: { params: Promise<{ id
 
   if (status === "CONFIRMED") {
     return (
-      <div className="mx-auto max-w-lg px-4 py-20 text-center">
-        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-success/10">
-          <CheckCircle className="h-8 w-8 text-success" />
-        </div>
+      <Reveal from="scale" className="mx-auto max-w-lg px-4 py-20 text-center">
+        <SuccessCheck className="mx-auto h-16 w-16 text-success" />
         <h1 className="mt-6 text-2xl font-bold text-foreground">Payment Confirmed!</h1>
         <p className="mt-2 text-sm text-muted">Redirecting to confirmation...</p>
-      </div>
+      </Reveal>
     );
   }
 
   if (status === "FAILED" || status === "CANCELLED") {
     return (
-      <div className="mx-auto max-w-lg px-4 py-20 text-center">
-        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-error/10">
+      <Reveal from="scale" className="mx-auto max-w-lg px-4 py-20 text-center">
+        <m.div
+          className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-error/10"
+          initial={{ scale: 0.6, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1, rotate: [0, -12, 12, -6, 6, 0] }}
+          transition={{ duration: 0.5 }}
+        >
           <XCircle className="h-8 w-8 text-error" />
-        </div>
+        </m.div>
         <h1 className="mt-6 text-2xl font-bold text-foreground">Payment Failed</h1>
         <p className="mt-2 text-sm text-muted">Your payment was not completed. Please try again.</p>
-        <Link
+        <MotionLink
           href={`/payment/${bookingId}`}
           className="mt-6 inline-flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-primary to-primary-dark px-6 py-2.5 text-sm font-semibold text-white shadow-sm hover:from-primary-dark hover:to-primary-dark"
         >
           <ArrowLeft className="h-4 w-4" /> Try Again
-        </Link>
-      </div>
+        </MotionLink>
+      </Reveal>
     );
   }
 
   return (
-    <div className="mx-auto max-w-lg px-4 py-20 text-center">
+    <Reveal from="scale" className="mx-auto max-w-lg px-4 py-20 text-center">
       <Loader2 className="mx-auto h-12 w-12 animate-spin text-primary" />
       <h1 className="mt-6 text-2xl font-bold text-foreground">Processing Payment</h1>
       <p className="mt-2 text-sm text-muted">
@@ -81,13 +85,13 @@ export default function PaymentProcessingPage({ params }: { params: Promise<{ id
         {polls > 0 && ` Waiting for confirmation... (${polls})`}
       </p>
       {polls > 10 && (
-        <Link
+        <MotionLink
           href={`/payment/${bookingId}`}
           className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:text-primary-dark"
         >
           <ArrowLeft className="h-4 w-4" /> Back to payment options
-        </Link>
+        </MotionLink>
       )}
-    </div>
+    </Reveal>
   );
 }

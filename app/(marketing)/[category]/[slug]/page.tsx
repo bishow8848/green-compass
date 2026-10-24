@@ -25,6 +25,7 @@ import { ContactFormSection } from "@/components/home/ContactFormSection";
 import { SearchBar } from "@/components/search/SearchBar";
 
 import { FAQAccordion } from "@/components/ui/FAQAccordion";
+import { CountUp, Disclosure, KenBurns, MotionAnchor, Reveal, ScrollProgress, Stagger, StaggerItem } from "@/components/motion";
 import { sanitizeRichText } from "@/lib/sanitize";
 import { SITE_NAME, SITE_URL, brandedTitle, ogImages, seoDescription, seoImageUrl, serializeJsonLd } from "@/lib/seo";
 
@@ -388,23 +389,28 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
         />
       )}
 
+      {/* Reading progress along the top edge */}
+      <ScrollProgress />
+
       {/* ================================================================
           HERO SECTION — Full-screen parallax with search
       ================================================================ */}
       <section id="hero" className="relative flex h-screen w-full items-center overflow-hidden">
-        {/* Background image with parallax */}
-        {trek.heroImage ? (
-          <Image
-            src={`https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/c_fill,w_1920,q_auto,f_auto/${trek.heroImage}`}
-            alt={`${trek.title} in Nepal`}
-            fill
-            sizes="100vw"
-            preload
-            className="hero-parallax object-cover"
-          />
-        ) : (
-          <div className="hero-parallax absolute inset-0 bg-gradient-to-br from-secondary-dark via-primary-dark/30 to-gray-900" />
-        )}
+        {/* Background image with a slow push-in */}
+        <KenBurns zoom="in">
+          {trek.heroImage ? (
+            <Image
+              src={`https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/c_fill,w_1920,q_auto,f_auto/${trek.heroImage}`}
+              alt={`${trek.title} in Nepal`}
+              fill
+              sizes="100vw"
+              preload
+              className="object-cover"
+            />
+          ) : (
+            <div className="absolute inset-0 bg-gradient-to-br from-secondary-dark via-primary-dark/30 to-gray-900" />
+          )}
+        </KenBurns>
         {/* Dark overlay */}
         <div
           className="absolute inset-0"
@@ -414,41 +420,45 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
         {/* Hero content — aligned with layout max-width */}
         <div className="relative z-10 w-full">
           <div className="mx-auto max-w-screen-2xl px-3 sm:px-4 lg:px-6">
-            <div style={{ maxWidth: "800px" }}>
-              <Link
-                href={`/${catSlug}`}
-                className="mb-6 inline-flex items-center gap-1.5 text-sm font-medium"
-                style={{ color: "rgba(255,255,255,0.7)" }}
-              >
-                ← Back to {trek.category?.name || "All"}
-              </Link>
-              <h1
+            <Stagger style={{ maxWidth: "800px" }}>
+              <StaggerItem from="left">
+                <Link
+                  href={`/${catSlug}`}
+                  className="group mb-6 inline-flex items-center gap-1.5 text-sm font-medium"
+                  style={{ color: "rgba(255,255,255,0.7)" }}
+                >
+                  <span className="transition-transform group-hover:-translate-x-1">←</span> Back to {trek.category?.name || "All"}
+                </Link>
+              </StaggerItem>
+              <StaggerItem
+                as="h1"
                 className="font-serif text-5xl leading-tight sm:text-6xl md:text-7xl"
                 style={{ color: "#ffffff", marginBottom: "1.5rem" }}
               >
                 {trek.title}
-              </h1>
-              <p
+              </StaggerItem>
+              <StaggerItem
+                as="p"
                 className="mb-6 text-lg sm:text-xl"
                 style={{ color: "#e0e0e0" }}
               >
                 {trek.overview ? trek.overview.replace(/<[^>]*>/g, "").slice(0, 120) : "A journey through the heart of the Himalayas."}
-              </p>
+              </StaggerItem>
 
               {/* Breadcrumbs */}
-              <nav className="mb-6 flex items-center gap-2 text-sm" style={{ color: "rgba(255,255,255,0.6)" }}>
+              <StaggerItem as="nav" className="mb-6 flex items-center gap-2 text-sm" style={{ color: "rgba(255,255,255,0.6)" }}>
                 <Link href="/" className="transition-colors hover:text-white">Home</Link>
                 <span>/</span>
                 <Link href={`/${catSlug}`} className="transition-colors hover:text-white">{trek.category?.name || "All"}</Link>
                 <span>/</span>
                 <span style={{ color: "#ffffff" }}>{trek.title}</span>
-              </nav>
+              </StaggerItem>
 
               {/* Search bar with autocomplete — like the homepage */}
-              <div style={{ maxWidth: "420px" }}>
+              <StaggerItem className="relative z-10" style={{ maxWidth: "420px" }}>
                 <SearchBar />
-              </div>
-            </div>
+              </StaggerItem>
+            </Stagger>
           </div>
         </div>
       </section>
@@ -475,22 +485,24 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
             {(() => {
               const sectionMap: Record<string, () => React.ReactNode> = {};
               sectionMap["overview"] = () => <section id="overview" className="py-10 sm:py-12">
-  <h2
+  <Reveal
+    as="h2"
     className="mb-10 text-3xl font-bold sm:text-4xl"
     style={{ color: "var(--color-secondary)" }}
   >
     Trip Overview
-  </h2>
+  </Reveal>
 
   {/* Single unified stats grid */}
-  <div
+  <Stagger
+    gap={0.06}
     className="mb-8 grid grid-cols-1 divide-y rounded-3xl border sm:grid-cols-3 sm:divide-x sm:divide-y-0 [&>*:nth-child(4)]:sm:border-t [&>*:nth-child(5)]:sm:border-t [&>*:nth-child(6)]:sm:border-t"
     style={{
       backgroundColor: "var(--color-surface-alt)",
       borderColor: "var(--color-border)",
     }}
   >
-    <div className="flex items-center gap-4 p-6" style={{ borderColor: "var(--color-border)" }}>
+    <StaggerItem className="flex items-center gap-4 p-6" style={{ borderColor: "var(--color-border)" }}>
       <Clock className="h-6 w-6 shrink-0" style={{ color: "var(--color-primary)" }} />
       <div>
         <span
@@ -503,9 +515,9 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
           {trek.duration} Days
         </span>
       </div>
-    </div>
+    </StaggerItem>
 
-    <div className="flex items-center gap-4 p-6" style={{ borderColor: "var(--color-border)" }}>
+    <StaggerItem className="flex items-center gap-4 p-6" style={{ borderColor: "var(--color-border)" }}>
       <Gauge className="h-6 w-6 shrink-0" style={{ color: "var(--color-primary)" }} />
       <div>
         <span
@@ -518,9 +530,9 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
           {trek.difficulty.charAt(0).toUpperCase() + trek.difficulty.slice(1)}
         </span>
       </div>
-    </div>
+    </StaggerItem>
 
-    <div className="flex items-center gap-4 p-6" style={{ borderColor: "var(--color-border)" }}>
+    <StaggerItem className="flex items-center gap-4 p-6" style={{ borderColor: "var(--color-border)" }}>
       <Mountain className="h-6 w-6 shrink-0" style={{ color: "var(--color-primary)" }} />
       <div>
         <span
@@ -533,9 +545,9 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
           {maxAltitude > 0 ? `${maxAltitude.toLocaleString()}m` : "\u2014"}
         </span>
       </div>
-    </div>
+    </StaggerItem>
 
-    <div className="flex items-center gap-4 p-6" style={{ borderColor: "var(--color-border)" }}>
+    <StaggerItem className="flex items-center gap-4 p-6" style={{ borderColor: "var(--color-border)" }}>
       <Calendar className="h-6 w-6 shrink-0" style={{ color: "var(--color-primary)" }} />
       <div>
         <span
@@ -548,9 +560,9 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
           {trek.bestTime || "\u2014"}
         </span>
       </div>
-    </div>
+    </StaggerItem>
 
-    <div className="flex items-center gap-4 p-6" style={{ borderColor: "var(--color-border)" }}>
+    <StaggerItem className="flex items-center gap-4 p-6" style={{ borderColor: "var(--color-border)" }}>
       <Tag className="h-6 w-6 shrink-0" style={{ color: "var(--color-primary)" }} />
       <div>
         <span
@@ -563,9 +575,9 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
           {minPrice > 0 ? `$${minPrice.toLocaleString()}` : "\u2014"}
         </span>
       </div>
-    </div>
+    </StaggerItem>
 
-    <div className="flex items-center gap-4 p-6" style={{ borderColor: "var(--color-border)" }}>
+    <StaggerItem className="flex items-center gap-4 p-6" style={{ borderColor: "var(--color-border)" }}>
       <MapPin className="h-6 w-6 shrink-0" style={{ color: "var(--color-primary)" }} />
       <div>
         <span
@@ -578,12 +590,12 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
           {trek.region || "\u2014"}
         </span>
       </div>
-    </div>
-  </div>
+    </StaggerItem>
+  </Stagger>
 
   {/* Overview description */}
   {trek.overview && (
-    <div
+    <Reveal
       className="rich-text w-full text-base leading-relaxed [&_p:last-child]:mb-0"
       style={{ color: "var(--color-text)" }}
       dangerouslySetInnerHTML={{ __html: trek.overview }}
@@ -591,40 +603,37 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
   )}
               </section>;
               sectionMap["itinerary"] = () => itinerary.length > 0 ? <section id="itinerary" className="py-10 sm:py-12">
-    <h2
+    <Reveal
+      as="h2"
       className="mb-2 text-2xl font-bold sm:text-3xl"
       style={{ color: "var(--color-secondary)" }}
     >
       {sectionData.itinerary?.heading || "Itinerary"}
-    </h2>
+    </Reveal>
     {sectionData.itinerary?.description && (
-      <p className="mb-10 text-sm" style={{ color: "var(--color-text-muted)" }}>
+      <Reveal as="p" delay={0.06} className="mb-10 text-sm" style={{ color: "var(--color-text-muted)" }}>
         {sectionData.itinerary.description}
-      </p>
+      </Reveal>
     )}
 
     <div className="relative">
-      {/* connecting line running behind the day markers */}
-      <div
-        className="absolute left-[19px] top-2 bottom-2 w-px"
+      {/* connecting line running behind the day markers — draws down the route */}
+      <Reveal
+        from="draw"
+        duration={1.4}
+        className="absolute left-[19px] top-2 bottom-2 w-px origin-top"
         style={{ backgroundColor: "var(--color-border)" }}
         aria-hidden="true"
       />
 
       <div className="space-y-3">
         {itinerary.map((day: any, index: number) => (
-          <details
-            key={day.id ?? day.dayNumber}
-            className="group relative rounded-2xl border transition-colors"
-            style={{
-              backgroundColor: "var(--color-surface)",
-              borderColor: "var(--color-border)",
-            }}
-            open={index === 0}
-          >
-            <summary
-              className="flex cursor-pointer list-none items-start gap-4 rounded-2xl px-4 py-4 marker:content-none [&::-webkit-details-marker]:hidden"
-            >
+          <Reveal key={day.id ?? day.dayNumber} delay={Math.min(index, 5) * 0.04}>
+          <Disclosure
+            defaultOpen={index === 0}
+            className="group relative rounded-2xl border border-border bg-surface transition-colors data-[state=open]:border-primary/30"
+            summaryClassName="flex cursor-pointer list-none items-start gap-4 rounded-2xl px-4 py-4 marker:content-none [&::-webkit-details-marker]:hidden"
+            summary={<>
               {/* day marker */}
               <span
                 className="relative z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border text-sm font-bold tabular-nums"
@@ -634,9 +643,9 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
                   color: "var(--color-text-muted)",
                 }}
               >
-                <span className="group-open:hidden">{day.dayNumber}</span>
+                <span className="group-data-[state=open]:hidden">{day.dayNumber}</span>
                 <span
-                  className="hidden h-2.5 w-2.5 rounded-full group-open:block"
+                  className="hidden h-2.5 w-2.5 rounded-full group-data-[state=open]:block"
                   style={{ backgroundColor: "var(--color-primary)" }}
                 />
               </span>
@@ -658,13 +667,13 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
                     </h3>
                   </div>
                   <ChevronDown
-                    className="mt-1 h-4 w-4 shrink-0 transition-transform duration-300 group-open:rotate-180"
+                    className="mt-1 h-4 w-4 shrink-0 transition-transform duration-300 group-data-[state=open]:rotate-180"
                     style={{ color: "var(--color-text-muted)" }}
                   />
                 </div>
               </div>
-            </summary>
-
+            </>}
+          >
             <div
               className="ml-14 mr-4 mb-5 border-t pt-4"
               style={{ borderColor: "var(--color-border)" }}
@@ -700,7 +709,8 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
                 </div>
               )}
             </div>
-          </details>
+          </Disclosure>
+          </Reveal>
         ))}
       </div>
     </div>
@@ -710,7 +720,7 @@ sectionMap["inEx"] = () => {
   const hasInclusions = Array.isArray(inclusions) ? inclusions.length > 0 : (typeof inclusions === "string" && inclusions.trim().length > 0);
   const hasExclusions = Array.isArray(exclusions) ? exclusions.length > 0 : (typeof exclusions === "string" && exclusions.trim().length > 0);
   return (hasInclusions || hasExclusions) ? <section id="inEx" className="py-10 sm:py-12">
-    <div className="mb-12">
+    <Reveal className="mb-12">
       <h2
         className="mb-3 text-2xl font-bold tracking-tight sm:text-3xl"
         style={{ color: "var(--color-secondary)" }}
@@ -722,11 +732,11 @@ sectionMap["inEx"] = () => {
           {sectionData.inEx.description}
         </p>
       )}
-    </div>
+    </Reveal>
 
     <div className="space-y-8">
       {hasInclusions && (
-        <div
+        <Reveal
           className="rounded-3xl border p-7 transition-shadow duration-300 hover:shadow-lg sm:p-9"
           style={{
             backgroundColor: "var(--color-surface-alt)",
@@ -746,9 +756,12 @@ sectionMap["inEx"] = () => {
           </div>
 
           {Array.isArray(inclusions) ? (
-            <ul className="space-y-1">
+            <Stagger as="ul" gap={0.04} className="space-y-1">
               {inclusions.map((item, i) => (
-                <li
+                <StaggerItem
+                  as="li"
+                  from="left"
+                  distance={12}
                   key={i}
                   className="group/item flex items-start gap-3.5 rounded-xl px-3 py-3.5 transition-colors duration-200 hover:bg-black/[0.03] dark:hover:bg-white/[0.04]"
                 >
@@ -761,9 +774,9 @@ sectionMap["inEx"] = () => {
                   <span className="text-sm leading-relaxed" style={{ color: "var(--color-text)" }}>
                     {item}
                   </span>
-                </li>
+                </StaggerItem>
               ))}
-            </ul>
+            </Stagger>
           ) : (
             <div
               className="text-sm leading-relaxed [&_ul]:space-y-3.5 [&_ul]:list-none [&_li]:relative [&_li]:pl-6 [&_li]:before:content-['✓'] [&_li]:before:absolute [&_li]:before:left-0 [&_li]:before:text-emerald-500 [&_li]:before:font-bold"
@@ -771,11 +784,11 @@ sectionMap["inEx"] = () => {
               dangerouslySetInnerHTML={{ __html: inclusions }}
             />
           )}
-        </div>
+        </Reveal>
       )}
 
       {hasExclusions && (
-        <div
+        <Reveal
           className="rounded-3xl border p-7 transition-shadow duration-300 hover:shadow-lg sm:p-9"
           style={{
             backgroundColor: "var(--color-surface-alt)",
@@ -795,9 +808,12 @@ sectionMap["inEx"] = () => {
           </div>
 
           {Array.isArray(exclusions) ? (
-            <ul className="space-y-1">
+            <Stagger as="ul" gap={0.04} className="space-y-1">
               {exclusions.map((item, i) => (
-                <li
+                <StaggerItem
+                  as="li"
+                  from="left"
+                  distance={12}
                   key={i}
                   className="group/item flex items-start gap-3.5 rounded-xl px-3 py-3.5 transition-colors duration-200 hover:bg-black/[0.03] dark:hover:bg-white/[0.04]"
                 >
@@ -810,9 +826,9 @@ sectionMap["inEx"] = () => {
                   <span className="text-sm leading-relaxed" style={{ color: "var(--color-text)" }}>
                     {item}
                   </span>
-                </li>
+                </StaggerItem>
               ))}
-            </ul>
+            </Stagger>
           ) : (
             <div
               className="text-sm leading-relaxed [&_ul]:space-y-3.5 [&_ul]:list-none [&_li]:relative [&_li]:pl-6 [&_li]:before:content-['✗'] [&_li]:before:absolute [&_li]:before:left-0 [&_li]:before:text-red-400 [&_li]:before:font-bold"
@@ -820,22 +836,22 @@ sectionMap["inEx"] = () => {
               dangerouslySetInnerHTML={{ __html: exclusions }}
             />
           )}
-        </div>
+        </Reveal>
       )}
     </div>
   </section> : null;
 };
              sectionMap["pricing"] = () => pricingTiers.length > 0 ? <section id="pricing" className="py-10 sm:py-12">
-  <h2 className="mb-2 text-2xl font-bold" style={{ color: "var(--color-secondary)" }}>{sectionData.pricing?.heading || "Pricing"}</h2>
-  <p className="mb-8 text-sm" style={{ color: "var(--color-text-muted)" }}>{sectionData.pricing?.description || "Per-person pricing based on group size."}</p>
-  <div className="overflow-hidden rounded-2xl border" style={{ borderColor: "var(--color-border)" }}>
+  <Reveal as="h2" className="mb-2 text-2xl font-bold" style={{ color: "var(--color-secondary)" }}>{sectionData.pricing?.heading || "Pricing"}</Reveal>
+  <Reveal as="p" delay={0.06} className="mb-8 text-sm" style={{ color: "var(--color-text-muted)" }}>{sectionData.pricing?.description || "Per-person pricing based on group size."}</Reveal>
+  <Stagger gap={0.06} className="overflow-hidden rounded-2xl border" style={{ borderColor: "var(--color-border)" }}>
     <div className="hidden sm:grid sm:grid-cols-[1fr_auto_auto]" style={{ backgroundColor: "var(--color-surface-alt)" }}>
       <span className="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wider" style={{ color: "var(--color-secondary)" }}>Group Size</span>
       <span className="px-5 py-3 text-right text-xs font-semibold uppercase tracking-wider" style={{ color: "var(--color-secondary)" }}>Price Per Person</span>
       <span className="w-28 px-5 py-3 text-right text-xs font-semibold uppercase tracking-wider" style={{ color: "var(--color-secondary)" }}></span>
     </div>
     {pricingTiers.map((tier: any, i: number) => (
-      <div key={i} className="flex flex-col gap-2 border-t px-5 py-4 sm:grid sm:grid-cols-[1fr_auto_auto] sm:items-center sm:gap-0" style={{ borderColor: "var(--color-border)" }}>
+      <StaggerItem key={i} from="left" distance={16} className="flex flex-col gap-2 border-t px-5 py-4 sm:grid sm:grid-cols-[1fr_auto_auto] sm:items-center sm:gap-0" style={{ borderColor: "var(--color-border)" }}>
         <div className="flex items-center justify-between sm:block">
           <span className="flex items-center gap-1.5 text-sm sm:gap-1.5" style={{ color: "var(--color-text)" }}>
             <Users className="h-3.5 w-3.5 shrink-0" style={{ color: "var(--color-primary)" }} />
@@ -860,18 +876,18 @@ sectionMap["inEx"] = () => {
           </span>
         </div>
         <div className="flex justify-end sm:pr-5">
-          <a
+          <MotionAnchor
             href={`/book/${slug}?travelers=${tier.groupSize.split('-').pop()?.trim() || tier.groupSize}`}
-            className="inline-flex items-center gap-1 rounded-full px-4 py-1.5 text-xs font-semibold text-white transition-colors hover:opacity-90"
+            className="group inline-flex items-center gap-1 rounded-full px-4 py-1.5 text-xs font-semibold text-white transition-opacity hover:opacity-90"
             style={{ backgroundColor: "var(--color-primary)" }}
           >
             Book Now
-            <ArrowRight className="h-3 w-3" />
-          </a>
+            <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5" />
+          </MotionAnchor>
         </div>
-      </div>
+      </StaggerItem>
     ))}
-  </div>
+  </Stagger>
 </section> : null;
 sectionMap["fixedDepartures"] = () => (fixedDepartureDays.length > 0 || customStartDates.length > 0) ? (
   <section id="fixedDepartures" className="py-10 sm:py-12">
@@ -894,16 +910,16 @@ sectionMap["fixedDepartures"] = () => (fixedDepartureDays.length > 0 || customSt
   </section>
 ) : null;
 sectionMap["addons"] = () => addons.length > 0 ? <section id="addons" className="py-10 sm:py-12">
-  <h2 className="mb-2 text-2xl font-bold" style={{ color: "var(--color-secondary)" }}>{sectionData.addons?.heading || "Add-ons"}</h2>
-  <p className="mb-8 text-sm" style={{ color: "var(--color-text-muted)" }}>{sectionData.addons?.description || "Optional extras to enhance your experience."}</p>
-  <div className="overflow-hidden rounded-2xl border" style={{ borderColor: "var(--color-border)" }}>
+  <Reveal as="h2" className="mb-2 text-2xl font-bold" style={{ color: "var(--color-secondary)" }}>{sectionData.addons?.heading || "Add-ons"}</Reveal>
+  <Reveal as="p" delay={0.06} className="mb-8 text-sm" style={{ color: "var(--color-text-muted)" }}>{sectionData.addons?.description || "Optional extras to enhance your experience."}</Reveal>
+  <Stagger gap={0.06} className="overflow-hidden rounded-2xl border" style={{ borderColor: "var(--color-border)" }}>
     <div className="hidden sm:grid sm:grid-cols-[1fr_1.5fr_auto]" style={{ backgroundColor: "var(--color-surface-alt)" }}>
       <span className="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wider" style={{ color: "var(--color-secondary)" }}>Add-on</span>
       <span className="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wider" style={{ color: "var(--color-secondary)" }}>Description</span>
       <span className="px-5 py-3 text-right text-xs font-semibold uppercase tracking-wider" style={{ color: "var(--color-secondary)" }}>Price</span>
     </div>
     {addons.map((addon: any, i: number) => (
-      <div key={i} className="flex flex-col gap-1.5 border-t px-5 py-4 sm:grid sm:grid-cols-[1fr_1.5fr_auto] sm:items-center sm:gap-0" style={{ borderColor: "var(--color-border)" }}>
+      <StaggerItem key={i} from="left" distance={16} className="flex flex-col gap-1.5 border-t px-5 py-4 sm:grid sm:grid-cols-[1fr_1.5fr_auto] sm:items-center sm:gap-0" style={{ borderColor: "var(--color-border)" }}>
         <div className="flex flex-wrap items-start justify-between gap-x-2 gap-y-1 sm:block sm:self-start sm:pt-1">
           <span className="text-sm font-semibold sm:px-5" style={{ color: "var(--color-secondary)" }}>{addon.title}</span>
           {/* Mobile: price shown inline after title */}
@@ -931,15 +947,15 @@ sectionMap["addons"] = () => addons.length > 0 ? <section id="addons" className=
             <span className="font-normal" style={{ color: "var(--color-text-muted)" }}> / {addon.unit || "person"}</span>
           </span>
         </div>
-      </div>
+      </StaggerItem>
     ))}
-  </div>
+  </Stagger>
 </section> : null;
 // With no route file uploaded, TrekMap shows the admin's static map image
 // instead of the interactive map — waypoint pins aren't rendered on it.
 const mapIsImageOnly = !trek.geoJsonUrl && !trek.geoJsonData && !!trek.staticMapImage;
 sectionMap["map"] = () => <section id="map" className="py-10 sm:py-12">
-  <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
+  <Reveal className="mb-6 flex flex-wrap items-end justify-between gap-4">
     <div>
       <h2 className="mb-2 text-2xl font-bold" style={{ color: "var(--color-secondary)" }}>{sectionData.map?.heading || "Route Map"}</h2>
       <p className="text-sm" style={{ color: "var(--color-text-muted)" }}>{sectionData.map?.description || "Explore the terrain map showing the trek route."}</p>
@@ -953,9 +969,9 @@ sectionMap["map"] = () => <section id="map" className="py-10 sm:py-12">
         {waypoints.length} waypoints
       </span>
     )}
-  </div>
+  </Reveal>
 
-  <div className="overflow-hidden rounded-3xl border" style={{ borderColor: "var(--color-border)" }}>
+  <Reveal from="scale" className="overflow-hidden rounded-3xl border" style={{ borderColor: "var(--color-border)" }}>
     <TrekMapWrapper
       geoJsonUrl={trek.geoJsonUrl || undefined}
       geoJsonData={trek.geoJsonData || null}
@@ -963,7 +979,7 @@ sectionMap["map"] = () => <section id="map" className="py-10 sm:py-12">
       itinerary={itinerary?.length > 0 ? itinerary : undefined}
       staticFallbackImage={trek.staticMapImage || undefined}
     />
-  </div>
+  </Reveal>
 </section>;
 sectionMap["faqs"] = () => faqs.length > 0 ? (
   <FAQAccordion
@@ -984,17 +1000,18 @@ sectionMap["reviews"] = () => {
   const maxCount = Math.max(...ratingCounts, 1);
 
   return <section id="reviews" className="py-10 sm:py-12">
-    <h2 className="mb-6 text-2xl font-bold" style={{ color: "var(--color-secondary)" }}>Guest Reviews</h2>
+    <Reveal as="h2" className="mb-6 text-2xl font-bold" style={{ color: "var(--color-secondary)" }}>Guest Reviews</Reveal>
 
     {avgRating > 0 && (
-      <div
+      <Reveal
         className="mb-8 grid grid-cols-1 gap-8 rounded-3xl border p-8 sm:grid-cols-[auto_1fr] sm:items-center"
         style={{ backgroundColor: "var(--color-surface-alt)", borderColor: "var(--color-border)" }}
       >
         <div className="flex flex-col items-center gap-2 sm:items-start sm:border-r sm:pr-8" style={{ borderColor: "var(--color-border)" }}>
-          <span className="text-5xl font-bold leading-none" style={{ color: "var(--color-secondary)" }}>
-            {avgRating.toFixed(1)}
-          </span>
+          <CountUp
+            value={avgRating.toFixed(1)}
+            className="text-5xl font-bold leading-none tabular-nums text-secondary"
+          />
           <div className="flex">
             {Array.from({ length: 5 }).map((_, i) => (
               <Star
@@ -1021,8 +1038,11 @@ sectionMap["reviews"] = () => {
                 <span className="w-3 shrink-0 text-xs font-medium" style={{ color: "var(--color-text-muted)" }}>{star}</span>
                 <Star className="h-3 w-3 shrink-0" style={{ fill: "var(--color-warning)", color: "var(--color-warning)" }} />
                 <div className="h-1.5 flex-1 overflow-hidden rounded-full" style={{ backgroundColor: "var(--color-border)" }}>
-                  <div
-                    className="h-full rounded-full"
+                  <Reveal
+                    from="grow"
+                    duration={0.9}
+                    delay={0.15 + idx * 0.08}
+                    className="h-full origin-left rounded-full"
                     style={{ width: `${pct}%`, backgroundColor: "var(--color-warning)" }}
                   />
                 </div>
@@ -1031,7 +1051,7 @@ sectionMap["reviews"] = () => {
             );
           })}
         </div>
-      </div>
+      </Reveal>
     )}
 
     {approvedReviews.length > 0 && (
@@ -1041,9 +1061,9 @@ sectionMap["reviews"] = () => {
       />
     )}
 
-    <div className="mt-8">
+    <Reveal className="mt-8">
       <ReviewForm trekId={trek.id} />
-    </div>
+    </Reveal>
   </section>;
 };
 sectionMap["gallery"] = () => trek.galleryImages?.length > 0 ? <GallerySection
@@ -1058,10 +1078,10 @@ sectionMap["gallery"] = () => trek.galleryImages?.length > 0 ? <GallerySection
               for (const cs of customSections) {
                 if (cs.id) {
                   sectionMap[cs.id] = () => (
-                    <section className="py-8 sm:py-10">
+                    <Reveal as="section" className="py-8 sm:py-10">
                       <h2 className="mb-4 text-2xl font-bold" style={{ color: "var(--color-secondary)" }}>{cs.data?.heading || "Custom Section"}</h2>
                       {cs.data?.content && <div className="rich-text text-base leading-relaxed" style={{ color: "var(--color-text)" }} dangerouslySetInnerHTML={{ __html: cs.data.content }} />}
-                    </section>
+                    </Reveal>
                   );
                 }
               }
@@ -1109,10 +1129,10 @@ sectionMap["gallery"] = () => trek.galleryImages?.length > 0 ? <GallerySection
               for (const cs of customSections) {
                 if (cs.id && rendered.has(cs.id)) continue;
                 ordered.push(<React.Fragment key={cs.id || `custom-${customIdx++}`}>
-                  <section className="py-8 sm:py-10">
+                  <Reveal as="section" className="py-8 sm:py-10">
                     <h2 className="mb-4 text-2xl font-bold" style={{ color: "var(--color-secondary)" }}>{cs.data?.heading || "Custom Section"}</h2>
                     {cs.data?.content && <div className="rich-text text-base leading-relaxed" style={{ color: "var(--color-text)" }} dangerouslySetInnerHTML={{ __html: cs.data.content }} />}
-                  </section>
+                  </Reveal>
                   <hr className="border-t border-slate-200" />
                 </React.Fragment>);
               }
@@ -1133,21 +1153,22 @@ sectionMap["gallery"] = () => trek.galleryImages?.length > 0 ? <GallerySection
             {/* Similar Treks section — shows treks selected by admin */}
             {similarTreks.length > 0 && (
               <section id="similar-treks" className="py-10 sm:py-12">
-                <div className="mb-12 max-w-2xl">
+                <Reveal className="mb-12 max-w-2xl">
                   <h2 className="mb-3 text-2xl font-bold tracking-tight sm:text-3xl" style={{ color: "var(--color-secondary)" }}>
                     Similar Treks
                   </h2>
                   <p className="text-sm leading-relaxed" style={{ color: "var(--color-text-muted)" }}>
                     You might also like these treks
                   </p>
-                </div>
+                </Reveal>
                 <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
-                  {similarTreks.map((st) => (
-                    <TrekCard
-                      key={st.id}
-                      trek={st}
-                      href={`/${st.category?.slug || catSlug}/${st.slug}`}
-                    />
+                  {similarTreks.map((st, i) => (
+                    <Reveal key={st.id} delay={(i % 3) * 0.08} className="h-full">
+                      <TrekCard
+                        trek={st}
+                        href={`/${st.category?.slug || catSlug}/${st.slug}`}
+                      />
+                    </Reveal>
                   ))}
                 </div>
               </section>
@@ -1156,6 +1177,7 @@ sectionMap["gallery"] = () => trek.galleryImages?.length > 0 ? <GallerySection
           {/* ── SIDEBAR ── */}
           <div className="hidden lg:block lg:col-span-1">
             <div className="sticky top-24 space-y-6">
+              <Reveal from="right">
               <PricingCalculator
                 trekSlug={trek.slug}
                 basePrice={trek.price}
@@ -1164,17 +1186,11 @@ sectionMap["gallery"] = () => trek.galleryImages?.length > 0 ? <GallerySection
                 addons={addons}
                 maxGroupSize={trek.maxGroupSize}
               />
+              </Reveal>
             </div>
           </div>
         </div>
       </div>
-
-      {/* Hero parallax animation */}
-      <style
-        dangerouslySetInnerHTML={{
-          __html: ".hero-parallax{animation:heroZoom 20s ease-out forwards}@keyframes heroZoom{0%{transform:scale(1)}100%{transform:scale(1.15)}}",
-        }}
-      />
 
       {/* Scroll to #itinerary / #reviews / #map etc. on load (App Router hash nav fix) */}
       <ScrollToHash />

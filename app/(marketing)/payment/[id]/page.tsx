@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { ArrowLeft, Loader2, CreditCard, CheckCircle } from "lucide-react";
+import * as m from "framer-motion/m";
+import { MotionLink, Reveal } from "@/components/motion";
 
 // ============================================================
 // PAYMENT INTEGRATION PLACEHOLDER
@@ -36,24 +38,29 @@ export default function PaymentPage({ params }: { params: Promise<{ id: string }
   }
 
   return (
-    <div className="mx-auto max-w-lg px-4 py-20 text-center">
-      <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
+    <Reveal from="scale" className="mx-auto max-w-lg px-4 py-20 text-center">
+      <m.div
+        className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-primary/10"
+        initial={{ scale: 0.5, rotate: -12, opacity: 0 }}
+        animate={{ scale: 1, rotate: 0, opacity: 1 }}
+        transition={{ type: "spring", stiffness: 320, damping: 18, delay: 0.15 }}
+      >
         <svg className="h-8 w-8 text-primary" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
         </svg>
-      </div>
+      </m.div>
       <h1 className="mt-6 text-2xl font-bold text-foreground">Payment Integration Under Process</h1>
       <p className="mt-3 text-sm text-muted leading-relaxed max-w-sm mx-auto">
         We have received your email. Our team will review your booking and get back to you shortly.
       </p>
       <p className="mt-1 text-xs text-muted">Booking ref: {bookingId?.slice(0, 8)}...</p>
-      <Link
+      <MotionLink
         href="/dashboard"
-        className="mt-8 inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-primary to-primary-dark px-6 py-2.5 text-sm font-semibold text-white shadow-sm hover:from-primary-dark hover:to-primary-dark transition-all"
+        className="mt-8 inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-primary to-primary-dark px-6 py-2.5 text-sm font-semibold text-white shadow-sm hover:from-primary-dark hover:to-primary-dark transition-colors"
       >
         Go to Dashboard
-      </Link>
-    </div>
+      </MotionLink>
+    </Reveal>
   );
 }
 

@@ -104,15 +104,15 @@ const TARGET_FAQS = 12;
 /** Most articles linked from a single product page. */
 const MAX_GUIDES_PER_TREK = 6;
 /**
- * Clusters written about one season or festival rather than about a route.
- * They link to a lot of products, and ranked like any other article they would
- * push the year-round guides off a product page: four of the six links on the
- * Kathmandu Valley Tour became Dashain articles. On a page that already has a
- * full set of evergreen guides, seasonal articles therefore get at most one
- * slot, and only if one ranks high enough to take it; on a page with room to
- * spare they fill whatever is left.
+ * Clusters written about one season, festival or news event rather than about
+ * a route. They link to a lot of products, and ranked like any other article
+ * they would push the year-round guides off a product page: four of the six
+ * links on the Kathmandu Valley Tour became Dashain articles. On a page that
+ * already has a full set of evergreen guides, seasonal articles therefore get
+ * at most one slot, and only if one ranks high enough to take it; on a page
+ * with room to spare they fill whatever is left.
  */
-const SEASONAL_CLUSTERS = new Set(["dashain", "tihar", "seasonal"]);
+const SEASONAL_CLUSTERS = new Set(["dashain", "tihar", "seasonal", "news"]);
 
 
 const NOW = new Date();

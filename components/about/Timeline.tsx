@@ -1,7 +1,5 @@
-"use client";
-
-import { useEffect, useRef, useState } from "react";
 import { Calendar, MapPin } from "lucide-react";
+import { Reveal, Stagger, StaggerItem } from "@/components/motion";
 
 interface TimelineEvent {
   year?: string;
@@ -26,52 +24,27 @@ const defaultEvents: TimelineEvent[] = [
 ];
 
 function TimelineCard({ event, index, isLeft }: { event: TimelineEvent; index: number; isLeft: boolean }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setVisible(true);
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.2 }
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-
   return (
     <div
-      ref={ref}
       className={`relative flex flex-col gap-4 lg:flex-row lg:items-start ${isLeft ? "lg:flex-row" : "lg:flex-row-reverse"}`}
     >
       {/* Timeline dot */}
       <div className="absolute left-0 z-10 lg:left-1/2 lg:-translate-x-1/2">
-        <div
-          className={`flex h-12 w-12 items-center justify-center rounded-full border-2 border-primary bg-background shadow-md transition-all duration-500 ${
-            visible ? "scale-100 opacity-100" : "scale-50 opacity-0"
-          }`}
+        <Reveal
+          from="pop"
+          className="flex h-12 w-12 items-center justify-center rounded-full border-2 border-primary bg-background shadow-md"
         >
           <Calendar className="h-5 w-5 text-primary" />
-        </div>
+        </Reveal>
       </div>
 
-      {/* Content card */}
-      <div
-        style={{ transitionDelay: visible ? `${index * 120}ms` : "0ms" }}
-        className={`ml-16 w-[calc(100%-4rem)] lg:ml-0 lg:w-[calc(50%-3rem)] transition-all duration-600 ease-out ${
+      {/* Content card — arrives from the side it sits on */}
+      <Reveal
+        from={isLeft ? "left" : "right"}
+        distance={32}
+        delay={Math.min(index, 3) * 0.06 + 0.1}
+        className={`ml-16 w-[calc(100%-4rem)] lg:ml-0 lg:w-[calc(50%-3rem)] ${
           isLeft ? "lg:pr-8 lg:text-right" : "lg:pl-8"
-        } ${
-          visible
-            ? "translate-y-0 opacity-100"
-            : `${isLeft ? "-translate-x-8" : "translate-x-8"} opacity-0`
         }`}
       >
         <div className="group relative overflow-hidden rounded-2xl border border-border bg-background p-6 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-lg">
@@ -86,7 +59,7 @@ function TimelineCard({ event, index, isLeft }: { event: TimelineEvent; index: n
           <h3 className="relative mt-3 text-xl font-semibold text-foreground">{event.title}</h3>
           <p className="relative mt-2 text-sm leading-relaxed text-text-muted">{event.description}</p>
         </div>
-      </div>
+      </Reveal>
 
       {/* Spacer */}
       <div className="hidden w-[calc(50%-3rem)] lg:block" />
@@ -100,17 +73,24 @@ export function Timeline({ heading, description, events, badge }: TimelineProps)
   return (
     <section className="bg-background py-12 sm:py-16">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center gap-3">
-          <span className="h-px w-8 bg-secondary" aria-hidden="true" />
-          <span className="text-xs font-semibold uppercase tracking-[0.12em] text-secondary">{badge || "Our Journey"}</span>
-        </div>
-        <h2 className="mt-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-          {heading || "Company Timeline"}
-        </h2>
+        <Stagger>
+          <StaggerItem from="left" className="flex items-center gap-3">
+            <span className="h-px w-8 bg-secondary" aria-hidden="true" />
+            <span className="text-xs font-semibold uppercase tracking-[0.12em] text-secondary">{badge || "Our Journey"}</span>
+          </StaggerItem>
+          <StaggerItem as="h2" className="mt-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+            {heading || "Company Timeline"}
+          </StaggerItem>
+        </Stagger>
 
         <div className="relative mt-16">
-          {/* Vertical line */}
-          <div className="absolute left-[23px] top-0 h-full w-px bg-border lg:left-1/2 lg:-translate-x-px" aria-hidden="true" />
+          {/* Vertical line — draws downward as the timeline comes into view */}
+          <Reveal
+            from="draw"
+            duration={1.6}
+            className="absolute left-[23px] top-0 h-full w-px origin-top bg-border lg:left-1/2 lg:-translate-x-px"
+            aria-hidden="true"
+          />
 
           <div className="space-y-12">
             {resolvedEvents.map((event, i) => (

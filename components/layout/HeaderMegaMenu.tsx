@@ -3,6 +3,9 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { ArrowRight } from "lucide-react";
+import { AnimatePresence, stagger } from "framer-motion";
+import * as m from "framer-motion/m";
+import { EASE_OUT, SPRING_SNAPPY } from "@/components/motion/presets";
 
 /** A trek entry that can appear inside the mega menu. */
 export interface MegaMenuTrek {
@@ -25,8 +28,6 @@ interface HeaderMegaMenuProps {
   href: string;
   /** Region groups — shown as tabs on the left pane. */
   groups: MegaMenuGroup[];
-  /** Whether the dropdown is currently open. */
-  isOpen: boolean;
   /** Currently active region tab (name). */
   activeRegion: string | null;
   /** Called when the user hovers/focuses a region tab. */
@@ -57,7 +58,6 @@ export function HeaderMegaMenu({
   label,
   href,
   groups,
-  isOpen,
   activeRegion,
   onRegionChange,
   onNavigate,
@@ -90,17 +90,19 @@ export function HeaderMegaMenu({
   const listMaxHeight = leftPaneHeight > 0 ? Math.max(140, Math.round(leftPaneHeight - 36)) : 200;
 
   return (
-    <div
+    <m.div
       data-mega-panel="true"
       role="menu"
       aria-label={`${label} submenu`}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
       onFocusCapture={onMouseEnter}
-      style={{ left, width }}
-      className={`absolute top-full z-40 transition-all duration-200 ease-out ${
-        isOpen ? "translate-y-0 opacity-100" : "pointer-events-none -translate-y-1 opacity-0"
-      }`}
+      style={{ left, width, originY: 0 }}
+      // left/width follow the header as it collapses; Motion owns the rest.
+      className="absolute top-full z-40 transition-[left,width] duration-200 ease-out"
+      initial={{ opacity: 0, y: -8, scaleY: 0.97 }}
+      animate={{ opacity: 1, y: 0, scaleY: 1, transition: { duration: 0.24, ease: EASE_OUT } }}
+      exit={{ opacity: 0, y: -6, transition: { duration: 0.16, ease: "easeIn" } }}
     >
       {/* Flush against the header (no top border / gap) — the header's own
           bottom border acts as the divider. */}
@@ -154,10 +156,12 @@ export function HeaderMegaMenu({
                       }`}
                       data-region-tab="true"
                     >
-                      <span
-                        className={`absolute inset-y-1.5 left-0 w-1 rounded-r-full bg-primary transition-opacity duration-150 ${
-                          isRegionActive ? "opacity-100" : "opacity-0"
-                        }`}
+                      <m.span
+                        className="absolute inset-y-1.5 left-0 w-1 rounded-r-full bg-primary"
+                        style={{ originY: 0.5 }}
+                        initial={false}
+                        animate={isRegionActive ? { opacity: 1, scaleY: 1 } : { opacity: 0, scaleY: 0.3 }}
+                        transition={SPRING_SNAPPY}
                         aria-hidden="true"
                       />
                       <span className="min-w-0 truncate">{group.region}</span>
@@ -204,73 +208,92 @@ export function HeaderMegaMenu({
                 className="min-h-0 flex-1 overflow-y-auto overscroll-contain p-3"
                 style={{ maxHeight: listMaxHeight }}
               >
+              <AnimatePresence mode="wait" initial={false}>
               {activeGroup ? (
-                <div className="space-y-0.5">
+                <m.div
+                  key={activeGroup.region}
+                  className="space-y-0.5"
+                  initial="hidden"
+                  animate="visible"
+                  exit={{ opacity: 0, x: -6, transition: { duration: 0.1 } }}
+                  variants={{
+                    hidden: {},
+                    visible: { transition: { delayChildren: stagger(0.025) } },
+                  }}
+                >
                     {activeGroup.treks.map((trek) => {
                       const trekHref = `/${href.replace(/^\//, "")}/${trek.slug}`;
                       const isTrekActive = pathname === trekHref;
                       return (
-                        <Link
+                        <m.div
                           key={trek.id}
-                          href={trekHref}
-                          role="menuitem"
-                          data-trek-link="true"
-                          onClick={onNavigate}
-                          onKeyDown={(e) => {
-                            if (e.key === "Escape") {
-                              onEscape();
-                            }
-                            if (e.key === "ArrowLeft") {
-                              e.preventDefault();
-                              e.currentTarget
-                                .closest("[data-mega-panel]")
-                                ?.querySelector<HTMLElement>("[data-region-tab]")
-                                ?.focus();
-                            }
-                            if (e.key === "ArrowDown" || e.key === "ArrowUp") {
-                              e.preventDefault();
-                              const links = Array.from(
+                          variants={{
+                            hidden: { opacity: 0, x: 10 },
+                            visible: { opacity: 1, x: 0, transition: { duration: 0.22, ease: EASE_OUT } },
+                          }}
+                        >
+                          <Link
+                            href={trekHref}
+                            role="menuitem"
+                            data-trek-link="true"
+                            onClick={onNavigate}
+                            onKeyDown={(e) => {
+                              if (e.key === "Escape") {
+                                onEscape();
+                              }
+                              if (e.key === "ArrowLeft") {
+                                e.preventDefault();
                                 e.currentTarget
                                   .closest("[data-mega-panel]")
-                                  ?.querySelectorAll<HTMLElement>("[data-trek-link]") ?? []
-                              );
-                              const i = links.indexOf(e.currentTarget);
-                              const next = links[i + (e.key === "ArrowDown" ? 1 : -1)];
-                              next?.focus();
-                            }
-                          }}
-                          className={`group/trek relative flex items-center gap-2 rounded-lg px-2.5 py-2 transition-all duration-300 hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 ${
-                            isTrekActive ? "bg-primary/10" : ""
-                          }`}
-                        >
-                          <span
-                            className={`absolute left-0 w-1 rounded-r-full bg-primary transition-all duration-300 group-hover/trek:h-1/3 ${
-                              isTrekActive ? "h-1/2" : "h-0"
-                            }`}
-                            aria-hidden="true"
-                          />
-                          <span
-                            className={`min-w-0 truncate text-sm transition-all duration-300 group-hover/trek:translate-x-0.5 group-hover/trek:font-medium group-hover/trek:text-foreground ${
-                              isTrekActive ? "font-semibold text-foreground" : "font-medium text-text-muted"
+                                  ?.querySelector<HTMLElement>("[data-region-tab]")
+                                  ?.focus();
+                              }
+                              if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+                                e.preventDefault();
+                                const links = Array.from(
+                                  e.currentTarget
+                                    .closest("[data-mega-panel]")
+                                    ?.querySelectorAll<HTMLElement>("[data-trek-link]") ?? []
+                                );
+                                const i = links.indexOf(e.currentTarget);
+                                const next = links[i + (e.key === "ArrowDown" ? 1 : -1)];
+                                next?.focus();
+                              }
+                            }}
+                            className={`group/trek relative flex items-center gap-2 rounded-lg px-2.5 py-2 transition-all duration-300 hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 ${
+                              isTrekActive ? "bg-primary/10" : ""
                             }`}
                           >
-                            {trek.title}
-                          </span>
-                          <ArrowRight
-                            className="ml-auto h-3.5 w-3.5 shrink-0 -translate-x-1 text-primary opacity-0 transition-all duration-200 group-hover/trek:translate-x-0 group-hover/trek:opacity-100"
-                            aria-hidden="true"
-                          />
-                        </Link>
+                            <span
+                              className={`absolute left-0 w-1 rounded-r-full bg-primary transition-all duration-300 group-hover/trek:h-1/3 ${
+                                isTrekActive ? "h-1/2" : "h-0"
+                              }`}
+                              aria-hidden="true"
+                            />
+                            <span
+                              className={`min-w-0 truncate text-sm transition-all duration-300 group-hover/trek:translate-x-0.5 group-hover/trek:font-medium group-hover/trek:text-foreground ${
+                                isTrekActive ? "font-semibold text-foreground" : "font-medium text-text-muted"
+                              }`}
+                            >
+                              {trek.title}
+                            </span>
+                            <ArrowRight
+                              className="ml-auto h-3.5 w-3.5 shrink-0 -translate-x-1 text-primary opacity-0 transition-all duration-200 group-hover/trek:translate-x-0 group-hover/trek:opacity-100"
+                              aria-hidden="true"
+                            />
+                          </Link>
+                        </m.div>
                       );
                     })}
-                </div>
+                </m.div>
               ) : (
                 <p className="px-1 text-sm text-text-muted">No treks available yet.</p>
               )}
+              </AnimatePresence>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      </m.div>
   );
 }

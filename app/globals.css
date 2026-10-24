@@ -55,14 +55,9 @@ body {
 /* ==============================
    MOTION / ANIMATIONS
    ============================== */
-@keyframes slide-in-left {
-  from { transform: translateX(-100%); opacity: 0.5; }
-  to { transform: translateX(0); opacity: 1; }
-}
-@keyframes fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
+/* Component animation runs on Framer Motion (components/motion). What stays
+   here is what has to work before JavaScript: the first-paint fade on <main>
+   and the loading screens, which show while the page is still streaming. */
 
 /* Loading screen: the logo revolves slowly like a loading spinner. */
 @keyframes revolve {
@@ -439,6 +434,11 @@ main {
   to { opacity: 1; transform: translateY(0); }
 }
 
+/* Scroll reveals that were never scrolled to must still print. */
+@media print {
+  [data-reveal] { opacity: 1 !important; transform: none !important; }
+}
+
 /* Status Badge Pulse for Pending Items */
 @keyframes pulse-dot {
   0%, 100% { opacity: 1; }
@@ -458,14 +458,6 @@ main {
 }
 .globe-hitzone:active {
   cursor: grabbing;
-}
-.globe-hint {
-  opacity: 1;
-  transition: opacity 0.4s ease;
-}
-.globe-hint.is-hidden {
-  opacity: 0;
-  pointer-events: none;
 }
 .noise-veil {
   position: absolute;

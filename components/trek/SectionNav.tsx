@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Link from "next/link";
 import {
   Route,
   CheckCircle,
@@ -13,6 +12,9 @@ import {
   CalendarCheck,
   Images,
 } from "lucide-react";
+import * as m from "framer-motion/m";
+import { MotionLink } from "@/components/motion";
+import { SPRING_SNAPPY, SPRING_SOFT } from "@/components/motion/presets";
 import { useGalleryLightbox } from "./GalleryContext";
 
 interface SectionNavProps {
@@ -137,15 +139,19 @@ export function SectionNav({
         onClick={() => scrollToSection(id)}
         className="group relative flex min-h-[45px] min-w-[45px] flex-1 flex-col items-center justify-center gap-1 px-1 py-1.5 sm:px-2 lg:min-w-0 lg:flex-none lg:px-3"
       >
-        <span
-          className={`flex h-7 w-7 items-center justify-center rounded-full transition-all duration-300 sm:h-8 sm:w-8 ${
+        <m.span
+          className={`flex h-7 w-7 items-center justify-center rounded-full transition-colors duration-300 sm:h-8 sm:w-8 ${
             isActive
-              ? "-translate-y-0.5 bg-primary text-white shadow-md shadow-primary/30"
+              ? "bg-primary text-white shadow-md shadow-primary/30"
               : "text-white/55 group-hover:bg-white/10 group-hover:text-white"
           }`}
+          initial={false}
+          animate={isActive ? { y: -2, scale: 1.08 } : { y: 0, scale: 1 }}
+          whileTap={{ scale: 0.88 }}
+          transition={SPRING_SNAPPY}
         >
           <Icon className="h-3.5 w-3.5 shrink-0 sm:h-4 sm:w-4" strokeWidth={isActive ? 2.25 : 2} />
-        </span>
+        </m.span>
         <span
           className={`w-full truncate text-center text-[8.5px] font-semibold tracking-wide transition-colors duration-300 sm:text-[9.5px] ${
             isActive ? "text-white" : "text-white/50 group-hover:text-white/80"
@@ -157,13 +163,18 @@ export function SectionNav({
     );
   }
 
+  const hidden = isHeroVisible || isFooterVisible || isLightboxOpen;
+
   return (
-    <nav
-      className={`pointer-events-none fixed bottom-0 left-0 right-0 z-50 flex justify-center transition-all duration-300 ease-out ${
-        isHeroVisible || isFooterVisible || isLightboxOpen
-          ? "translate-y-full opacity-0"
-          : "translate-y-0 opacity-100"
-      }`}
+    // data-section-nav / data-hidden are what FloatingButtons watches to stay
+    // clear of this bar on small screens.
+    <m.nav
+      data-section-nav=""
+      data-hidden={hidden ? "true" : "false"}
+      className="pointer-events-none fixed bottom-0 left-0 right-0 z-50 flex justify-center"
+      initial={false}
+      animate={hidden ? { y: "100%", opacity: 0 } : { y: "0%", opacity: 1 }}
+      transition={SPRING_SOFT}
     >
       {/* 1fr / auto / 1fr keeps the CTA optically centered: the two side
           columns always resolve to the same width, full-bleed on mobile and
@@ -183,13 +194,15 @@ export function SectionNav({
 
         {/* Booking CTA — raised out of the bar */}
         <div className="flex shrink-0 flex-col items-center px-1.5 pb-1.5 sm:px-3">
-          <Link
+          <MotionLink
             href={`/book/${slug}`}
             aria-label="Book this trip"
-            className="-mt-7 flex h-14 w-14 items-center justify-center rounded-full bg-primary text-white shadow-lg shadow-primary/40 ring-[5px] ring-secondary transition-all duration-300 hover:bg-primary-dark hover:shadow-xl hover:shadow-primary/50 active:scale-95 sm:-mt-8 sm:h-[3.75rem] sm:w-[3.75rem]"
+            lift={3}
+            press={0.92}
+            className="-mt-7 flex h-14 w-14 items-center justify-center rounded-full bg-primary text-white shadow-lg shadow-primary/40 ring-[5px] ring-secondary transition-[background-color,box-shadow] duration-300 hover:bg-primary-dark hover:shadow-xl hover:shadow-primary/50 sm:-mt-8 sm:h-[3.75rem] sm:w-[3.75rem]"
           >
             <CalendarCheck className="h-6 w-6" strokeWidth={2.25} />
-          </Link>
+          </MotionLink>
           <span className="mt-1 text-center text-[8.5px] font-semibold tracking-wide text-white sm:text-[9.5px]">
             Book Now
           </span>
@@ -204,6 +217,6 @@ export function SectionNav({
           </div>
         </div>
       </div>
-    </nav>
+    </m.nav>
   );
 }

@@ -5,6 +5,9 @@ import { useRouter } from "next/navigation";
 import { Lock } from "lucide-react";
 import { useAuthImage } from "@/components/auth/AuthImageProvider";
 import { DEFAULT_AUTH_IMAGE } from "@/lib/auth-image";
+import { AnimatePresence } from "framer-motion";
+import * as m from "framer-motion/m";
+import { KenBurns, Reveal } from "@/components/motion";
 
 export default function ChangePasswordPage() {
   // Left-side photo — shared by all auth pages, set in Admin -> Site Settings -> Auth.
@@ -53,19 +56,21 @@ export default function ChangePasswordPage() {
   return (
     <main className="flex min-h-screen items-center justify-center bg-background px-4 py-12">
       <div className="w-full max-w-4xl">
-        <div
+        <Reveal
+          from="scale"
           className="overflow-hidden rounded-3xl bg-white"
           style={{ border: "1px solid var(--color-border)", boxShadow: "0 20px 60px rgba(0,0,0,0.06)" }}
         >
           <div className="grid gap-0 lg:grid-cols-2">
             {/* Left — bright photo, no overlay, no copy */}
-            <div
-              className="hidden bg-cover bg-center lg:block"
-              style={{ backgroundImage: `url(${imageUrl})` }}
-            />
+            <div className="relative hidden overflow-hidden lg:block">
+              <KenBurns>
+                <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${imageUrl})` }} />
+              </KenBurns>
+            </div>
 
             {/* Right — form */}
-            <div className="p-8 sm:p-10 lg:p-12">
+            <Reveal from="right" delay={0.12} className="p-8 sm:p-10 lg:p-12">
               <Lock className="h-9 w-9 text-primary" />
               <h1 className="mt-4 text-2xl font-bold text-foreground">Choose a new password</h1>
               <p className="mt-2 text-sm text-text-muted">
@@ -106,18 +111,31 @@ export default function ChangePasswordPage() {
                     </span>
                   ))}
                 </label>
-                {error && <p className="text-sm text-error">{error}</p>}
-                <button
+                <AnimatePresence initial={false}>
+                  {error && (
+                    <m.p
+                      key={error}
+                      className="text-sm text-error"
+                      initial={{ opacity: 0, y: -4 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0 }}
+                    >
+                      {error}
+                    </m.p>
+                  )}
+                </AnimatePresence>
+                <m.button
+                  whileTap={{ scale: 0.97 }}
                   type="submit"
                   disabled={saving}
                   className="w-full rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-primary-dark disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   {saving ? "Saving..." : "Change password"}
-                </button>
+                </m.button>
               </form>
-            </div>
+            </Reveal>
           </div>
-        </div>
+        </Reveal>
       </div>
     </main>
   );
