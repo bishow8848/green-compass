@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* Active while the admin "Share as PDF" export captures the page (lib/page-pdf.ts). */
+@custom-variant pdf (&:where(.pdf-capture *));
+
 @theme inline {
   /* Background Colors */
   --color-background: #f7faf8;
@@ -438,6 +441,19 @@ main {
 @media print {
   [data-reveal] { opacity: 1 !important; transform: none !important; }
 }
+
+/* The admin "Share as PDF" export (lib/page-pdf.ts) captures the page finished:
+   every reveal landed, every itinerary day and FAQ open, no divider lines, and
+   everything marked data-pdf-hide (site header and footer, booking sidebar,
+   map, gallery, reviews, forms) gone. The page is laid out 680px wide, which
+   fits the A4 page between its margins at natural print size (14px text ≈
+   10.5pt), on white to match the margins, with sections spaced for paper. */
+.pdf-capture body { max-width: 680px; background: #ffffff; }
+.pdf-capture main section:not(#hero) { padding-block: 24px; }
+.pdf-capture [data-reveal] { opacity: 1 !important; transform: none !important; }
+.pdf-capture details[data-state] > div { height: auto !important; opacity: 1 !important; }
+.pdf-capture hr,
+.pdf-capture [data-pdf-hide] { display: none !important; }
 
 /* Status Badge Pulse for Pending Items */
 @keyframes pulse-dot {

@@ -1,0 +1,11 @@
+import "dotenv/config";
+import { prisma } from "@/lib/prisma";
+const total = await prisma.trekReview.count();
+const approved = await prisma.trekReview.count({ where: { approved: true } });
+const grouped = await prisma.trekReview.groupBy({ by: ["trekId"], _count: { _all: true } });
+console.log({ total, approved, treksWithReviews: grouped.length });
+const dist = await prisma.trekReview.groupBy({ by: ["rating"], _count: { _all: true } });
+console.log(dist);
+const sample = await prisma.trekReview.findMany({ take: 3, include: { trek: { select: { slug: true, title: true, category: { select: { slug: true } } } } } });
+console.log(JSON.stringify(sample, null, 2));
+process.exit(0);

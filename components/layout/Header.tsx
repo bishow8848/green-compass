@@ -515,6 +515,7 @@ export function Header({
     <div
       ref={headerRef}
       data-header-root="true"
+      data-pdf-hide=""
       className={`relative sticky top-0 z-50 border-b transition-all duration-300 ${
         isScrolled
           ? "border-black/5 bg-white/85 shadow-[0_1px_2px_rgba(0,0,0,0.03),0_4px_16px_-4px_rgba(0,0,0,0.08)] backdrop-blur-md"

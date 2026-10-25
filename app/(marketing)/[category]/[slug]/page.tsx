@@ -17,6 +17,7 @@ import { ReviewForm } from "@/components/trek/ReviewForm";
 import { ReviewCarousel } from "@/components/home/ReviewCarousel";
 import { FixDepartureTable } from "@/components/trek/FixDepartureTable";
 import { SectionNav } from "@/components/trek/SectionNav";
+import { SharePdfButton } from "@/components/trek/SharePdfButton";
 import GallerySection from "@/components/trek/GallerySection";
 import { GalleryProvider } from "@/components/trek/GalleryContext";
 import { ScrollToHash } from "@/components/trek/ScrollToHash";
@@ -30,6 +31,14 @@ import { sanitizeRichText } from "@/lib/sanitize";
 import { SITE_NAME, SITE_URL, brandedTitle, ogImages, seoDescription, seoImageUrl, serializeJsonLd } from "@/lib/seo";
 
 export const revalidate = 604800; // Trek detail cached 7 days; refreshed on-demand after CMS edits
+
+// Heading of the custom section scripts/apply-blog-content.mts writes (GUIDES_HEADING in scripts/blog-content/build.ts).
+const GUIDES_HEADING = "Trekking Guides & Articles";
+
+// Letterhead of every page of the admin PDF export.
+const PDF_CONTACT_LABEL = "Call / WhatsApp";
+const PDF_CONTACT_NUMBER = "+977 9864379436";
+const PDF_LOCATION = "Location: Lakeside, Pokhara";
 
 async function getTrek(slug: string, categorySlug: string) {
   const cacheKey = cacheKeys.trek(`${categorySlug}:${slug}`);
@@ -112,6 +121,11 @@ function getMinPrice(tiers: any[]): number {
   return Math.min(...tiers.map((t: any) => t.pricePerPerson || 0));
 }
 
+function getMaxPrice(tiers: any[]): number {
+  if (!tiers || tiers.length === 0) return 0;
+  return Math.max(...tiers.map((t: any) => t.pricePerPerson || 0));
+}
+
 function getMaxAltitude(itinerary: any[]): number {
   let max = 0;
   for (const day of itinerary) {
@@ -185,6 +199,25 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
 
   const minPrice = getMinPrice(pricingTiers);
   const offerLowPrice = minPrice > 0 ? minPrice : trek.price;
+  const offerHighPrice = Math.max(offerLowPrice, getMaxPrice(pricingTiers));
+  // Price range across the group-size tiers, which Google shows as "$low to
+  // $high" in the search result. A tour with one price stays a plain Offer.
+  const offers = {
+    ...(offerHighPrice > offerLowPrice
+      ? {
+          "@type": "AggregateOffer",
+          lowPrice: offerLowPrice,
+          highPrice: offerHighPrice,
+          offerCount: pricingTiers.length,
+        }
+      : { "@type": "Offer", price: offerLowPrice }),
+    priceCurrency: "USD",
+    availability: "https://schema.org/InStock",
+    url: `${SITE_URL}/${catSlug}/${slug}`,
+    seller: {
+      "@id": `${SITE_URL}/#organization`,
+    },
+  };
   const maxAltitude = trek.maxAltitude || getMaxAltitude(itinerary);
   const avgRating = getAvgRating(reviews);
 
@@ -259,19 +292,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
             provider: {
               "@id": `${SITE_URL}/#organization`,
             },
-            // A single Offer, not AggregateOffer: Google only shows price for
-            // merchant listings, which require an Offer sold by us. The price is
-            // the "Min Price" shown on the page, so schema and page stay in sync.
-            offers: {
-              "@type": "Offer",
-              price: offerLowPrice,
-              priceCurrency: "USD",
-              availability: "https://schema.org/InStock",
-              url: `${SITE_URL}/${catSlug}/${slug}`,
-              seller: {
-                "@id": `${SITE_URL}/#organization`,
-              },
-            },
+            offers,
             ...(avgRating > 0
               ? {
                   aggregateRating: {
@@ -341,13 +362,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
             ...(trek.region
               ? { arrivalLocation: { "@type": "Place", name: trek.region } }
               : {}),
-            offers: {
-              "@type": "Offer",
-              price: offerLowPrice,
-              priceCurrency: "USD",
-              availability: "https://schema.org/InStock",
-              url: `${SITE_URL}/${catSlug}/${slug}`,
-            },
+            offers,
             // schema.org has no "Itinerary" type: TouristTrip.itinerary takes
             // an ItemList (or a Place), so each day is a positioned ListItem.
             ...(itinerary.length > 0
@@ -392,10 +407,16 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
       {/* Reading progress along the top edge */}
       <ScrollProgress />
 
+      {/* The tour's name above the photo in the admin PDF export, which shows
+          the hero photo alone (lib/page-pdf.ts). */}
+      <p aria-hidden="true" className="hidden pb-6 text-center font-serif text-5xl leading-tight pdf:block" style={{ color: "var(--color-secondary)" }}>
+        {trek.title}
+      </p>
+
       {/* ================================================================
           HERO SECTION — Full-screen parallax with search
       ================================================================ */}
-      <section id="hero" className="relative flex h-screen w-full items-center overflow-hidden">
+      <section id="hero" className="relative flex h-screen w-full items-center overflow-hidden pdf:aspect-video pdf:h-auto">
         {/* Background image with a slow push-in */}
         <KenBurns zoom="in">
           {trek.heroImage ? (
@@ -415,10 +436,11 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
         <div
           className="absolute inset-0"
           style={{ background: "rgba(70, 55, 40, 0.45)", mixBlendMode: "multiply" as any }}
+          data-pdf-hide=""
         />
 
         {/* Hero content — aligned with layout max-width */}
-        <div className="relative z-10 w-full">
+        <div className="relative z-10 w-full" data-pdf-hide="">
           <div className="mx-auto max-w-screen-2xl px-3 sm:px-4 lg:px-6">
             <Stagger style={{ maxWidth: "800px" }}>
               <StaggerItem from="left">
@@ -466,12 +488,13 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
       {/* ================================================================
           CONTENT WRAPPER
       ================================================================ */}
-      <div className="mx-auto max-w-screen-2xl px-3 sm:px-4 lg:px-6 py-8 pb-24">
-        <div className="grid gap-12 lg:grid-cols-3">
+      <div className="mx-auto max-w-screen-2xl px-3 sm:px-4 lg:px-6 py-8 pb-24 pdf:px-0! pdf:pb-0!">
+        {/* In the PDF export the sidebar is left out, so the main column takes the full width. */}
+        <div className="grid gap-12 lg:grid-cols-3 pdf:block">
           {/* ── MAIN CONTENT ── */}
           <div className="min-w-0 flex flex-col space-y-0 lg:col-span-2">
             {/* Pricing calculator at the top on mobile (hidden on desktop) */}
-            <div className="lg:hidden mb-8">
+            <div className="lg:hidden mb-8" data-pdf-hide="">
               <PricingCalculator
                 trekSlug={trek.slug}
                 basePrice={trek.price}
@@ -495,6 +518,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
 
   {/* Single unified stats grid */}
   <Stagger
+    data-pdf-hide=""
     gap={0.06}
     className="mb-8 grid grid-cols-1 divide-y rounded-3xl border sm:grid-cols-3 sm:divide-x sm:divide-y-0 [&>*:nth-child(4)]:sm:border-t [&>*:nth-child(5)]:sm:border-t [&>*:nth-child(6)]:sm:border-t"
     style={{
@@ -624,6 +648,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
         className="absolute left-[19px] top-2 bottom-2 w-px origin-top"
         style={{ backgroundColor: "var(--color-border)" }}
         aria-hidden="true"
+        data-pdf-hide=""
       />
 
       <div className="space-y-3">
@@ -631,11 +656,13 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
           <Reveal key={day.id ?? day.dayNumber} delay={Math.min(index, 5) * 0.04}>
           <Disclosure
             defaultOpen={index === 0}
-            className="group relative rounded-2xl border border-border bg-surface transition-colors data-[state=open]:border-primary/30"
-            summaryClassName="flex cursor-pointer list-none items-start gap-4 rounded-2xl px-4 py-4 marker:content-none [&::-webkit-details-marker]:hidden"
+            // In the PDF export each day is plain text: no card, marker or chevron.
+            className="group relative rounded-2xl border border-border bg-surface transition-colors data-[state=open]:border-primary/30 pdf:rounded-none pdf:border-0! pdf:bg-transparent!"
+            summaryClassName="flex cursor-pointer list-none items-start gap-4 rounded-2xl px-4 py-4 marker:content-none [&::-webkit-details-marker]:hidden pdf:px-0! pdf:pt-2! pdf:pb-1!"
             summary={<>
               {/* day marker */}
               <span
+                data-pdf-hide=""
                 className="relative z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border text-sm font-bold tabular-nums"
                 style={{
                   backgroundColor: "var(--color-surface)",
@@ -652,21 +679,24 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
 
               <div className="flex-1 min-w-0 pt-1.5">
                 <div className="flex items-center justify-between gap-3">
+                  {/* Reads "Day 1: Title" on one line in the PDF export. */}
                   <div className="min-w-0">
                     <span
-                      className="text-[11px] font-semibold uppercase tracking-wide"
+                      className="text-[11px] font-semibold uppercase tracking-wide pdf:text-lg pdf:font-bold pdf:normal-case pdf:tracking-normal"
                       style={{ color: "var(--color-primary)" }}
                     >
                       Day {day.dayNumber}
+                      <span className="hidden pdf:inline">:</span>
                     </span>
                     <h3
-                      className="text-base font-semibold leading-snug"
+                      className="text-base font-semibold leading-snug pdf:ml-1.5 pdf:inline pdf:text-lg pdf:font-bold"
                       style={{ color: "var(--color-foreground)" }}
                     >
                       {day.title}
                     </h3>
                   </div>
                   <ChevronDown
+                    data-pdf-hide=""
                     className="mt-1 h-4 w-4 shrink-0 transition-transform duration-300 group-data-[state=open]:rotate-180"
                     style={{ color: "var(--color-text-muted)" }}
                   />
@@ -675,7 +705,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
             </>}
           >
             <div
-              className="ml-14 mr-4 mb-5 border-t pt-4"
+              className="ml-14 mr-4 mb-5 border-t pt-4 pdf:mx-0! pdf:border-t-0! pdf:pt-1!"
               style={{ borderColor: "var(--color-border)" }}
             >
               {day.description ? (
@@ -737,14 +767,15 @@ sectionMap["inEx"] = () => {
     <div className="space-y-8">
       {hasInclusions && (
         <Reveal
-          className="rounded-3xl border p-7 transition-shadow duration-300 hover:shadow-lg sm:p-9"
+          className="rounded-3xl border p-7 transition-shadow duration-300 hover:shadow-lg sm:p-9 pdf:rounded-none pdf:border-0! pdf:bg-transparent! pdf:p-0!"
           style={{
             backgroundColor: "var(--color-surface-alt)",
             borderColor: "var(--color-border)",
           }}
         >
-          <div className="mb-7 flex items-center gap-3">
+          <div className="mb-7 flex items-center gap-3 pdf:mb-3!">
             <span
+              data-pdf-hide=""
               className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full"
               style={{ backgroundColor: "color-mix(in srgb, var(--color-success) 15%, transparent)" }}
             >
@@ -763,10 +794,10 @@ sectionMap["inEx"] = () => {
                   from="left"
                   distance={12}
                   key={i}
-                  className="group/item flex items-start gap-3.5 rounded-xl px-3 py-3.5 transition-colors duration-200 hover:bg-black/[0.03] dark:hover:bg-white/[0.04]"
+                  className="group/item flex items-start gap-3.5 rounded-xl px-3 py-3.5 transition-colors duration-200 hover:bg-black/[0.03] dark:hover:bg-white/[0.04] pdf:px-0! pdf:py-1.5!"
                 >
                   <span
-                    className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full transition-transform duration-200 group-hover/item:scale-110"
+                    className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full transition-transform duration-200 group-hover/item:scale-110 pdf:bg-transparent!"
                     style={{ backgroundColor: "color-mix(in srgb, var(--color-success) 12%, transparent)" }}
                   >
                     <Check className="h-3 w-3" strokeWidth={3} style={{ color: "var(--color-success)" }} />
@@ -789,14 +820,15 @@ sectionMap["inEx"] = () => {
 
       {hasExclusions && (
         <Reveal
-          className="rounded-3xl border p-7 transition-shadow duration-300 hover:shadow-lg sm:p-9"
+          className="rounded-3xl border p-7 transition-shadow duration-300 hover:shadow-lg sm:p-9 pdf:rounded-none pdf:border-0! pdf:bg-transparent! pdf:p-0!"
           style={{
             backgroundColor: "var(--color-surface-alt)",
             borderColor: "var(--color-border)",
           }}
         >
-          <div className="mb-7 flex items-center gap-3">
+          <div className="mb-7 flex items-center gap-3 pdf:mb-3!">
             <span
+              data-pdf-hide=""
               className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full"
               style={{ backgroundColor: "color-mix(in srgb, var(--color-error) 15%, transparent)" }}
             >
@@ -815,10 +847,10 @@ sectionMap["inEx"] = () => {
                   from="left"
                   distance={12}
                   key={i}
-                  className="group/item flex items-start gap-3.5 rounded-xl px-3 py-3.5 transition-colors duration-200 hover:bg-black/[0.03] dark:hover:bg-white/[0.04]"
+                  className="group/item flex items-start gap-3.5 rounded-xl px-3 py-3.5 transition-colors duration-200 hover:bg-black/[0.03] dark:hover:bg-white/[0.04] pdf:px-0! pdf:py-1.5!"
                 >
                   <span
-                    className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full transition-transform duration-200 group-hover/item:scale-110"
+                    className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full transition-transform duration-200 group-hover/item:scale-110 pdf:bg-transparent!"
                     style={{ backgroundColor: "color-mix(in srgb, var(--color-error) 12%, transparent)" }}
                   >
                     <XIcon className="h-3 w-3" strokeWidth={3} style={{ color: "var(--color-error)" }} />
@@ -844,17 +876,18 @@ sectionMap["inEx"] = () => {
              sectionMap["pricing"] = () => pricingTiers.length > 0 ? <section id="pricing" className="py-10 sm:py-12">
   <Reveal as="h2" className="mb-2 text-2xl font-bold" style={{ color: "var(--color-secondary)" }}>{sectionData.pricing?.heading || "Pricing"}</Reveal>
   <Reveal as="p" delay={0.06} className="mb-8 text-sm" style={{ color: "var(--color-text-muted)" }}>{sectionData.pricing?.description || "Per-person pricing based on group size."}</Reveal>
-  <Stagger gap={0.06} className="overflow-hidden rounded-2xl border" style={{ borderColor: "var(--color-border)" }}>
-    <div className="hidden sm:grid sm:grid-cols-[1fr_auto_auto]" style={{ backgroundColor: "var(--color-surface-alt)" }}>
-      <span className="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wider" style={{ color: "var(--color-secondary)" }}>Group Size</span>
-      <span className="px-5 py-3 text-right text-xs font-semibold uppercase tracking-wider" style={{ color: "var(--color-secondary)" }}>Price Per Person</span>
-      <span className="w-28 px-5 py-3 text-right text-xs font-semibold uppercase tracking-wider" style={{ color: "var(--color-secondary)" }}></span>
+  {/* In the PDF export this is a plain table: square, with ruled columns. */}
+  <Stagger gap={0.06} className="overflow-hidden rounded-2xl border pdf:rounded-none" style={{ borderColor: "var(--color-border)" }}>
+    <div className="hidden sm:grid sm:grid-cols-[1fr_auto_auto] pdf:grid-cols-[1fr_220px]!" style={{ backgroundColor: "var(--color-surface-alt)" }}>
+      <span className="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wider pdf:border-r pdf:border-border pdf:py-2.5 pdf:text-sm pdf:normal-case pdf:tracking-normal" style={{ color: "var(--color-secondary)" }}>Group Size</span>
+      <span className="px-5 py-3 text-right text-xs font-semibold uppercase tracking-wider pdf:py-2.5 pdf:text-sm pdf:normal-case pdf:tracking-normal" style={{ color: "var(--color-secondary)" }}>Price Per Person</span>
+      <span className="w-28 px-5 py-3 text-right text-xs font-semibold uppercase tracking-wider" style={{ color: "var(--color-secondary)" }} data-pdf-hide=""></span>
     </div>
     {pricingTiers.map((tier: any, i: number) => (
-      <StaggerItem key={i} from="left" distance={16} className="flex flex-col gap-2 border-t px-5 py-4 sm:grid sm:grid-cols-[1fr_auto_auto] sm:items-center sm:gap-0" style={{ borderColor: "var(--color-border)" }}>
-        <div className="flex items-center justify-between sm:block">
+      <StaggerItem key={i} from="left" distance={16} className="flex flex-col gap-2 border-t px-5 py-4 sm:grid sm:grid-cols-[1fr_auto_auto] sm:items-center sm:gap-0 pdf:grid-cols-[1fr_220px]! pdf:items-stretch! pdf:p-0!" style={{ borderColor: "var(--color-border)" }}>
+        <div className="flex items-center justify-between sm:block pdf:border-r pdf:border-border pdf:px-5 pdf:py-2.5">
           <span className="flex items-center gap-1.5 text-sm sm:gap-1.5" style={{ color: "var(--color-text)" }}>
-            <Users className="h-3.5 w-3.5 shrink-0" style={{ color: "var(--color-primary)" }} />
+            <Users className="h-3.5 w-3.5 shrink-0" style={{ color: "var(--color-primary)" }} data-pdf-hide="" />
             {tier.groupSize} pax
           </span>
           {/* Show price inline on mobile, move to own cell on desktop */}
@@ -866,7 +899,7 @@ sectionMap["inEx"] = () => {
             </span>
           </span>
         </div>
-        <div className="flex items-center justify-end sm:px-5">
+        <div className="flex items-center justify-end sm:px-5 pdf:py-2.5">
           <span className="hidden whitespace-nowrap text-right text-sm sm:block" style={{ color: "var(--color-text-muted)" }}>
             <span className="text-slate-400 line-through">${(Math.round(tier.pricePerPerson * 1.1)).toLocaleString()}</span>
             &nbsp;
@@ -875,7 +908,7 @@ sectionMap["inEx"] = () => {
             </span>
           </span>
         </div>
-        <div className="flex justify-end sm:pr-5">
+        <div className="flex justify-end sm:pr-5" data-pdf-hide="">
           <MotionAnchor
             href={`/book/${slug}?travelers=${tier.groupSize.split('-').pop()?.trim() || tier.groupSize}`}
             className="group inline-flex items-center gap-1 rounded-full px-4 py-1.5 text-xs font-semibold text-white transition-opacity hover:opacity-90"
@@ -890,7 +923,7 @@ sectionMap["inEx"] = () => {
   </Stagger>
 </section> : null;
 sectionMap["fixedDepartures"] = () => (fixedDepartureDays.length > 0 || customStartDates.length > 0) ? (
-  <section id="fixedDepartures" className="py-10 sm:py-12">
+  <section id="fixedDepartures" className="py-10 sm:py-12" data-pdf-hide="">
     <FixDepartureTable
       treks={[{
         id: trek.id,
@@ -912,16 +945,17 @@ sectionMap["fixedDepartures"] = () => (fixedDepartureDays.length > 0 || customSt
 sectionMap["addons"] = () => addons.length > 0 ? <section id="addons" className="py-10 sm:py-12">
   <Reveal as="h2" className="mb-2 text-2xl font-bold" style={{ color: "var(--color-secondary)" }}>{sectionData.addons?.heading || "Add-ons"}</Reveal>
   <Reveal as="p" delay={0.06} className="mb-8 text-sm" style={{ color: "var(--color-text-muted)" }}>{sectionData.addons?.description || "Optional extras to enhance your experience."}</Reveal>
-  <Stagger gap={0.06} className="overflow-hidden rounded-2xl border" style={{ borderColor: "var(--color-border)" }}>
-    <div className="hidden sm:grid sm:grid-cols-[1fr_1.5fr_auto]" style={{ backgroundColor: "var(--color-surface-alt)" }}>
-      <span className="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wider" style={{ color: "var(--color-secondary)" }}>Add-on</span>
-      <span className="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wider" style={{ color: "var(--color-secondary)" }}>Description</span>
-      <span className="px-5 py-3 text-right text-xs font-semibold uppercase tracking-wider" style={{ color: "var(--color-secondary)" }}>Price</span>
+  {/* In the PDF export this is a plain table, like Pricing above. */}
+  <Stagger gap={0.06} className="overflow-hidden rounded-2xl border pdf:rounded-none" style={{ borderColor: "var(--color-border)" }}>
+    <div className="hidden sm:grid sm:grid-cols-[1fr_1.5fr_auto] pdf:grid-cols-[170px_1fr_150px]!" style={{ backgroundColor: "var(--color-surface-alt)" }}>
+      <span className="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wider pdf:border-r pdf:border-border pdf:py-2.5 pdf:text-sm pdf:normal-case pdf:tracking-normal" style={{ color: "var(--color-secondary)" }}>Add-on</span>
+      <span className="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wider pdf:border-r pdf:border-border pdf:py-2.5 pdf:text-sm pdf:normal-case pdf:tracking-normal" style={{ color: "var(--color-secondary)" }}>Description</span>
+      <span className="px-5 py-3 text-right text-xs font-semibold uppercase tracking-wider pdf:py-2.5 pdf:text-sm pdf:normal-case pdf:tracking-normal" style={{ color: "var(--color-secondary)" }}>Price</span>
     </div>
     {addons.map((addon: any, i: number) => (
-      <StaggerItem key={i} from="left" distance={16} className="flex flex-col gap-1.5 border-t px-5 py-4 sm:grid sm:grid-cols-[1fr_1.5fr_auto] sm:items-center sm:gap-0" style={{ borderColor: "var(--color-border)" }}>
-        <div className="flex flex-wrap items-start justify-between gap-x-2 gap-y-1 sm:block sm:self-start sm:pt-1">
-          <span className="text-sm font-semibold sm:px-5" style={{ color: "var(--color-secondary)" }}>{addon.title}</span>
+      <StaggerItem key={i} from="left" distance={16} className="flex flex-col gap-1.5 border-t px-5 py-4 sm:grid sm:grid-cols-[1fr_1.5fr_auto] sm:items-center sm:gap-0 pdf:grid-cols-[170px_1fr_150px]! pdf:items-stretch! pdf:p-0!" style={{ borderColor: "var(--color-border)" }}>
+        <div className="flex flex-wrap items-start justify-between gap-x-2 gap-y-1 sm:block sm:self-start sm:pt-1 pdf:self-stretch! pdf:border-r pdf:border-border pdf:py-2.5!">
+          <span className="text-sm font-semibold sm:px-5 pdf:block" style={{ color: "var(--color-secondary)" }}>{addon.title}</span>
           {/* Mobile: price shown inline after title */}
           <span className="text-right text-sm sm:hidden" style={{ color: "var(--color-text-muted)" }}>
             <span className="text-slate-400 line-through">${(Math.round((addon.pricePerUnit || 0) * 1.1)).toLocaleString()}</span>
@@ -933,13 +967,13 @@ sectionMap["addons"] = () => addons.length > 0 ? <section id="addons" className=
           </span>
         </div>
         {/* Description column */}
-        <div className="sm:px-5">
-          <span className="text-sm" style={{ color: "var(--color-text-muted)" }}>{addon.description || "\u2014"}</span>
+        <div className="sm:px-5 pdf:border-r pdf:border-border pdf:py-2.5">
+          <span className="text-sm pdf:block" style={{ color: "var(--color-text-muted)" }}>{addon.description || "\u2014"}</span>
         </div>
         {/* Price column (desktop only) */}
-        <div className="flex items-start justify-end whitespace-nowrap sm:px-5">
+        <div className="flex items-start justify-end whitespace-nowrap sm:px-5 pdf:py-2.5">
           <span className="hidden text-right text-sm sm:block" style={{ color: "var(--color-text-muted)" }}>
-            <span className="text-slate-400 line-through">${(Math.round((addon.pricePerUnit || 0) * 1.1)).toLocaleString()}</span>
+            <span className="text-slate-400 line-through pdf:hidden">${(Math.round((addon.pricePerUnit || 0) * 1.1)).toLocaleString()}</span>
             &nbsp;
             <span className="font-bold" style={{ color: "var(--color-primary)" }}>
               ${addon.pricePerUnit?.toLocaleString()}
@@ -954,7 +988,7 @@ sectionMap["addons"] = () => addons.length > 0 ? <section id="addons" className=
 // With no route file uploaded, TrekMap shows the admin's static map image
 // instead of the interactive map — waypoint pins aren't rendered on it.
 const mapIsImageOnly = !trek.geoJsonUrl && !trek.geoJsonData && !!trek.staticMapImage;
-sectionMap["map"] = () => <section id="map" className="py-10 sm:py-12">
+sectionMap["map"] = () => <section id="map" className="py-10 sm:py-12" data-pdf-hide="">
   <Reveal className="mb-6 flex flex-wrap items-end justify-between gap-4">
     <div>
       <h2 className="mb-2 text-2xl font-bold" style={{ color: "var(--color-secondary)" }}>{sectionData.map?.heading || "Route Map"}</h2>
@@ -999,7 +1033,7 @@ sectionMap["reviews"] = () => {
   );
   const maxCount = Math.max(...ratingCounts, 1);
 
-  return <section id="reviews" className="py-10 sm:py-12">
+  return <section id="reviews" className="py-10 sm:py-12" data-pdf-hide="">
     <Reveal as="h2" className="mb-6 text-2xl font-bold" style={{ color: "var(--color-secondary)" }}>Guest Reviews</Reveal>
 
     {avgRating > 0 && (
@@ -1066,19 +1100,24 @@ sectionMap["reviews"] = () => {
     </Reveal>
   </section>;
 };
-sectionMap["gallery"] = () => trek.galleryImages?.length > 0 ? <GallerySection
+sectionMap["gallery"] = () => trek.galleryImages?.length > 0 ? <div data-pdf-hide=""><GallerySection
                 images={trek.galleryImages}
                 heading={sectionData.gallery?.heading || "Gallery"}
                 description={sectionData.gallery?.description}
                 trekTitle={trek.title}
                 className="py-10 sm:py-12"
-              /> : null;
+              /></div> : null;
 
               // Add custom sections to the map (they have unique IDs from admin)
               for (const cs of customSections) {
                 if (cs.id) {
                   sectionMap[cs.id] = () => (
-                    <Reveal as="section" className="py-8 sm:py-10">
+                    <Reveal
+                      as="section"
+                      className="py-8 sm:py-10"
+                      // The blog links section is left out of the PDF export.
+                      data-pdf-hide={cs.data?.heading === GUIDES_HEADING ? "" : undefined}
+                    >
                       <h2 className="mb-4 text-2xl font-bold" style={{ color: "var(--color-secondary)" }}>{cs.data?.heading || "Custom Section"}</h2>
                       {cs.data?.content && <div className="rich-text text-base leading-relaxed" style={{ color: "var(--color-text)" }} dangerouslySetInnerHTML={{ __html: cs.data.content }} />}
                     </Reveal>
@@ -1141,7 +1180,7 @@ sectionMap["gallery"] = () => trek.galleryImages?.length > 0 ? <GallerySection
             })()}
 
             {/* Contact section — always present at the end of main content */}
-            <div id="contact" className="[&>section]:!px-0 [&>section>div]:!px-0">
+            <div id="contact" className="[&>section]:!px-0 [&>section>div]:!px-0" data-pdf-hide="">
               <ContactFormSection
                 heading={contactHeading}
                 description={contactDescription}
@@ -1175,7 +1214,7 @@ sectionMap["gallery"] = () => trek.galleryImages?.length > 0 ? <GallerySection
             )}
           </div>
           {/* ── SIDEBAR ── */}
-          <div className="hidden lg:block lg:col-span-1">
+          <div className="hidden lg:block lg:col-span-1" data-pdf-hide="">
             <div className="sticky top-24 space-y-6">
               <Reveal from="right">
               <PricingCalculator
@@ -1204,6 +1243,16 @@ sectionMap["gallery"] = () => trek.galleryImages?.length > 0 ? <GallerySection
         hasFixedDepartures={fixedDepartureDays.length > 0 || customStartDates.length > 0}
         hasGallery={(trek.galleryImages?.length ?? 0) > 0}
         sectionOrder={sectionOrderList}
+      />
+
+      <SharePdfButton
+        fileName={`${slug}.pdf`}
+        title={trek.title}
+        contactLabel={PDF_CONTACT_LABEL}
+        contactNumber={PDF_CONTACT_NUMBER}
+        contactUrl={`https://wa.me/${PDF_CONTACT_NUMBER.replace(/\D/g, "")}`}
+        website={SITE_URL}
+        location={PDF_LOCATION}
       />
 
     </GalleryProvider>

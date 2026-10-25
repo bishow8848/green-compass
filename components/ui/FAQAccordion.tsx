@@ -47,12 +47,14 @@ function FAQRow({ item, index, large }: { item: FAQItem; index: number; large: b
   return (
     <Disclosure
       defaultOpen={index === 0}
-      className="group relative rounded-2xl border border-border bg-surface transition-colors data-[state=open]:border-primary/30"
-      summaryClassName="flex cursor-pointer list-none items-start gap-4 rounded-2xl px-4 py-4 marker:content-none [&::-webkit-details-marker]:hidden"
+      // In the admin PDF export (lib/page-pdf.ts) each question is plain text: no card, marker or toggle.
+      className="group relative rounded-2xl border border-border bg-surface transition-colors data-[state=open]:border-primary/30 pdf:rounded-none pdf:border-0! pdf:bg-transparent!"
+      summaryClassName="flex cursor-pointer list-none items-start gap-4 rounded-2xl px-4 py-4 marker:content-none [&::-webkit-details-marker]:hidden pdf:px-0! pdf:pt-2! pdf:pb-1!"
       summary={(expanded) => (
         <>
           {/* Question number marker — swaps to a dot while open */}
           <span
+            data-pdf-hide=""
             className="relative z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border text-sm font-bold tabular-nums"
             style={{
               backgroundColor: "var(--color-surface)",
@@ -94,6 +96,7 @@ function FAQRow({ item, index, large }: { item: FAQItem; index: number; large: b
                 {item.question}
               </span>
               <m.span
+                data-pdf-hide=""
                 className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full"
                 style={{ backgroundColor: "var(--color-surface-alt)" }}
                 initial={false}
@@ -111,7 +114,7 @@ function FAQRow({ item, index, large }: { item: FAQItem; index: number; large: b
       )}
     >
       <div
-        className="ml-14 mr-4 mb-5 border-t pt-4"
+        className="ml-14 mr-4 mb-5 border-t pt-4 pdf:mx-0! pdf:border-t-0! pdf:pt-1!"
         style={{ borderColor: "var(--color-border)" }}
       >
         <p
@@ -141,7 +144,7 @@ export function FAQAccordion({
   const large = size === "lg";
 
   return (
-    <section id={id} className={`bg-background ${className || "py-16 sm:py-20"}`}>
+    <section id={id} className={`bg-background pdf:bg-transparent ${className || "py-16 sm:py-20"}`}>
       <div className={contained ? "mx-auto max-w-7xl px-4 sm:px-6 lg:px-8" : "w-full"}>
         {resolvedHeading && (
           <Reveal

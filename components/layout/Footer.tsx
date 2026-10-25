@@ -112,7 +112,7 @@ export async function Footer() {
   const bottomLinks: { label: string; href: string }[] = footer.bottomLinks || [];
 
   return (
-    <footer className="relative mt-12">
+    <footer className="relative mt-12" data-pdf-hide="">
       {/* ── Partners Strip ── */}
       <div className="bg-background py-14 text-center sm:py-16">
         <Stagger>

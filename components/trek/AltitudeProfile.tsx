@@ -178,7 +178,7 @@ export function AltitudeProfile({ itinerary, fullscreen }: AltitudeProfileProps)
           <m.svg
             variants={traceVariants}
             // An untraced chart must still print.
-            className="absolute inset-0 pointer-events-none print:[clip-path:none]!"
+            className="absolute inset-0 pointer-events-none print:[clip-path:none]! pdf:[clip-path:none]!"
             viewBox="0 0 100 100"
             preserveAspectRatio="none"
             style={{ width: "100%", height: "100%" }}

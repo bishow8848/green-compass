@@ -44,7 +44,8 @@ const nextConfig: NextConfig = {
               "img-src 'self' data: blob: https://res.cloudinary.com https://*.mapbox.com https://server.arcgisonline.com https://s3.amazonaws.com",
               "font-src 'self' data:",
               "worker-src 'self' blob:",
-              "connect-src 'self' https://*.upstash.io https://*.prisma.io https://*.sentry.io https://api.mapbox.com https://events.mapbox.com https://api.stripe.com https://server.arcgisonline.com https://s3.amazonaws.com",
+              // res.cloudinary.com: the admin PDF export fetches page images to embed them.
+              "connect-src 'self' https://res.cloudinary.com https://*.upstash.io https://*.prisma.io https://*.sentry.io https://api.mapbox.com https://events.mapbox.com https://api.stripe.com https://server.arcgisonline.com https://s3.amazonaws.com",
               "frame-src https://js.stripe.com https://hooks.stripe.com https://www.google.com",
               "upgrade-insecure-requests",
             ].join("; "),
