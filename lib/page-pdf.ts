@@ -262,7 +262,13 @@ async function capturePage(
     const rect = root.getBoundingClientRect();
     const width = Math.round(rect.width);
     const height = Math.ceil(rect.height);
-    const { boxes, links } = measure(root, width);
+    const { boxes, links, marked } = measure(root, width);
+    undo.push(() => {
+      for (const element of marked) {
+        element.removeAttribute(ONE_LINE);
+        element.removeAttribute(ONE_ROW);
+      }
+    });
 
     const svg = await domToForeignObjectSvg(root, {
       width,
@@ -272,7 +278,10 @@ async function capturePage(
       // with the browser's default 8px and shift the whole page right.
       style: { margin: "0" },
       filter: (node) => !(node instanceof Element) || !isLeftOut(node),
-      onCloneEachNode: clearRevealLeftovers,
+      onCloneEachNode: (cloned) => {
+        clearRevealLeftovers(cloned);
+        keepLines(cloned);
+      },
     });
     return { svg, width, height, boxes, links };
   } finally {
@@ -316,6 +325,27 @@ function clearRevealLeftovers(cloned: Node) {
   }
 }
 
+/** Set by measure on what lay on one line on screen, for keepLines. */
+const ONE_LINE = "data-pdf-one-line";
+/** Set by measure on a wrapping flex container whose items lay in one row on screen, for keepLines. */
+const ONE_ROW = "data-pdf-one-row";
+
+/**
+ * The capture lays the page out again inside the SVG, at 100% zoom, with
+ * every box held at the size it measured on screen. In a browser zoomed to
+ * anything else, text and gaps come out a fraction of a pixel wider there
+ * (glyph widths are hinted for the size they are drawn at, and lengths snap
+ * to a 1/64px grid). A heading, label or row of chips sized to fit its
+ * content then pushes its last word or chip onto a second line, which prints
+ * over whatever follows. What lay on one line on screen keeps to one line in
+ * the capture, overflowing by that fraction of a pixel instead.
+ */
+function keepLines(cloned: Node) {
+  if (!(cloned instanceof HTMLElement)) return;
+  if (cloned.hasAttribute(ONE_LINE)) cloned.style.setProperty("text-wrap-mode", "nowrap");
+  if (cloned.hasAttribute(ONE_ROW)) cloned.style.setProperty("flex-wrap", "nowrap");
+}
+
 /** Lazy images below the fold haven't loaded yet: load the ones shown, waiting up to 15s. */
 async function loadImages(root: HTMLElement) {
   const images = Array.from(root.querySelectorAll("img")).filter((image) => image.getClientRects().length > 0);
@@ -328,43 +358,85 @@ async function loadImages(root: HTMLElement) {
 
 /**
  * The vertical extent of every element and line of text, and every link, in
- * px from the top of the page — what page breaks are chosen around.
+ * px from the top of the page — what page breaks are chosen around. Also
+ * marks what lies on one line, and wrapping flex rows whose items lie in one
+ * row, for keepLines, and returns the marked elements.
  */
 function measure(root: HTMLElement, width: number) {
   const origin = root.getBoundingClientRect();
   const boxes: Box[] = [];
   const links: LinkBox[] = [];
+  const marked: Element[] = [];
+  // Each line of text and each image or icon, in page order, and the run of
+  // them inside each element.
+  const inline: DOMRect[] = [];
+  const runs: Array<[element: Element, first: number, end: number]> = [];
   const range = document.createRange();
-  const walker = document.createTreeWalker(root, NodeFilter.SHOW_ELEMENT | NodeFilter.SHOW_TEXT, {
-    acceptNode: (node) =>
-      node instanceof Element && isLeftOut(node) ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT,
-  });
 
-  for (let node = walker.nextNode(); node; node = walker.nextNode()) {
+  const visit = (node: Node) => {
     if (node instanceof Text) {
-      if (!node.data.trim()) continue;
+      if (!node.data.trim()) return;
       range.selectNodeContents(node);
       for (const line of range.getClientRects()) {
-        if (line.height) boxes.push({ top: line.top - origin.top, bottom: line.bottom - origin.top });
+        if (!line.height) continue;
+        boxes.push({ top: line.top - origin.top, bottom: line.bottom - origin.top });
+        inline.push(line);
       }
-      continue;
+      return;
+    }
+    if (!(node instanceof Element) || isLeftOut(node)) return;
+
+    const rect = node.getBoundingClientRect();
+    if (rect.width && rect.height) {
+      const top = rect.top - origin.top;
+      boxes.push({ top, bottom: top + rect.height });
+      // A heading stays on the same page as the start of what it introduces.
+      if (/^H[1-4]$/.test(node.tagName)) {
+        boxes.push({ top, bottom: top + rect.height + KEEP_WITH_HEADING });
+      }
+
+      const x = rect.left - origin.left;
+      if (node instanceof HTMLAnchorElement && /^(https?|mailto|tel):/.test(node.href) && x < width && x + rect.width > 0) {
+        links.push({ x, y: top, width: rect.width, height: rect.height, url: node.href });
+      }
+      if (node instanceof HTMLImageElement || node instanceof SVGSVGElement) inline.push(rect);
     }
 
-    const rect = (node as Element).getBoundingClientRect();
-    if (!rect.width || !rect.height) continue;
-    const top = rect.top - origin.top;
-    boxes.push({ top, bottom: top + rect.height });
-    // A heading stays on the same page as the start of what it introduces.
-    if (/^H[1-4]$/.test((node as Element).tagName)) {
-      boxes.push({ top, bottom: top + rect.height + KEEP_WITH_HEADING });
+    if (inOneRow(node)) {
+      node.setAttribute(ONE_ROW, "");
+      marked.push(node);
     }
+    const first = inline.length;
+    for (const child of node.childNodes) visit(child);
+    runs.push([node, first, inline.length]);
+  };
+  for (const child of root.childNodes) visit(child);
 
-    const x = rect.left - origin.left;
-    if (node instanceof HTMLAnchorElement && /^(https?|mailto|tel):/.test(node.href) && x < width && x + rect.width > 0) {
-      links.push({ x, y: top, width: rect.width, height: rect.height, url: node.href });
+  // Something starts a new line when it sits more than half its height above
+  // or below the thing before it. breaks[i] counts the new lines up to inline[i].
+  const breaks = [0];
+  for (let i = 1; i < inline.length; i++) {
+    const [before, after] = [inline[i - 1], inline[i]];
+    const newLine = Math.abs(after.top - before.top) > Math.min(before.height, after.height) / 2;
+    breaks.push(breaks[i - 1] + (newLine ? 1 : 0));
+  }
+  for (const [element, first, end] of runs) {
+    if (end > first && breaks[end - 1] === breaks[first]) {
+      element.setAttribute(ONE_LINE, "");
+      marked.push(element);
     }
   }
-  return { boxes, links };
+  return { boxes, links, marked };
+}
+
+/** A wrapping flex row whose items all share one row: each overlaps the one before it vertically. */
+function inOneRow(element: Element) {
+  const { display, flexWrap, flexDirection } = getComputedStyle(element);
+  if (!display.endsWith("flex") || flexWrap === "nowrap" || flexDirection.startsWith("column")) return false;
+  const items = Array.from(element.children)
+    .filter((item) => !isLeftOut(item) && getComputedStyle(item).position !== "absolute")
+    .map((item) => item.getBoundingClientRect());
+  return items.length > 1 && items.every((item, i) => i === 0 || (item.top < items[i - 1].bottom && items[i - 1].top < item.bottom));
 }
 
 /**
