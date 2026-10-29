@@ -7,6 +7,8 @@ import { Footer } from "@/components/layout/Footer";
 import { SessionProvider } from "@/components/layout/SessionProvider";
 import { ScrollToTop } from "@/components/layout/ScrollToTop";
 import { FloatingButtons } from "@/components/layout/FloatingButtons";
+import { NavigationLoader } from "@/components/layout/NavigationLoader";
+import { PageLoading } from "@/components/loading/PageLoading";
 import { MotionProvider, PageTransition } from "@/components/motion";
 import { prisma } from "@/lib/prisma";
 import { getCachedOrFetch, cacheKeys, CACHE_TTL } from "@/lib/redis";
@@ -352,6 +354,10 @@ export default async function RootLayout({
             <Footer />
             <Analytics />
             <FloatingButtons />
+            {/* Server-rendered here, so the loading screen adds no JavaScript. */}
+            <NavigationLoader>
+              <PageLoading />
+            </NavigationLoader>
           </MotionProvider>
         </SessionProvider>
       </body>

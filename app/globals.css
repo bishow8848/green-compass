@@ -445,10 +445,11 @@ main {
 /* The admin "Share as PDF" export (lib/page-pdf.ts) captures the page finished:
    every reveal landed, every itinerary day and FAQ open, no divider lines, and
    everything marked data-pdf-hide (site header and footer, booking sidebar,
-   map, gallery, reviews, forms) gone. The page is laid out 680px wide, which
-   fits the A4 page between its margins at natural print size (14px text ≈
-   10.5pt), on white to match the margins, with sections spaced for paper. */
-.pdf-capture body { max-width: 680px; background: #ffffff; }
+   map, gallery, reviews, forms) gone. The page is laid out 680px wide on any
+   screen, a phone's too, which fits the A4 page between its margins at
+   natural print size (14px text ≈ 10.5pt), on white to match the margins,
+   with sections spaced for paper. */
+.pdf-capture body { width: 680px; background: #ffffff; }
 .pdf-capture main section:not(#hero) { padding-block: 24px; }
 .pdf-capture [data-reveal] { opacity: 1 !important; transform: none !important; }
 .pdf-capture details[data-state] > div { height: auto !important; opacity: 1 !important; }

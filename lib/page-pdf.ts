@@ -26,6 +26,8 @@ const RENDER_WIDTH = 1600;
 const JPEG_QUALITY = 0.85;
 /** How much of what follows a heading (CSS px) must share its page. */
 const KEEP_WITH_HEADING = 120;
+/** Window width (CSS px) a narrower screen's export is laid out for: a desktop's, with every breakpoint on. */
+const DESKTOP_WIDTH = 1280;
 
 interface Box {
   top: number;
@@ -74,10 +76,9 @@ export async function downloadPagePdf(options: PdfOptions): Promise<void> {
   const { svg, width, height, boxes, links } = await capturePage(domToForeignObjectSvg);
   const image = await loadSvg(svg);
 
-  // A wide page is scaled down to fit inside the margins. A narrow one (a
-  // phone layout) keeps its natural size in a centred column instead of being
-  // blown up to fill the width, which would leave a screenful of oversized
-  // text per page.
+  // The page is captured 680px wide on any screen (.pdf-capture in
+  // globals.css), which at natural print size fills the width between the
+  // margins. It is scaled down if ever wider, and never blown up.
   const area = { width: A4.width - 2 * MARGIN.side, height: A4.height - MARGIN.top - MARGIN.bottom };
   const mm = Math.min(area.width / width, MM_PER_CSS_PX);
   const left = (A4.width - width * mm) / 2;
@@ -245,6 +246,9 @@ async function capturePage(
     html.classList.add("pdf-capture");
     undo.push(() => html.classList.remove("pdf-capture"));
 
+    // A phone or tablet gets the desktop layout, so the PDF is the same from any screen.
+    if (window.innerWidth < DESKTOP_WIDTH) undo.push(layOutAsDesktop());
+
     // Collapsed itinerary days and FAQs can't be clicked open on paper.
     for (const details of document.querySelectorAll<HTMLDetailsElement>("main details:not([open])")) {
       details.open = true;
@@ -288,6 +292,64 @@ async function capturePage(
     for (const step of undo.reverse()) step();
     window.scrollTo({ top: scrollY, behavior: "instant" });
   }
+}
+
+/**
+ * Makes every media query on the window's width answer as it would
+ * DESKTOP_WIDTH wide (Tailwind's sm: to xl: on, max-*: off), and returns what
+ * puts them back. The capture copies each element's computed style, so it
+ * comes out laid out as on a desktop whatever the window's real width.
+ */
+function layOutAsDesktop(): () => void {
+  const changed: Array<[media: MediaList, text: string]> = [];
+  const visit = (rules: CSSRuleList) => {
+    for (const rule of rules) {
+      if (rule instanceof CSSMediaRule) {
+        const holds = holdsOnDesktop(rule.media.mediaText);
+        if (holds !== null) {
+          changed.push([rule.media, rule.media.mediaText]);
+          rule.media.mediaText = holds ? "all" : "not all";
+        }
+      }
+      // Media rules nest inside layers, other media rules and (in Tailwind's output) style rules.
+      if ("cssRules" in rule) visit(rule.cssRules as CSSRuleList);
+    }
+  };
+  for (const sheet of document.styleSheets) {
+    try {
+      visit(sheet.cssRules);
+    } catch {
+      // A stylesheet from another origin can't be read, and is left as it is.
+    }
+  }
+  return () => {
+    for (const [media, text] of changed) media.mediaText = text;
+  };
+}
+
+const WIDTH_TEST = /^\(\s*(min-width\s*:|max-width\s*:|width\s*(?:>=|<=|>|<))\s*([\d.]+)(px|r?em)\s*\)$/i;
+
+/**
+ * Whether a media query on the window's width alone, such as Tailwind's
+ * `(width >= 64rem)`, holds DESKTOP_WIDTH wide; null for any other query
+ * (print, hover, reduced motion...), which is left alone.
+ */
+function holdsOnDesktop(query: string): boolean | null {
+  let holds = true;
+  for (const part of query.trim().split(/\s+and\s+/i)) {
+    if (/^(only\s+)?(all|screen)$/i.test(part)) continue;
+    const match = WIDTH_TEST.exec(part);
+    if (!match) return null;
+    const [, test, value, unit] = match;
+    // A media query's rem and em are the browser's default 16px.
+    const limit = Number(value) * (unit.toLowerCase() === "px" ? 1 : 16);
+    const sign = /^min/i.test(test) ? ">=" : /^max/i.test(test) ? "<=" : test.replace(/^width\s*/i, "");
+    if (sign === ">=") holds &&= DESKTOP_WIDTH >= limit;
+    else if (sign === "<=") holds &&= DESKTOP_WIDTH <= limit;
+    else if (sign === ">") holds &&= DESKTOP_WIDTH > limit;
+    else holds &&= DESKTOP_WIDTH < limit;
+  }
+  return holds;
 }
 
 /**
