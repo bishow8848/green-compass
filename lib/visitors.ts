@@ -11,7 +11,8 @@ import { redis, tryRedis, CACHE_SITE_KEY } from "@/lib/redis";
  *   several days are the count of those days' logs together, so someone who
  *   came back on three days counts once.
  * - A hash per day counts page views, visits and engaged visits by hour, views
- *   by page, visits by entry page and referring site, and each visit once
+ *   by page, visits by entry page and referring site (or a tagged link's
+ *   source), and each visit once
  *   under a single field naming its device, browser, system, new or returning
  *   visitor, channel and country. One field per visit keeps the write to one
  *   command; the report splits them back apart.
@@ -38,6 +39,8 @@ export type RangeDays = (typeof RANGES)[number];
 /** Minutes in the live chart. */
 export const LIVE_MINUTES = 30;
 const TOP = 10;
+/** Pages listed, all of them in practice: a bound for the report's size. */
+const ALL_PAGES = 500;
 const TOP_COUNTRIES = 8;
 
 export const DEVICES = ["desktop", "mobile", "tablet"] as const;
@@ -55,7 +58,7 @@ const dayVisitorsKey = (day: string) => `${PREFIX}day:${day}:visitors`;
 const hourVisitorsKey = (day: string, hour: string) => `${PREFIX}day:${day}:visitors:${hour}`;
 /**
  * Fields: views:<HH>, visits:<HH>, engaged:<HH>, page:<path>, entry:<path>,
- * ref:<host>, and visit:<device>|<browser>|<system>|<new|returning>|<channel>|<CC>.
+ * ref:<site or tagged source>, and visit:<device>|<browser>|<system>|<new|returning>|<channel>|<CC>.
  */
 const statsKey = (day: string) => `${PREFIX}day:${day}:stats`;
 /** Fields: <HHMM>, page views in that minute. */
@@ -80,23 +83,67 @@ function nepalClock(time: number) {
   return { day: nepalDate.format(time), hour, minute };
 }
 
-// AI assistants come first: Gemini lives on google.com.
-const SOURCE_HOSTS: Array<[Source, RegExp]> = [
-  ["ai", /(^|\.)(chatgpt\.com|openai\.com|perplexity\.ai|claude\.ai|gemini\.google\.com|copilot\.microsoft\.com|deepseek\.com)$/],
-  ["search", /(^|\.)(google|bing|duckduckgo|yahoo|baidu|yandex|ecosia|naver|brave|startpage)\.[a-z.]+$/],
-  ["social", /(^|\.)(facebook\.com|fb\.com|instagram\.com|t\.co|twitter\.com|x\.com|linkedin\.com|lnkd\.in|pinterest\.[a-z.]+|youtube\.com|reddit\.com|tiktok\.com|whatsapp\.com|threads\.net)$/],
+/**
+ * Channels, by the host of the site that sent a visit and by the name a tagged
+ * link may give instead (utm_source=facebook). AI assistants come first:
+ * Gemini lives on google.com. Search is the engines' own pages, not Google's
+ * mail or sign-in.
+ */
+const CHANNELS: Array<[Source, host: RegExp, name: RegExp]> = [
+  [
+    "ai",
+    /(^|\.)(chatgpt\.com|openai\.com|perplexity\.ai|claude\.ai|gemini\.google\.com|copilot\.microsoft\.com|copilot\.com|deepseek\.com|grok\.com|meta\.ai|mistral\.ai)$/,
+    /^(chatgpt|openai|perplexity|claude|gemini|copilot|deepseek|grok)$/,
+  ],
+  [
+    "search",
+    /^([a-z]{1,2}\.)?(search\.)?(google|bing|duckduckgo|yahoo|baidu|yandex|ecosia|naver|brave|startpage|qwant)\.[a-z]{2,3}(\.[a-z]{2})?$/,
+    /^(google|bing|duckduckgo|yahoo|baidu|yandex|ecosia|naver|brave|startpage|qwant)$/,
+  ],
+  [
+    "social",
+    /(^|\.)(facebook\.com|fb\.com|messenger\.com|instagram\.com|t\.co|twitter\.com|x\.com|linkedin\.com|lnkd\.in|pinterest\.[a-z.]+|youtube\.com|reddit\.com|tiktok\.com|whatsapp\.com|threads\.net|t\.me|telegram\.org)$/,
+    /^(facebook|fb|messenger|instagram|ig|twitter|x|linkedin|pinterest|youtube|reddit|tiktok|whatsapp|threads|telegram)$/,
+  ],
 ];
 
-/** A referring host without its www., lower case. */
-export function bareHost(host: string): string {
-  return host.toLowerCase().replace(/^www\./, "");
+/** Android apps give their package as the referrer's host. */
+const APPS: Record<string, string> = {
+  "com.google.android.googlequicksearchbox": "google.com",
+  "com.google.android.gm": "mail.google.com",
+  "com.openai.chatgpt": "chatgpt.com",
+  "com.facebook.katana": "facebook.com",
+  "com.facebook.orca": "messenger.com",
+  "com.instagram.android": "instagram.com",
+  "com.linkedin.android": "linkedin.com",
+  "com.twitter.android": "x.com",
+  "com.reddit.frontpage": "reddit.com",
+  "com.whatsapp": "whatsapp.com",
+  "org.telegram.messenger": "telegram.org",
+};
+
+/**
+ * The site a referrer stands for, lower case: its host without www., m. and
+ * the like, so m.facebook.com and l.facebook.com are both facebook.com, and an
+ * Android app as its site.
+ */
+export function referringSite(host: string): string {
+  const lower = host.toLowerCase();
+  if (APPS[lower]) return APPS[lower];
+  const bare = lower.replace(/^(www|m|l|lm|mobile|mbasic)\./, "");
+  return bare.includes(".") ? bare : lower;
 }
 
-/** Where a visit came from, by the host that sent it; none, or this site itself, is direct. */
-export function sourceOf(referrerHost: string, siteHost: string): Source {
-  const host = bareHost(referrerHost);
-  if (!host || host === bareHost(siteHost)) return "direct";
-  return SOURCE_HOSTS.find(([, pattern]) => pattern.test(host))?.[0] ?? "other";
+/**
+ * Where a visit came from: `from` is the host that linked here, or what a
+ * tagged link names as its source, a host or a name. None, or this site
+ * itself, is direct.
+ */
+export function sourceOf(from: string, siteHost: string): Source {
+  const site = referringSite(from);
+  if (!site || site === referringSite(siteHost)) return "direct";
+  const byHost = site.includes(".");
+  return CHANNELS.find(([, host, name]) => (byHost ? host : name).test(site))?.[0] ?? "other";
 }
 
 /** The browser, from its user agent. Edge, Samsung and Opera also say Chrome, so they are asked first. */
@@ -133,7 +180,7 @@ export interface PageView {
     system: System;
     returning: boolean;
     source: Source;
-    /** The referring site's bare host, empty for a direct visit. */
+    /** The referring site (referringSite), or the source a tagged link names; empty for a direct visit. */
     referrer: string;
   };
 }
@@ -283,7 +330,7 @@ export interface RangeReport {
   pages: Count[];
   /** The page each visit started on, by visits. */
   entryPages: Count[];
-  /** Referring sites, by visits. */
+  /** Referring sites and tagged links' sources, by visits. */
   referrers: Count[];
   /** These five in their fixed orders, so each keeps its colour. */
   sources: Count[];
@@ -380,8 +427,8 @@ export async function visitorReport(now = Date.now()): Promise<VisitorReport | n
           : dayTotals(merge(dayStats.slice(count, 2 * count)), rangeVisitors[2 * r + 1]),
       series: count === 1 ? hourPoints(0) : dayPoints(0, count),
       previousSeries: count === 1 ? hourPoints(1) : dayPoints(count, count),
-      pages: ranked(stats, "page:").slice(0, TOP),
-      entryPages: ranked(stats, "entry:").slice(0, TOP),
+      pages: ranked(stats, "page:").slice(0, ALL_PAGES),
+      entryPages: ranked(stats, "entry:").slice(0, ALL_PAGES),
       referrers: ranked(stats, "ref:").slice(0, TOP),
       sources: tally(SOURCES, 4),
       devices: tally(DEVICES, 0),

@@ -22,9 +22,15 @@ export default async function AdminVisitorsPage() {
         <p>
           <span className="font-semibold text-slate-500">Visitors</span> are browsers, each counted once however many
           pages it opens or days it comes back within a range. A <span className="font-semibold text-slate-500">visit</span>{" "}
-          starts with the first page someone opens after 30 minutes away; the{" "}
+          starts with the first page someone opens after 30 minutes away, or when they arrive from a different site; the{" "}
           <span className="font-semibold text-slate-500">bounce rate</span> is the share of visits that saw only one page.
-          Admins, search-engine bots and the admin panel aren&apos;t counted.
+          Bots and the admin panel aren&apos;t counted, nor is any browser an admin has signed in on, even after signing
+          out: to see your own visit counted, use a private window.
+        </p>
+        <p>
+          <span className="font-semibold text-slate-500">Sources</span> come from the site that linked here, or from a
+          link&apos;s utm_source tag when there is one: ChatGPT adds utm_source=chatgpt.com to its links, and its apps
+          send no referrer.
         </p>
         {report?.countingSince && (
           <p>

@@ -54,7 +54,9 @@ vi.mock("@/lib/redis", () => ({
   tryRedis: async (_label: string, run: () => Promise<unknown>) => ({ ok: true, value: await run() }),
 }));
 
-import { browserOf, liveVisitors, nepalDays, recordVisit, sourceOf, systemOf, visitorReport, type PageView } from "@/lib/visitors";
+import {
+  browserOf, liveVisitors, nepalDays, recordVisit, referringSite, sourceOf, systemOf, visitorReport, type PageView,
+} from "@/lib/visitors";
 
 /** A time in Nepal (UTC+5:45) on the given day, at the given hour. */
 const nepal = (day: string, hour = 12) => new Date(Date.parse(`${day}T00:00:00Z`) + (hour * 60 - 345) * 60_000);
@@ -210,6 +212,15 @@ describe("visitor report", () => {
     expect(week.heatmap.cells.flat().reduce((a, b) => a + b, 0)).toBe(2);
   });
 
+  it("lists every page, not only the top ten", async () => {
+    vi.setSystemTime(nepal("2026-10-29"));
+    await recordVisit(A, landing());
+    for (let i = 0; i < 12; i++) await recordVisit(A, page(`/blog/post-${i}`));
+
+    const [today] = (await visitorReport())!.ranges;
+    expect(today.pages).toHaveLength(13);
+  });
+
   it("has no start date to report once the counts reach back past the longest range", async () => {
     vi.setSystemTime(nepal("2026-10-02"));
     await recordVisit(A, landing());
@@ -258,19 +269,39 @@ describe("where visits come from", () => {
     ["www.greencompasstreks.com", "direct"],
     ["www.google.com", "search"],
     ["www.google.co.uk", "search"],
+    ["www.google.com.np", "search"],
     ["com.google.android.googlequicksearchbox", "search"],
     ["search.brave.com", "search"],
+    ["r.search.yahoo.com", "search"],
     ["duckduckgo.com", "search"],
+    ["mail.google.com", "other"],
+    ["accounts.google.com", "other"],
     ["gemini.google.com", "ai"],
     ["chatgpt.com", "ai"],
+    ["com.openai.chatgpt", "ai"],
     ["www.perplexity.ai", "ai"],
     ["l.facebook.com", "social"],
+    ["com.facebook.katana", "social"],
     ["t.co", "social"],
     ["m.youtube.com", "social"],
     ["www.tripadvisor.com", "other"],
     ["notgoogle.example", "other"],
-  ])("%s is %s", (host, source) => {
-    expect(sourceOf(host, "greencompasstreks.com")).toBe(source);
+    // Tagged links' utm_source, a name rather than a host.
+    ["chatgpt", "ai"],
+    ["facebook", "social"],
+    ["google", "search"],
+    ["newsletter", "other"],
+  ])("%s is %s", (from, source) => {
+    expect(sourceOf(from, "greencompasstreks.com")).toBe(source);
+  });
+
+  it("names the site a referrer stands for", () => {
+    expect(referringSite("www.Google.com")).toBe("google.com");
+    expect(referringSite("m.facebook.com")).toBe("facebook.com");
+    expect(referringSite("l.facebook.com")).toBe("facebook.com");
+    expect(referringSite("com.google.android.googlequicksearchbox")).toBe("google.com");
+    expect(referringSite("t.co")).toBe("t.co");
+    expect(referringSite("chatgpt")).toBe("chatgpt");
   });
 });
 

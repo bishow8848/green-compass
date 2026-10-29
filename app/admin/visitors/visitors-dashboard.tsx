@@ -315,6 +315,7 @@ function RangeView({ range, live, countryName }: { range: RangeReport; live: Liv
                 unit="Views"
                 total={range.current.pageViews}
                 empty="No page views in this range yet."
+                more={{ limit: 5, title: `Top pages · ${period}`, noun: "pages" }}
                 rows={range.pages.map((p) => ({ key: p.key, label: pageLabel(p.key), count: p.count, href: p.key }))}
               />
             ),
@@ -324,6 +325,7 @@ function RangeView({ range, live, countryName }: { range: RangeReport; live: Liv
                 unit="Visits"
                 total={range.current.visits}
                 empty="No visits in this range yet."
+                more={{ limit: 5, title: `Entry pages · ${period}`, noun: "entry pages" }}
                 rows={range.entryPages.map((p) => ({ key: p.key, label: pageLabel(p.key), count: p.count, href: p.key }))}
               />
             ),
@@ -348,11 +350,17 @@ function RangeView({ range, live, countryName }: { range: RangeReport; live: Liv
             ),
             Referrers: (
               <BarRows
-                heading="Site that sent the visit"
+                heading="Site or link that sent the visit"
                 unit="Visits"
                 total={range.current.visits}
                 empty="No visits from other sites in this range yet."
-                rows={range.referrers.map((r) => ({ key: r.key, label: r.key, count: r.count, href: `https://${r.key}` }))}
+                rows={range.referrers.map((r) => ({
+                  key: r.key,
+                  label: r.key,
+                  count: r.count,
+                  // A tagged link may name its source rather than a site.
+                  href: r.key.includes(".") ? `https://${r.key}` : undefined,
+                }))}
               />
             ),
           }}

@@ -1,7 +1,7 @@
 "use client";
 
-import { useId, useLayoutEffect, useRef, useState } from "react";
-import { ArrowUpRight } from "lucide-react";
+import { useEffect, useId, useLayoutEffect, useRef, useState } from "react";
+import { ArrowUpRight, ChevronRight, Search, X } from "lucide-react";
 
 /**
  * The Visitors page's charts, drawn as plain SVG and HTML. Colours are the
@@ -417,50 +417,176 @@ export interface Row {
   other?: boolean;
 }
 
+interface RowsProps {
+  rows: Row[];
+  total: number;
+  heading: string;
+  unit: string;
+}
+
 /**
  * A ranked list, each row's bar showing its share of the top row, with the
- * value and its share of `total` at the end.
+ * value and its share of `total` at the end. With `more`, only the first
+ * `limit` rows show, and a button opens them all.
  */
-export function BarRows({ rows, total, heading, unit, empty }: { rows: Row[]; total: number; heading: string; unit: string; empty: string }) {
+export function BarRows({
+  rows,
+  total,
+  heading,
+  unit,
+  empty,
+  more,
+}: RowsProps & { empty: string; more?: { limit: number; title: string; noun: string } }) {
+  const [open, setOpen] = useState(false);
   const max = Math.max(0, ...rows.map((row) => row.count));
   if (max === 0) return <Empty text={empty} />;
+  const shown = more ? rows.slice(0, more.limit) : rows;
 
   return (
     <div>
-      <div className="mb-1.5 flex justify-between px-1 text-[11px] font-semibold uppercase tracking-wide text-slate-400">
-        <span>{heading}</span>
-        <span>{unit}</span>
-      </div>
-      <ul className="space-y-1">
-        {rows.map((row) => (
-          <li key={row.key} className="group relative flex h-9 items-center gap-3 overflow-hidden rounded-lg px-2.5">
-            <span
-              aria-hidden
-              className="absolute inset-y-0 left-0 rounded-lg transition-[width] duration-500"
-              style={{
-                width: `${Math.max((row.count / max) * 100, 1.5)}%`,
-                backgroundColor: row.other ? "rgba(148,163,184,0.18)" : "rgba(42,120,214,0.11)",
-              }}
-            />
-            <span className="relative flex min-w-0 flex-1 items-center gap-2 text-sm text-slate-700">
-              {row.prefix && <span aria-hidden className="text-base leading-none">{row.prefix}</span>}
-              {row.href ? (
-                <a href={row.href} target="_blank" rel="noreferrer" className="inline-flex min-w-0 items-center gap-1 hover:text-teal-700">
-                  <span className="truncate">{row.label}</span>
-                  <ArrowUpRight className="h-3 w-3 shrink-0 opacity-0 transition-opacity group-hover:opacity-100" />
-                </a>
-              ) : (
-                <span className="truncate">{row.label}</span>
-              )}
-            </span>
-            <span className="relative text-sm font-semibold tabular-nums text-slate-900">{formatCount(row.count)}</span>
-            <span className="relative w-10 text-right text-xs tabular-nums text-slate-400">
-              {total > 0 ? `${Math.round((row.count / total) * 100)}%` : ""}
-            </span>
-          </li>
-        ))}
-      </ul>
+      <RowsHeading heading={heading} unit={unit} />
+      <RowList rows={shown} max={max} total={total} />
+      {more && shown.length < rows.length && (
+        <>
+          <button
+            type="button"
+            onClick={() => setOpen(true)}
+            className="mt-3 inline-flex w-full items-center justify-center gap-1 rounded-xl border border-slate-200 py-2 text-xs font-semibold text-slate-600 transition-colors hover:border-teal-200 hover:bg-teal-50 hover:text-teal-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500"
+          >
+            View all {formatCount(rows.length)} {more.noun}
+            <ChevronRight className="h-3.5 w-3.5" aria-hidden />
+          </button>
+          {open && (
+            <RowsDialog title={more.title} rows={rows} max={max} total={total} heading={heading} unit={unit} onClose={() => setOpen(false)} />
+          )}
+        </>
+      )}
     </div>
+  );
+}
+
+function RowsHeading({ heading, unit, rank = false }: { heading: string; unit: string; rank?: boolean }) {
+  return (
+    <div className="mb-1.5 flex gap-3 px-2.5 text-[11px] font-semibold uppercase tracking-wide text-slate-400">
+      {rank && <span className="w-6 shrink-0 text-right">#</span>}
+      <span className="flex-1">{heading}</span>
+      <span>{unit}</span>
+      {/* Over the share column. */}
+      <span className="w-10" />
+    </div>
+  );
+}
+
+/** Rows ranked by count; `ranks` numbers them, by their place in the full list. */
+function RowList({ rows, max, total, ranks }: { rows: Row[]; max: number; total: number; ranks?: number[] }) {
+  return (
+    <ul className="space-y-1">
+      {rows.map((row, i) => (
+        <li key={row.key} className="group relative flex h-9 items-center gap-3 overflow-hidden rounded-lg px-2.5">
+          <span
+            aria-hidden
+            className="absolute inset-y-0 left-0 rounded-lg transition-[width] duration-500"
+            style={{
+              width: `${Math.max((row.count / max) * 100, 1.5)}%`,
+              backgroundColor: row.other ? "rgba(148,163,184,0.18)" : "rgba(42,120,214,0.11)",
+            }}
+          />
+          {ranks && <span className="relative w-6 shrink-0 text-right text-xs tabular-nums text-slate-400">{ranks[i]}</span>}
+          <span className="relative flex min-w-0 flex-1 items-center gap-2 text-sm text-slate-700">
+            {row.prefix && <span aria-hidden className="text-base leading-none">{row.prefix}</span>}
+            {row.href ? (
+              <a href={row.href} target="_blank" rel="noreferrer" title={row.label} className="inline-flex min-w-0 items-center gap-1 hover:text-teal-700">
+                <span className="truncate">{row.label}</span>
+                <ArrowUpRight className="h-3 w-3 shrink-0 opacity-0 transition-opacity group-hover:opacity-100" />
+              </a>
+            ) : (
+              <span className="truncate" title={row.label}>
+                {row.label}
+              </span>
+            )}
+          </span>
+          <span className="relative text-sm font-semibold tabular-nums text-slate-900">{formatCount(row.count)}</span>
+          <span className="relative w-10 text-right text-xs tabular-nums text-slate-400">
+            {total > 0 ? `${Math.round((row.count / total) * 100)}%` : ""}
+          </span>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+/** Every row, in a dialog with a search box. Escape, the close button or a click outside closes it. */
+function RowsDialog({
+  title,
+  rows,
+  max,
+  total,
+  heading,
+  unit,
+  onClose,
+}: RowsProps & { title: string; max: number; onClose: () => void }) {
+  const dialog = useRef<HTMLDialogElement>(null);
+  const search = useRef<HTMLInputElement>(null);
+  const [query, setQuery] = useState("");
+  useEffect(() => {
+    dialog.current?.showModal();
+    // Opening moves focus to the first button; the search box is where typing should go.
+    search.current?.focus();
+  }, []);
+
+  const words = query.trim().toLowerCase();
+  const found = rows.flatMap((row, i) => (row.label.toLowerCase().includes(words) ? [{ row, rank: i + 1 }] : []));
+
+  return (
+    <dialog
+      ref={dialog}
+      aria-label={title}
+      onClose={onClose}
+      onClick={(event) => event.target === dialog.current && dialog.current.close()}
+      className="m-auto w-[min(40rem,calc(100vw-2rem))] overflow-hidden rounded-2xl bg-white p-0 shadow-2xl backdrop:bg-slate-900/40 backdrop:backdrop-blur-sm"
+    >
+      <div className="flex max-h-[min(85vh,52rem)] flex-col">
+        <div className="flex items-start justify-between gap-3 border-b border-slate-100 px-5 py-4">
+          <div>
+            <h2 className="text-base font-bold text-slate-900">{title}</h2>
+            <p className="text-xs text-slate-500">
+              {formatCount(rows.length)} in all · {formatCount(total)} {unit.toLowerCase()}
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={() => dialog.current?.close()}
+            aria-label="Close"
+            className="rounded-lg p-1.5 text-slate-400 hover:bg-slate-100 hover:text-slate-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500"
+          >
+            <X className="h-4 w-4" />
+          </button>
+        </div>
+        <div className="px-5 pt-4">
+          <label className="relative block">
+            <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" aria-hidden />
+            <input
+              ref={search}
+              // Not type="search": its first Escape clears the box instead of closing the dialog.
+              type="text"
+              value={query}
+              onChange={(event) => setQuery(event.target.value)}
+              placeholder="Search"
+              aria-label={`Search ${title.toLowerCase()}`}
+              className="w-full rounded-xl border border-slate-200 py-2 pl-9 pr-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500/20"
+            />
+          </label>
+        </div>
+        <div className="min-h-0 flex-1 overflow-y-auto px-5 pb-5 pt-3">
+          <RowsHeading heading={heading} unit={unit} rank />
+          {found.length ? (
+            <RowList rows={found.map((f) => f.row)} ranks={found.map((f) => f.rank)} max={max} total={total} />
+          ) : (
+            <p className="py-10 text-center text-sm text-slate-400">Nothing matches &ldquo;{query.trim()}&rdquo;.</p>
+          )}
+        </div>
+      </div>
+    </dialog>
   );
 }
 

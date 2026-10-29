@@ -1,14 +1,17 @@
 import { NextRequest } from "next/server";
 import { hasTrustedOrigin } from "@/lib/request-security";
-import { DEVICES, bareHost, browserOf, recordVisit, sourceOf, systemOf, type Device } from "@/lib/visitors";
+import { DEVICES, browserOf, recordVisit, referringSite, sourceOf, systemOf, type Device } from "@/lib/visitors";
 
-/** Crawlers and audits that run the page's scripts: not visitors. */
-const BOT = /bot|crawl|spider|slurp|headless|lighthouse|pagespeed|prerender/i;
+/** Crawlers, audits, previews and monitors that run the page's scripts: not visitors. */
+const BOT =
+  /bot|crawl|spider|slurp|headless|lighthouse|pagespeed|prerender|google-|googleother|preview|ptst|gtmetrix|pingdom|uptime|monitor|phantomjs|selenium|puppeteer|playwright/i;
 /** The anonymous ID components/layout/VisitorTracker.tsx makes. */
 const VISITOR_ID = /^[a-f0-9]{32}$/;
 /** A pathname as the tracker sends it: no query string or #section. */
 const PATH = /^\/[^\s?#|]{0,199}$/;
 const HOST = /^[a-z0-9.-]{1,253}$/i;
+/** A tagged link's utm_source: a name or a host. */
+const TAG = /^[a-z0-9][a-z0-9._-]{0,59}$/;
 
 /**
  * A page view or a still-open ping from VisitorTracker. Always answers 204:
@@ -32,7 +35,11 @@ export async function POST(request: NextRequest) {
   // Set by Vercel from the visitor's IP; absent elsewhere.
   const country = request.headers.get("x-vercel-ip-country") ?? "";
   const referrer = typeof body.referrer === "string" && HOST.test(body.referrer) ? body.referrer : "";
-  const source = sourceOf(referrer, request.nextUrl.hostname);
+  const tag = typeof body.campaign === "string" ? body.campaign.toLowerCase() : "";
+  // A tagged link says where it was shared, even when the browser sends no
+  // referrer: ChatGPT adds utm_source=chatgpt.com, and its apps send none.
+  const from = TAG.test(tag) ? tag : referrer;
+  const source = sourceOf(from, request.nextUrl.hostname);
 
   await recordVisit(body.id, {
     path: body.path,
@@ -45,7 +52,7 @@ export async function POST(request: NextRequest) {
           system: systemOf(userAgent, device),
           returning: body.newVisitor !== true,
           source,
-          referrer: source === "direct" ? "" : bareHost(referrer),
+          referrer: source === "direct" ? "" : referringSite(from),
         }
       : undefined,
   });
