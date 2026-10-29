@@ -25,7 +25,7 @@ export function VisitorTracker() {
     if (process.env.NODE_ENV !== "production") return;
     if (status === "loading" || isAdmin || pathname.startsWith("/admin") || navigator.webdriver) return;
     const id = visitorId();
-    report(id, "view");
+    report(id, "view"); 
     const ping = setInterval(() => {
       if (document.visibilityState === "visible") report(id, "ping");
     }, PING_EVERY);
