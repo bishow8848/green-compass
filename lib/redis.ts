@@ -95,7 +95,7 @@ function redisAvailable(): boolean {
  * Run a Redis command behind the breaker. Never throws: a miss and a failure
  * are the same thing to every caller here, so both come back as `ok: false`.
  */
-async function tryRedis<T>(
+export async function tryRedis<T>(
   label: string,
   run: () => Promise<T>
 ): Promise<{ ok: true; value: T } | { ok: false }> {
@@ -154,7 +154,7 @@ function resolveCacheSiteKey(): string {
   }
 }
 
-const CACHE_SITE_KEY = resolveCacheSiteKey();
+export const CACHE_SITE_KEY = resolveCacheSiteKey();
 const CACHE_NAMESPACE = `mardi:cache:v2:${CACHE_SITE_KEY}:`;
 const NEXT_CACHE_TAG_NAMESPACE = `mardi-cache:${CACHE_SITE_KEY}:`;
 

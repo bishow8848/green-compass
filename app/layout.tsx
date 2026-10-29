@@ -8,6 +8,7 @@ import { SessionProvider } from "@/components/layout/SessionProvider";
 import { ScrollToTop } from "@/components/layout/ScrollToTop";
 import { FloatingButtons } from "@/components/layout/FloatingButtons";
 import { NavigationLoader } from "@/components/layout/NavigationLoader";
+import { VisitorTracker } from "@/components/layout/VisitorTracker";
 import { PageLoading } from "@/components/loading/PageLoading";
 import { MotionProvider, PageTransition } from "@/components/motion";
 import { prisma } from "@/lib/prisma";
@@ -353,6 +354,7 @@ export default async function RootLayout({
             </main>
             <Footer />
             <Analytics />
+            <VisitorTracker />
             <FloatingButtons />
             {/* Server-rendered here, so the loading screen adds no JavaScript. */}
             <NavigationLoader>
