@@ -1,12 +1,14 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-// An in-memory stand-in for the few Redis commands lib/visitors.ts uses. A
+// An in-memory stand-in for the Redis commands lib/visitors.ts uses. A
 // HyperLogLog is approximate; a Set gives the exact count it estimates.
 const fake = vi.hoisted(() => {
   const logs = new Map<string, Set<string>>();
-  const counters = new Map<string, number>();
+  const hashes = new Map<string, Record<string, number>>();
+  const strings = new Map<string, string>();
   const sorted = new Map<string, Map<string, number>>();
   const zset = (key: string) => sorted.get(key) ?? sorted.set(key, new Map()).get(key)!;
+  const inRange = (key: string, min: number) => [...zset(key)].filter(([, score]) => score >= min).map(([member]) => member);
 
   const pipeline = () => {
     const ops: Array<() => unknown> = [];
@@ -17,23 +19,31 @@ const fake = vi.hoisted(() => {
           for (const [member, score] of zset(key)) if (score >= min && score <= max) zset(key).delete(member);
         }),
         chain),
+      zcount: (key: string, min: number) => (ops.push(() => inRange(key, min).length), chain),
+      zrange: (key: string, min: number) => (ops.push(() => inRange(key, min)), chain),
+      set: (key: string, value: string) => (ops.push(() => strings.set(key, value)), chain),
       pfadd: (key: string, id: string) => (ops.push(() => (logs.get(key) ?? logs.set(key, new Set()).get(key)!).add(id)), chain),
-      incr: (key: string) => (ops.push(() => counters.set(key, (counters.get(key) ?? 0) + 1)), chain),
-      expire: () => (ops.push(() => 1), chain),
       pfcount: (...keys: string[]) => (ops.push(() => new Set(keys.flatMap((key) => [...(logs.get(key) ?? [])])).size), chain),
-      mget: (...keys: string[]) => (ops.push(() => keys.map((key) => counters.get(key) ?? null)), chain),
+      hincrby: (key: string, field: string, by: number) =>
+        (ops.push(() => {
+          const hash = hashes.get(key) ?? hashes.set(key, {}).get(key)!;
+          return (hash[field] = (hash[field] ?? 0) + by);
+        }),
+        chain),
+      hgetall: (key: string) => (ops.push(() => hashes.get(key) ?? null), chain),
+      hmget: (key: string, ...fields: string[]) =>
+        (ops.push(() => Object.fromEntries(fields.map((field) => [field, hashes.get(key)?.[field] ?? null]))), chain),
+      expire: () => (ops.push(() => 1), chain),
       exec: async () => ops.map((op) => op()),
     };
     return chain;
   };
 
   return {
-    logs,
-    counters,
-    sorted,
+    clear: () => [logs, hashes, strings, sorted].forEach((map) => map.clear()),
     redis: {
       pipeline,
-      zcount: async (key: string, min: number) => [...zset(key).values()].filter((score) => score >= min).length,
+      mget: async (...keys: string[]) => keys.map((key) => strings.get(key) ?? null),
     },
   };
 });
@@ -44,17 +54,34 @@ vi.mock("@/lib/redis", () => ({
   tryRedis: async (_label: string, run: () => Promise<unknown>) => ({ ok: true, value: await run() }),
 }));
 
-import { activeVisitors, nepalDays, recordVisit, visitorSummary } from "@/lib/visitors";
+import { browserOf, liveVisitors, nepalDays, recordVisit, sourceOf, systemOf, visitorReport, type PageView } from "@/lib/visitors";
 
-/** Noon in Nepal (06:15 UTC) on the given day. */
-const nepalNoon = (day: string) => new Date(`${day}T06:15:00.000Z`);
+/** A time in Nepal (UTC+5:45) on the given day, at the given hour. */
+const nepal = (day: string, hour = 12) => new Date(Date.parse(`${day}T00:00:00Z`) + (hour * 60 - 345) * 60_000);
+const A = "a".repeat(32);
+const B = "b".repeat(32);
+const C = "c".repeat(32);
 
-describe("visitor counts", () => {
+/** The first page of a visit. */
+const landing = (path = "/", extra: Partial<PageView> & Partial<NonNullable<PageView["visit"]>> = {}): PageView => ({
+  path,
+  country: extra.country ?? "NP",
+  device: extra.device ?? "mobile",
+  visit: {
+    browser: extra.browser ?? "chrome",
+    system: extra.system ?? "android",
+    returning: extra.returning ?? false,
+    source: extra.source ?? "search",
+    referrer: extra.referrer ?? "google.com",
+  },
+});
+/** A later page of a visit. */
+const page = (path: string, engaged = false): PageView => ({ path, country: "NP", device: "mobile", engaged });
+
+describe("visitor report", () => {
   beforeEach(() => {
     vi.useFakeTimers();
-    fake.logs.clear();
-    fake.counters.clear();
-    fake.sorted.clear();
+    fake.clear();
   });
   afterEach(() => vi.useRealTimers());
 
@@ -64,45 +91,214 @@ describe("visitor counts", () => {
     expect(nepalDays(3, Date.parse("2026-11-01T06:15:00Z"))).toEqual(["2026-11-01", "2026-10-31", "2026-10-30"]);
   });
 
-  it("counts a returning visitor once per range, and every page they view", async () => {
-    vi.setSystemTime(nepalNoon("2026-10-10"));
-    await recordVisit("a".repeat(32), "view"); // 19 days back: only in the 28-day range
-    vi.setSystemTime(nepalNoon("2026-10-25"));
-    await recordVisit("a".repeat(32), "view"); // 4 days back
-    await recordVisit("b".repeat(32), "view");
-    vi.setSystemTime(nepalNoon("2026-10-29"));
-    await recordVisit("a".repeat(32), "view");
-    await recordVisit("a".repeat(32), "view");
+  it("counts a returning visitor once per range, and every visit and page", async () => {
+    vi.setSystemTime(nepal("2026-10-10"));
+    await recordVisit(A, landing()); // 19 days back: only in the 28-day range
+    vi.setSystemTime(nepal("2026-10-25"));
+    await recordVisit(A, landing());
+    await recordVisit(B, landing("/contact"));
+    vi.setSystemTime(nepal("2026-10-29"));
+    await recordVisit(A, landing());
+    await recordVisit(A, page("/climbing", true));
 
-    const summary = await visitorSummary();
-    expect(summary?.ranges).toEqual([
-      { days: 1, visitors: 1, pageViews: 2 },
-      { days: 7, visitors: 2, pageViews: 4 },
-      { days: 14, visitors: 2, pageViews: 4 },
-      { days: 28, visitors: 2, pageViews: 5 },
+    const report = (await visitorReport())!;
+    expect(report.ranges.map(({ days, current }) => ({ days, ...current }))).toEqual([
+      { days: 1, visitors: 1, visits: 1, pageViews: 2, engaged: 1 },
+      { days: 7, visitors: 2, visits: 3, pageViews: 4, engaged: 1 },
+      { days: 14, visitors: 2, visits: 3, pageViews: 4, engaged: 1 },
+      { days: 28, visitors: 2, visits: 4, pageViews: 5, engaged: 1 },
     ]);
-    expect(summary?.countingSince).toBe("2026-10-10");
+    expect(report.countingSince).toBe("2026-10-10");
+    expect(report.ranges[1]).toMatchObject({ from: "2026-10-23", to: "2026-10-29" });
   });
 
-  it("keeps someone active while their page pings, without counting a page view", async () => {
-    vi.setSystemTime(nepalNoon("2026-10-29"));
-    await recordVisit("a".repeat(32), "view");
-    await recordVisit("b".repeat(32), "view");
-    expect(await activeVisitors()).toBe(2);
+  it("compares today with yesterday up to the same hour, and longer ranges with the days before", async () => {
+    vi.setSystemTime(nepal("2026-10-21", 9)); // 8 days back: the previous 7 days
+    await recordVisit(C, landing());
+    vi.setSystemTime(nepal("2026-10-28", 1));
+    await recordVisit(B, landing());
+    vi.setSystemTime(nepal("2026-10-28", 20)); // yesterday, but later than it is now
+    await recordVisit(C, landing());
+    vi.setSystemTime(nepal("2026-10-29", 1));
+    await recordVisit(A, landing());
+    vi.setSystemTime(nepal("2026-10-29", 3));
+    await recordVisit(A, page("/"));
+    await recordVisit(B, landing());
 
-    vi.advanceTimersByTime(4 * 60_000);
-    await recordVisit("a".repeat(32), "ping");
-    vi.advanceTimersByTime(2 * 60_000); // b was last heard from 6 minutes ago
-    expect(await activeVisitors()).toBe(1);
+    const [today, week] = (await visitorReport())!.ranges;
+    expect(today.series.map(({ at, visitors, pageViews }) => [at, visitors, pageViews])).toEqual([
+      ["00", 0, 0],
+      ["01", 1, 1],
+      ["02", 0, 0],
+      ["03", 2, 2],
+    ]);
+    expect(today.previousSeries.map(({ at, visitors }) => [at, visitors])).toEqual([
+      ["00", 0],
+      ["01", 1],
+      ["02", 0],
+      ["03", 0],
+    ]);
+    expect(today.previous).toEqual({ visitors: 1, visits: 1, pageViews: 1, engaged: 0 });
+    expect(week.series).toHaveLength(7);
+    expect(week.previousSeries).toHaveLength(7);
+    expect(week.previous).toMatchObject({ visitors: 1, visits: 1 });
+    expect(week.previousSeries.at(-1)).toMatchObject({ at: "2026-10-22", visitors: 0 });
+    expect(week.previousSeries.at(-2)).toMatchObject({ at: "2026-10-21", visitors: 1 });
+  });
 
-    expect((await visitorSummary())?.ranges[0]).toEqual({ days: 1, visitors: 2, pageViews: 2 });
+  it("splits each visit back into channel, device, browser, system, visitor and country", async () => {
+    vi.setSystemTime(nepal("2026-10-29"));
+    const countries = ["NP", "NP", "NP", "US", "US", "GB", "IN", "DE", "FR", "AU", "CN", "JP", "BR"];
+    for (const [i, country] of countries.entries()) {
+      await recordVisit(
+        String(i).padStart(32, "0"),
+        landing(i % 3 ? "/climbing" : "/", {
+          country,
+          device: i % 2 ? "desktop" : "mobile",
+          browser: i % 2 ? "edge" : "safari",
+          system: i % 2 ? "windows" : "ios",
+          returning: i < 4,
+          source: i % 4 ? "direct" : "ai",
+          referrer: i % 4 ? "" : "chatgpt.com",
+        })
+      );
+    }
+
+    const [today] = (await visitorReport())!.ranges;
+    const counts = (list: Array<{ key: string; count: number }>) => Object.fromEntries(list.map((c) => [c.key, c.count]));
+    expect(today.devices).toEqual([
+      { key: "desktop", count: 6 },
+      { key: "mobile", count: 7 },
+      { key: "tablet", count: 0 },
+    ]);
+    expect(counts(today.browsers)).toEqual({ chrome: 0, safari: 7, edge: 6, firefox: 0, samsung: 0, other: 0 });
+    expect(counts(today.systems)).toMatchObject({ ios: 7, windows: 6, android: 0 });
+    expect(today.visitorTypes).toEqual([
+      { key: "new", count: 9 },
+      { key: "returning", count: 4 },
+    ]);
+    expect(today.sources).toEqual([
+      { key: "search", count: 0 },
+      { key: "direct", count: 9 },
+      { key: "social", count: 0 },
+      { key: "ai", count: 4 },
+      { key: "other", count: 0 },
+    ]);
+    expect(today.referrers).toEqual([{ key: "chatgpt.com", count: 4 }]);
+    expect(today.pages).toEqual([
+      { key: "/climbing", count: 8 },
+      { key: "/", count: 5 },
+    ]);
+    expect(today.entryPages).toEqual(today.pages);
+    expect(today.countries).toHaveLength(9);
+    expect(today.countries.slice(0, 2)).toEqual([
+      { key: "NP", count: 3 },
+      { key: "US", count: 2 },
+    ]);
+    expect(today.countries[8]).toEqual({ key: "other", count: 2 });
+  });
+
+  it("maps page views onto weekdays and hours", async () => {
+    vi.setSystemTime(nepal("2026-10-27", 14)); // a Tuesday
+    await recordVisit(A, landing());
+    await recordVisit(A, page("/contact", true));
+    vi.setSystemTime(nepal("2026-10-29", 9)); // a Thursday
+
+    const [today, week] = (await visitorReport())!.ranges;
+    expect(today.heatmap.days).toBe(7);
+    expect(today.heatmap.cells[1][14]).toBe(2);
+    expect(week.heatmap.cells.flat().reduce((a, b) => a + b, 0)).toBe(2);
   });
 
   it("has no start date to report once the counts reach back past the longest range", async () => {
-    vi.setSystemTime(nepalNoon("2026-10-02"));
-    await recordVisit("a".repeat(32), "view");
-    vi.setSystemTime(nepalNoon("2026-10-29"));
+    vi.setSystemTime(nepal("2026-10-02"));
+    await recordVisit(A, landing());
+    vi.setSystemTime(nepal("2026-10-29"));
 
-    expect((await visitorSummary())?.countingSince).toBeNull();
+    expect((await visitorReport())?.countingSince).toBeNull();
+  });
+});
+
+describe("live visitors", () => {
+  beforeEach(() => {
+    vi.useFakeTimers();
+    fake.clear();
+  });
+  afterEach(() => vi.useRealTimers());
+
+  it("shows who was heard from in the last five minutes, where, and what they are reading", async () => {
+    vi.setSystemTime(nepal("2026-10-29", 10));
+    await recordVisit(A, landing("/", { country: "US", device: "desktop" }));
+    await recordVisit(B, landing("/climbing", { country: "NP" }));
+    vi.advanceTimersByTime(4 * 60_000);
+    await recordVisit(A); // a ping keeps A on the site
+    await recordVisit(C, landing("/climbing", { country: "NP" }));
+    vi.advanceTimersByTime(2 * 60_000); // B was last heard from 6 minutes ago
+
+    const live = (await liveVisitors())!;
+    expect(live.active).toBe(2);
+    expect(live.pages).toEqual([
+      { key: "/", count: 1 },
+      { key: "/climbing", count: 1 },
+    ]);
+    expect(live.devices).toEqual([
+      { key: "desktop", count: 1 },
+      { key: "mobile", count: 1 },
+      { key: "tablet", count: 0 },
+    ]);
+    expect(live.minutes).toHaveLength(30);
+    expect(live.minutes.slice(-7)).toEqual([2, 0, 0, 0, 1, 0, 0]);
+  });
+});
+
+describe("where visits come from", () => {
+  it.each([
+    ["", "direct"],
+    ["greencompasstreks.com", "direct"],
+    ["www.greencompasstreks.com", "direct"],
+    ["www.google.com", "search"],
+    ["www.google.co.uk", "search"],
+    ["com.google.android.googlequicksearchbox", "search"],
+    ["search.brave.com", "search"],
+    ["duckduckgo.com", "search"],
+    ["gemini.google.com", "ai"],
+    ["chatgpt.com", "ai"],
+    ["www.perplexity.ai", "ai"],
+    ["l.facebook.com", "social"],
+    ["t.co", "social"],
+    ["m.youtube.com", "social"],
+    ["www.tripadvisor.com", "other"],
+    ["notgoogle.example", "other"],
+  ])("%s is %s", (host, source) => {
+    expect(sourceOf(host, "greencompasstreks.com")).toBe(source);
+  });
+});
+
+describe("browsers and systems", () => {
+  const ua = {
+    chromeWindows: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36",
+    edge: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36 Edg/141.0.0.0",
+    safariIphone: "Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.0 Mobile/15E148 Safari/604.1",
+    chromeIphone: "Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/141.0 Mobile/15E148 Safari/604.1",
+    samsung: "Mozilla/5.0 (Linux; Android 14; SM-S918B) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/26.0 Chrome/122.0.0.0 Mobile Safari/537.36",
+    firefoxMac: "Mozilla/5.0 (Macintosh; Intel Mac OS X 14.5; rv:131.0) Gecko/20100101 Firefox/131.0",
+    ipadDesktop: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.0 Safari/605.1.15",
+  };
+
+  it("tells the browser apart, asking for those that also say Chrome first", () => {
+    expect(browserOf(ua.chromeWindows)).toBe("chrome");
+    expect(browserOf(ua.edge)).toBe("edge");
+    expect(browserOf(ua.safariIphone)).toBe("safari");
+    expect(browserOf(ua.chromeIphone)).toBe("chrome");
+    expect(browserOf(ua.samsung)).toBe("samsung");
+    expect(browserOf(ua.firefoxMac)).toBe("firefox");
+  });
+
+  it("tells the system apart, an iPad asking for desktop sites included", () => {
+    expect(systemOf(ua.chromeWindows, "desktop")).toBe("windows");
+    expect(systemOf(ua.safariIphone, "mobile")).toBe("ios");
+    expect(systemOf(ua.samsung, "mobile")).toBe("android");
+    expect(systemOf(ua.firefoxMac, "desktop")).toBe("macos");
+    expect(systemOf(ua.ipadDesktop, "tablet")).toBe("ios");
   });
 });

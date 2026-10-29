@@ -1,21 +1,53 @@
 import { NextRequest } from "next/server";
 import { hasTrustedOrigin } from "@/lib/request-security";
-import { recordVisit } from "@/lib/visitors";
+import { DEVICES, bareHost, browserOf, recordVisit, sourceOf, systemOf, type Device } from "@/lib/visitors";
 
 /** Crawlers and audits that run the page's scripts: not visitors. */
 const BOT = /bot|crawl|spider|slurp|headless|lighthouse|pagespeed|prerender/i;
 /** The anonymous ID components/layout/VisitorTracker.tsx makes. */
 const VISITOR_ID = /^[a-f0-9]{32}$/;
+/** A pathname as the tracker sends it: no query string or #section. */
+const PATH = /^\/[^\s?#|]{0,199}$/;
+const HOST = /^[a-z0-9.-]{1,253}$/i;
 
-/** A page view or a still-open ping from VisitorTracker. Always answers 204: there is nothing to tell the page. */
+/**
+ * A page view or a still-open ping from VisitorTracker. Always answers 204:
+ * there is nothing to tell the page.
+ */
 export async function POST(request: NextRequest) {
   const done = new Response(null, { status: 204 });
-  if (!hasTrustedOrigin(request) || BOT.test(request.headers.get("user-agent") ?? "")) return done;
+  const userAgent = request.headers.get("user-agent") ?? "";
+  if (!hasTrustedOrigin(request) || BOT.test(userAgent)) return done;
 
   const body = await request.json().catch(() => null);
-  const kind = body?.kind;
-  if (typeof body?.id !== "string" || !VISITOR_ID.test(body.id) || (kind !== "view" && kind !== "ping")) return done;
+  if (typeof body?.id !== "string" || !VISITOR_ID.test(body.id)) return done;
 
-  await recordVisit(body.id, kind);
+  if (body.kind === "ping") {
+    await recordVisit(body.id);
+    return done;
+  }
+  if (body.kind !== "view" || typeof body.path !== "string" || !PATH.test(body.path)) return done;
+
+  const device: Device = DEVICES.includes(body.device) ? body.device : "desktop";
+  // Set by Vercel from the visitor's IP; absent elsewhere.
+  const country = request.headers.get("x-vercel-ip-country") ?? "";
+  const referrer = typeof body.referrer === "string" && HOST.test(body.referrer) ? body.referrer : "";
+  const source = sourceOf(referrer, request.nextUrl.hostname);
+
+  await recordVisit(body.id, {
+    path: body.path,
+    country: /^[A-Z]{2}$/.test(country) ? country : "XX",
+    device,
+    engaged: body.engaged === true,
+    visit: body.visitStart
+      ? {
+          browser: browserOf(userAgent),
+          system: systemOf(userAgent, device),
+          returning: body.newVisitor !== true,
+          source,
+          referrer: source === "direct" ? "" : bareHost(referrer),
+        }
+      : undefined,
+  });
   return done;
 }
