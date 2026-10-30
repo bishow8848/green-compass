@@ -11,6 +11,7 @@ import {
   MessageCircle,
   ChevronRight,
 } from "lucide-react";
+import { Reveal, Stagger, StaggerItem } from "@/components/motion";
 
 const CLOUDINARY_BASE = `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/`;
 
@@ -111,53 +112,59 @@ export async function Footer() {
   const bottomLinks: { label: string; href: string }[] = footer.bottomLinks || [];
 
   return (
-    <footer className="relative mt-12">
+    <footer className="relative mt-12" data-pdf-hide="">
       {/* ── Partners Strip ── */}
       <div className="bg-background py-14 text-center sm:py-16">
-        <span
-          className="mb-2 inline-block text-[11px] font-bold uppercase tracking-[0.28em]"
-          style={{ color: "var(--color-primary)" }}
-        >
-          {trustedBadge}
-        </span>
-        <h3 className="mb-8 text-xl font-bold text-foreground">
-          {associatedHeading}
-        </h3>
+        <Stagger>
+          <StaggerItem
+            as="span"
+            className="mb-2 inline-block text-[11px] font-bold uppercase tracking-[0.28em]"
+            style={{ color: "var(--color-primary)" }}
+          >
+            {trustedBadge}
+          </StaggerItem>
+          <StaggerItem as="h3" className="mb-8 text-xl font-bold text-foreground">
+            {associatedHeading}
+          </StaggerItem>
+        </Stagger>
         <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-5 px-4">
-          {partners.map((partner) => {
+          {partners.map((partner, i) => {
             const partnerSrc = imgSrc(partner.src, 112);
 
             return (
-              <div
-                key={partner.name}
-                className={`group flex h-20 items-center justify-center rounded-2xl border border-border bg-surface p-3 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md ${
-                  partnerSrc ? "w-20 grayscale hover:grayscale-0" : "max-w-[170px] px-4"
-                }`}
-                style={{ borderColor: "var(--color-border)" }}
-              >
-                {partnerSrc ? (
-                  <img
-                    src={partnerSrc}
-                    alt={partner.name}
-                    width={56}
-                    height={56}
-                    className="h-14 w-14 object-contain transition-transform duration-300 group-hover:scale-105"
-                  />
-                ) : (
-                  // No logo uploaded for this accreditation yet — name it rather
-                  // than dropping the badge from the strip entirely.
-                  <span className="text-center text-xs font-semibold leading-tight text-foreground">
-                    {partner.name}
-                  </span>
-                )}
-              </div>
+              <Reveal key={partner.name} from="scale" delay={i * 0.05}>
+                <div
+                  className={`group flex h-20 items-center justify-center rounded-2xl border border-border bg-surface p-3 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md ${
+                    partnerSrc ? "w-20 grayscale hover:grayscale-0" : "max-w-[170px] px-4"
+                  }`}
+                  style={{ borderColor: "var(--color-border)" }}
+                >
+                  {partnerSrc ? (
+                    <img
+                      src={partnerSrc}
+                      alt={partner.name}
+                      width={56}
+                      height={56}
+                      className="h-14 w-14 object-contain transition-transform duration-300 group-hover:scale-105"
+                    />
+                  ) : (
+                    // No logo uploaded for this accreditation yet — name it rather
+                    // than dropping the badge from the strip entirely.
+                    <span className="text-center text-xs font-semibold leading-tight text-foreground">
+                      {partner.name}
+                    </span>
+                  )}
+                </div>
+              </Reveal>
             );
           })}
         </div>
       </div>
 
       {/* ── Mountain Banner SVG ── */}
-      <div
+      <Reveal
+        from="none"
+        duration={1.1}
         className="pointer-events-none h-[clamp(120px,14.2vw,272px)] overflow-hidden"
         aria-hidden="true"
       >
@@ -169,7 +176,7 @@ export async function Footer() {
           decoding="async"
           className="h-full w-full object-cover object-bottom"
         />
-      </div>
+      </Reveal>
 
       {/* ── Footer Main ── */}
       <div
@@ -178,9 +185,9 @@ export async function Footer() {
       >
         <div className="relative mx-auto max-w-7xl px-5 pb-8 pt-14 text-center sm:px-8 sm:text-left lg:px-10 lg:pt-20">
           {/* 2×2 on mobile, 4 columns on desktop */}
-          <div className="grid grid-cols-2 gap-x-5 gap-y-10 text-left sm:gap-x-10 sm:gap-y-12 lg:grid-cols-[1.3fr_1fr_1fr_1.2fr]">
+          <Stagger className="grid grid-cols-2 gap-x-5 gap-y-10 text-left sm:gap-x-10 sm:gap-y-12 lg:grid-cols-[1.3fr_1fr_1fr_1.2fr]">
             {/* Brand */}
-            <div className="min-w-0">
+            <StaggerItem className="min-w-0">
               <Link
                 href="/"
                 className="mb-5 inline-flex items-center gap-3"
@@ -218,10 +225,10 @@ export async function Footer() {
                   </span>
                 )}
               </Link>
-            </div>
+            </StaggerItem>
 
             {/* Activities */}
-            <div className="min-w-0">
+            <StaggerItem className="min-w-0">
               <h3
                 className="relative mb-6 inline-block text-sm font-bold uppercase tracking-[0.16em]"
                 style={{ color: "var(--color-footer-text)" }}
@@ -253,10 +260,10 @@ export async function Footer() {
                   </li>
                 ))}
               </ul>
-            </div>
+            </StaggerItem>
 
             {/* Company */}
-            <div className="min-w-0">
+            <StaggerItem className="min-w-0">
               <h3
                 className="relative mb-6 inline-block text-sm font-bold uppercase tracking-[0.16em]"
                 style={{ color: "var(--color-footer-text)" }}
@@ -284,10 +291,10 @@ export async function Footer() {
                   </li>
                 ))}
               </ul>
-            </div>
+            </StaggerItem>
 
             {/* Latest Blogs */}
-            <div className="min-w-0">
+            <StaggerItem className="min-w-0">
               <h3
                 className="relative mb-6 inline-block text-sm font-bold uppercase tracking-[0.16em]"
                 style={{ color: "var(--color-footer-text)" }}
@@ -315,11 +322,11 @@ export async function Footer() {
                   </li>
                 ))}
               </ul>
-            </div>
-          </div>
+            </StaggerItem>
+          </Stagger>
 
           {/* ── Recommended / Social Row ── */}
-          <div
+          <Reveal
             className="mt-12 flex flex-col items-center justify-center gap-6 border-t pt-6 sm:flex-row sm:flex-wrap sm:justify-between sm:gap-4"
             style={{ borderColor: "rgba(255,255,255,0.1)" }}
           >
@@ -395,166 +402,173 @@ export async function Footer() {
                 </div>
               </div>
             )}
-          </div>
+          </Reveal>
 
           {/* ── Info Cards ── */}
-          <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <Stagger className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {/* Card 1 — Contact Info */}
-            <div
-              className="group flex h-full flex-col items-stretch rounded-2xl p-6 text-left transition-all duration-300 hover:-translate-y-1"
-              style={{
-                backgroundColor: "rgba(255,255,255,0.06)",
-                border: "1px solid rgba(255,255,255,0.08)",
-              }}
-            >
-              <h4
-                className="mb-4 text-sm font-bold"
-                style={{ color: "var(--color-footer-text)" }}
+            <StaggerItem className="h-full">
+              <div
+                className="group flex h-full flex-col items-stretch rounded-2xl p-6 text-left transition-all duration-300 hover:-translate-y-1"
+                style={{
+                  backgroundColor: "rgba(255,255,255,0.06)",
+                  border: "1px solid rgba(255,255,255,0.08)",
+                }}
               >
-                {card1Title}
-              </h4>
-              <div className="space-y-3.5">
-                <div className="flex items-start justify-start gap-3 text-sm" style={{ color: "rgba(255,255,255,0.65)" }}>
-                  <span
-                    className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full"
-                    style={{ backgroundColor: "rgba(255,255,255,0.08)" }}
-                  >
-                    <MapPin className="h-3.5 w-3.5" style={{ color: "var(--color-primary)" }} />
-                  </span>
-                  <span className="pt-1">{address}</span>
-                </div>
-                <div className="flex items-start justify-start gap-3 text-sm" style={{ color: "rgba(255,255,255,0.65)" }}>
-                  <span
-                    className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full"
-                    style={{ backgroundColor: "rgba(255,255,255,0.08)" }}
-                  >
-                    <Mail className="h-3.5 w-3.5" style={{ color: "var(--color-primary)" }} />
-                  </span>
-                  <span className="pt-1">{email}</span>
-                </div>
-                <div className="flex items-start justify-start gap-3 text-sm" style={{ color: "rgba(255,255,255,0.65)" }}>
-                  <span
-                    className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full"
-                    style={{ backgroundColor: "rgba(255,255,255,0.08)" }}
-                  >
-                    <Phone className="h-3.5 w-3.5" style={{ color: "var(--color-primary)" }} />
-                  </span>
-                  <span className="pt-1">{phone}</span>
+                <h4
+                  className="mb-4 text-sm font-bold"
+                  style={{ color: "var(--color-footer-text)" }}
+                >
+                  {card1Title}
+                </h4>
+                <div className="space-y-3.5">
+                  <div className="flex items-start justify-start gap-3 text-sm" style={{ color: "rgba(255,255,255,0.65)" }}>
+                    <span
+                      className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full"
+                      style={{ backgroundColor: "rgba(255,255,255,0.08)" }}
+                    >
+                      <MapPin className="h-3.5 w-3.5" style={{ color: "var(--color-primary)" }} />
+                    </span>
+                    <span className="pt-1">{address}</span>
+                  </div>
+                  <div className="flex items-start justify-start gap-3 text-sm" style={{ color: "rgba(255,255,255,0.65)" }}>
+                    <span
+                      className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full"
+                      style={{ backgroundColor: "rgba(255,255,255,0.08)" }}
+                    >
+                      <Mail className="h-3.5 w-3.5" style={{ color: "var(--color-primary)" }} />
+                    </span>
+                    <span className="pt-1">{email}</span>
+                  </div>
+                  <div className="flex items-start justify-start gap-3 text-sm" style={{ color: "rgba(255,255,255,0.65)" }}>
+                    <span
+                      className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full"
+                      style={{ backgroundColor: "rgba(255,255,255,0.08)" }}
+                    >
+                      <Phone className="h-3.5 w-3.5" style={{ color: "var(--color-primary)" }} />
+                    </span>
+                    <span className="pt-1">{phone}</span>
+                  </div>
                 </div>
               </div>
-            </div>
+            </StaggerItem>
 
             {/* Card 2 — Representative */}
-            <div
-              className="group flex h-full flex-col rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1"
-              style={{
-                backgroundColor: "rgba(255,255,255,0.06)",
-                border: "1px solid rgba(255,255,255,0.08)",
-              }}
-              itemScope
-              itemType="https://schema.org/Person"
-            >
-              <h4
-                className="mb-4 text-sm font-bold"
-                style={{ color: "var(--color-footer-text)" }}
+            <StaggerItem className="h-full">
+              <div
+                className="group flex h-full flex-col rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1"
+                style={{
+                  backgroundColor: "rgba(255,255,255,0.06)",
+                  border: "1px solid rgba(255,255,255,0.08)",
+                }}
+                itemScope
+                itemType="https://schema.org/Person"
               >
-                {card2Title}
-              </h4>
-              <meta itemProp="name" content={representative.name || "Bishow Devkota"} />
-              <meta itemProp="jobTitle" content={representative.title || "Trip Consultant"} />
-              {representative.phone && <meta itemProp="telephone" content={representative.phone} />}
-              <div className="flex flex-1 flex-col items-center justify-center gap-3 py-2 text-center">
-                <div
-                  className="h-16 w-16 overflow-hidden rounded-full shadow-md"
-                  style={{ border: "2px solid var(--color-primary)" }}
+                <h4
+                  className="mb-4 text-sm font-bold"
+                  style={{ color: "var(--color-footer-text)" }}
                 >
-                  <img
-                    src={imgSrc(representative.avatar, 128) || "https://placehold.co/128x128/D97757/ffffff?text=AS&font=montserrat"}
-                    alt={representative.name || "Representative"}
-                    width={64}
-                    height={64}
-                    className="h-full w-full object-cover"
-                  />
+                  {card2Title}
+                </h4>
+                <meta itemProp="name" content={representative.name || "Bishow Devkota"} />
+                <meta itemProp="jobTitle" content={representative.title || "Trip Consultant"} />
+                {representative.phone && <meta itemProp="telephone" content={representative.phone} />}
+                <div className="flex flex-1 flex-col items-center justify-center gap-3 py-2 text-center">
+                  <div
+                    className="h-16 w-16 overflow-hidden rounded-full shadow-md"
+                    style={{ border: "2px solid var(--color-primary)" }}
+                  >
+                    <img
+                      src={imgSrc(representative.avatar, 128) || "https://placehold.co/128x128/D97757/ffffff?text=AS&font=montserrat"}
+                      alt={representative.name || "Representative"}
+                      width={64}
+                      height={64}
+                      className="h-full w-full object-cover"
+                    />
+                  </div>
+                  <div>
+                    <div className="text-sm font-semibold" style={{ color: "var(--color-footer-text)" }}>
+                      {representative.name || "Representative"}
+                    </div>
+                    <div className="text-xs" style={{ color: "rgba(255,255,255,0.5)" }}>
+                      {representative.title || ""}
+                    </div>
+                  </div>
                 </div>
-                <div>
-                  <div className="text-sm font-semibold" style={{ color: "var(--color-footer-text)" }}>
-                    {representative.name || "Representative"}
-                  </div>
-                  <div className="text-xs" style={{ color: "rgba(255,255,255,0.5)" }}>
-                    {representative.title || ""}
-                  </div>
+                <div className="mt-4 grid grid-cols-2 gap-2">
+                  <a
+                    href={`tel:${representative.phone || phone}`}
+                    className="flex items-center justify-center gap-1.5 rounded-full py-2 text-xs font-semibold transition-colors hover:bg-[var(--color-primary)]"
+                    style={{
+                      backgroundColor: "rgba(255,255,255,0.08)",
+                      color: "var(--color-footer-text)",
+                    }}
+                  >
+                    <Phone className="h-3.5 w-3.5" />
+                    Call
+                  </a>
+                  <a
+                    href={`https://wa.me/${representative.whatsapp || "977"}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center gap-1.5 rounded-full py-2 text-xs font-semibold transition-colors"
+                    style={{
+                      backgroundColor: "var(--color-primary)",
+                      color: "var(--color-footer-text)",
+                    }}
+                  >
+                    <MessageCircle className="h-3.5 w-3.5" />
+                    Chat
+                  </a>
                 </div>
               </div>
-              <div className="mt-4 grid grid-cols-2 gap-2">
-                <a
-                  href={`tel:${representative.phone || phone}`}
-                  className="flex items-center justify-center gap-1.5 rounded-full py-2 text-xs font-semibold transition-colors hover:bg-[var(--color-primary)]"
-                  style={{
-                    backgroundColor: "rgba(255,255,255,0.08)",
-                    color: "var(--color-footer-text)",
-                  }}
-                >
-                  <Phone className="h-3.5 w-3.5" />
-                  Call
-                </a>
-                <a
-                  href={`https://wa.me/${representative.whatsapp || "977"}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-1.5 rounded-full py-2 text-xs font-semibold transition-colors"
-                  style={{
-                    backgroundColor: "var(--color-primary)",
-                    color: "var(--color-footer-text)",
-                  }}
-                >
-                  <MessageCircle className="h-3.5 w-3.5" />
-                  Chat
-                </a>
-              </div>
-            </div>
+            </StaggerItem>
 
             {/* Card 3 — Recognitions */}
-            <div
-              className="flex h-full flex-col rounded-2xl p-6"
-              style={{
-                backgroundColor: "rgba(255,255,255,0.06)",
-                border: "1px solid rgba(255,255,255,0.08)",
-              }}
-            >
-              <h4
-                className="mb-4 text-sm font-bold"
-                style={{ color: "var(--color-footer-text)" }}
+            <StaggerItem className="h-full">
+              <div
+                className="flex h-full flex-col rounded-2xl p-6"
+                style={{
+                  backgroundColor: "rgba(255,255,255,0.06)",
+                  border: "1px solid rgba(255,255,255,0.08)",
+                }}
               >
-                {card3Title}
-              </h4>
-              <div className="flex flex-1 gap-4">
-                {recognitions.map((badge) => {
-                  const badgeSrc = imgSrc(badge.src, 200);
-                  if (!badgeSrc) return null;
+                <h4
+                  className="mb-4 text-sm font-bold"
+                  style={{ color: "var(--color-footer-text)" }}
+                >
+                  {card3Title}
+                </h4>
+                <div className="flex flex-1 gap-4">
+                  {recognitions.map((badge) => {
+                    const badgeSrc = imgSrc(badge.src, 200);
+                    if (!badgeSrc) return null;
 
-                  return (
-                    <div
-                      key={badge.name}
-                      className="h-24 flex-1 overflow-hidden rounded-lg shadow-md sm:h-28"
-                      style={{ border: "1px solid rgba(255,255,255,0.12)" }}
-                    >
-                      <img
-                        src={badgeSrc}
-                        alt={badge.name}
-                        width={200}
-                        height={120}
-                        decoding="async"
-                        className="h-full w-full object-contain p-2"
-                      />
-                    </div>
-                  );
-                })}
+                    return (
+                      <div
+                        key={badge.name}
+                        className="h-24 flex-1 overflow-hidden rounded-lg shadow-md sm:h-28"
+                        style={{ border: "1px solid rgba(255,255,255,0.12)" }}
+                      >
+                        <img
+                          src={badgeSrc}
+                          alt={badge.name}
+                          width={200}
+                          height={120}
+                          decoding="async"
+                          className="h-full w-full object-contain p-2"
+                        />
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
-            </div>
-          </div>
+            </StaggerItem>
+          </Stagger>
 
           {/* ── Bottom Bar ── */}
-          <div
+          <Reveal
+            from="none"
             className="mt-8 flex flex-col items-center gap-4 border-t pt-5 text-center text-xs sm:flex-row sm:justify-between sm:text-left"
             style={{ borderColor: "rgba(255,255,255,0.1)", color: "rgba(255,255,255,0.5)" }}
           >
@@ -573,7 +587,7 @@ export async function Footer() {
                 </React.Fragment>
               ))}
             </div>
-          </div>
+          </Reveal>
         </div>
       </div>
 

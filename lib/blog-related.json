@@ -553,6 +553,24 @@
     ],
     "note": "Pilgrimage routes and the cultural tours that overlap with them."
   },
+  "budhi-gandaki-flood-october-2026-manaslu-trek-update": {
+    "treks": [
+      "manaslu-circuit-trek",
+      "tsum-valley-trek",
+      "tsum-valley-and-manaslu-circuit-trek",
+      "larke-pass-trek",
+      "lower-manaslu-trek"
+    ],
+    "posts": [
+      "nepal-trekking-routes-status-october-2026",
+      "manaslu-circuit-alternatives-autumn-2026",
+      "kathmandu-to-pokhara-road-status-october-2026",
+      "flash-floods-without-rain-himalaya-trekking-safety",
+      "manaslu-circuit-trek-complete-guide",
+      "travel-insurance-for-trekking-in-nepal"
+    ],
+    "note": "The trips that use the Budhi Gandaki valley. Check the state of the route with us before booking any of them."
+  },
   "bungee-and-zip-flyer-in-nepal": {
     "treks": [
       "bungee-jump-in-kushma",
@@ -790,6 +808,22 @@
       "nepal-trek-difficulty-grades-explained"
     ],
     "note": "Western Dhaulagiri and the routes that connect to it from Dhorpatan."
+  },
+  "cyclone-arnab-in-nepal-2026-forecast-impacts-travel-advice": {
+    "treks": [
+      "everest-base-camp-trek",
+      "annapurna-circuit-trek",
+      "langtang-valley-trek",
+      "gosaikunda-lake-trek",
+      "mardi-himal-trek"
+    ],
+    "posts": [
+      "nepal-trekking-routes-status-october-2026",
+      "kathmandu-to-pokhara-road-status-october-2026",
+      "flash-floods-without-rain-himalaya-trekking-safety",
+      "travel-insurance-for-trekking-in-nepal"
+    ],
+    "note": "Routes affected this week, and the low alternatives that stay open when the passes close. Ask us for the current status before booking."
   },
   "dashain-dates-calendar-for-travellers": {
     "treks": [
@@ -1330,6 +1364,24 @@
       "ama-dablam-expedition-guide"
     ],
     "note": "Climbing trips where these skills are taught and drilled at base camp before the summit push."
+  },
+  "flash-floods-without-rain-himalaya-trekking-safety": {
+    "treks": [
+      "manaslu-circuit-trek",
+      "annapurna-circuit-trek",
+      "langtang-valley-trek",
+      "tsum-valley-trek",
+      "everest-base-camp-trek"
+    ],
+    "posts": [
+      "budhi-gandaki-flood-october-2026-manaslu-trek-update",
+      "nepal-trekking-routes-status-october-2026",
+      "travel-insurance-for-trekking-in-nepal",
+      "guides-and-porters-in-nepal-rules-and-costs",
+      "monsoon-trekking-in-nepal-where-to-go",
+      "first-time-trekking-in-nepal-what-to-know"
+    ],
+    "note": "Treks whose first days follow a river gorge, where the habits in this article matter most."
   },
   "food-on-the-trail-in-nepal": {
     "treks": [
@@ -1933,6 +1985,26 @@
     ],
     "note": "The two-city week, plus the shorter and longer versions of it."
   },
+  "kathmandu-to-pokhara-road-status-october-2026": {
+    "treks": [
+      "kathmandu-pokhara-tour",
+      "pokhara-day-tour",
+      "annapurna-base-camp-trek",
+      "mardi-himal-trek",
+      "poonhill-trek",
+      "annapurna-circuit-trek",
+      "chitwan-national-park-tour-3-days"
+    ],
+    "posts": [
+      "budhi-gandaki-flood-october-2026-manaslu-trek-update",
+      "nepal-trekking-routes-status-october-2026",
+      "domestic-flights-in-nepal-for-trekkers",
+      "pokhara-travel-guide",
+      "annapurna-circuit-trek-complete-guide",
+      "arriving-in-kathmandu-first-48-hours"
+    ],
+    "note": "Trips that begin with the journey from Kathmandu to Pokhara or Chitwan. All of them can start with a flight."
+  },
   "kathmandu-valley-unesco-sites-guide": {
     "treks": [
       "seven-world-heritage-kathmandu-day-tour",
@@ -2434,6 +2506,27 @@
       "fixed-rope-and-jumar-skills-for-nepal-peaks"
     ],
     "note": "Makalu and the Barun valley, climbed and walked."
+  },
+  "manaslu-circuit-alternatives-autumn-2026": {
+    "treks": [
+      "annapurna-circuit-trek",
+      "nar-phu-valley-trek",
+      "upper-mustang-trek",
+      "everest-three-pass-trek",
+      "annapurna-circuit-with-tilicho-lake-trek",
+      "kanchenjunga-circuit-trek",
+      "annapurna-base-camp-trek",
+      "mardi-himal-trek"
+    ],
+    "posts": [
+      "budhi-gandaki-flood-october-2026-manaslu-trek-update",
+      "nepal-trekking-routes-status-october-2026",
+      "manaslu-vs-annapurna-circuit",
+      "annapurna-circuit-trek-complete-guide",
+      "nar-phu-valley-trek-guide",
+      "upper-mustang-trek-complete-guide"
+    ],
+    "note": "The alternatives in this article, most like Manaslu first. Status changes quickly this season, so ask before you book."
   },
   "manaslu-circuit-in-november": {
     "treks": [
@@ -2949,6 +3042,22 @@
     ],
     "note": "Trips that fit the weeks between Dashain and Chhath."
   },
+  "nepal-suspends-high-altitude-trekking-permits-snowstorm-avalanche-warning": {
+    "treks": [
+      "everest-base-camp-trek",
+      "annapurna-circuit-trek",
+      "manaslu-circuit-trek",
+      "langtang-valley-trek",
+      "mardi-himal-trek"
+    ],
+    "posts": [
+      "cyclone-arnab-in-nepal-2026-forecast-impacts-travel-advice",
+      "nepal-trekking-routes-status-october-2026",
+      "travel-insurance-for-trekking-in-nepal",
+      "kathmandu-to-pokhara-road-status-october-2026"
+    ],
+    "note": "High routes covered by the warning, and the lower alternatives we can run this week. Contact us before you travel."
+  },
   "nepal-trek-difficulty-grades-explained": {
     "treks": [
       "poonhill-trek",
@@ -2995,6 +3104,26 @@
       "nepal-visa-on-arrival-guide"
     ],
     "note": "Restricted-area routes where the permit can only be issued through a registered agency — we handle the entire process."
+  },
+  "nepal-trekking-routes-status-october-2026": {
+    "treks": [
+      "everest-base-camp-trek",
+      "annapurna-base-camp-trek",
+      "annapurna-circuit-trek",
+      "upper-mustang-trek",
+      "langtang-valley-trek",
+      "gosaikunda-lake-trek",
+      "manaslu-circuit-trek"
+    ],
+    "posts": [
+      "budhi-gandaki-flood-october-2026-manaslu-trek-update",
+      "manaslu-circuit-alternatives-autumn-2026",
+      "kathmandu-to-pokhara-road-status-october-2026",
+      "trekking-in-nepal-in-november",
+      "annapurna-circuit-trek-complete-guide",
+      "langtang-valley-trek-complete-guide"
+    ],
+    "note": "One trip from each of the main regions in the table above. Ask us for the latest on any of them before you book."
   },
   "nepal-trip-costs-and-booking-during-dashain": {
     "treks": [

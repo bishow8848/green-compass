@@ -16,6 +16,7 @@ import { Timeline } from "@/components/about/Timeline";
 import { ProcessSteps } from "@/components/about/ProcessSteps";
 import { FounderMessage } from "@/components/about/FounderMessage";
 import { getCachedOrFetch, cacheKeys, CACHE_TTL } from "@/lib/redis";
+import { Reveal, Stagger, StaggerItem } from "@/components/motion";
 import { SITE_URL, brandedTitle, ogImages, seoDescription, seoImageUrl, serializeJsonLd } from "@/lib/seo";
 
 const ReviewCarousel = dynamic(
@@ -237,14 +238,14 @@ export default async function AboutPage() {
       {/* ── Custom Sections (from About tab in Page Manager) ── */}
       {sections.map((sec: any, i: number) => (
         <section key={sec.id || i} className="py-12 sm:py-16">
-          <div className="mx-auto max-w-3xl px-3 sm:px-4 lg:px-6">
+          <Reveal className="mx-auto max-w-3xl px-3 sm:px-4 lg:px-6">
             {sec.heading && <h2 className="text-2xl font-bold text-foreground">{sec.heading}</h2>}
             {sec.description && (
               <div className="mt-4 space-y-4 text-text leading-relaxed">
                 <p>{sec.description}</p>
               </div>
             )}
-          </div>
+          </Reveal>
         </section>
       ))}
 
@@ -318,55 +319,58 @@ export default async function AboutPage() {
       {teamMembers.length > 0 && (
         <section className="py-12 sm:py-16">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="flex items-center gap-3">
-              <span className="h-px w-8 bg-secondary" aria-hidden="true" />
-              <span className="text-xs font-semibold uppercase tracking-[0.12em] text-secondary">
-                {teamBadge}
-              </span>
-            </div>
-            <h2 className="mt-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-              {teamHeading}
-            </h2>
+            <Stagger>
+              <StaggerItem from="left" className="flex items-center gap-3">
+                <span className="h-px w-8 bg-secondary" aria-hidden="true" />
+                <span className="text-xs font-semibold uppercase tracking-[0.12em] text-secondary">
+                  {teamBadge}
+                </span>
+              </StaggerItem>
+              <StaggerItem as="h2" className="mt-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+                {teamHeading}
+              </StaggerItem>
+            </Stagger>
             <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {teamMembers.map((member: any, i: number) => (
-                <Link
-                  key={i}
-                  href={`/about/team/${member.slug}`}
-                  className="group relative flex h-full flex-col overflow-hidden rounded-3xl bg-surface shadow-[0_4px_20px_-4px_rgba(0,0,0,0.1)] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_20px_40px_-10px_rgba(234,88,12,0.25)]"
-                >
-                  {/* Image */}
-                  <div className="relative aspect-[4/3] overflow-hidden">
-                    {member.image ? (
-                      <Image
-                        src={`https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/c_fill,w_500,h_375,q_auto,f_auto/${member.image}`}
-                        alt={member.name}
-                        fill
-                        className="object-cover transition-transform duration-500 group-hover:scale-105"
-                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                      />
-                    ) : (
-                      <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-primary/10 to-secondary/10">
-                        <Users className="h-16 w-16 text-primary/40" />
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Content */}
-                  <div className="flex flex-1 flex-col p-5">
-                    {/* Role badge */}
-                    <span className="mb-2 inline-flex w-fit rounded-full bg-primary/10 px-3 py-1 text-xs font-bold uppercase tracking-wider text-primary">
-                      {member.role}
-                    </span>
-                    <h3 className="text-lg font-bold text-foreground transition-colors group-hover:text-primary">{member.name}</h3>
-                    <div className="mt-auto flex items-center justify-between pt-4">
-                      <span className="inline-flex items-center gap-1.5 text-xs font-medium text-text-muted">
-                        <Clock className="h-3.5 w-3.5" />
-                        {member.experience ? `${member.experience} Year${member.experience === "1" ? "" : "s"} Experience` : "1+ Year Experience"}
-                      </span>
-                      <span className="text-xs font-medium uppercase tracking-[0.08em] text-primary/70">{member.label || "Expert"}</span>
+                <Reveal key={i} delay={(i % 3) * 0.08} className="h-full">
+                  <Link
+                    href={`/about/team/${member.slug}`}
+                    className="group relative flex h-full flex-col overflow-hidden rounded-3xl bg-surface shadow-[0_4px_20px_-4px_rgba(0,0,0,0.1)] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_20px_40px_-10px_rgba(234,88,12,0.25)]"
+                  >
+                    {/* Image */}
+                    <div className="relative aspect-[4/3] overflow-hidden">
+                      {member.image ? (
+                        <Image
+                          src={`https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/c_fill,w_500,h_375,q_auto,f_auto/${member.image}`}
+                          alt={member.name}
+                          fill
+                          className="object-cover transition-transform duration-500 group-hover:scale-105"
+                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                        />
+                      ) : (
+                        <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-primary/10 to-secondary/10">
+                          <Users className="h-16 w-16 text-primary/40" />
+                        </div>
+                      )}
                     </div>
-                  </div>
-                </Link>
+
+                    {/* Content */}
+                    <div className="flex flex-1 flex-col p-5">
+                      {/* Role badge */}
+                      <span className="mb-2 inline-flex w-fit rounded-full bg-primary/10 px-3 py-1 text-xs font-bold uppercase tracking-wider text-primary">
+                        {member.role}
+                      </span>
+                      <h3 className="text-lg font-bold text-foreground transition-colors group-hover:text-primary">{member.name}</h3>
+                      <div className="mt-auto flex items-center justify-between pt-4">
+                        <span className="inline-flex items-center gap-1.5 text-xs font-medium text-text-muted">
+                          <Clock className="h-3.5 w-3.5" />
+                          {member.experience ? `${member.experience} Year${member.experience === "1" ? "" : "s"} Experience` : "1+ Year Experience"}
+                        </span>
+                        <span className="text-xs font-medium uppercase tracking-[0.08em] text-primary/70">{member.label || "Expert"}</span>
+                      </div>
+                    </div>
+                  </Link>
+                </Reveal>
               ))}
             </div>
           </div>

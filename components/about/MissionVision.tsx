@@ -1,4 +1,5 @@
 import { Target, Eye, Mountain, Heart, Star, Globe, Shield, Compass, Lightbulb, Zap } from "lucide-react";
+import { Reveal, Stagger, StaggerItem } from "@/components/motion";
 
 const iconMap: Record<string, React.ElementType> = {
   Target, Eye, Mountain, Heart, Star, Globe, Shield, Compass, Lightbulb, Zap,
@@ -53,21 +54,24 @@ export function MissionVision({ badge, heading, missionLabel, visionLabel, missi
     <section className="bg-background py-12 sm:py-16">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Section header — the hairline + label pattern used across the site */}
-        <div className="flex items-center gap-3">
-          <span className="h-px w-8 bg-secondary" aria-hidden="true" />
-          <span className="text-xs font-semibold uppercase tracking-[0.12em] text-secondary">
-            {badge || "Purpose & Direction"}
-          </span>
-        </div>
-        <h2 className="mt-4 max-w-2xl text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-          {heading || "What Drives Us Forward"}
-        </h2>
+        <Stagger>
+          <StaggerItem from="left" className="flex items-center gap-3">
+            <span className="h-px w-8 bg-secondary" aria-hidden="true" />
+            <span className="text-xs font-semibold uppercase tracking-[0.12em] text-secondary">
+              {badge || "Purpose & Direction"}
+            </span>
+          </StaggerItem>
+          <StaggerItem as="h2" className="mt-4 max-w-2xl text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+            {heading || "What Drives Us Forward"}
+          </StaggerItem>
+        </Stagger>
 
         {/* One panel split by a shared rule, rather than two floating cards */}
-        <div className="mt-10 grid overflow-hidden rounded-3xl border border-border bg-surface sm:mt-12 lg:grid-cols-2">
+        <Reveal from="scale" className="mt-10 grid overflow-hidden rounded-3xl border border-border bg-surface sm:mt-12 lg:grid-cols-2">
           {panels.map((panel, i) => (
-            <div
+            <Stagger
               key={panel.key}
+              delay={0.15 + i * 0.12}
               className={`relative flex flex-col p-8 sm:p-10 lg:p-12 ${
                 i > 0 ? "border-t border-border lg:border-l lg:border-t-0" : ""
               }`}
@@ -80,39 +84,44 @@ export function MissionVision({ badge, heading, missionLabel, visionLabel, missi
                 aria-hidden="true"
               />
 
-              <span
+              <StaggerItem
+                as="span"
+                from="pop"
                 className={`text-5xl font-bold leading-none ${
                   panel.accent ? "text-primary/25" : "text-secondary/25"
                 }`}
                 aria-hidden="true"
               >
                 {panel.index}
-              </span>
+              </StaggerItem>
 
-              <span
+              <StaggerItem
+                as="span"
                 className={`mt-6 text-[11px] font-bold uppercase tracking-[0.2em] ${
                   panel.accent ? "text-primary" : "text-secondary"
                 }`}
               >
                 {panel.label}
-              </span>
+              </StaggerItem>
 
-              <h3 className="mt-2 text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+              <StaggerItem as="h3" className="mt-2 text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
                 {panel.title}
-              </h3>
+              </StaggerItem>
 
-              <span
+              <StaggerItem
+                as="span"
+                from="left"
                 className={`mt-5 h-px w-12 ${panel.accent ? "bg-primary/40" : "bg-secondary/40"}`}
                 aria-hidden="true"
               />
 
-              <div
+              <StaggerItem
                 className={`mt-5 text-base leading-relaxed text-text-muted sm:text-lg ${PROSE}`}
                 dangerouslySetInnerHTML={{ __html: panel.body as string }}
               />
-            </div>
+            </Stagger>
           ))}
-        </div>
+        </Reveal>
       </div>
     </section>
   );

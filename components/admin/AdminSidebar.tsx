@@ -9,6 +9,9 @@ import {
   Activity, BarChart, Shield, Contact,
   ArrowRightLeft
 } from "lucide-react";
+import * as m from "framer-motion/m";
+import { MotionLink } from "@/components/motion";
+import { SPRING_SNAPPY } from "@/components/motion/presets";
 
 const iconMap: Record<string, any> = {
   LayoutDashboard, List, FileText, ShoppingCart,
@@ -48,17 +51,19 @@ export function AdminSidebar({
     const Icon = iconMap[item.icon];
     const active = isActive(item.href);
     return (
-      <Link
+      <MotionLink
         key={item.href}
         href={item.href}
-        className={`group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all duration-200 ${
+        lift={0}
+        press={0.97}
+        className={`group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors duration-200 ${
           active
             ? "bg-primary/10 text-primary-dark shadow-sm"
             : "text-text-muted hover:bg-surface-alt hover:text-text"
         }`}
       >
         <div
-          className={`flex h-8 w-8 items-center justify-center rounded-lg transition-all duration-200 ${
+          className={`flex h-8 w-8 items-center justify-center rounded-lg transition-[background-color,color,box-shadow,rotate] duration-200 group-hover:-rotate-6 ${
             active
               ? "bg-primary text-white shadow-sm shadow-primary/20"
               : "bg-surface-alt text-text-muted group-hover:bg-accent-light"
@@ -68,9 +73,14 @@ export function AdminSidebar({
         </div>
         <span>{item.label}</span>
         {active && (
-          <span className="ml-auto h-2 w-2 rounded-full bg-primary ring-2 ring-primary/15" />
+          <m.span
+            className="ml-auto h-2 w-2 rounded-full bg-primary ring-2 ring-primary/15"
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={SPRING_SNAPPY}
+          />
         )}
-      </Link>
+      </MotionLink>
     );
   };
 

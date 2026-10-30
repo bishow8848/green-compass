@@ -1,9 +1,14 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState, useMemo, useRef, useLayoutEffect } from "react";
+import { useState, useMemo, useRef, useLayoutEffect, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
 import { Search, MapPin, ArrowRight, FileText } from "lucide-react";
+import { AnimatePresence } from "framer-motion";
+import * as m from "framer-motion/m";
+import { EASE_OUT, SPRING_SNAPPY } from "@/components/motion/presets";
+
+const subscribeNoop = () => () => undefined;
 
 interface Trek {
   title: string;
@@ -47,6 +52,8 @@ export function SearchBar({ treks = [], authorSlug, placeholder }: SearchBarProp
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const barRef = useRef<HTMLDivElement>(null);
   const [position, setPosition] = useState<{ top: number; left: number; width: number; maxHeight: number } | null>(null);
+  // The portal target only exists in the browser.
+  const mounted = useSyncExternalStore(subscribeNoop, () => true, () => false);
 
   // Packages first, then articles; keyboard navigation walks this flat list.
   const suggestions = useMemo<Suggestion[]>(() => {
@@ -172,8 +179,13 @@ export function SearchBar({ treks = [], authorSlug, placeholder }: SearchBarProp
   const q = query.trim().toLowerCase();
 
   const dropdown = open && position && (
-    <div
+    <m.div
+      key="search-dropdown"
+      initial={{ opacity: 0, y: -6, scaleY: 0.98 }}
+      animate={{ opacity: 1, y: 0, scaleY: 1, transition: { duration: 0.2, ease: EASE_OUT } }}
+      exit={{ opacity: 0, y: -4, transition: { duration: 0.14 } }}
       style={{
+        originY: 0,
         position: "fixed",
         top: position.top,
         left: position.left,
@@ -195,7 +207,12 @@ export function SearchBar({ treks = [], authorSlug, placeholder }: SearchBarProp
           const startsGroup = i === 0 || suggestions[i - 1].kind !== item.kind;
 
           return (
-            <div key={item.key}>
+            <m.div
+              key={item.key}
+              initial={{ opacity: 0, x: -6 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.2, delay: Math.min(i, 8) * 0.025, ease: EASE_OUT }}
+            >
               {startsGroup && (
                 <p
                   className={`bg-surface-alt px-3 py-1.5 text-[11px] font-bold uppercase tracking-wider text-text-muted sm:px-4 ${
@@ -224,11 +241,11 @@ export function SearchBar({ treks = [], authorSlug, placeholder }: SearchBarProp
                 </div>
                 <ArrowRight className="hidden h-4 w-4 shrink-0 text-text-muted sm:block" />
               </button>
-            </div>
+            </m.div>
           );
         })
       )}
-    </div>
+    </m.div>
   );
 
   return (
@@ -251,17 +268,20 @@ export function SearchBar({ treks = [], authorSlug, placeholder }: SearchBarProp
           aria-label="Search packages and articles"
           className="flex-1 border-none bg-transparent px-4 py-3 text-sm placeholder:text-sm sm:px-5 sm:py-4 sm:text-base sm:placeholder:text-base text-foreground placeholder-text-muted outline-none"
         />
-        <button
+        <m.button
           type="button"
           onClick={() => handleSearch(query)}
-          className="mr-1 flex shrink-0 items-center gap-1.5 rounded-full bg-primary px-3 py-2 text-xs font-semibold text-white shadow-sm transition-all hover:bg-primary-dark sm:mr-1.5 sm:px-5 sm:py-2.5 sm:text-sm"
+          whileHover={{ scale: 1.03 }}
+          whileTap={{ scale: 0.95 }}
+          transition={SPRING_SNAPPY}
+          className="group mr-1 flex shrink-0 items-center gap-1.5 rounded-full bg-primary px-3 py-2 text-xs font-semibold text-white shadow-sm transition-colors hover:bg-primary-dark sm:mr-1.5 sm:px-5 sm:py-2.5 sm:text-sm"
         >
-          <Search className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+          <Search className="h-3.5 w-3.5 transition-transform duration-300 group-hover:rotate-12 sm:h-4 sm:w-4" />
           <span className="hidden sm:inline">Explore Now</span>
-        </button>
+        </m.button>
       </div>
 
-      {dropdown && createPortal(dropdown, document.body)}
+      {mounted && createPortal(<AnimatePresence>{dropdown}</AnimatePresence>, document.body)}
     </div>
   );
 }

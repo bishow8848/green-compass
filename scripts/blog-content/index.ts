@@ -86,6 +86,13 @@ import { tiharA } from "./tihar-a";
 import { tiharB } from "./tihar-b";
 import { tiharC } from "./tihar-c";
 import { tiharD } from "./tihar-d";
+import { newsA } from "./news-a";
+import { newsB } from "./news-b";
+import { newsC } from "./news-c";
+import { newsD } from "./news-d";
+import { newsE } from "./news-e";
+import { newsF } from "./news-f";
+import { newsG } from "./news-g";
 
 /**
  * Every article on the site, in no particular order.
@@ -181,4 +188,11 @@ export const ALL_POSTS: BlogContent[] = [
   ...tiharB,
   ...tiharC,
   ...tiharD,
+  ...newsA,
+  ...newsB,
+  ...newsC,
+  ...newsD,
+  ...newsE,
+  ...newsF,
+  ...newsG,
 ];

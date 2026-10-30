@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { CLOUDINARY_CLOUD_NAME } from "@/lib/cloudinary-url";
 import { Quote, User } from "lucide-react";
+import { Reveal, Stagger, StaggerItem } from "@/components/motion";
 
 const CLOUDINARY_BASE = `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/`;
 
@@ -23,7 +24,7 @@ export function FounderMessage({ heading, message, founderName, founderRole, fou
   return (
     <section className="bg-background py-12 sm:py-16">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid overflow-hidden rounded-3xl border border-border bg-surface shadow-lg lg:grid-cols-5">
+        <Reveal className="grid overflow-hidden rounded-3xl border border-border bg-surface shadow-lg lg:grid-cols-5">
           {/* ── Left: Full photo with gradient overlay and name/role at bottom ── */}
           <div className="relative min-h-[300px] lg:col-span-2 lg:min-h-[500px]">
             {resolvedImage ? (
@@ -45,7 +46,7 @@ export function FounderMessage({ heading, message, founderName, founderRole, fou
             )}
 
             {/* Founder name & role at bottom */}
-            <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-8">
+            <Reveal from="left" delay={0.3} className="absolute bottom-0 left-0 right-0 p-6 sm:p-8">
               {founderName && (
                 <p className="text-xl font-bold text-white">{founderName}</p>
               )}
@@ -58,28 +59,30 @@ export function FounderMessage({ heading, message, founderName, founderRole, fou
                   <p className="mt-1 text-sm text-white/80">Founder & Lead Guide, Green Compass Treks</p>
                 </>
               )}
-            </div>
+            </Reveal>
           </div>
 
           {/* ── Right: Content ── */}
-          <div className="relative flex flex-col justify-center px-6 py-10 sm:px-10 lg:col-span-3 lg:px-14 lg:py-16">
+          <Stagger delay={0.15} className="relative flex flex-col justify-center px-6 py-10 sm:px-10 lg:col-span-3 lg:px-14 lg:py-16">
             {/* Decorative quote icon */}
-            <Quote className="absolute right-6 top-6 h-16 w-16 text-primary/10" aria-hidden="true" />
+            <Reveal from="pop" delay={0.4} className="absolute right-6 top-6" aria-hidden="true">
+              <Quote className="h-16 w-16 text-primary/10" />
+            </Reveal>
 
-            <span className="text-xs font-semibold uppercase tracking-[0.12em] text-secondary">
+            <StaggerItem as="span" className="text-xs font-semibold uppercase tracking-[0.12em] text-secondary">
               {badge || "Founder&apos;s Note"}
-            </span>
-            <h2 className="mt-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+            </StaggerItem>
+            <StaggerItem as="h2" className="mt-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
               {heading || "A Message from Our Founder"}
-            </h2>
+            </StaggerItem>
 
             {message && (
-              <div className="mt-8 text-base leading-relaxed text-text-muted sm:text-lg sm:leading-8">
+              <StaggerItem className="mt-8 text-base leading-relaxed text-text-muted sm:text-lg sm:leading-8">
                 &ldquo;{message}&rdquo;
-              </div>
+              </StaggerItem>
             )}
-          </div>
-        </div>
+          </Stagger>
+        </Reveal>
       </div>
     </section>
   );

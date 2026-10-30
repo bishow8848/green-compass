@@ -20,6 +20,7 @@ import { RichTextContent } from "@/components/blog/RichTextContent";
 import { TrekCard, trekCardSelect } from "@/components/trek/TrekCard";
 import { FAQAccordion } from "@/components/ui/FAQAccordion";
 import { ContactFormSection } from "@/components/home/ContactFormSection";
+import { KenBurns, MotionLink, Reveal, ScrollProgress, Stagger, StaggerItem } from "@/components/motion";
 import { SITE_URL, brandedTitle, ogImages, seoDescription, seoImageUrl, serializeJsonLd } from "@/lib/seo";
 
 // Blog post is cached for 7 days and refreshed on-demand after CMS edits (revalidatePath)
@@ -94,14 +95,14 @@ function CardSection({
   return (
     // data-toc lists the section in the sidebar's contents
     <section id={id} data-toc={heading} className={className}>
-      <div className="mb-10 max-w-2xl">
+      <Reveal className="mb-10 max-w-2xl">
         <h2 className="mb-3 text-2xl font-bold tracking-tight sm:text-3xl" style={{ color: "var(--color-secondary)" }}>
           {heading}
         </h2>
         <p className="text-base leading-relaxed" style={{ color: "var(--color-text-muted)" }}>
           {description}
         </p>
-      </div>
+      </Reveal>
       <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">{children}</div>
     </section>
   );
@@ -342,18 +343,23 @@ export default async function BlogPostPage({
         />
       )}
 
+      {/* Reading progress along the top edge */}
+      <ScrollProgress />
+
       {/* ── Hero (matching PageHero design) ── */}
       <section className="relative isolate flex min-h-[clamp(520px,82vh,860px)] flex-col overflow-hidden">
         {/* Background image or gradient fallback */}
       {heroImageUrl ? (
-          <Image
-            src={heroImageUrl}
-            alt={`${post.title} — Green Compass Treks`}
-            fill
-            priority
-            sizes="100vw"
-            className="object-cover"
-          />
+          <KenBurns>
+            <Image
+              src={heroImageUrl}
+              alt={`${post.title} — Green Compass Treks`}
+              fill
+              priority
+              sizes="100vw"
+              className="object-cover"
+            />
+          </KenBurns>
         ) : (
           <div className="absolute inset-0 bg-gradient-to-br from-secondary-dark via-primary-dark/20 to-gray-900" />
         )}
@@ -372,10 +378,10 @@ export default async function BlogPostPage({
         {/* Content — bottom-aligned, same wrapper as page content */}
         <div className="relative z-10 mt-auto w-full">
           <div className="mx-auto max-w-screen-2xl px-3 sm:px-4 lg:px-6 pb-[clamp(48px,7vw,84px)]">
-            <div className="max-w-[720px]">
+            <Stagger className="max-w-[720px]">
           {/* Tags — transparent frosted style */}
           {tags.length > 0 && (
-            <div className="mb-4 flex flex-wrap items-center gap-2">
+            <StaggerItem className="mb-4 flex flex-wrap items-center gap-2">
               {tags.map((tag) => (
                 <span
                   key={tag}
@@ -384,30 +390,30 @@ export default async function BlogPostPage({
                   {tag}
                 </span>
               ))}
-            </div>
+            </StaggerItem>
           )}
 
           {/* Title — same size as PageHero */}
-          <h1 className="mb-6 text-[clamp(32px,5vw,58px)] font-bold leading-[1.08] tracking-tight text-white">
+          <StaggerItem as="h1" className="mb-6 text-[clamp(32px,5vw,58px)] font-bold leading-[1.08] tracking-tight text-white">
             {post.title}
-          </h1>
+          </StaggerItem>
 
           {/* Breadcrumbs */}
-          <nav aria-label="Breadcrumb" className="mb-3 flex items-center gap-2 text-sm text-white/50">
+          <StaggerItem as="nav" aria-label="Breadcrumb" className="mb-3 flex items-center gap-2 text-sm text-white/50">
             <Link href="/" className="transition-colors hover:text-white/80">Home</Link>
             <span className="text-white/30">/</span>
             <Link href="/blog" className="transition-colors hover:text-white/80">Blog</Link>
             <span className="text-white/30">/</span>
             <span className="text-white/80 truncate max-w-[200px] sm:max-w-[400px]">{post.title}</span>
-          </nav>
+          </StaggerItem>
 
           {/* Search bar — after title */}
-          <div className="mb-8 w-full max-w-xl">
+          <StaggerItem className="relative z-10 mb-8 w-full max-w-xl">
             <SearchBar />
-          </div>
+          </StaggerItem>
 
           {/* Meta — author, date, read time */}
-          <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-white/60">
+          <StaggerItem className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-white/60">
             {post.authorSlug ? (
               <Link
                 href={`/author/${post.authorSlug}`}
@@ -434,8 +440,8 @@ export default async function BlogPostPage({
               <Clock className="h-4 w-4" />
               {readTime} min read
             </span>
-          </div>
-            </div>
+          </StaggerItem>
+            </Stagger>
           </div>
         </div>
       </section>
@@ -448,9 +454,9 @@ export default async function BlogPostPage({
               table scrolls inside its wrapper instead of widening the page. */}
           <div className="flex min-w-0 flex-col space-y-0 lg:col-span-2">
             {/* Content */}
-            <article className="blog-content">
+            <Reveal as="article" className="blog-content">
               <RichTextContent html={sanitizeRichText(injectHeadingIds(demoteH1(body)))} />
-            </article>
+            </Reveal>
 
             {/* FAQs (like the trek detail page). This and the sections below
                 carry data-toc, which adds them to the sidebar's contents. */}
@@ -486,8 +492,10 @@ export default async function BlogPostPage({
                 heading="Related Treks"
                 description={relations.note || "Trips we run that this article covers."}
               >
-                {relatedTreks.map((trek) => (
-                  <TrekCard key={trek.id} trek={trek} href={`/${trek.category?.slug}/${trek.slug}`} />
+                {relatedTreks.map((trek, i) => (
+                  <Reveal key={trek.id} delay={(i % 3) * 0.08} className="h-full">
+                    <TrekCard trek={trek} href={`/${trek.category?.slug}/${trek.slug}`} />
+                  </Reveal>
                 ))}
               </CardSection>
             )}
@@ -499,25 +507,26 @@ export default async function BlogPostPage({
                 heading="Keep Reading"
                 description="More guides to help you plan your trip."
               >
-                {relatedPosts.map((related) => (
-                  <BlogCard
-                    key={related.slug}
-                    slug={related.slug}
-                    title={related.title}
-                    excerpt={related.excerpt}
-                    heroImage={related.heroImage}
-                    tags={parseTags(related.tags)}
-                    date={new Date(related.publishedDate).toISOString().slice(0, 10)}
-                    readTime={`${related.readTime} min read`}
-                    author={related.author}
-                    authorSlug={related.authorSlug}
-                  />
+                {relatedPosts.map((related, i) => (
+                  <Reveal key={related.slug} delay={(i % 3) * 0.08} className="h-full">
+                    <BlogCard
+                      slug={related.slug}
+                      title={related.title}
+                      excerpt={related.excerpt}
+                      heroImage={related.heroImage}
+                      tags={parseTags(related.tags)}
+                      date={new Date(related.publishedDate).toISOString().slice(0, 10)}
+                      readTime={`${related.readTime} min read`}
+                      author={related.author}
+                      authorSlug={related.authorSlug}
+                    />
+                  </Reveal>
                 ))}
               </CardSection>
             )}
 
             {/* Article author/footer — intentionally last */}
-            <div className="mt-16 border-t border-border pt-8">
+            <Reveal className="mt-16 border-t border-border pt-8">
               <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <div className="flex items-center gap-3">
                   {post.authorSlug ? (
@@ -543,15 +552,15 @@ export default async function BlogPostPage({
                     </div>
                   )}
                 </div>
-                <Link
+                <MotionLink
                   href="/blog"
-                  className="inline-flex items-center gap-1.5 rounded-xl bg-primary px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all hover:bg-primary-dark"
+                  className="group inline-flex items-center gap-1.5 rounded-xl bg-primary px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-primary-dark"
                 >
-                  <ArrowLeft className="h-4 w-4" />
+                  <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
                   More Articles
-                </Link>
+                </MotionLink>
               </div>
-            </div>
+            </Reveal>
           </div>
 
           {/* ── SIDEBAR ──

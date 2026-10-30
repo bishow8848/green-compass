@@ -1,10 +1,13 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
 import { ArrowRight, Undo2, ZoomIn, ZoomOut } from "lucide-react";
 import * as THREE from "three";
+import { AnimatePresence, stagger } from "framer-motion";
+import * as m from "framer-motion/m";
 import { SearchBar } from "@/components/search/SearchBar";
+import { MotionLink, Stagger, StaggerItem } from "@/components/motion";
+import { EASE_OUT, SPRING_SNAPPY, SPRING_SOFT } from "@/components/motion/presets";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 
 interface HeroCta {
@@ -24,6 +27,12 @@ interface GreenCompassHeroProps {
   /** Extra absolutely-positioned content rendered inside the hero (e.g. carousel nav). */
   children?: React.ReactNode;
 }
+
+/** Globe zoom controls slide in from the edge once the globe is up. */
+const controlVariants = {
+  hidden: { opacity: 0, x: 18 },
+  visible: { opacity: 1, x: 0, transition: SPRING_SNAPPY },
+};
 
 /** Read a CSS custom property from the theme (globals.css) with a hex fallback. */
 function readVar(name: string, fallback: string): string {
@@ -54,7 +63,7 @@ export function GreenCompassHero({
   const sectionRef = useRef<HTMLElement | null>(null);
   const globeRef = useRef<HTMLCanvasElement | null>(null);
   const hitzoneRef = useRef<HTMLDivElement | null>(null);
-  const hintRef = useRef<HTMLParagraphElement | null>(null);
+  const [hintVisible, setHintVisible] = useState(true);
   const zoomInRef = useRef<HTMLButtonElement | null>(null);
   const zoomOutRef = useRef<HTMLButtonElement | null>(null);
   const zoomResetRef = useRef<HTMLButtonElement | null>(null);
@@ -169,7 +178,6 @@ export function GreenCompassHero({
     sg.setAttribute("position", new THREE.BufferAttribute(sp, 3));
     scene.add(new THREE.Points(sg, new THREE.PointsMaterial({ color: gold, size: 0.05, transparent: true, opacity: 0.22 })));
 
-    const hint = hintRef.current;
     const dp = cam.position.clone();
     const dt2 = new THREE.Vector3();
     const oc = new OrbitControls(cam, hitzone);
@@ -186,7 +194,7 @@ export function GreenCompassHero({
     oc.update();
 
     function hideHint() {
-      hint?.classList.add("is-hidden");
+      setHintVisible(false);
     }
     ["pointerdown", "wheel"].forEach((ev) =>
       hitzone.addEventListener(ev, hideHint, { once: true, passive: true })
@@ -307,8 +315,16 @@ export function GreenCompassHero({
       ref={sectionRef}
       className="relative h-dvh min-h-[560px] w-full overflow-hidden bg-background text-foreground sm:min-h-[640px]"
     >
-      {/* 3D globe canvas — positioned/sized by the globe effect */}
-      <canvas ref={globeRef} className="absolute" aria-hidden="true" />
+      {/* 3D globe canvas — positioned/sized by the globe effect. It is blank
+          until the scene boots, so it fades and settles in rather than popping. */}
+      <m.canvas
+        ref={globeRef}
+        className="absolute"
+        aria-hidden="true"
+        initial={{ opacity: 0, scale: 0.92 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 1.4, delay: 0.15, ease: EASE_OUT }}
+      />
 
       {/* Film-grain noise veil */}
       <div className="noise-veil" aria-hidden="true" />
@@ -317,53 +333,77 @@ export function GreenCompassHero({
       <div ref={hitzoneRef} className="globe-hitzone absolute" aria-hidden="true" />
 
       {/* Globe zoom controls */}
-      <div className="absolute right-3 top-1/2 z-30 flex -translate-y-1/2 flex-col gap-2 sm:right-6">
-        <button
+      <m.div
+        className="absolute right-3 top-1/2 z-30 flex -translate-y-1/2 flex-col gap-2 sm:right-6"
+        initial="hidden"
+        animate="visible"
+        variants={{ visible: { transition: { delayChildren: stagger(0.08, { startDelay: 0.9 }) } } }}
+      >
+        <m.button
+          variants={controlVariants}
+          whileHover={{ scale: 1.08 }}
+          whileTap={{ scale: 0.92 }}
           ref={zoomInRef}
           type="button"
           aria-label="Zoom in on the globe"
-          className="flex h-9 w-9 items-center justify-center rounded-full border border-foreground/15 bg-background/70 text-foreground shadow-sm backdrop-blur-md transition-all hover:border-primary/40 hover:bg-surface hover:text-primary sm:h-11 sm:w-11"
+          className="flex h-9 w-9 items-center justify-center rounded-full border border-foreground/15 bg-background/70 text-foreground shadow-sm backdrop-blur-md transition-colors hover:border-primary/40 hover:bg-surface hover:text-primary sm:h-11 sm:w-11"
         >
           <ZoomIn className="h-4 w-4 sm:h-5 sm:w-5" />
-        </button>
-        <button
+        </m.button>
+        <m.button
+          variants={controlVariants}
+          whileHover={{ scale: 1.08 }}
+          whileTap={{ scale: 0.92 }}
           ref={zoomOutRef}
           type="button"
           aria-label="Zoom out of the globe"
-          className="flex h-9 w-9 items-center justify-center rounded-full border border-foreground/15 bg-background/70 text-foreground shadow-sm backdrop-blur-md transition-all hover:border-primary/40 hover:bg-surface hover:text-primary sm:h-11 sm:w-11"
+          className="flex h-9 w-9 items-center justify-center rounded-full border border-foreground/15 bg-background/70 text-foreground shadow-sm backdrop-blur-md transition-colors hover:border-primary/40 hover:bg-surface hover:text-primary sm:h-11 sm:w-11"
         >
           <ZoomOut className="h-4 w-4 sm:h-5 sm:w-5" />
-        </button>
-        <button
+        </m.button>
+        <m.button
+          variants={controlVariants}
+          whileHover={{ scale: 1.08, rotate: -20 }}
+          whileTap={{ scale: 0.92 }}
           ref={zoomResetRef}
           type="button"
           aria-label="Reset globe view"
-          className="flex h-9 w-9 items-center justify-center rounded-full border border-foreground/15 bg-background/70 text-foreground shadow-sm backdrop-blur-md transition-all hover:border-primary/40 hover:bg-surface hover:text-primary sm:h-11 sm:w-11"
+          className="flex h-9 w-9 items-center justify-center rounded-full border border-foreground/15 bg-background/70 text-foreground shadow-sm backdrop-blur-md transition-colors hover:border-primary/40 hover:bg-surface hover:text-primary sm:h-11 sm:w-11"
         >
           <Undo2 className="h-4 w-4 sm:h-5 sm:w-5" />
-        </button>
-      </div>
+        </m.button>
+      </m.div>
 
       {/* Globe interaction hint — fades out on first touch */}
-      <p
-        ref={hintRef}
-        className="globe-hint absolute bottom-5 right-4 z-30 hidden text-[10px] font-medium uppercase tracking-[0.18em] text-text-muted sm:bottom-8 sm:right-8 sm:block"
-      >
-        Drag to rotate · scroll to zoom
-      </p>
+      <AnimatePresence>
+        {hintVisible && (
+          <m.p
+            key="globe-hint"
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0, transition: { delay: 1.6, duration: 0.6, ease: EASE_OUT } }}
+            exit={{ opacity: 0, transition: { duration: 0.4 } }}
+            className="absolute bottom-5 right-4 z-30 hidden text-[10px] font-medium uppercase tracking-[0.18em] text-text-muted sm:bottom-8 sm:right-8 sm:block"
+          >
+            Drag to rotate · scroll to zoom
+          </m.p>
+        )}
+      </AnimatePresence>
 
       {/* ── Copy — the headline and the trek search that is this page's main
              action. Pointer-transparent so the globe hitzone behind it stays
              draggable/zoomable; interactive bits opt back in. ── */}
       <div className="pointer-events-none relative z-20 mx-auto flex min-h-full w-full max-w-[1400px] flex-col justify-end px-5 pb-10 sm:px-8 sm:pb-12 lg:justify-center lg:px-14 lg:pb-0">
-        <div className="relative w-full max-w-xl lg:max-w-2xl">
+        <Stagger className="relative w-full max-w-xl lg:max-w-2xl">
           {/* Rhumb lines — the bearing lines that radiate from a compass rose on
               an old chart. The origin sits off the left edge, so the copy reads
               as sitting on the chart rather than next to a diagram. */}
-          <svg
+          <m.svg
             viewBox="-550 -550 1100 1100"
             className="pointer-events-none absolute -left-[760px] top-1/2 hidden h-[1100px] w-[1100px] -translate-y-1/2 text-primary/[0.10] lg:block"
             aria-hidden="true"
+            initial={{ opacity: 0, rotate: -14 }}
+            animate={{ opacity: 1, rotate: 0 }}
+            transition={{ duration: 2.2, ease: EASE_OUT }}
           >
             {Array.from({ length: 32 }, (_, i) => {
               const a = (i * 11.25 * Math.PI) / 180;
@@ -382,43 +422,81 @@ export function GreenCompassHero({
             })}
             <circle cx="0" cy="0" r="420" fill="none" stroke="currentColor" strokeWidth="1" />
             <circle cx="0" cy="0" r="700" fill="none" stroke="currentColor" strokeWidth="0.7" />
-          </svg>
+          </m.svg>
 
           {/* Eyebrow */}
           {eyebrow && (
-            <div className="relative flex items-center gap-2.5 sm:gap-3">
-              <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 shrink-0 text-primary" aria-hidden="true">
+            <StaggerItem className="relative flex items-center gap-2.5 sm:gap-3">
+              {/* Compass star swings round to north as the page wakes up */}
+              <m.svg
+                viewBox="0 0 24 24"
+                className="h-3.5 w-3.5 shrink-0 text-primary"
+                aria-hidden="true"
+                initial={{ rotate: -135, scale: 0.4, opacity: 0 }}
+                animate={{ rotate: 0, scale: 1, opacity: 1 }}
+                transition={{ ...SPRING_SOFT, delay: 0.25 }}
+              >
                 <path d="M12 1 L13.6 10.4 L23 12 L13.6 13.6 L12 23 L10.4 13.6 L1 12 L10.4 10.4 Z" fill="currentColor" />
-              </svg>
-              <span className="h-px w-7 shrink-0 bg-primary/40 sm:w-11" aria-hidden="true" />
+              </m.svg>
+              <m.span
+                className="h-px w-7 shrink-0 bg-primary/40 sm:w-11"
+                aria-hidden="true"
+                style={{ originX: 0 }}
+                initial={{ scaleX: 0 }}
+                animate={{ scaleX: 1 }}
+                transition={{ duration: 0.8, delay: 0.45, ease: EASE_OUT }}
+              />
               <p className="text-[10px] font-semibold uppercase tracking-[0.26em] text-text-muted sm:text-xs sm:tracking-[0.3em]">
                 {eyebrow}
               </p>
-            </div>
+            </StaggerItem>
           )}
 
           {/* Headline */}
-          <h1 className="relative mt-4 font-display text-[2.6rem] leading-[1.05] tracking-[-0.02em] text-foreground sm:mt-5 sm:text-6xl lg:text-[4.75rem]">
+          <StaggerItem as="h1" className="relative mt-4 font-display text-[2.6rem] leading-[1.05] tracking-[-0.02em] text-foreground sm:mt-5 sm:text-6xl lg:text-[4.75rem]">
             {heroTitle}{" "}
-            <em className="font-serif font-medium italic text-primary">{heroHighlight}</em>
-          </h1>
+            <em className="relative inline-block font-serif font-medium italic text-primary">
+              {heroHighlight}
+              {/* Hand-drawn trail under the highlight, drawn in once the page is live */}
+              <svg
+                viewBox="0 0 100 12"
+                preserveAspectRatio="none"
+                className="pointer-events-none absolute -bottom-1 left-0 h-2.5 w-full text-primary/45 sm:-bottom-2 sm:h-3.5"
+                aria-hidden="true"
+              >
+                <m.path
+                  d="M2 8 C 22 3, 48 2.5, 70 5 S 92 8, 98 4"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  vectorEffect="non-scaling-stroke"
+                  initial={{ pathLength: 0 }}
+                  animate={{ pathLength: 1 }}
+                  transition={{ duration: 1.1, delay: 0.7, ease: EASE_OUT }}
+                />
+              </svg>
+            </em>
+          </StaggerItem>
 
           {/* Search — the same autocomplete bar the category and trek pages use */}
-          <div className="pointer-events-auto relative mt-6 w-full max-w-md sm:mt-8">
+          <StaggerItem className="pointer-events-auto relative z-10 mt-6 w-full max-w-md sm:mt-8">
             <SearchBar />
-          </div>
+          </StaggerItem>
 
           {/* CTA row — dynamic buttons (name + link). Quieter than the search,
               which is now this hero's primary action. */}
-          <div className="relative mt-6 flex flex-wrap items-center gap-x-6 gap-y-3 sm:mt-7">
-            <Link
+          <StaggerItem className="relative mt-6 flex flex-wrap items-center gap-x-6 gap-y-3 sm:mt-7">
+            <MotionLink
+              lift={0}
               href={primaryCta.href || "/search"}
               className="pointer-events-auto group inline-flex items-center gap-1.5 text-sm font-semibold text-foreground underline-offset-4 transition-colors hover:text-primary sm:text-base"
             >
               {primaryCta.label || "Start exploring"}
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-            </Link>
-            <Link
+            </MotionLink>
+            <MotionLink
+              lift={0}
               href={secondaryCta.href || "/blog"}
               className="pointer-events-auto group inline-flex items-center gap-1.5 text-sm font-semibold text-text-muted underline-offset-4 transition-colors hover:text-primary sm:text-base"
             >
@@ -426,9 +504,9 @@ export function GreenCompassHero({
               <span className="transition-transform group-hover:translate-x-0.5" aria-hidden>
                 →
               </span>
-            </Link>
-          </div>
-        </div>
+            </MotionLink>
+          </StaggerItem>
+        </Stagger>
       </div>
 
       {children}

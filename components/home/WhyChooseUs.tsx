@@ -1,4 +1,5 @@
 import { Shield, Users, Leaf, Heart, Tag, CreditCard, Map, Star, Mountain, Compass, Globe, Award, Smile, Sun } from "lucide-react";
+import { Reveal, Stagger, StaggerItem } from "@/components/motion";
 
 const iconComponentMap: Record<string, React.ElementType> = {
   Shield, Users, Leaf, Heart, Tag, CreditCard,
@@ -41,18 +42,20 @@ export function WhyChooseUs({
       <div className="absolute inset-0 bg-background/80" aria-hidden="true" />
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        {/* Subtitle with decorative line */}
-        <div className="flex items-center gap-3">
-          <span className="h-px w-8 bg-secondary" aria-hidden="true" />
-          <span className="text-xs font-semibold uppercase tracking-[0.12em] text-secondary">
-            {subtitle || "Discover the Difference"}
-          </span>
-        </div>
+        <Stagger>
+          {/* Subtitle with decorative line */}
+          <StaggerItem from="left" className="flex items-center gap-3">
+            <span className="h-px w-8 bg-secondary" aria-hidden="true" />
+            <span className="text-xs font-semibold uppercase tracking-[0.12em] text-secondary">
+              {subtitle || "Discover the Difference"}
+            </span>
+          </StaggerItem>
 
-        {/* Heading */}
-        <h2 className="mt-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-          {heading || "Why Trek With Us?"}
-        </h2>
+          {/* Heading */}
+          <StaggerItem as="h2" className="mt-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+            {heading || "Why Trek With Us?"}
+          </StaggerItem>
+        </Stagger>
 
         {/* Grid */}
         <div className="mt-12 grid gap-x-12 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
@@ -60,15 +63,15 @@ export function WhyChooseUs({
             const Icon = iconComponentMap[item.icon] || defaultIcon;
             const colorClass = iconColors[index % iconColors.length];
             return (
-              <div key={item.title} className="flex items-start gap-5">
-                <div className="flex h-14 w-14 min-w-14 items-center justify-center rounded-2xl bg-surface shadow-[0_8px_24px_-4px_rgba(0,0,0,0.08)]">
+              <Reveal key={item.title} delay={(index % 3) * 0.08} className="group flex items-start gap-5">
+                <div className="flex h-14 w-14 min-w-14 items-center justify-center rounded-2xl bg-surface shadow-[0_8px_24px_-4px_rgba(0,0,0,0.08)] transition-transform duration-300 group-hover:-translate-y-1 group-hover:rotate-[-4deg]">
                   <Icon className={`h-6 w-6 ${colorClass}`} />
                 </div>
                 <div>
                   <h3 className="text-base font-semibold text-foreground">{item.title}</h3>
                   <p className="mt-1.5 text-sm leading-relaxed text-text-muted">{item.description}</p>
                 </div>
-              </div>
+              </Reveal>
             );
           })}
         </div>

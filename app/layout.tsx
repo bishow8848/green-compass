@@ -7,6 +7,10 @@ import { Footer } from "@/components/layout/Footer";
 import { SessionProvider } from "@/components/layout/SessionProvider";
 import { ScrollToTop } from "@/components/layout/ScrollToTop";
 import { FloatingButtons } from "@/components/layout/FloatingButtons";
+import { NavigationLoader } from "@/components/layout/NavigationLoader";
+import { VisitorTracker } from "@/components/layout/VisitorTracker";
+import { PageLoading } from "@/components/loading/PageLoading";
+import { MotionProvider, PageTransition } from "@/components/motion";
 import { prisma } from "@/lib/prisma";
 import { getCachedOrFetch, cacheKeys, CACHE_TTL } from "@/lib/redis";
 import { getPageContent } from "@/lib/page-content";
@@ -321,33 +325,42 @@ export default async function RootLayout({
       <body className="flex min-h-full flex-col overflow-x-hidden">
         <PreloadResources />
         <SessionProvider>
-          <ScrollToTop />
-          <Header
-            categories={categories}
-            siteLogo={settingsData?.logo || null}
-            navigation={navigation}
-            categoryDropdownTreks={categoryDropdownTreks}
-            dropdownTreks={JSON.parse(JSON.stringify(dropdownTreks))}
-            allRegions={JSON.parse(JSON.stringify(allRegions))}
-            topBarContent={settingsData?.topBarContent ? sanitizeInlineHtml(settingsData.topBarContent) : null}
-          />
-          {/* ── Global Structured Data ── */}
-          <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{
-              __html: serializeJsonLd({
-                "@context": "https://schema.org",
-                "@graph": [
-                  organizationSchema,
-                  websiteSchema,
-                ],
-              }),
-            }}
-          />
-          <main className="flex-1">{children}</main>
-          <Footer />
-          <Analytics />
-          <FloatingButtons />
+          <MotionProvider>
+            <ScrollToTop />
+            <Header
+              categories={categories}
+              siteLogo={settingsData?.logo || null}
+              navigation={navigation}
+              categoryDropdownTreks={categoryDropdownTreks}
+              dropdownTreks={JSON.parse(JSON.stringify(dropdownTreks))}
+              allRegions={JSON.parse(JSON.stringify(allRegions))}
+              topBarContent={settingsData?.topBarContent ? sanitizeInlineHtml(settingsData.topBarContent) : null}
+            />
+            {/* ── Global Structured Data ── */}
+            <script
+              type="application/ld+json"
+              dangerouslySetInnerHTML={{
+                __html: serializeJsonLd({
+                  "@context": "https://schema.org",
+                  "@graph": [
+                    organizationSchema,
+                    websiteSchema,
+                  ],
+                }),
+              }}
+            />
+            <main className="flex-1">
+              <PageTransition>{children}</PageTransition>
+            </main>
+            <Footer />
+            <Analytics />
+            <VisitorTracker />
+            <FloatingButtons />
+            {/* Server-rendered here, so the loading screen adds no JavaScript. */}
+            <NavigationLoader>
+              <PageLoading />
+            </NavigationLoader>
+          </MotionProvider>
         </SessionProvider>
       </body>
     </html>

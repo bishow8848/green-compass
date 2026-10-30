@@ -4,10 +4,26 @@ import { CLOUDINARY_CLOUD_NAME } from "@/lib/cloudinary-url";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useRef, useEffect, useCallback, useSyncExternalStore } from "react";
 import { useSession, signOut } from "next-auth/react";
 import { Mountain, Menu, X, User, LogOut, ChevronDown } from "lucide-react";
+import { AnimatePresence, stagger } from "framer-motion";
+import * as m from "framer-motion/m";
+import { Collapse, MotionLink } from "@/components/motion";
+import { SPRING_SNAPPY, SPRING_SOFT } from "@/components/motion/presets";
 import { HeaderMegaMenu } from "./HeaderMegaMenu";
+
+const subscribeNoop = () => () => undefined;
+
+/** Drawer rows fade down one after another each time the drawer opens. */
+const drawerNavVariants = {
+  open: { transition: { delayChildren: stagger(0.035, { startDelay: 0.12 }) } },
+  closed: {},
+};
+const drawerItemVariants = {
+  open: { opacity: 1, y: 0, transition: SPRING_SNAPPY },
+  closed: { opacity: 0, y: -10, transition: { duration: 0.12 } },
+};
 
 interface CategoryNav {
   id: string;
@@ -87,6 +103,10 @@ export function Header({
   const navRef = useRef<HTMLElement | null>(null);
   const authRef = useRef<HTMLDivElement | null>(null);
   const [megaBox, setMegaBox] = useState<{ left: number; width: number } | null>(null);
+  // False while hydrating. The drawer's rows are rendered visible in the HTML
+  // (they are the crawlable copy of the full nav) and only tucked away for the
+  // stagger once the page is interactive.
+  const hydrated = useSyncExternalStore(subscribeNoop, () => true, () => false);
 
   // Scroll tracking with hysteresis + rAF throttling.
   // Wide gap (30px to leave the top, 100px to re-enter) means a scroll
@@ -402,12 +422,12 @@ export function Header({
   const megaGroups = megaItem ? getTreksGroupedByRegion(megaItem.href) : [];
   const megaOpen = Boolean(megaItem && megaGroups.length > 0);
 
-  const megaMenuPanel = megaItem ? (
+  const megaMenuPanel = megaItem && megaOpen ? (
     <HeaderMegaMenu
+      key="mega-menu"
       label={megaItem.label}
       href={megaItem.href}
       groups={megaGroups}
-      isOpen={megaOpen}
       activeRegion={megaRegions[megaItem.href] ?? null}
       onRegionChange={(region) =>
         setMegaRegions((prev) => ({ ...prev, [megaItem.href]: region }))
@@ -454,13 +474,14 @@ export function Header({
           </button>
         </div>
       ) : (
-        <Link
+        <MotionLink
           href="/login"
-          className="flex items-center gap-1.5 rounded-full bg-primary px-4 py-2 text-[14px] font-medium text-white shadow-sm transition-all duration-200 hover:-translate-y-px hover:bg-primary-dark hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2"
+          lift={1}
+          className="flex items-center gap-1.5 rounded-full bg-primary px-4 py-2 text-[14px] font-medium text-white shadow-sm transition-[background-color,box-shadow] duration-200 hover:bg-primary-dark hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2"
         >
           <User className="h-4 w-4" />
           Login
-        </Link>
+        </MotionLink>
       )}
     </div>
   );
@@ -474,8 +495,18 @@ export function Header({
       aria-controls="mobile-menu"
     >
       <span className="relative block h-6 w-6">
-        <Menu className={`absolute inset-0 h-6 w-6 transition-all duration-200 ${isMenuOpen ? "rotate-45 opacity-0" : "rotate-0 opacity-100"}`} />
-        <X className={`absolute inset-0 h-6 w-6 transition-all duration-200 ${isMenuOpen ? "rotate-0 opacity-100" : "-rotate-45 opacity-0"}`} />
+        <AnimatePresence initial={false}>
+          <m.span
+            key={isMenuOpen ? "close" : "menu"}
+            className="absolute inset-0"
+            initial={{ rotate: isMenuOpen ? -90 : 90, opacity: 0, scale: 0.6 }}
+            animate={{ rotate: 0, opacity: 1, scale: 1 }}
+            exit={{ rotate: isMenuOpen ? 90 : -90, opacity: 0, scale: 0.6 }}
+            transition={SPRING_SNAPPY}
+          >
+            {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          </m.span>
+        </AnimatePresence>
       </span>
     </button>
   );
@@ -484,6 +515,7 @@ export function Header({
     <div
       ref={headerRef}
       data-header-root="true"
+      data-pdf-hide=""
       className={`relative sticky top-0 z-50 border-b transition-all duration-300 ${
         isScrolled
           ? "border-black/5 bg-white/85 shadow-[0_1px_2px_rgba(0,0,0,0.03),0_4px_16px_-4px_rgba(0,0,0,0.08)] backdrop-blur-md"
@@ -524,26 +556,30 @@ export function Header({
       )}
 
       {/* Mega menu — full-width panel shown below the header on hover (desktop) */}
-      {megaMenuPanel}
+      <AnimatePresence>{megaMenuPanel}</AnimatePresence>
 
       {/* Mobile backdrop — dims the page and closes the drawer on tap */}
-      <div
-        className={`fixed inset-0 z-[55] bg-slate-900/50 backdrop-blur-[2px] transition-opacity duration-300 lg:hidden ${
-          isMenuOpen ? "opacity-100" : "pointer-events-none opacity-0"
+      <m.div
+        className={`fixed inset-0 z-[55] bg-slate-900/50 backdrop-blur-[2px] lg:hidden ${
+          isMenuOpen ? "" : "pointer-events-none"
         }`}
+        initial={false}
+        animate={{ opacity: isMenuOpen ? 1 : 0 }}
+        transition={{ duration: 0.3 }}
         onClick={() => setIsMenuOpen(false)}
         aria-hidden="true"
       />
 
       {/* Mobile Navigation drawer — full-screen overlay, page scroll is locked while open */}
-      <div
+      <m.div
         id="mobile-menu"
         role="dialog"
         aria-modal="true"
         aria-label="Site navigation"
-        className={`fixed inset-0 z-[60] flex h-[100dvh] w-screen flex-col overflow-y-auto bg-white transition-transform duration-300 ease-out lg:hidden ${
-          isMenuOpen ? "translate-y-0" : "-translate-y-full"
-        }`}
+        className="fixed inset-0 z-[60] flex h-[100dvh] w-screen flex-col overflow-y-auto bg-white lg:hidden"
+        initial={false}
+        animate={{ y: isMenuOpen ? "0%" : "-100%" }}
+        transition={SPRING_SOFT}
       >
         <div
           className="flex shrink-0 items-center justify-between border-b border-slate-100 px-4 py-3"
@@ -567,13 +603,15 @@ export function Header({
               </div>
             )}
           </Link>
-          <button
+          <m.button
             onClick={() => setIsMenuOpen(false)}
-            className="rounded-full p-2.5 text-slate-500 transition-colors hover:bg-surface-alt active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+            whileTap={{ scale: 0.9, rotate: 90 }}
+            transition={SPRING_SNAPPY}
+            className="rounded-full p-2.5 text-slate-500 transition-colors hover:bg-surface-alt focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
             aria-label="Close menu"
           >
             <X className="h-5 w-5" />
-          </button>
+          </m.button>
         </div>
 
         {session?.user && (
@@ -591,9 +629,12 @@ export function Header({
           </Link>
         )}
 
-        <nav
+        <m.nav
           className="flex flex-col gap-0.5 px-3 py-3"
           style={{ paddingBottom: "max(1.5rem, calc(env(safe-area-inset-bottom) + 1rem))" }}
+          initial={false}
+          animate={!hydrated || isMenuOpen ? "open" : "closed"}
+          variants={drawerNavVariants}
         >
           {navItems.map((item) => {
             const groupedTreks = getTreksGroupedByRegion(item.href);
@@ -602,7 +643,7 @@ export function Header({
             const isActive = isNavItemActive(item.href);
 
             return (
-              <div key={item.href}>
+              <m.div key={item.href} variants={drawerItemVariants}>
                 {hasDropdown ? (
                   <>
                     <div
@@ -631,12 +672,8 @@ export function Header({
                     </div>
 
                     {/* Level 1 — region list (only regions, collapsed) */}
-                    <div
-                      className={`grid overflow-hidden transition-[grid-template-rows] duration-200 ease-out ${
-                        isOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
-                      }`}
-                    >
-                      <div className="min-h-0">
+                    <Collapse open={isOpen}>
+                      <div>
                         <div className="ml-4 mt-1 space-y-0.5 border-l border-slate-100 py-1 pl-3">
                           {groupedTreks.map((group) => {
                             const regionKey = `${item.href}:${group.region}`;
@@ -659,12 +696,8 @@ export function Header({
                                 </button>
 
                                 {/* Level 2 — treks for this region */}
-                                <div
-                                  className={`grid overflow-hidden transition-[grid-template-rows] duration-200 ease-out ${
-                                    regionOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
-                                  }`}
-                                >
-                                  <div className="min-h-0">
+                                <Collapse open={regionOpen}>
+                                  <div>
                                     <div className="space-y-0.5 pb-1 pl-3">
                                       {group.treks.map((trek) => {
                                         const trekHref = `/${item.href.replace(/^\//, "")}/${trek.slug}`;
@@ -688,13 +721,13 @@ export function Header({
                                       })}
                                     </div>
                                   </div>
-                                </div>
+                                </Collapse>
                               </div>
                             );
                           })}
                         </div>
                       </div>
-                    </div>
+                    </Collapse>
                   </>
                 ) : (
                   <Link
@@ -707,11 +740,11 @@ export function Header({
                     {item.label}
                   </Link>
                 )}
-              </div>
+              </m.div>
             );
           })}
 
-          <div className="mt-3 border-t border-slate-100 pt-3">
+          <m.div variants={drawerItemVariants} className="mt-3 border-t border-slate-100 pt-3">
             {session?.user ? (
               <button
                 onClick={() => {
@@ -733,9 +766,9 @@ export function Header({
                 Login
               </Link>
             )}
-          </div>
-        </nav>
-      </div>
+          </m.div>
+        </m.nav>
+      </m.div>
     </div>
   );
 }

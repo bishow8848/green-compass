@@ -7,6 +7,7 @@ import { ExternalLink, Mountain } from "lucide-react";
 import { BlogCard } from "@/components/blog/BlogCard";
 import { Pagination } from "@/components/ui/Pagination";
 import { PageHero } from "@/components/layout/PageHero";
+import { Reveal, Stagger, StaggerItem } from "@/components/motion";
 import { getPageContent, requirePageSection } from "@/lib/page-content";
 import { prisma } from "@/lib/prisma";
 import { readTimeMinutes } from "@/lib/read-time";
@@ -225,8 +226,8 @@ export default async function AuthorPage({
 
       {/* ── About ── */}
       <section className="bg-background pt-16 sm:pt-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-4">
+        <Stagger className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <StaggerItem className="flex items-center gap-4">
             {avatarUrl ? (
               <img
                 src={avatarUrl}
@@ -264,52 +265,55 @@ export default async function AuthorPage({
                 ))}
               </div>
             </div>
-          </div>
+          </StaggerItem>
 
           {author.bio && (
-            <div
+            <StaggerItem
               className="mt-6 max-w-4xl space-y-4 text-base leading-relaxed text-text-muted sm:text-lg [&_a]:text-primary [&_a]:underline"
               dangerouslySetInnerHTML={{ __html: author.bio }}
             />
           )}
-        </div>
+        </Stagger>
       </section>
 
       {/* ── Articles ── */}
       <section id="articles" className="bg-background py-16 sm:py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold tracking-tight text-secondary-dark sm:text-3xl">
-            Articles by {author.name}
-          </h2>
-          {total > 0 && (
-            <p className="mt-2 text-base text-text-muted">
-              Showing {firstShown}–{lastShown} of {total} {total === 1 ? "article" : "articles"}
-            </p>
-          )}
+          <Reveal>
+            <h2 className="text-2xl font-bold tracking-tight text-secondary-dark sm:text-3xl">
+              Articles by {author.name}
+            </h2>
+            {total > 0 && (
+              <p className="mt-2 text-base text-text-muted">
+                Showing {firstShown}–{lastShown} of {total} {total === 1 ? "article" : "articles"}
+              </p>
+            )}
+          </Reveal>
 
           {posts.length === 0 ? (
-            <div className="mt-10 flex flex-col items-center rounded-3xl border border-border/60 bg-surface p-12 text-center">
+            <Reveal from="scale" className="mt-10 flex flex-col items-center rounded-3xl border border-border/60 bg-surface p-12 text-center">
               <Mountain className="h-12 w-12 text-text-muted/40" />
               <p className="mt-4 text-sm font-medium text-text-muted">No posts yet</p>
               <p className="mt-1 text-xs text-text-muted/60">This author hasn&apos;t published any posts yet.</p>
-            </div>
+            </Reveal>
           ) : (
             <>
               <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                {posts.map((post) => {
+                {posts.map((post, i) => {
                   return (
-                    <BlogCard
-                      key={post.slug}
-                      slug={post.slug}
-                      title={post.title}
-                      excerpt={post.excerpt}
-                      heroImage={post.heroImage}
-                      tags={parseTags(post.tags)}
-                      date={new Date(post.publishedDate).toISOString().split("T")[0]}
-                      readTime={`${post.readTime} min read`}
-                      author={post.author}
-                      authorSlug={post.authorSlug}
-                    />
+                    <Reveal key={post.slug} delay={(i % 3) * 0.08} className="h-full">
+                      <BlogCard
+                        slug={post.slug}
+                        title={post.title}
+                        excerpt={post.excerpt}
+                        heroImage={post.heroImage}
+                        tags={parseTags(post.tags)}
+                        date={new Date(post.publishedDate).toISOString().split("T")[0]}
+                        readTime={`${post.readTime} min read`}
+                        author={post.author}
+                        authorSlug={post.authorSlug}
+                      />
+                    </Reveal>
                   );
                 })}
               </div>

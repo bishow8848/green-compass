@@ -1,5 +1,5 @@
-import Link from "next/link";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { MotionLink, Reveal } from "@/components/motion";
 
 interface PaginationProps {
   currentPage: number;
@@ -37,16 +37,16 @@ export function Pagination({ currentPage, totalPages, basePath }: PaginationProp
   const pages = buildPages();
 
   return (
-    <nav className="mt-12 flex items-center justify-center gap-1.5" aria-label="Blog pagination">
+    <Reveal as="nav" className="mt-12 flex items-center justify-center gap-1.5" aria-label="Blog pagination">
       {/* Previous */}
       {currentPage > 1 ? (
-        <Link
+        <MotionLink
           href={`${basePath}?page=${currentPage - 1}`}
-          className="flex h-10 w-10 items-center justify-center rounded-xl border border-border bg-surface text-text-muted transition-all hover:border-primary/30 hover:text-primary"
+          className="flex h-10 w-10 items-center justify-center rounded-xl border border-border bg-surface text-text-muted transition-colors hover:border-primary/30 hover:text-primary"
           aria-label="Previous page"
         >
           <ChevronLeft className="h-4 w-4" />
-        </Link>
+        </MotionLink>
       ) : (
         <span className="flex h-10 w-10 cursor-not-allowed items-center justify-center rounded-xl border border-border bg-surface text-text-muted/40">
           <ChevronLeft className="h-4 w-4" />
@@ -60,10 +60,10 @@ export function Pagination({ currentPage, totalPages, basePath }: PaginationProp
             ...
           </span>
         ) : (
-          <Link
+          <MotionLink
             key={page}
             href={`${basePath}?page=${page}`}
-            className={`flex h-10 w-10 items-center justify-center rounded-xl text-sm font-semibold transition-all ${
+            className={`flex h-10 w-10 items-center justify-center rounded-xl text-sm font-semibold transition-colors ${
               page === currentPage
                 ? "bg-primary text-white shadow-sm"
                 : "border border-border bg-surface text-foreground hover:border-primary/30 hover:text-primary"
@@ -72,24 +72,24 @@ export function Pagination({ currentPage, totalPages, basePath }: PaginationProp
             aria-label={`Page ${page}`}
           >
             {page}
-          </Link>
+          </MotionLink>
         )
       )}
 
       {/* Next */}
       {currentPage < totalPages ? (
-        <Link
+        <MotionLink
           href={`${basePath}?page=${currentPage + 1}`}
-          className="flex h-10 w-10 items-center justify-center rounded-xl border border-border bg-surface text-text-muted transition-all hover:border-primary/30 hover:text-primary"
+          className="flex h-10 w-10 items-center justify-center rounded-xl border border-border bg-surface text-text-muted transition-colors hover:border-primary/30 hover:text-primary"
           aria-label="Next page"
         >
           <ChevronRight className="h-4 w-4" />
-        </Link>
+        </MotionLink>
       ) : (
         <span className="flex h-10 w-10 cursor-not-allowed items-center justify-center rounded-xl border border-border bg-surface text-text-muted/40">
           <ChevronRight className="h-4 w-4" />
         </span>
       )}
-    </nav>
+    </Reveal>
   );
 }

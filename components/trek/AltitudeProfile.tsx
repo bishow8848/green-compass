@@ -2,6 +2,20 @@
 
 import { useMemo, useState } from "react";
 import { TrendingUp, ArrowUp, ArrowDown } from "lucide-react";
+import { AnimatePresence } from "framer-motion";
+import * as m from "framer-motion/m";
+import { Reveal, Stagger, StaggerItem } from "@/components/motion";
+import { EASE_OUT, SPRING_SNAPPY } from "@/components/motion/presets";
+import { useReveal } from "@/components/motion/useReveal";
+
+/** Seconds the profile takes to trace across the chart. */
+const TRACE_SECONDS = 1.4;
+
+/** The area and line are uncovered left to right, like the route being walked. */
+const traceVariants = {
+  hidden: { clipPath: "inset(0 100% 0 0)", transition: { duration: 0 } },
+  visible: { clipPath: "inset(0 0% 0 0)", transition: { duration: TRACE_SECONDS, ease: EASE_OUT } },
+};
 
 interface ItineraryDay {
   dayNumber: number;
@@ -30,6 +44,7 @@ function formatAltitude(meters: number): string {
 
 export function AltitudeProfile({ itinerary, fullscreen }: AltitudeProfileProps) {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const trace = useReveal<HTMLDivElement>();
 
   const points = useMemo(() => {
     const result: {
@@ -90,38 +105,44 @@ export function AltitudeProfile({ itinerary, fullscreen }: AltitudeProfileProps)
     >
       {/* Header */}
       <div className="flex flex-wrap items-center justify-between gap-4">
-        <div className="flex items-center gap-2">
+        <Reveal from="left" className="flex items-center gap-2">
           <TrendingUp className="h-5 w-5" style={{ color: "var(--color-primary)" }} />
           <h2 className="text-2xl font-bold" style={{ color: "var(--color-secondary)" }}>
             Altitude Profile
           </h2>
-        </div>
+        </Reveal>
 
         {/* Quick stats — derived from the same data driving the chart */}
-        <div className="flex flex-wrap items-center gap-2">
-          <span
+        <Stagger gap={0.06} delay={0.1} className="flex flex-wrap items-center gap-2">
+          <StaggerItem
+            as="span"
+            from="pop"
             className="flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-semibold"
             style={{ borderColor: "var(--color-border)", backgroundColor: "var(--color-surface-alt)", color: "var(--color-primary)" }}
           >
             <ArrowUp className="h-3.5 w-3.5" />
             {formatAltitude(maxAlt)} max
-          </span>
-          <span
+          </StaggerItem>
+          <StaggerItem
+            as="span"
+            from="pop"
             className="flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-semibold"
             style={{ borderColor: "var(--color-border)", backgroundColor: "var(--color-surface-alt)", color: "var(--color-text-muted)" }}
           >
             <ArrowDown className="h-3.5 w-3.5" />
             {formatAltitude(minAlt)} min
-          </span>
+          </StaggerItem>
           {totalGain > 0 && (
-            <span
+            <StaggerItem
+              as="span"
+              from="pop"
               className="flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-semibold"
               style={{ borderColor: "var(--color-border)", backgroundColor: "var(--color-surface-alt)", color: "var(--color-text-muted)" }}
             >
               +{formatAltitude(totalGain)} gain
-            </span>
+            </StaggerItem>
           )}
-        </div>
+        </Stagger>
       </div>
 
       {/* Chart area — fully fluid, no scroll containers of any kind */}
@@ -148,10 +169,16 @@ export function AltitudeProfile({ itinerary, fullscreen }: AltitudeProfileProps)
           })}
         </div>
 
-        {/* Profile area */}
-        <div className={`relative ml-14 ${fullscreen ? "h-[55vh] max-h-[500px]" : "h-[220px]"}`}>
-          <svg
-            className="absolute inset-0 pointer-events-none"
+        {/* Profile area — the line traces in, then each day's marker drops onto it */}
+        <m.div
+          {...trace}
+          variants={{ hidden: {}, visible: {} }}
+          className={`relative ml-14 ${fullscreen ? "h-[55vh] max-h-[500px]" : "h-[220px]"}`}
+        >
+          <m.svg
+            variants={traceVariants}
+            // An untraced chart must still print.
+            className="absolute inset-0 pointer-events-none print:[clip-path:none]! pdf:[clip-path:none]!"
             viewBox="0 0 100 100"
             preserveAspectRatio="none"
             style={{ width: "100%", height: "100%" }}
@@ -189,7 +216,7 @@ export function AltitudeProfile({ itinerary, fullscreen }: AltitudeProfileProps)
               strokeLinecap="round"
               vectorEffect="non-scaling-stroke"
             />
-          </svg>
+          </m.svg>
 
           {/* Dots */}
           {points.map((point, i) => {
@@ -209,10 +236,20 @@ export function AltitudeProfile({ itinerary, fullscreen }: AltitudeProfileProps)
                   zIndex: isHovered ? 20 : 10,
                 }}
               >
-                <div
+                <m.div
+                  data-reveal=""
                   className="relative cursor-pointer"
                   onMouseEnter={() => setHoveredIndex(i)}
                   onMouseLeave={() => setHoveredIndex(null)}
+                  // Lands as the trace reaches it.
+                  variants={{
+                    hidden: { scale: 0, opacity: 0, transition: { duration: 0 } },
+                    visible: {
+                      scale: 1,
+                      opacity: 1,
+                      transition: { ...SPRING_SNAPPY, delay: (pct / 100) * TRACE_SECONDS * 0.8 + 0.1 },
+                    },
+                  }}
                 >
                   <div
                     className="flex items-center justify-center rounded-full border-2 font-bold transition-all duration-150"
@@ -229,20 +266,23 @@ export function AltitudeProfile({ itinerary, fullscreen }: AltitudeProfileProps)
                   >
                     {i + 1}
                   </div>
-                </div>
+                </m.div>
 
-                {isHovered && (
-                  <TooltipContent
-                    point={point}
-                    index={i}
-                    totalPoints={points.length}
-                    altPct={altPct}
-                  />
-                )}
+                <AnimatePresence>
+                  {isHovered && (
+                    <TooltipContent
+                      key="tooltip"
+                      point={point}
+                      index={i}
+                      totalPoints={points.length}
+                      altPct={altPct}
+                    />
+                  )}
+                </AnimatePresence>
               </div>
             );
           })}
-        </div>
+        </m.div>
       </div>
     </div>
   );
@@ -288,17 +328,25 @@ function TooltipContent({
         : { left: "50%", transform: "translateX(-50%)" };
 
   return (
-    <div
+    // The outer box keeps its positioning transform; only opacity animates on it.
+    <m.div
       className="absolute z-30 w-56 pointer-events-none"
       style={{
         ...horizontalStyle,
         [showBelow ? "top" : "bottom"]: "100%",
         [showBelow ? "marginTop" : "marginBottom"]: "10px",
       }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.15 }}
     >
-      <div
+      <m.div
         className="rounded-xl border px-3.5 py-3 shadow-lg"
         style={{ backgroundColor: "var(--color-surface)", borderColor: "var(--color-border)" }}
+        initial={{ y: showBelow ? -6 : 6, scale: 0.97 }}
+        animate={{ y: 0, scale: 1 }}
+        transition={SPRING_SNAPPY}
       >
         <div className="flex items-center gap-2">
           <span
@@ -321,7 +369,7 @@ function TooltipContent({
             dangerouslySetInnerHTML={{ __html: point.description }}
           />
         )}
-      </div>
+      </m.div>
       <div
         className="absolute h-2 w-2 rotate-45"
         style={{
@@ -333,6 +381,6 @@ function TooltipContent({
           ...arrowLeftStyle,
         }}
       />
-    </div>
+    </m.div>
   );
 }

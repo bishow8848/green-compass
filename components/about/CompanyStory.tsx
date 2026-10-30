@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { CLOUDINARY_CLOUD_NAME } from "@/lib/cloudinary-url";
 import { BookOpen, Star } from "lucide-react";
+import { Reveal, Stagger, StaggerItem } from "@/components/motion";
 
 const CLOUDINARY_BASE = `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/`;
 
@@ -30,7 +31,7 @@ export function CompanyStory({ heading, description, image, badge, highlightLabe
           
           {/* Image side with layered framing */}
           {resolvedImage && (
-            <div className="lg:col-span-6 relative">
+            <Reveal from="left" duration={0.8} className="lg:col-span-6 relative">
               {/* Decorative backdrop shape */}
               <div className="absolute -inset-2 rounded-3xl bg-gradient-to-tr from-primary/20 to-secondary/20 opacity-50 blur-lg" />
               
@@ -46,7 +47,7 @@ export function CompanyStory({ heading, description, image, badge, highlightLabe
 
               {/* Floating micro-badge card for extra UI flair */}
               {(highlightLabel || highlightTitle) && (
-                <div className="absolute -bottom-6 -right-6 hidden sm:flex items-center gap-3 rounded-2xl border border-border/60 bg-background/90 p-4 shadow-xl backdrop-blur-md">
+                <Reveal from="pop" delay={0.45} className="absolute -bottom-6 -right-6 hidden sm:flex items-center gap-3 rounded-2xl border border-border/60 bg-background/90 p-4 shadow-xl backdrop-blur-md">
                   <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/20 text-primary shadow-sm">
                     <Star className="h-5 w-5" />
                   </div>
@@ -54,32 +55,32 @@ export function CompanyStory({ heading, description, image, badge, highlightLabe
                     {highlightLabel && <p className="text-xs font-medium text-muted-foreground">{highlightLabel}</p>}
                     {highlightTitle && <p className="text-sm font-bold text-foreground">{highlightTitle}</p>}
                   </div>
-                </div>
+                </Reveal>
               )}
-            </div>
+            </Reveal>
           )}
 
           {/* Content side */}
-          <div className={resolvedImage ? "lg:col-span-6" : "lg:col-span-12 max-w-3xl mx-auto text-center"}>
-            <div className={`flex items-center gap-3 ${!resolvedImage ? "justify-center" : ""}`}>
+          <Stagger delay={0.1} className={resolvedImage ? "lg:col-span-6" : "lg:col-span-12 max-w-3xl mx-auto text-center"}>
+            <StaggerItem className={`flex items-center gap-3 ${!resolvedImage ? "justify-center" : ""}`}>
               <span className="h-px w-8 bg-secondary" aria-hidden="true" />
               <span className="text-xs font-semibold uppercase tracking-[0.12em] text-secondary">
                 {badge || "Our Story"}
               </span>
-            </div>
+            </StaggerItem>
 
-            <h2 className="mt-4 text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
+            <StaggerItem as="h2" className="mt-4 text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
               {heading || "Our Story"}
-            </h2>
+            </StaggerItem>
 
             {description && (
               <div className="mt-6 space-y-4 text-base sm:text-lg leading-relaxed text-muted-foreground">
                 {description.split("\n\n").map((paragraph, i) => (
-                  <p key={i}>{paragraph}</p>
+                  <StaggerItem as="p" key={i}>{paragraph}</StaggerItem>
                 ))}
               </div>
             )}
-          </div>
+          </Stagger>
 
         </div>
       </div>

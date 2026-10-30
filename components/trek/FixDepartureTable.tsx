@@ -3,6 +3,22 @@
 import { useState, useEffect, useMemo, useRef } from "react";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
+import { AnimatePresence } from "framer-motion";
+import * as m from "framer-motion/m";
+import { MotionLink, Reveal } from "@/components/motion";
+import { EASE_OUT, SPRING_SNAPPY, SPRING_SOFT } from "@/components/motion/presets";
+
+/** Shared modal entrance: the backdrop fades, the panel springs up. */
+const backdropMotion = {
+  initial: { opacity: 0 },
+  animate: { opacity: 1 },
+  exit: { opacity: 0, transition: { duration: 0.2 } },
+};
+const panelMotion = {
+  initial: { opacity: 0, y: 24, scale: 0.96 },
+  animate: { opacity: 1, y: 0, scale: 1, transition: SPRING_SOFT },
+  exit: { opacity: 0, y: 12, scale: 0.98, transition: { duration: 0.16 } },
+};
 import {
   Info,
   X,
@@ -224,7 +240,7 @@ function computeDefaultSelection(
   yearRange: number[]
 ): { year: number | null; month: number | null } {
   for (const year of yearRange) {
-    for (const month of MONTHS.map((m) => m.index)) {
+    for (const month of MONTHS.map((mo) => mo.index)) {
       const hasAny = treks.some((trek) => {
         if (
           (trek.customDates || []).some((c) => {
@@ -290,11 +306,15 @@ function PriceModal({ departures, onClose }: { departures: Departure[]; onClose:
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-      <div
+      <m.div
+        {...backdropMotion}
         className="absolute inset-0 bg-black/40 backdrop-blur-md"
         onClick={onClose}
       />
-      <div
+      <m.div
+        {...panelMotion}
+        role="dialog"
+        aria-modal="true"
         className="relative z-10 w-full max-w-md overflow-hidden rounded-2xl border bg-white shadow-2xl"
         style={{ borderColor: "var(--color-border)" }}
       >
@@ -311,14 +331,15 @@ function PriceModal({ departures, onClose }: { departures: Departure[]; onClose:
               <Calendar className="h-3 w-3" /> {formatDisplayDate(first.startDate)}
             </p>
           </div>
-          <button
+          <m.button
+            whileTap={{ scale: 0.95 }}
             type="button"
             onClick={onClose}
             className="rounded-lg p-1.5 text-slate-400 transition-colors hover:bg-slate-200/60 hover:text-slate-600"
             aria-label="Close"
           >
             <X className="h-5 w-5" />
-          </button>
+          </m.button>
         </div>
 
         <div className="max-h-[60vh] space-y-4 overflow-y-auto p-5">
@@ -397,16 +418,16 @@ function PriceModal({ departures, onClose }: { departures: Departure[]; onClose:
           </div>
 
           {departures.length === 1 ? (
-            <Link
+            <MotionLink
               href={`/${first.categorySlug}/${first.trekSlug}`}
               className="block w-full rounded-xl px-4 py-3 text-center text-sm font-semibold text-white transition-opacity hover:opacity-90"
               style={{ backgroundColor: "var(--color-primary)" }}
             >
               View Trek Details
-            </Link>
+            </MotionLink>
           ) : null}
         </div>
-      </div>
+      </m.div>
     </div>
   );
 }
@@ -501,8 +522,11 @@ function ContactModal({ departures, onClose }: { departures: Departure[]; onClos
 
   return (
     <div className="fixed inset-0 z-[110] flex items-center justify-center overflow-y-auto p-4">
-      <div className="absolute inset-0 bg-black/50 backdrop-blur-md" onClick={onClose} />
-      <div
+      <m.div {...backdropMotion} className="absolute inset-0 bg-black/50 backdrop-blur-md" onClick={onClose} />
+      <m.div
+        {...panelMotion}
+        role="dialog"
+        aria-modal="true"
         className="relative z-10 my-8 w-full max-w-md overflow-hidden rounded-2xl border bg-white shadow-2xl"
         style={{ borderColor: "var(--color-border)" }}
       >
@@ -514,33 +538,42 @@ function ContactModal({ departures, onClose }: { departures: Departure[]; onClos
             <h3 className="text-base font-bold text-slate-900">Contact Us</h3>
             <p className="truncate text-xs text-slate-500">{trekNames}</p>
           </div>
-          <button
+          <m.button
+            whileTap={{ scale: 0.95 }}
             type="button"
             onClick={onClose}
             className="rounded-lg p-1.5 text-slate-400 transition-colors hover:bg-slate-200/60 hover:text-slate-600"
             aria-label="Close"
           >
             <X className="h-5 w-5" />
-          </button>
+          </m.button>
         </div>
 
         <div className="max-h-[70vh] overflow-y-auto p-5">
           {status === "success" ? (
             <div className="flex flex-col items-center py-8 text-center">
-              <CheckCircle className="h-12 w-12" style={{ color: "var(--color-success)" }} />
+              <m.span
+                className="inline-flex"
+                initial={{ scale: 0, rotate: -45 }}
+                animate={{ scale: 1, rotate: 0 }}
+                transition={{ ...SPRING_SNAPPY, delay: 0.05 }}
+              >
+                <CheckCircle className="h-12 w-12" style={{ color: "var(--color-success)" }} />
+              </m.span>
               <h4 className="mt-4 text-lg font-bold text-slate-900">Message Sent!</h4>
               <p className="mt-1 max-w-xs text-sm text-slate-500">
                 Thank you for reaching out. Our team will contact you shortly about
                 this departure.
               </p>
-              <button
+              <m.button
+                whileTap={{ scale: 0.95 }}
                 type="button"
                 onClick={onClose}
                 className="mt-6 rounded-xl px-6 py-2.5 text-sm font-semibold text-white"
                 style={{ backgroundColor: "var(--color-primary)" }}
               >
                 Done
-              </button>
+              </m.button>
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-4" noValidate>
@@ -594,7 +627,8 @@ function ContactModal({ departures, onClose }: { departures: Departure[]; onClos
                   className="flex items-center justify-between rounded-xl border px-4 py-2"
                   style={{ borderColor: "var(--color-border)", backgroundColor: "var(--color-surface-alt)" }}
                 >
-                  <button
+                  <m.button
+                    whileTap={{ scale: 0.95 }}
                     type="button"
                     onClick={() => setPersons((p) => Math.max(1, p - 1))}
                     disabled={persons <= 1}
@@ -602,16 +636,17 @@ function ContactModal({ departures, onClose }: { departures: Departure[]; onClos
                     style={{ borderColor: "var(--color-border)" }}
                   >
                     −
-                  </button>
+                  </m.button>
                   <span className="text-base font-bold tabular-nums text-slate-900">{persons}</span>
-                  <button
+                  <m.button
+                    whileTap={{ scale: 0.95 }}
                     type="button"
                     onClick={() => setPersons((p) => Math.min(50, p + 1))}
                     className="flex h-6 w-6 items-center justify-center rounded-md border bg-white text-lg font-bold text-slate-600 hover:bg-slate-100"
                     style={{ borderColor: "var(--color-border)" }}
                   >
                     +
-                  </button>
+                  </m.button>
                 </div>
                 {fieldErrors.persons && <p className="mt-1 text-xs text-red-500">{fieldErrors.persons}</p>}
               </div>
@@ -628,16 +663,29 @@ function ContactModal({ departures, onClose }: { departures: Departure[]; onClos
                 />
               </div>
 
-              {errorMsg && status === "error" && (
-                <div className="flex items-start gap-2 rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-700">
-                  <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
-                  <span>{errorMsg}</span>
-                </div>
-              )}
+              <AnimatePresence initial={false}>
+                {errorMsg && status === "error" && (
+                  <m.div
+                    key="error"
+                    className="overflow-hidden"
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    exit={{ opacity: 0, height: 0 }}
+                    transition={{ duration: 0.22, ease: EASE_OUT }}
+                  >
+                    <div className="flex items-start gap-2 rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-700">
+                      <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
+                      <span>{errorMsg}</span>
+                    </div>
+                  </m.div>
+                )}
+              </AnimatePresence>
 
-              <button
+              <m.button
                 type="submit"
                 disabled={status === "sending"}
+                whileTap={status === "sending" ? undefined : { scale: 0.98 }}
+                transition={SPRING_SNAPPY}
                 className="flex w-full items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-semibold text-white transition-opacity hover:opacity-90 disabled:opacity-60"
                 style={{ backgroundColor: "var(--color-primary)" }}
               >
@@ -648,12 +696,12 @@ function ContactModal({ departures, onClose }: { departures: Departure[]; onClos
                 ) : (
                   "Send Message"
                 )}
-              </button>
+              </m.button>
               <p className="text-center text-xs text-slate-400">We usually reply within 24 hours.</p>
             </form>
           )}
         </div>
-      </div>
+      </m.div>
     </div>
   );
 }
@@ -672,8 +720,14 @@ function DepositTooltip({ minPrice }: { minPrice: number }) {
       className="inline-flex shrink-0 cursor-help items-center rounded-full text-slate-400 transition-colors hover:text-teal-600"
     >
       <Info className="h-3.5 w-3.5" />
+      <AnimatePresence>
       {rect && (
-        <span
+        <m.span
+          key="tooltip"
+          initial={{ opacity: 0, y: 6 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 4, transition: { duration: 0.12 } }}
+          transition={{ duration: 0.18, ease: EASE_OUT }}
           className="pointer-events-none fixed z-[120] w-60 -translate-y-full rounded-lg border bg-white px-3 py-2 text-xs leading-relaxed text-slate-600 shadow-xl"
           style={{
             left: Math.min(rect.left, window.innerWidth - 248),
@@ -687,8 +741,9 @@ function DepositTooltip({ minPrice }: { minPrice: number }) {
             className="absolute left-4 top-full -mt-px h-2 w-2 rotate-45 border-r border-b bg-white"
             style={{ borderColor: "var(--color-border)" }}
           />
-        </span>
+        </m.span>
       )}
+      </AnimatePresence>
     </span>
   );
 }
@@ -716,7 +771,7 @@ export function FixDepartureTable({
   const visibleMonths = useMemo(() => {
     const now = new Date();
     if (selectedYear === now.getFullYear()) {
-      return MONTHS.filter((m) => m.index >= now.getMonth());
+      return MONTHS.filter((mo) => mo.index >= now.getMonth());
     }
     return MONTHS;
   }, [selectedYear]);
@@ -759,7 +814,7 @@ export function FixDepartureTable({
     <div className="space-y-6">
       {/* Section heading — only when explicitly provided (e.g. trek detail page) */}
       {heading && (
-        <div>
+        <Reveal>
           <h2 className="mb-2 text-2xl font-bold" style={{ color: "var(--color-secondary)" }}>
             {heading}
           </h2>
@@ -768,12 +823,12 @@ export function FixDepartureTable({
               {description}
             </p>
           )}
-        </div>
+        </Reveal>
       )}
 
       {/* Sort By Date filter */}
       {showSortFilter && (
-        <div
+        <Reveal
           className="overflow-hidden rounded-2xl border"
           style={{ borderColor: "var(--color-border)", backgroundColor: "var(--color-surface)" }}
         >
@@ -787,11 +842,12 @@ export function FixDepartureTable({
             {/* Years */}
             <div className="flex flex-wrap items-center gap-2">
               {yearRange.map((year) => (
-                <button
+                <m.button
+                  whileTap={{ scale: 0.95 }}
                   key={year}
                   type="button"
                   onClick={() => toggleYear(year)}
-                  className={`rounded-full border px-4 py-1.5 text-sm font-semibold transition-all ${
+                  className={`rounded-full border px-4 py-1.5 text-sm font-semibold transition-colors ${
                     selectedYear === year
                       ? "border-transparent text-white shadow-sm"
                       : "border-slate-300 bg-white text-slate-600 hover:border-teal-300 hover:text-teal-600"
@@ -799,16 +855,17 @@ export function FixDepartureTable({
                   style={selectedYear === year ? { backgroundColor: "var(--color-primary)" } : undefined}
                 >
                   {year}
-                </button>
+                </m.button>
               ))}
               {(selectedYear != null || selectedMonth != null) && (
-                <button
+                <m.button
+                  whileTap={{ scale: 0.95 }}
                   type="button"
                   onClick={resetToDefault}
                   className="rounded-full px-3 py-1.5 text-xs font-medium text-slate-400 underline-offset-2 hover:text-teal-600 hover:underline"
                 >
                   Reset
-                </button>
+                </m.button>
               )}
             </div>
 
@@ -821,16 +878,17 @@ export function FixDepartureTable({
               >
                 Month
               </span>
-              {visibleMonths.map((m) => {
-                const active = selectedMonth === m.index;
+              {visibleMonths.map((month) => {
+                const active = selectedMonth === month.index;
                 const disabled = selectedYear == null;
                 return (
-                  <button
-                    key={m.index}
+                  <m.button
+                    whileTap={{ scale: 0.95 }}
+                    key={month.index}
                     type="button"
-                    onClick={() => selectMonth(m.index)}
+                    onClick={() => selectMonth(month.index)}
                     disabled={disabled}
-                    className={`rounded-full border px-3.5 py-1 text-sm transition-all ${
+                    className={`rounded-full border px-3.5 py-1 text-sm transition-colors ${
                       active
                         ? "border-transparent text-white"
                         : disabled
@@ -839,8 +897,8 @@ export function FixDepartureTable({
                     }`}
                     style={active ? { backgroundColor: "var(--color-primary)" } : undefined}
                   >
-                    {m.label}
-                  </button>
+                    {month.label}
+                  </m.button>
                 );
               })}
             </div>
@@ -848,17 +906,18 @@ export function FixDepartureTable({
             <p className="text-xs text-slate-400">
               {selectedYear != null
                 ? selectedMonth != null
-                  ? `Showing fixed departures in ${MONTHS.find((m) => m.index === selectedMonth)?.label} ${selectedYear}`
+                  ? `Showing fixed departures in ${MONTHS.find((mo) => mo.index === selectedMonth)?.label} ${selectedYear}`
                   : `Showing all fixed departures in ${selectedYear}`
                 : "Showing all fixed departures sorted by date"}
             </p>
           </div>
-        </div>
+        </Reveal>
       )}
 
       {/* Departures table */}
       {departures.length === 0 ? (
-        <div
+        <Reveal
+          from="scale"
           className="rounded-2xl border px-6 py-12 text-center"
           style={{ borderColor: "var(--color-border)", backgroundColor: "var(--color-surface-alt)" }}
         >
@@ -866,12 +925,12 @@ export function FixDepartureTable({
           <p className="mt-3 text-sm font-medium text-slate-600">No fixed departures found</p>
           <p className="mt-1 text-xs text-slate-400">
             {selectedYear != null
-              ? `There are no fixed departures for ${selectedYear}${selectedMonth != null ? ` · ${MONTHS.find((m) => m.index === selectedMonth)?.label}` : ""}.`
+              ? `There are no fixed departures for ${selectedYear}${selectedMonth != null ? ` · ${MONTHS.find((mo) => mo.index === selectedMonth)?.label}` : ""}.`
               : "Please check back later or contact us for custom dates."}
           </p>
-        </div>
+        </Reveal>
       ) : (
-        <div
+        <Reveal
           className="overflow-hidden rounded-2xl border"
           style={{ borderColor: "var(--color-border)" }}
         >
@@ -887,8 +946,11 @@ export function FixDepartureTable({
           </div>
 
           {groups.map((group, i) => (
-            <div
+            <Reveal
               key={group.startDate}
+              from="left"
+              distance={16}
+              delay={Math.min(i, 6) * 0.04}
               className="border-t px-4 py-4 sm:px-5"
               style={{ borderColor: "var(--color-border)" }}
             >
@@ -924,7 +986,8 @@ export function FixDepartureTable({
 
                 {/* Price */}
                 <div className="flex items-center gap-2">
-                  <button
+                  <m.button
+                    whileTap={{ scale: 0.95 }}
                     type="button"
                     onClick={() => setPriceFor(group.departures)}
                     className="inline-flex items-center gap-1.5 rounded-full border px-3.5 py-1.5 text-xs font-semibold transition-colors hover:bg-teal-50"
@@ -932,33 +995,38 @@ export function FixDepartureTable({
                   >
                     <Users className="h-3.5 w-3.5" />
                     View Group Price
-                  </button>
+                  </m.button>
                   <DepositTooltip minPrice={Math.min(...group.departures.map((d) => d.minPrice))} />
                 </div>
 
                 {/* Contact Us */}
                 <div className="sm:text-right">
-                  <button
+                  <m.button
+                    whileTap={{ scale: 0.95 }}
                     type="button"
                     onClick={() => setContactFor(group.departures)}
                     className="inline-flex items-center gap-1.5 rounded-full px-4 py-1.5 text-xs font-semibold text-white transition-opacity hover:opacity-90"
                     style={{ backgroundColor: "var(--color-primary)" }}
                   >
                     Contact Us
-                  </button>
+                  </m.button>
                 </div>
               </div>
               {/* Mobile-only separators */}
               {i < groups.length - 1 && (
                 <div className="mt-3 h-px bg-slate-100 sm:hidden" />
               )}
-            </div>
+            </Reveal>
           ))}
-        </div>
+        </Reveal>
       )}
 
-      {priceFor && <PriceModal departures={priceFor} onClose={() => setPriceFor(null)} />}
-      {contactFor && <ContactModal departures={contactFor} onClose={() => setContactFor(null)} />}
+      <AnimatePresence>
+        {priceFor && <PriceModal key="price" departures={priceFor} onClose={() => setPriceFor(null)} />}
+      </AnimatePresence>
+      <AnimatePresence>
+        {contactFor && <ContactModal key="contact" departures={contactFor} onClose={() => setContactFor(null)} />}
+      </AnimatePresence>
     </div>
   );
 }

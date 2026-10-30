@@ -2,6 +2,8 @@
 import { useEffect, useState, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
 import { SlidersHorizontal, X } from "lucide-react";
+import * as m from "framer-motion/m";
+import { SPRING_SNAPPY, SPRING_SOFT } from "@/components/motion/presets";
 
 export function MobileFilterSheet({
   resultsCount,
@@ -26,29 +28,35 @@ export function MobileFilterSheet({
 
   return (
     <>
-      <button
+      <m.button
         type="button"
         onClick={() => setOpen(true)}
         aria-haspopup="dialog"
         aria-expanded={open}
-        className="flex w-full items-center justify-between rounded-2xl border border-border bg-surface px-4 py-3 text-left transition hover:border-primary/40 lg:hidden"
+        whileTap={{ scale: 0.98 }}
+        transition={SPRING_SNAPPY}
+        className="flex w-full items-center justify-between rounded-2xl border border-border bg-surface px-4 py-3 text-left transition-colors hover:border-primary/40 lg:hidden"
       >
         <span className="inline-flex items-center gap-2 text-sm font-semibold text-foreground">
           <SlidersHorizontal className="h-4 w-4 text-primary" />
           Filters
         </span>
         <span className="text-sm text-text-muted">{resultsCount} results</span>
-      </button>
+      </m.button>
 
       {mounted &&
         createPortal(
-          <div
-            className={`fixed inset-0 flex flex-col transition-opacity duration-200 ${
-              open
-                ? "visible opacity-100"
-                : "invisible opacity-0 pointer-events-none"
-            }`}
+          // Stays mounted while closed so the filter controls keep their state;
+          // `visibility` is dropped only after the sheet has slid away.
+          <m.div
+            className={`fixed inset-0 flex flex-col ${open ? "" : "pointer-events-none"}`}
             style={{ zIndex: 999999 }}
+            initial={false}
+            animate={open ? "open" : "closed"}
+            variants={{
+              open: { opacity: 1, visibility: "visible", transition: { duration: 0.2 } },
+              closed: { opacity: 0, transition: { duration: 0.25, delay: 0.1 }, transitionEnd: { visibility: "hidden" } },
+            }}
           >
             {/* Backdrop */}
             <button
@@ -58,10 +66,12 @@ export function MobileFilterSheet({
             />
 
             {/* Panel */}
-            <div
-              className={`relative z-10 mt-auto flex max-h-[85dvh] flex-col overflow-hidden rounded-t-2xl bg-surface shadow-2xl transition-transform duration-300 ease-out ${
-                open ? "translate-y-0" : "translate-y-8"
-              }`}
+            <m.div
+              className="relative z-10 mt-auto flex max-h-[85dvh] flex-col overflow-hidden rounded-t-2xl bg-surface shadow-2xl"
+              variants={{
+                open: { y: 0, transition: SPRING_SOFT },
+                closed: { y: "100%", transition: { duration: 0.28, ease: [0.65, 0, 0.35, 1] } },
+              }}
             >
               {/* Header */}
               <div className="flex shrink-0 items-center justify-between border-b border-border bg-surface px-5 py-4">
@@ -83,8 +93,8 @@ export function MobileFilterSheet({
               <div className="flex-1 overflow-y-auto overscroll-contain px-5 pb-8 pt-2">
                 {children({ close: () => setOpen(false) })}
               </div>
-            </div>
-          </div>,
+            </m.div>
+          </m.div>,
           document.body
         )}
     </>

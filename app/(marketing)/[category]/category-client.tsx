@@ -14,6 +14,9 @@ import {
   X,
   ChevronDown,
 } from "lucide-react";
+import * as m from "framer-motion/m";
+import { Reveal } from "@/components/motion";
+import { SPRING_SNAPPY } from "@/components/motion/presets";
 import { MobileFilterSheet } from "@/components/filters/MobileFilterSheet";
 
 interface TrekCard {
@@ -96,20 +99,22 @@ function FilterActions({
 }) {
   return (
     <div className="flex flex-col gap-2 py-4">
-      <button
+      <m.button
+        whileTap={{ scale: 0.97 }}
         type="button"
         onClick={onApply}
-        className="flex w-full items-center justify-center gap-1.5 rounded-xl bg-primary py-2.5 text-xs font-semibold text-white shadow-sm transition hover:bg-primary-dark"
+        className="flex w-full items-center justify-center gap-1.5 rounded-xl bg-primary py-2.5 text-xs font-semibold text-white shadow-sm transition-colors hover:bg-primary-dark"
       >
         Apply Filter
-      </button>
-      <button
+      </m.button>
+      <m.button
+        whileTap={{ scale: 0.97 }}
         type="button"
         onClick={onClear}
-        className="flex w-full items-center justify-center gap-1.5 rounded-xl border border-border py-2.5 text-xs font-semibold text-text-muted transition hover:bg-surface-alt hover:text-foreground"
+        className="flex w-full items-center justify-center gap-1.5 rounded-xl border border-border py-2.5 text-xs font-semibold text-text-muted transition-colors hover:bg-surface-alt hover:text-foreground"
       >
         <X className="h-3 w-3" /> Clear all filters
-      </button>
+      </m.button>
     </div>
   );
 }
@@ -147,24 +152,26 @@ function FilterControls({
     <div className="divide-y divide-border">
       <div className="py-4">
         <FilterSection title="Region" filterKey="region" isActive={!!selected.region}>
-          <button
+          <m.button
+            whileTap={{ scale: 0.97 }}
             type="button"
             onClick={() => onToggle("region", "")}
-            className={`flex w-full items-center justify-between rounded-xl px-3 py-2 text-sm transition ${!selected.region ? "bg-primary text-white font-medium" : "text-text hover:bg-surface-alt"}`}
+            className={`flex w-full items-center justify-between rounded-xl px-3 py-2 text-sm transition-colors ${!selected.region ? "bg-primary text-white font-medium" : "text-text hover:bg-surface-alt"}`}
           >
             <span>All Regions</span>
             <span className={`text-xs ${!selected.region ? "text-white/70" : "text-text-muted"}`}>{treks.length}</span>
-          </button>
+          </m.button>
           {regions.map((r) => (
-            <button
+            <m.button
+              whileTap={{ scale: 0.97 }}
               key={r.value}
               type="button"
               onClick={() => onToggle("region", r.value)}
-              className={`flex w-full items-center justify-between rounded-xl px-3 py-2 text-sm transition ${selected.region === r.value ? "bg-primary text-white font-medium" : "text-text hover:bg-surface-alt"}`}
+              className={`flex w-full items-center justify-between rounded-xl px-3 py-2 text-sm transition-colors ${selected.region === r.value ? "bg-primary text-white font-medium" : "text-text hover:bg-surface-alt"}`}
             >
               <span>{r.label}</span>
               <span className={`text-xs ${selected.region === r.value ? "text-white/70" : "text-text-muted"}`}>{r.count}</span>
-            </button>
+            </m.button>
           ))}
         </FilterSection>
       </div>
@@ -172,18 +179,19 @@ function FilterControls({
       <div className="py-4">
         <FilterSection title="Difficulty" filterKey="difficulty" isActive={!!selected.difficulty}>
           {difficulties.map((d) => (
-            <button
+            <m.button
+              whileTap={{ scale: 0.97 }}
               key={d.value}
               type="button"
               onClick={() => onToggle("difficulty", d.value)}
-              className={`flex w-full items-center justify-between rounded-xl px-3 py-2 text-sm transition ${selected.difficulty === d.value ? "bg-primary/10 text-primary font-medium" : "text-text hover:bg-surface-alt"}`}
+              className={`flex w-full items-center justify-between rounded-xl px-3 py-2 text-sm transition-colors ${selected.difficulty === d.value ? "bg-primary/10 text-primary font-medium" : "text-text hover:bg-surface-alt"}`}
             >
               <span className="flex items-center gap-2">
                 <span className={`inline-block h-2 w-2 rounded-full ${difficultyStyles[d.value]?.dot ?? "bg-secondary-light"}`} />
                 {d.label}
               </span>
               <span className="text-xs text-text-muted">{d.count}</span>
-            </button>
+            </m.button>
           ))}
         </FilterSection>
       </div>
@@ -191,14 +199,15 @@ function FilterControls({
       <div className="py-4">
         <FilterSection title="Duration" filterKey="duration" isActive={!!selected.duration}>
           {durations.map((d) => (
-            <button
+            <m.button
+              whileTap={{ scale: 0.97 }}
               key={d.value}
               type="button"
               onClick={() => onToggle("duration", d.value)}
-              className={`flex w-full items-center rounded-xl px-3 py-2 text-sm transition ${selected.duration === d.value ? "bg-primary text-white font-medium" : "text-text hover:bg-surface-alt"}`}
+              className={`flex w-full items-center rounded-xl px-3 py-2 text-sm transition-colors ${selected.duration === d.value ? "bg-primary text-white font-medium" : "text-text hover:bg-surface-alt"}`}
             >
               {d.label}
-            </button>
+            </m.button>
           ))}
         </FilterSection>
       </div>
@@ -206,14 +215,15 @@ function FilterControls({
       <div className="py-4">
         <FilterSection title="Price Range" filterKey="price" isActive={!!selected.price}>
           {priceRanges.map((p) => (
-            <button
+            <m.button
+              whileTap={{ scale: 0.97 }}
               key={p.value}
               type="button"
               onClick={() => onToggle("price", p.value)}
-              className={`flex w-full items-center rounded-xl px-3 py-2 text-sm transition ${selected.price === p.value ? "bg-primary text-white font-medium" : "text-text hover:bg-surface-alt"}`}
+              className={`flex w-full items-center rounded-xl px-3 py-2 text-sm transition-colors ${selected.price === p.value ? "bg-primary text-white font-medium" : "text-text hover:bg-surface-alt"}`}
             >
               {p.label}
-            </button>
+            </m.button>
           ))}
         </FilterSection>
       </div>
@@ -221,11 +231,12 @@ function FilterControls({
       <div className="py-4">
         <FilterSection title="Review Rating" filterKey="rating" isActive={!!selected.rating}>
           {ratingOptions.map((r) => (
-            <button
+            <m.button
+              whileTap={{ scale: 0.97 }}
               key={r.value}
               type="button"
               onClick={() => onToggle("rating", r.value)}
-              className={`flex w-full items-center justify-between rounded-xl px-3 py-2 text-sm transition ${selected.rating === r.value ? "bg-primary/10 text-primary font-medium" : "text-text hover:bg-surface-alt"}`}
+              className={`flex w-full items-center justify-between rounded-xl px-3 py-2 text-sm transition-colors ${selected.rating === r.value ? "bg-primary/10 text-primary font-medium" : "text-text hover:bg-surface-alt"}`}
             >
               <span className="flex items-center gap-1">
                 {Array.from({ length: Number(r.value) }).map((_, i) => (
@@ -233,7 +244,7 @@ function FilterControls({
                 ))}
               </span>
               <span className="text-xs">{r.label}</span>
-            </button>
+            </m.button>
           ))}
         </FilterSection>
       </div>
@@ -428,14 +439,21 @@ function CategoryView({
         <div className="mb-6 flex flex-wrap items-center gap-2">
           <span className="text-xs font-medium uppercase tracking-wide text-text-muted">Filtering by:</span>
           {activeChips.map((chip) => (
-            <Link
+            <m.span
               key={chip.key}
-              href={buildFilterUrl(chip.key, "")}
-              className="inline-flex items-center gap-1.5 rounded-full border border-primary/25 bg-primary/10 px-3 py-1.5 text-xs font-medium text-primary transition hover:bg-primary/20"
+              className="inline-flex"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={SPRING_SNAPPY}
             >
-              {chip.label}
-              <X className="h-3 w-3" />
-            </Link>
+              <Link
+                href={buildFilterUrl(chip.key, "")}
+                className="inline-flex items-center gap-1.5 rounded-full border border-primary/25 bg-primary/10 px-3 py-1.5 text-xs font-medium text-primary transition hover:bg-primary/20"
+              >
+                {chip.label}
+                <X className="h-3 w-3" />
+              </Link>
+            </m.span>
           ))}
           <Link href={clearUrl} className="text-xs font-medium text-text-muted underline decoration-dotted underline-offset-2 hover:text-foreground">
             Clear all
@@ -469,7 +487,7 @@ function CategoryView({
             </MobileFilterSheet>
 
             {/* Desktop static sidebar */}
-            <div className="hidden lg:block">
+            <Reveal from="left" className="hidden lg:block">
               <div className="flex max-h-[calc(100vh-9rem)] flex-col overflow-hidden rounded-3xl border border-border bg-surface shadow-sm">
                 <div className="flex shrink-0 items-center gap-2 border-b border-border px-5 py-4">
                   <SlidersHorizontal className="h-4 w-4 text-primary" />
@@ -497,14 +515,19 @@ function CategoryView({
                   <FilterActions onApply={applyFilters} onClear={clearAllFilters} />
                 </div>
               </div>
-            </div>
+            </Reveal>
           </div>
         </aside>
 
         {/* ===== TREK GRID ===== */}
         <div className="flex-1">
           {filtered.length === 0 ? (
-            <div className="rounded-2xl border-2 border-dashed border-border bg-surface p-14 text-center">
+            <m.div
+              className="rounded-2xl border-2 border-dashed border-border bg-surface p-14 text-center"
+              initial={{ opacity: 0, scale: 0.97 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={SPRING_SNAPPY}
+            >
               <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-surface-alt">
                 <Mountain className="h-6 w-6 text-text-muted" />
               </div>
@@ -517,70 +540,74 @@ function CategoryView({
                   : "Try widening your filters."}
               </p>
               {(searchQuery || q) && (
-                <button
+                <m.button
                   onClick={() => setSearchQuery("")}
-                  className="mt-5 inline-flex items-center gap-1.5 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-primary-dark"
+                  whileHover={{ y: -2 }}
+                  whileTap={{ scale: 0.96 }}
+                  transition={SPRING_SNAPPY}
+                  className="mt-5 inline-flex items-center gap-1.5 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-primary-dark"
                 >
                   Clear search
-                </button>
+                </m.button>
               )}
-            </div>
+            </m.div>
           ) : (
             <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
-              {filtered.map((trek) => {
+              {filtered.map((trek, i) => {
                 const rating = trek.avgRating;
                 return (
-                  <Link
-                    key={trek.id}
-                    href={`/${catSlug}/${trek.slug}`}
-                    className="group relative flex h-full flex-col overflow-hidden rounded-3xl bg-surface shadow-[0_4px_20px_-4px_rgba(0,0,0,0.1)] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_20px_40px_-10px_rgba(234,88,12,0.25)]"
-                  >
-                    {/* Image */}
-                    <div className="relative aspect-[4/3] overflow-hidden">
-                      {trek.heroImage ? (
-                        <img
-                          src={`https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/c_fill,w_600,q_auto,f_auto/${trek.heroImage}`}
-                          alt={trek.title}
-                          width={600}
-                          height={450}
-                          className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
-                        />
-                      ) : (
-                        <div className="flex h-full w-full items-center justify-center bg-surface">
-                          <Mountain className="h-12 w-12 text-text-muted" />
-                        </div>
-                      )}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-                      {rating !== null && (
-                        <div className="absolute bottom-3 left-3 z-10 text-lg font-bold text-amber-400 drop-shadow-lg">
-                          {"★".repeat(Math.round(rating))}
-                        </div>
-                      )}
-                    </div>
-
-                    {/* Content */}
-                    <div className="flex flex-1 flex-col p-6">
-                      <div className="flex items-center gap-2 mb-4">
-                        <span className="rounded-full bg-primary/10 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-primary transition-colors group-hover:bg-primary group-hover:text-white">
-                          {trek.difficulty}
-                        </span>
+                  <Reveal key={trek.id} delay={(i % 3) * 0.08} className="h-full">
+                    <Link
+                      href={`/${catSlug}/${trek.slug}`}
+                      className="group relative flex h-full flex-col overflow-hidden rounded-3xl bg-surface shadow-[0_4px_20px_-4px_rgba(0,0,0,0.1)] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_20px_40px_-10px_rgba(234,88,12,0.25)]"
+                    >
+                      {/* Image */}
+                      <div className="relative aspect-[4/3] overflow-hidden">
+                        {trek.heroImage ? (
+                          <img
+                            src={`https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/c_fill,w_600,q_auto,f_auto/${trek.heroImage}`}
+                            alt={trek.title}
+                            width={600}
+                            height={450}
+                            className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+                          />
+                        ) : (
+                          <div className="flex h-full w-full items-center justify-center bg-surface">
+                            <Mountain className="h-12 w-12 text-text-muted" />
+                          </div>
+                        )}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                        {rating !== null && (
+                          <div className="absolute bottom-3 left-3 z-10 text-lg font-bold text-amber-400 drop-shadow-lg">
+                            {"★".repeat(Math.round(rating))}
+                          </div>
+                        )}
                       </div>
-                      <h3 className="text-xl font-bold leading-tight text-foreground transition-colors group-hover:text-primary">
-                        {trek.title}
-                      </h3>
-                      <div className="mt-auto pt-6 flex items-end justify-between">
-                        <div className="flex flex-col gap-1 text-xs text-text-muted font-medium">
-                          <span className="flex items-center gap-1.5">
-                            <Clock className="h-3.5 w-3.5" /> {trek.duration} Days
+
+                      {/* Content */}
+                      <div className="flex flex-1 flex-col p-6">
+                        <div className="flex items-center gap-2 mb-4">
+                          <span className="rounded-full bg-primary/10 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-primary transition-colors group-hover:bg-primary group-hover:text-white">
+                            {trek.difficulty}
                           </span>
                         </div>
-                        <div className="flex flex-col items-end">
-                          <span className="text-[10px] uppercase tracking-widest text-text-muted font-bold">From</span>
-                          <span className="text-xl font-black text-foreground">${trek.price.toLocaleString()}</span>
+                        <h3 className="text-xl font-bold leading-tight text-foreground transition-colors group-hover:text-primary">
+                          {trek.title}
+                        </h3>
+                        <div className="mt-auto pt-6 flex items-end justify-between">
+                          <div className="flex flex-col gap-1 text-xs text-text-muted font-medium">
+                            <span className="flex items-center gap-1.5">
+                              <Clock className="h-3.5 w-3.5" /> {trek.duration} Days
+                            </span>
+                          </div>
+                          <div className="flex flex-col items-end">
+                            <span className="text-[10px] uppercase tracking-widest text-text-muted font-bold">From</span>
+                            <span className="text-xl font-black text-foreground">${trek.price.toLocaleString()}</span>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </Link>
+                    </Link>
+                  </Reveal>
                 );
               })}
             </div>

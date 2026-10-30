@@ -2,9 +2,37 @@
 
 import { useState, useEffect, useMemo, useRef } from "react";
 import { createPortal } from "react-dom";
-import Link from "next/link";
 import { Minus, Plus, Users, Calendar, Package, Tag, X } from "lucide-react";
+import { AnimatePresence } from "framer-motion";
+import * as m from "framer-motion/m";
 import { getPriceForGroupSize, parseTierRange } from "@/lib/pricing";
+import { MotionLink } from "@/components/motion";
+import { EASE_OUT, SPRING_SNAPPY, SPRING_SOFT } from "@/components/motion/presets";
+
+/** A number that rolls up or down when it changes. */
+function Ticker({ value, direction, className, style }: { value: React.ReactNode; direction: number; className?: string; style?: React.CSSProperties }) {
+  return (
+    <span className={`relative inline-flex overflow-hidden ${className ?? ""}`} style={style}>
+      <AnimatePresence mode="popLayout" initial={false} custom={direction}>
+        <m.span
+          key={String(value)}
+          custom={direction}
+          variants={{
+            enter: (d: number) => ({ y: d * 12, opacity: 0 }),
+            center: { y: 0, opacity: 1 },
+            exit: (d: number) => ({ y: d * -12, opacity: 0 }),
+          }}
+          initial="enter"
+          animate="center"
+          exit="exit"
+          transition={{ duration: 0.22, ease: EASE_OUT }}
+        >
+          {value}
+        </m.span>
+      </AnimatePresence>
+    </span>
+  );
+}
 
 interface PricingTier {
   groupSize: string;
@@ -53,16 +81,20 @@ function PortalTooltip({
   const top = anchorRect.top - 8; // gap above the trigger
 
   return createPortal(
-    <div
+    <m.div
       className="fixed z-50 w-64 -translate-y-full rounded-lg border bg-white px-3 py-2 text-xs shadow-lg whitespace-normal pointer-events-none"
       style={{ left, top, borderColor: "var(--color-border)", color: "var(--color-text)" }}
+      initial={{ opacity: 0, y: 6 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: 4, transition: { duration: 0.12 } }}
+      transition={{ duration: 0.18, ease: EASE_OUT }}
     >
       {children}
       <div
         className="absolute left-3 top-full -mt-px h-2 w-2 rotate-45 border-r border-b bg-white"
         style={{ borderColor: "var(--color-border)" }}
       />
-    </div>,
+    </m.div>,
     document.body
   );
 }
@@ -82,7 +114,9 @@ function AddonTitle({ title, description }: { title: string; description: string
       >
         {title}
       </p>
-      {rect && <PortalTooltip anchorRect={rect}>{description}</PortalTooltip>}
+      <AnimatePresence>
+        {rect && <PortalTooltip key="tooltip" anchorRect={rect}>{description}</PortalTooltip>}
+      </AnimatePresence>
     </>
   );
 }
@@ -119,13 +153,21 @@ function GroupPricingModal({
 
   return createPortal(
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-      <div
+      <m.div
         className="absolute inset-0 bg-black/40 backdrop-blur-md"
         onClick={onClose}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0, transition: { duration: 0.2 } }}
       />
-      <div
+      <m.div
+        role="dialog"
+        aria-modal="true"
         className="relative z-10 w-full max-w-md overflow-hidden rounded-2xl border bg-white shadow-2xl"
         style={{ borderColor: "var(--color-border)" }}
+        initial={{ opacity: 0, y: 24, scale: 0.96 }}
+        animate={{ opacity: 1, y: 0, scale: 1, transition: SPRING_SOFT }}
+        exit={{ opacity: 0, y: 12, scale: 0.98, transition: { duration: 0.16 } }}
       >
         <div
           className="flex items-center justify-between px-5 py-4"
@@ -138,14 +180,16 @@ function GroupPricingModal({
               {tiers.length} tier{tiers.length === 1 ? "" : "s"} of group pricing
             </p>
           </div>
-          <button
+          <m.button
             type="button"
             onClick={onClose}
+            whileTap={{ scale: 0.85, rotate: 90 }}
+            transition={SPRING_SNAPPY}
             className="rounded-lg p-1.5 text-slate-400 transition-colors hover:bg-slate-200/60 hover:text-slate-600"
             aria-label="Close"
           >
             <X className="h-5 w-5" />
-          </button>
+          </m.button>
         </div>
 
         <div className="max-h-[60vh] space-y-4 overflow-y-auto p-5">
@@ -168,10 +212,12 @@ function GroupPricingModal({
               <span className="text-right">Price / Person</span>
             </div>
             {tiers.map((tier, i) => (
-              <div
+              <m.div
                 key={i}
                 className="flex items-center justify-between border-t px-4 py-2.5 text-sm"
                 style={{ borderColor: "var(--color-border)" }}
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0, transition: { delay: 0.15 + i * 0.04, duration: 0.25, ease: EASE_OUT } }}
               >
                 <span className="flex items-center gap-1.5 text-slate-700">
                   <Users className="h-3.5 w-3.5" style={{ color: "var(--color-primary)" }} />
@@ -185,19 +231,19 @@ function GroupPricingModal({
                     ${tier.pricePerPerson.toLocaleString()}
                   </span>
                 </span>
-              </div>
+              </m.div>
             ))}
           </div>
 
-          <Link
+          <MotionLink
             href={`/book/${trekSlug}`}
             className="block w-full rounded-xl px-4 py-3 text-center text-sm font-semibold text-white transition-opacity hover:opacity-90"
             style={{ backgroundColor: "var(--color-primary)" }}
           >
             Book This Trek
-          </Link>
+          </MotionLink>
         </div>
-      </div>
+      </m.div>
     </div>,
     document.body
   );
@@ -213,6 +259,8 @@ export function PricingCalculator({
   maxGroupSize: maxGroupSizeProp = 20,
 }: PricingCalculatorProps) {
   const [travelers, setTravelers] = useState(1);
+  // Which way the traveller count last moved, so the number rolls the right way.
+  const [countDirection, setCountDirection] = useState(1);
   const [startDate, setStartDate] = useState("");
   const [showGroupPricing, setShowGroupPricing] = useState(false);
   const [addonQtys, setAddonQtys] = useState<number[]>(addons.map(() => 0));
@@ -291,27 +339,40 @@ export function PricingCalculator({
               className="mt-1 flex items-center justify-between rounded-lg border px-2 py-1.5"
               style={{ borderColor: "var(--color-border)", backgroundColor: "var(--color-surface-alt)" }}
             >
-              <button
+              <m.button
                 type="button"
-                onClick={() => setTravelers(Math.max(1, travelers - 1))}
+                onClick={() => {
+                  setCountDirection(-1);
+                  setTravelers(Math.max(1, travelers - 1));
+                }}
                 disabled={travelers <= 1}
+                whileTap={travelers <= 1 ? undefined : { scale: 0.82 }}
+                transition={SPRING_SNAPPY}
                 className="flex h-6 w-6 items-center justify-center rounded-md border bg-white text-slate-600 hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-40"
                 style={{ borderColor: "var(--color-border)" }}
               >
                 <Minus className="h-3.5 w-3.5" />
-              </button>
-              <span className="text-base font-bold tabular-nums" style={{ color: "var(--color-foreground)" }}>
-                {travelers}
-              </span>
-              <button
+              </m.button>
+              <Ticker
+                value={travelers}
+                direction={countDirection}
+                className="text-base font-bold tabular-nums"
+                style={{ color: "var(--color-foreground)" }}
+              />
+              <m.button
                 type="button"
-                onClick={() => setTravelers(Math.min(maxGroupSize, travelers + 1))}
+                onClick={() => {
+                  setCountDirection(1);
+                  setTravelers(Math.min(maxGroupSize, travelers + 1));
+                }}
                 disabled={travelers >= maxGroupSize}
+                whileTap={travelers >= maxGroupSize ? undefined : { scale: 0.82 }}
+                transition={SPRING_SNAPPY}
                 className="flex h-6 w-6 items-center justify-center rounded-md border bg-white text-slate-600 hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-40"
                 style={{ borderColor: "var(--color-border)" }}
               >
                 <Plus className="h-3.5 w-3.5" />
-              </button>
+              </m.button>
             </div>
           </div>
 
@@ -356,9 +417,17 @@ export function PricingCalculator({
               </span>
             </span>
           </div>
+          <AnimatePresence initial={false}>
           {addonTotals.map((total, i) =>
             total > 0 ? (
-              <div key={i} className="mt-1 flex items-center justify-between text-sm">
+              <m.div
+                key={i}
+                className="flex items-center justify-between overflow-hidden text-sm"
+                initial={{ opacity: 0, height: 0, marginTop: 0 }}
+                animate={{ opacity: 1, height: "auto", marginTop: 4 }}
+                exit={{ opacity: 0, height: 0, marginTop: 0 }}
+                transition={{ duration: 0.22, ease: EASE_OUT }}
+              >
                 <span style={{ color: "var(--color-text)" }}>
                   {addons[i].title} &times; {addonQtys[i]}
                 </span>
@@ -370,9 +439,10 @@ export function PricingCalculator({
                     +${total.toLocaleString()}
                   </span>
                 </span>
-              </div>
+              </m.div>
             ) : null
           )}
+          </AnimatePresence>
           <div className="mt-2 flex items-center justify-between border-t pt-2" style={{ borderColor: "var(--color-border)" }}>
             <span className="text-base font-bold" style={{ color: "var(--color-foreground)" }}>
               Total
@@ -381,18 +451,24 @@ export function PricingCalculator({
               <span className="text-sm text-slate-400 line-through tabular-nums">
                 ${(Math.round(grandTotal * 1.1)).toLocaleString()}
               </span>
-              <span className="text-xl font-bold tabular-nums" style={{ color: "var(--color-primary)" }}>
-                ${grandTotal.toLocaleString()}
-              </span>
+              <Ticker
+                value={`$${grandTotal.toLocaleString()}`}
+                direction={countDirection}
+                className="text-xl font-bold tabular-nums"
+                style={{ color: "var(--color-primary)" }}
+              />
             </span>
           </div>
         </div>
 
         {/* Group pricing — opens the same style modal as the fix-departure table */}
         {pricingTiers.length > 0 && (
-          <button
+          <m.button
             type="button"
             onClick={() => setShowGroupPricing(true)}
+            whileHover={{ y: -1 }}
+            whileTap={{ scale: 0.98 }}
+            transition={SPRING_SNAPPY}
             className="flex w-full items-center justify-between rounded-lg border px-4 py-2.5 text-xs font-semibold uppercase tracking-wide transition-colors hover:opacity-90"
             style={{ borderColor: "var(--color-primary)", color: "var(--color-primary)" }}
           >
@@ -403,7 +479,7 @@ export function PricingCalculator({
             <span className="text-[10px] font-medium normal-case tracking-wide">
               From ${(minPriceTier?.pricePerPerson ?? 0).toLocaleString()}/pp
             </span>
-          </button>
+          </m.button>
         )}
 
         {/* Add-ons — scrollable, portal tooltip so it isn't clipped by overflow-y-auto */}
@@ -431,8 +507,10 @@ export function PricingCalculator({
                     </p>
                   </div>
                   <div className="flex items-center gap-1.5 shrink-0">
-                    <button
+                    <m.button
                       type="button"
+                      whileTap={{ scale: 0.82 }}
+                      transition={SPRING_SNAPPY}
                       onClick={() =>
                         setAddonQtys((prev) => prev.map((q, idx) => (idx === i ? Math.max(0, q - 1) : q)))
                       }
@@ -441,18 +519,20 @@ export function PricingCalculator({
                       style={{ borderColor: "var(--color-border)" }}
                     >
                       <Minus className="h-3 w-3" />
-                    </button>
+                    </m.button>
                     <span className="w-5 text-center text-sm font-bold tabular-nums" style={{ color: "var(--color-foreground)" }}>
                       {addonQtys[i] || 0}
                     </span>
-                    <button
+                    <m.button
                       type="button"
+                      whileTap={{ scale: 0.82 }}
+                      transition={SPRING_SNAPPY}
                       onClick={() => setAddonQtys((prev) => prev.map((q, idx) => (idx === i ? q + 1 : q)))}
                       className="flex h-6 w-6 items-center justify-center rounded-md border bg-white text-slate-500 hover:bg-slate-100"
                       style={{ borderColor: "var(--color-border)" }}
                     >
                       <Plus className="h-3 w-3" />
-                    </button>
+                    </m.button>
                   </div>
                   <span className="flex items-center gap-1 shrink-0">
                     <span className="text-xs text-slate-400 line-through tabular-nums">
@@ -472,7 +552,7 @@ export function PricingCalculator({
         )}
 
         {/* Book button */}
-        <Link
+        <MotionLink
           href={`/book/${trekSlug}?travelers=${travelers}${startDate ? `&startDate=${startDate}` : ""}&addons=${encodeURIComponent(
             JSON.stringify(
               // Map BEFORE filtering: filtering first re-indexes the array, so
@@ -489,20 +569,23 @@ export function PricingCalculator({
         >
           Book Now &mdash; ${grandTotal.toLocaleString()}
           <span className="text-sm text-slate-300 line-through ml-1">${(Math.round(grandTotal * 1.1)).toLocaleString()}</span>
-        </Link>
+        </MotionLink>
 
         <p className="text-center text-xs" style={{ color: "var(--color-text-muted)" }}>
           No payment required yet
         </p>
       </div>
 
-      {showGroupPricing && pricingTiers.length > 0 && (
-        <GroupPricingModal
-          tiers={pricingTiers}
-          trekSlug={trekSlug}
-          onClose={() => setShowGroupPricing(false)}
-        />
-      )}
+      <AnimatePresence>
+        {showGroupPricing && pricingTiers.length > 0 && (
+          <GroupPricingModal
+            key="group-pricing"
+            tiers={pricingTiers}
+            trekSlug={trekSlug}
+            onClose={() => setShowGroupPricing(false)}
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 }

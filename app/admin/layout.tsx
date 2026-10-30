@@ -7,6 +7,7 @@ import { AdminExitWarning } from "@/components/admin/AdminExitWarning";
 
 export const nav = [
   { label: "Dashboard", href: "/admin", icon: "LayoutDashboard" },
+  { label: "Visitors", href: "/admin/visitors", icon: "Activity" },
   { label: "Treks", href: "/admin/treks", icon: "List" },
   { label: "Categories", href: "/admin/categories", icon: "FolderKanban" },
   { label: "Blog Posts", href: "/admin/blog", icon: "FileText" },

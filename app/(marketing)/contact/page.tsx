@@ -6,6 +6,7 @@ import { PageHero } from "@/components/layout/PageHero";
 import { getCachedOrFetch, cacheKeys, CACHE_TTL } from "@/lib/redis";
 import { SITE_URL, brandedTitle, ogImages, seoDescription, seoImageUrl, serializeJsonLd } from "@/lib/seo";
 import { sanitizeIframeHtml } from "@/lib/sanitize";
+import { Reveal, Stagger, StaggerItem } from "@/components/motion";
 
 // Contact content is cached for 7 days and refreshed on-demand after CMS edits (revalidatePath)
 export const revalidate = 604800;
@@ -138,7 +139,7 @@ export default async function ContactPage() {
         <div className="mx-auto max-w-7xl px-3 sm:px-4 lg:px-6">
           <div className="grid gap-10 lg:grid-cols-2">
             {/* Map (left) */}
-            <div className="h-full min-w-0">
+            <Reveal from="left" className="h-full min-w-0">
               {mapIframe ? (
                 <div className="iframe-responsive-container h-full min-h-[400px] overflow-hidden rounded-2xl border border-border shadow-sm [&_iframe]:w-full [&_iframe]:max-w-full [&_iframe]:h-full [&_iframe]:min-h-[400px]" dangerouslySetInnerHTML={{ __html: sanitizeIframeHtml(mapIframe) }} />
               ) : (
@@ -151,10 +152,10 @@ export default async function ContactPage() {
                   </div>
                 </div>
               )}
-            </div>
+            </Reveal>
 
             {/* Contact Info (right) — uses same CMS data as home page */}
-            <div className="flex h-full flex-col justify-center">
+            <Reveal from="right" className="flex h-full flex-col justify-center">
               <div
                 className="relative overflow-hidden rounded-2xl p-8"
                 style={{
@@ -171,14 +172,14 @@ export default async function ContactPage() {
                   style={{ backgroundColor: "var(--color-primary)" }}
                 />
 
-                <div className="relative">
-                  <span className="inline-flex rounded-full border border-white/20 bg-white/10 px-3.5 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-white/80">
+                <Stagger delay={0.15} className="relative">
+                  <StaggerItem as="span" className="inline-flex rounded-full border border-white/20 bg-white/10 px-3.5 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-white/80">
                     Contact Details
-                  </span>
-                  <h2 className="mt-4 text-2xl font-bold text-white">Get in touch</h2>
-                  <p className="mt-1.5 text-sm text-white/70">
+                  </StaggerItem>
+                  <StaggerItem as="h2" className="mt-4 text-2xl font-bold text-white">Get in touch</StaggerItem>
+                  <StaggerItem as="p" className="mt-1.5 text-sm text-white/70">
                     We&apos;re here to help plan your Himalayan adventure.
-                  </p>
+                  </StaggerItem>
 
                   <div className="mt-6 space-y-5">
                     {contactInfoCards.map((item, i) => {
@@ -190,7 +191,7 @@ export default async function ContactPage() {
                       };
                       const Icon = iconMap[item.title] || MapPin;
                       return (
-                        <div key={i} className="flex items-center gap-4 rounded-xl bg-white/10 p-4 backdrop-blur-sm transition-colors hover:bg-white/15">
+                        <StaggerItem key={i} from="right" className="flex items-center gap-4 rounded-xl bg-white/10 p-4 backdrop-blur-sm transition-colors hover:bg-white/15">
                           <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-white/15">
                             <Icon className="h-5 w-5 text-white" />
                           </div>
@@ -198,13 +199,13 @@ export default async function ContactPage() {
                             <p className="text-xs font-semibold uppercase tracking-wide text-white/60">{item.title}</p>
                             <p className="text-sm font-medium text-white">{item.description}</p>
                           </div>
-                        </div>
+                        </StaggerItem>
                       );
                     })}
                   </div>
-                </div>
+                </Stagger>
               </div>
-            </div>
+            </Reveal>
           </div>
         </div>
       </section>

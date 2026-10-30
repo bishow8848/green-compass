@@ -4,7 +4,10 @@ import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
 import { Star, Send, LogIn, CheckCircle2, AlertCircle } from "lucide-react";
-import Link from "next/link";
+import { AnimatePresence } from "framer-motion";
+import * as m from "framer-motion/m";
+import { MotionLink } from "@/components/motion";
+import { EASE_OUT, SPRING_SNAPPY } from "@/components/motion/presets";
 
 interface ReviewFormProps {
   trekId: string;
@@ -47,12 +50,16 @@ export function ReviewForm({ trekId }: ReviewFormProps) {
         className="rounded-3xl border p-8 text-center sm:p-10"
         style={{ backgroundColor: "var(--color-surface-alt)", borderColor: "var(--color-border)" }}
       >
-        <div
+        <m.div
           className="mx-auto flex h-12 w-12 items-center justify-center rounded-full"
           style={{ backgroundColor: "var(--color-surface)" }}
+          initial={{ scale: 0.6, opacity: 0 }}
+          whileInView={{ scale: 1, opacity: 1 }}
+          viewport={{ once: true }}
+          transition={SPRING_SNAPPY}
         >
           <LogIn className="h-5 w-5" style={{ color: "var(--color-primary)" }} />
-        </div>
+        </m.div>
         <h3 className="mt-4 text-lg font-semibold" style={{ color: "var(--color-foreground)" }}>
           Want to leave a review?
         </h3>
@@ -60,20 +67,20 @@ export function ReviewForm({ trekId }: ReviewFormProps) {
           Please log in or create an account to submit a review.
         </p>
         <div className="mt-5 flex items-center justify-center gap-3">
-          <Link
+          <MotionLink
             href={`/login?callbackUrl=${encodeURIComponent(pathname)}`}
             className="inline-flex items-center gap-1.5 rounded-full px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:opacity-90"
             style={{ backgroundColor: "var(--color-primary)" }}
           >
             Log In
-          </Link>
-          <Link
+          </MotionLink>
+          <MotionLink
             href="/signup"
             className="inline-flex items-center gap-1.5 rounded-full border px-5 py-2.5 text-sm font-semibold transition-colors hover:opacity-80"
             style={{ borderColor: "var(--color-border)", color: "var(--color-foreground)" }}
           >
             Sign Up
-          </Link>
+          </MotionLink>
         </div>
       </div>
     );
@@ -140,29 +147,48 @@ export function ReviewForm({ trekId }: ReviewFormProps) {
           Your Rating
         </label>
         <div className="mt-2 flex items-center gap-1">
-          {[1, 2, 3, 4, 5].map((star) => (
-            <button
-              key={star}
-              type="button"
-              onClick={() => setRating(star)}
-              onMouseEnter={() => setHoverRating(star)}
-              onMouseLeave={() => setHoverRating(0)}
-              className="p-0.5 transition-transform hover:scale-110"
-            >
-              <Star
-                className="h-7 w-7"
-                style={{
-                  fill: (hoverRating || rating) >= star ? "var(--color-warning)" : "transparent",
-                  color: (hoverRating || rating) >= star ? "var(--color-warning)" : "var(--color-border)",
-                }}
-              />
-            </button>
-          ))}
-          {(hoverRating || rating) > 0 && (
-            <span className="ml-2 text-sm font-medium" style={{ color: "var(--color-text-muted)" }}>
-              {RATING_LABELS[hoverRating || rating]}
-            </span>
-          )}
+          {[1, 2, 3, 4, 5].map((star) => {
+            const lit = (hoverRating || rating) >= star;
+            return (
+              <m.button
+                key={star}
+                type="button"
+                aria-label={`${star} star${star === 1 ? "" : "s"}`}
+                onClick={() => setRating(star)}
+                onMouseEnter={() => setHoverRating(star)}
+                onMouseLeave={() => setHoverRating(0)}
+                whileHover={{ scale: 1.2, rotate: -8 }}
+                whileTap={{ scale: 0.85 }}
+                // Picked stars pop in sequence, left to right.
+                animate={rating >= star ? { scale: [1, 1.3, 1], transition: { duration: 0.35, delay: (star - 1) * 0.04 } } : { scale: 1 }}
+                transition={SPRING_SNAPPY}
+                className="p-0.5"
+              >
+                <Star
+                  className="h-7 w-7 transition-colors duration-150"
+                  style={{
+                    fill: lit ? "var(--color-warning)" : "transparent",
+                    color: lit ? "var(--color-warning)" : "var(--color-border)",
+                  }}
+                />
+              </m.button>
+            );
+          })}
+          <AnimatePresence mode="wait" initial={false}>
+            {(hoverRating || rating) > 0 && (
+              <m.span
+                key={hoverRating || rating}
+                className="ml-2 text-sm font-medium"
+                style={{ color: "var(--color-text-muted)" }}
+                initial={{ opacity: 0, x: -6 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 6 }}
+                transition={{ duration: 0.15 }}
+              >
+                {RATING_LABELS[hoverRating || rating]}
+              </m.span>
+            )}
+          </AnimatePresence>
         </div>
       </div>
 
@@ -214,7 +240,15 @@ export function ReviewForm({ trekId }: ReviewFormProps) {
       </div>
 
       {/* Message */}
+      <AnimatePresence initial={false}>
       {message && (
+        <m.div
+          key={message.text}
+          initial={{ opacity: 0, y: -6 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, transition: { duration: 0.15 } }}
+          transition={{ duration: 0.25, ease: EASE_OUT }}
+        >
         <div
           className="mt-5 flex items-start gap-2 rounded-2xl px-4 py-3 text-sm"
           style={{
@@ -225,8 +259,6 @@ export function ReviewForm({ trekId }: ReviewFormProps) {
           {/* colored background layer above is intentionally separate from the
               text/icon layer below so opacity only affects the tint, not the text */}
         </div>
-      )}
-      {message && (
         <div
           className="-mt-[calc(2.75rem+0.5rem)] flex items-start gap-2 rounded-2xl px-4 py-3 text-sm relative z-10"
           style={{ color: message.type === "success" ? "var(--color-success)" : "var(--color-error)" }}
@@ -238,25 +270,30 @@ export function ReviewForm({ trekId }: ReviewFormProps) {
           )}
           <span>{message.text}</span>
         </div>
+        </m.div>
       )}
+      </AnimatePresence>
 
       {/* Submit */}
       <div className="mt-6">
-        <button
+        <m.button
           type="submit"
           disabled={submitting}
-          className="inline-flex items-center gap-1.5 rounded-full px-6 py-3 text-sm font-semibold text-white transition-all hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+          whileHover={submitting ? undefined : { y: -2 }}
+          whileTap={submitting ? undefined : { scale: 0.96 }}
+          transition={SPRING_SNAPPY}
+          className="group inline-flex items-center gap-1.5 rounded-full px-6 py-3 text-sm font-semibold text-white transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
           style={{ backgroundColor: "var(--color-primary)" }}
         >
           {submitting ? (
             "Submitting..."
           ) : (
             <>
-              <Send className="h-4 w-4" />
+              <Send className="h-4 w-4 transition-transform duration-300 group-hover:-rotate-12 group-hover:translate-x-0.5" />
               Submit Review
             </>
           )}
-        </button>
+        </m.button>
       </div>
     </form>
   );

@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { SearchBar } from "@/components/search/SearchBar";
 import { seoImageUrl } from "@/lib/seo";
+import { KenBurns, Stagger, StaggerItem } from "@/components/motion";
 
 interface Trek {
   title: string;
@@ -43,14 +44,16 @@ export function PageHero({
     <section className="relative isolate flex min-h-[clamp(520px,82vh,860px)] flex-col overflow-hidden">
       {/* Background image or gradient fallback */}
       {backgroundImage ? (
-        <Image
-          src={seoImageUrl(backgroundImage) || ""}
-          alt={`${heading} — Green Compass Treks`}
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover"
-        />
+        <KenBurns>
+          <Image
+            src={seoImageUrl(backgroundImage) || ""}
+            alt={`${heading} — Green Compass Treks`}
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover"
+          />
+        </KenBurns>
       ) : (
         <div className="absolute inset-0 bg-gradient-to-br from-secondary-dark via-primary-dark/20 to-gray-900" />
       )}
@@ -61,24 +64,26 @@ export function PageHero({
       {/* Content */}
       <div className="relative z-10 mt-auto w-full">
         <div className="mx-auto max-w-7xl px-3 sm:px-4 lg:px-6 pb-[clamp(48px,7vw,84px)]">
-          <div className="max-w-[660px]">
-            <h1 className="mb-5 text-[clamp(38px,5.6vw,68px)] font-bold leading-[1.04] tracking-tight text-white">
+          <Stagger className="max-w-[660px]">
+            <StaggerItem as="h1" className="mb-5 text-[clamp(38px,5.6vw,68px)] font-bold leading-[1.04] tracking-tight text-white">
               {heading}
-            </h1>
+            </StaggerItem>
             {description && (
-              <p className="mb-7 text-[clamp(15px,1.6vw,17px)] leading-relaxed text-white/80">
+              <StaggerItem as="p" className="mb-7 text-[clamp(15px,1.6vw,17px)] leading-relaxed text-white/80">
                 {description}
-              </p>
+              </StaggerItem>
             )}
-            <nav aria-label="Breadcrumb" className="mb-3 flex items-center gap-2 text-sm text-white/55">
+            <StaggerItem as="nav" aria-label="Breadcrumb" className="mb-3 flex items-center gap-2 text-sm text-white/55">
               <Link href="/" className="transition-colors hover:text-white">
                 Home
               </Link>
               <span className="text-white/30">/</span>
               <span className="truncate text-white/85">{breadcrumbLabel || heading}</span>
-            </nav>
-            <SearchBar treks={treks} authorSlug={searchAuthorSlug} placeholder={searchPlaceholder} />
-          </div>
+            </StaggerItem>
+            <StaggerItem className="relative z-10">
+              <SearchBar treks={treks} authorSlug={searchAuthorSlug} placeholder={searchPlaceholder} />
+            </StaggerItem>
+          </Stagger>
         </div>
       </div>
     </section>
