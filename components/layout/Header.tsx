@@ -6,7 +6,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useRef, useEffect, useCallback, useSyncExternalStore } from "react";
 import { useSession, signOut } from "next-auth/react";
-import { Mountain, Menu, X, User, LogOut, ChevronDown } from "lucide-react";
+import { Mountain, Menu, X, User, LogOut, ChevronDown, Search } from "lucide-react";
 import { AnimatePresence, stagger } from "framer-motion";
 import * as m from "framer-motion/m";
 import { Collapse, MotionLink } from "@/components/motion";
@@ -326,6 +326,21 @@ export function Header({
     </div>
   );
 
+  // Opens the /search page. Leads the auth actions, so it sits on the right:
+  // before Login / the account chip on desktop, beside the menu button on mobile.
+  const searchLink = (
+    <Link
+      href="/search"
+      aria-label="Search"
+      title="Search"
+      className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-lg transition-colors hover:bg-surface-alt hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 lg:h-9 lg:w-9 lg:rounded-full ${
+        isNavItemActive("/search") ? "text-primary" : "text-slate-600"
+      }`}
+    >
+      <Search className="h-5 w-5" />
+    </Link>
+  );
+
   // Nav is absolutely centered within its row, independent of how wide the
   // logo or the auth actions are — this is what keeps it dead-center in
   // both the expanded (with top bar) and compact (scrolled) layouts.
@@ -450,9 +465,10 @@ export function Header({
     .toUpperCase();
 
   const authActions = (
-    <div ref={authRef} className="ml-auto hidden items-center gap-4 lg:flex">
+    <div ref={authRef} className="ml-auto flex items-center gap-4">
+      {searchLink}
       {session?.user ? (
-        <div className="flex items-center gap-2.5">
+        <div className="hidden items-center gap-2.5 lg:flex">
           <Link
             href="/dashboard"
             className="flex items-center gap-3 rounded-xl px-1.5 py-1.5 transition-colors hover:bg-surface-alt focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
@@ -477,7 +493,7 @@ export function Header({
         <MotionLink
           href="/login"
           lift={1}
-          className="flex items-center gap-1.5 rounded-full bg-primary px-4 py-2 text-[14px] font-medium text-white shadow-sm transition-[background-color,box-shadow] duration-200 hover:bg-primary-dark hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2"
+          className="hidden items-center gap-1.5 rounded-full bg-primary px-4 py-2 text-[14px] font-medium text-white shadow-sm transition-[background-color,box-shadow] duration-200 hover:bg-primary-dark hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2 lg:flex"
         >
           <User className="h-4 w-4" />
           Login
@@ -489,7 +505,7 @@ export function Header({
   const mobileMenuButton = (
     <button
       onClick={() => setIsMenuOpen(!isMenuOpen)}
-      className="ml-auto -mr-2 rounded-lg p-2.5 text-slate-600 transition-colors hover:bg-surface-alt active:bg-surface-alt focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 lg:hidden"
+      className="ml-1 -mr-2 rounded-lg p-2.5 text-slate-600 transition-colors hover:bg-surface-alt active:bg-surface-alt focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 lg:hidden"
       aria-label={isMenuOpen ? "Close menu" : "Open menu"}
       aria-expanded={isMenuOpen}
       aria-controls="mobile-menu"

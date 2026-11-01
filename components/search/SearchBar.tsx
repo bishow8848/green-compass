@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState, useMemo, useRef, useLayoutEffect, useSyncExternalStore } from "react";
+import { useState, useMemo, useRef, useEffect, useLayoutEffect, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
 import { Search, MapPin, ArrowRight, FileText } from "lucide-react";
 import { AnimatePresence } from "framer-motion";
@@ -38,19 +38,24 @@ interface SearchBarProps {
   /** Only suggest this author's articles (packages are always all shown). */
   authorSlug?: string;
   placeholder?: string;
+  /** Text the input starts with (the /search page passes the current query). */
+  initialQuery?: string;
+  autoFocus?: boolean;
 }
 
 const MAX_PER_GROUP = 5;
 
-export function SearchBar({ treks = [], authorSlug, placeholder }: SearchBarProps) {
+export function SearchBar({ treks = [], authorSlug, placeholder, initialQuery = "", autoFocus }: SearchBarProps) {
   const router = useRouter();
   const [availableTreks, setAvailableTreks] = useState(treks);
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [hasRequested, setHasRequested] = useState(false);
-  const [query, setQuery] = useState("");
+  const [loaded, setLoaded] = useState(false);
+  const [query, setQuery] = useState(initialQuery);
   const [focused, setFocused] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const barRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
   const [position, setPosition] = useState<{ top: number; left: number; width: number; maxHeight: number } | null>(null);
   // The portal target only exists in the browser.
   const mounted = useSyncExternalStore(subscribeNoop, () => true, () => false);
@@ -90,8 +95,15 @@ export function SearchBar({ treks = [], authorSlug, placeholder }: SearchBarProp
     return [...trekMatches, ...postMatches];
   }, [query, availableTreks, posts]);
 
-  const showNoResults = hasRequested && query.trim().length > 1 && suggestions.length === 0;
+  const showNoResults = loaded && query.trim().length > 1 && suggestions.length === 0;
   const open = focused && (suggestions.length > 0 || showNoResults);
+
+  // Focus after hydration rather than through the autoFocus attribute: the
+  // browser applies that before React attaches onFocus, so the suggestions
+  // would never load.
+  useEffect(() => {
+    if (autoFocus) inputRef.current?.focus();
+  }, [autoFocus]);
 
   // The dropdown is portalled to <body> so hero sections with overflow-hidden
   // can't clip it. It is position: fixed and re-measured every frame while
@@ -146,15 +158,11 @@ export function SearchBar({ treks = [], authorSlug, placeholder }: SearchBarProp
     ]);
     if (trekList) setAvailableTreks(trekList);
     if (postList) setPosts(postList);
+    setLoaded(true);
   }
 
   function handleSearch(val: string) {
     if (!val.trim()) return;
-    // The /search page lists packages; when only articles match, open the best one.
-    if (suggestions.length > 0 && suggestions.every((s) => s.kind === "blog")) {
-      router.push(suggestions[0].href);
-      return;
-    }
     router.push(`/search?q=${encodeURIComponent(val.trim())}`);
   }
 
@@ -252,6 +260,7 @@ export function SearchBar({ treks = [], authorSlug, placeholder }: SearchBarProp
     <div ref={barRef} className="relative w-full">
       <div className="flex w-full items-center gap-0 overflow-hidden rounded-full border border-white/20 bg-white shadow-lg shadow-black/20 backdrop-blur-sm transition-all focus-within:border-primary/50 focus-within:shadow-primary/10">
         <input
+          ref={inputRef}
           type="text"
           value={query}
           onChange={(e) => {
