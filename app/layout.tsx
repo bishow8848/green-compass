@@ -276,11 +276,18 @@ export default async function RootLayout({
     },
   };
 
+  // This block is what Google reads for the site name above each result.
+  // While it doubts `name` it falls back to the bare domain; an alternateName
+  // is the fix its site-name guide asks for first, with the lowercase domain
+  // as the last-resort entry. A bare "Green Compass" is left out on purpose:
+  // a global brand already owns it, and Google won't give two sites one name.
   const websiteSchema = {
     "@type": "WebSite",
     "@id": websiteId,
     name: siteName,
-    url: siteUrl,
+    alternateName: [`${siteName} Nepal`, new URL(siteUrl).hostname],
+    // The home page in the exact form Google's site-name guide shows.
+    url: `${siteUrl}/`,
     description: siteDescription,
     inLanguage: "en",
     publisher: { "@id": organizationId },

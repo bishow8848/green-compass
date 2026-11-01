@@ -93,6 +93,7 @@ import { newsD } from "./news-d";
 import { newsE } from "./news-e";
 import { newsF } from "./news-f";
 import { newsG } from "./news-g";
+import { newsH } from "./news-h";
 
 /**
  * Every article on the site, in no particular order.
@@ -195,4 +196,5 @@ export const ALL_POSTS: BlogContent[] = [
   ...newsE,
   ...newsF,
   ...newsG,
+  ...newsH,
 ];
