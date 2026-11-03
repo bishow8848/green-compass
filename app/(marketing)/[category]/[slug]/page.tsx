@@ -1191,8 +1191,8 @@ sectionMap["gallery"] = () => trek.galleryImages?.length > 0 ? <div data-pdf-hid
 
             {/* Similar Treks section — shows treks selected by admin */}
             {similarTreks.length > 0 && (
-              <section id="similar-treks" className="py-10 sm:py-12">
-                <Reveal className="mb-12 max-w-2xl">
+              <section id="similar-treks" className="py-10 sm:py-12" data-pdf-keep="">
+                <Reveal className="mb-12 max-w-2xl pdf:mb-6">
                   <h2 className="mb-3 text-2xl font-bold tracking-tight sm:text-3xl" style={{ color: "var(--color-secondary)" }}>
                     Similar Treks
                   </h2>

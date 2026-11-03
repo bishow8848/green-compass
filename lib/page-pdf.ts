@@ -26,12 +26,18 @@ const RENDER_WIDTH = 1600;
 const JPEG_QUALITY = 0.85;
 /** How much of what follows a heading (CSS px) must share its page. */
 const KEEP_WITH_HEADING = 120;
+/** Room (CSS px) left above the first thing on a page after a break. */
+const PAGE_LEAD = 8;
+/** Marks a block, such as the similar treks, that moves to the next page whole rather than be split, when it fits on one. */
+const KEEP_TOGETHER = "data-pdf-keep";
 /** Window width (CSS px) a narrower screen's export is laid out for: a desktop's, with every breakpoint on. */
 const DESKTOP_WIDTH = 1280;
 
 interface Box {
   top: number;
   bottom: number;
+  /** The extent of a block marked KEEP_TOGETHER. */
+  keep?: boolean;
 }
 
 interface LinkBox {
@@ -47,6 +53,7 @@ interface Capture {
   width: number;
   height: number;
   boxes: Box[];
+  ink: Box[];
   links: LinkBox[];
 }
 
@@ -88,7 +95,7 @@ export async function downloadPagePdf(options: PdfOptions): Promise<void> {
     loadLogo(),
   ]);
 
-  const { svg, width, height, boxes, links } = await capturePage(domToForeignObjectSvg);
+  const { svg, width, height, boxes, ink, links } = await capturePage(domToForeignObjectSvg);
   const image = await loadSvg(svg);
 
   // The page is captured 680px wide on any screen (.pdf-capture in
@@ -98,7 +105,9 @@ export async function downloadPagePdf(options: PdfOptions): Promise<void> {
   const mm = Math.min(area.width / width, MM_PER_CSS_PX);
   const left = (A4.width - width * mm) / 2;
   const pageHeight = area.height / mm; // CSS px of page content per A4 page
-  const starts = pageStarts(boxes, height, pageHeight);
+  // Blank space after the last thing on the page would only add a blank page.
+  const contentEnd = Math.min(height, Math.ceil(ink.reduce((end, box) => Math.max(end, box.bottom), 0)));
+  const starts = pageStarts(boxes, ink, contentEnd, pageHeight);
   const scale = Math.min(3, RENDER_WIDTH / width);
 
   const canvas = document.createElement("canvas");
@@ -113,7 +122,7 @@ export async function downloadPagePdf(options: PdfOptions): Promise<void> {
 
   const pdf = new jsPDF({ unit: "mm", format: "a4", compress: true });
   starts.forEach((start, i) => {
-    const end = starts[i + 1] ?? height;
+    const end = starts[i + 1] ?? contentEnd;
     context.fillStyle = "#ffffff";
     context.fillRect(0, 0, canvas.width, canvas.height);
     context.drawImage(image, 0, start, width, end - start, 0, 0, canvas.width, (end - start) * scale);
@@ -284,7 +293,7 @@ async function capturePage(
     const rect = root.getBoundingClientRect();
     const width = Math.round(rect.width);
     const height = Math.ceil(rect.height);
-    const { boxes, links, marked } = measure(root, width);
+    const { boxes, ink, links, marked } = measure(root, width);
     undo.push(() => {
       for (const element of marked) {
         element.removeAttribute(ONE_LINE);
@@ -305,7 +314,7 @@ async function capturePage(
         keepLines(cloned);
       },
     });
-    return { svg, width, height, boxes, links };
+    return { svg, width, height, boxes, ink, links };
   } finally {
     for (const step of undo.reverse()) step();
     window.scrollTo({ top: scrollY, behavior: "instant" });
@@ -455,14 +464,17 @@ async function loadImages(root: HTMLElement) {
 }
 
 /**
- * The vertical extent of every element and line of text, and every link, in
- * px from the top of the page — what page breaks are chosen around. Also
- * marks what lies on one line, and wrapping flex rows whose items lie in one
- * row, for keepLines, and returns the marked elements.
+ * The vertical extent of every element and line of text, shadows included,
+ * and of each block marked KEEP_TOGETHER — what page breaks are chosen
+ * around — and of what actually shows (`ink`: text, images, and elements
+ * with a background, border or shadow), in px from the top of the page; and
+ * every link. Also marks what lies on one line, and wrapping flex rows whose
+ * items lie in one row, for keepLines, and returns the marked elements.
  */
 function measure(root: HTMLElement, width: number) {
   const origin = root.getBoundingClientRect();
   const boxes: Box[] = [];
+  const ink: Box[] = [];
   const links: LinkBox[] = [];
   const marked: Element[] = [];
   // Each line of text and each image or icon, in page order, and the run of
@@ -477,7 +489,9 @@ function measure(root: HTMLElement, width: number) {
       range.selectNodeContents(node);
       for (const line of range.getClientRects()) {
         if (!line.height) continue;
-        boxes.push({ top: line.top - origin.top, bottom: line.bottom - origin.top });
+        const box = { top: line.top - origin.top, bottom: line.bottom - origin.top };
+        boxes.push(box);
+        ink.push(box);
         inline.push(line);
       }
       return;
@@ -487,7 +501,12 @@ function measure(root: HTMLElement, width: number) {
     const rect = node.getBoundingClientRect();
     if (rect.width && rect.height) {
       const top = rect.top - origin.top;
-      boxes.push({ top, bottom: top + rect.height });
+      const style = getComputedStyle(node);
+      // A card's shadow falls below it: a break right under the card would
+      // carry a sliver of shadow over to the next page.
+      const box = { top, bottom: top + rect.height + shadowBelow(style) };
+      boxes.push(box);
+      if (paints(node, style)) ink.push(box);
       // A heading stays on the same page as the start of what it introduces.
       if (/^H[1-4]$/.test(node.tagName)) {
         boxes.push({ top, bottom: top + rect.height + KEEP_WITH_HEADING });
@@ -505,8 +524,19 @@ function measure(root: HTMLElement, width: number) {
       marked.push(node);
     }
     const first = inline.length;
+    const firstBox = boxes.length;
     for (const child of node.childNodes) visit(child);
     runs.push([node, first, inline.length]);
+
+    // A block kept together spans its contents, not its own padding.
+    if (node.hasAttribute(KEEP_TOGETHER) && boxes.length > firstBox) {
+      const inside = boxes.slice(firstBox);
+      boxes.push({
+        top: inside.reduce((top, box) => Math.min(top, box.top), Infinity),
+        bottom: inside.reduce((bottom, box) => Math.max(bottom, box.bottom), 0),
+        keep: true,
+      });
+    }
   };
   for (const child of root.childNodes) visit(child);
 
@@ -524,7 +554,37 @@ function measure(root: HTMLElement, width: number) {
       marked.push(element);
     }
   }
-  return { boxes, links, marked };
+  return { boxes, ink, links, marked };
+}
+
+/** How far an element's box shadows reach below it (CSS px). */
+function shadowBelow(style: CSSStyleDeclaration): number {
+  if (style.boxShadow === "none") return 0;
+  let reach = 0;
+  // Computed as "<colour> <x> <y> <blur> <spread> [inset]", one per comma
+  // outside a colour's brackets.
+  for (const shadow of style.boxShadow.split(/,(?![^(]*\))/)) {
+    if (shadow.includes("inset")) continue;
+    const [, y = 0, blur = 0, spread = 0] = (shadow.match(/-?[\d.]+px/g) ?? []).map(parseFloat);
+    reach = Math.max(reach, y + blur + spread);
+  }
+  return reach;
+}
+
+const TRANSPARENT = /^rgba\((?:[^,]+,){3}\s*0\)$|\/\s*0\)$/;
+
+/** Whether an element shows anything of its own: an image, a background, a border or a shadow. */
+function paints(element: Element, style: CSSStyleDeclaration): boolean {
+  return (
+    element instanceof HTMLImageElement ||
+    element instanceof SVGSVGElement ||
+    element instanceof HTMLCanvasElement ||
+    element instanceof HTMLVideoElement ||
+    style.backgroundImage !== "none" ||
+    !TRANSPARENT.test(style.backgroundColor) ||
+    [style.borderTopWidth, style.borderRightWidth, style.borderBottomWidth, style.borderLeftWidth].some((w) => parseFloat(w) > 0) ||
+    shadowBelow(style) > 0
+  );
 }
 
 /** A wrapping flex row whose items all share one row: each overlaps the one before it vertically. */
@@ -540,27 +600,50 @@ function inOneRow(element: Element) {
 /**
  * Where each PDF page begins. A page ends at the lowest point in its bottom
  * half that doesn't cut through anything — a line of text, an image, a card —
- * and is cut at the page edge only when no such point exists.
+ * and is cut at the page edge only when no such point exists. A block kept
+ * together that would run over the edge starts the next page instead, if it
+ * fits on one. The next page then begins just above the first thing on it.
  */
-function pageStarts(boxes: Box[], total: number, pageHeight: number): number[] {
+function pageStarts(boxes: Box[], ink: Box[], total: number, pageHeight: number): number[] {
   // Anything taller than this is cut wherever it falls: keeping it whole
   // would leave pages half empty.
-  const solid = boxes.filter((box) => box.bottom - box.top < pageHeight * 0.4);
+  const solid = boxes.filter((box) => box.bottom - box.top < (box.keep ? pageHeight - PAGE_LEAD : pageHeight * 0.4));
+  const loose = solid.filter((box) => !box.keep);
   const starts = [0];
 
   for (let top = 0; top + pageHeight < total; ) {
     const limit = top + pageHeight;
     const floor = top + pageHeight / 2;
-    const nearby = solid.filter((box) => box.bottom > floor && box.top < limit);
-    const ends = nearby
-      .map((box) => box.bottom)
-      .filter((y) => y <= limit)
-      .sort((a, b) => b - a);
-    const cut = ends.find((y) => !nearby.some((box) => box.top < y && y < box.bottom)) ?? limit;
-    starts.push(cut);
-    top = cut;
+    const lowestClearPoint = (around: Box[]) => {
+      const nearby = around.filter((box) => box.bottom > floor && box.top < limit);
+      return nearby
+        .map((box) => box.bottom)
+        .filter((y) => y <= limit)
+        .sort((a, b) => b - a)
+        .find((y) => !nearby.some((box) => box.top < y && y < box.bottom));
+    };
+    // Starting in the top half, a block kept together leaves no clear point
+    // below its start, so the page ends there, however much room that leaves.
+    const kept = solid.find((box) => box.keep && box.top > top && box.top < limit && box.bottom > limit);
+    const cut = lowestClearPoint(solid) ?? kept?.top ?? lowestClearPoint(loose) ?? limit;
+    top = startAfter(cut, ink);
+    starts.push(top);
   }
   return starts;
+}
+
+/**
+ * Where the page after a break at `cut` begins: just above the first thing
+ * below it, so the page doesn't open on the blank space the break fell in —
+ * unless something showing, such as a coloured panel, runs through the break.
+ */
+function startAfter(cut: number, ink: Box[]): number {
+  let first = Infinity;
+  for (const box of ink) {
+    if (box.top < cut && cut < box.bottom) return cut;
+    if (box.top >= cut) first = Math.min(first, box.top);
+  }
+  return first === Infinity ? cut : Math.max(cut, first - PAGE_LEAD);
 }
 
 async function loadSvg(svg: SVGElement): Promise<HTMLImageElement> {
