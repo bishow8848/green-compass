@@ -988,7 +988,7 @@ sectionMap["addons"] = () => addons.length > 0 ? <section id="addons" className=
 // With no route file uploaded, TrekMap shows the admin's static map image
 // instead of the interactive map — waypoint pins aren't rendered on it.
 const mapIsImageOnly = !trek.geoJsonUrl && !trek.geoJsonData && !!trek.staticMapImage;
-sectionMap["map"] = () => <section id="map" className="py-10 sm:py-12" data-pdf-hide="">
+sectionMap["map"] = () => <section id="map" className="py-10 sm:py-12">
   <Reveal className="mb-6 flex flex-wrap items-end justify-between gap-4">
     <div>
       <h2 className="mb-2 text-2xl font-bold" style={{ color: "var(--color-secondary)" }}>{sectionData.map?.heading || "Route Map"}</h2>

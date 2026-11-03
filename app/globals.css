@@ -449,7 +449,7 @@ main {
 /* The admin "Share as PDF" export (lib/page-pdf.ts) captures the page finished:
    every reveal landed, every itinerary day and FAQ open, no divider lines, and
    everything marked data-pdf-hide (site header and footer, booking sidebar,
-   map, gallery, reviews, forms) gone. The page is laid out 680px wide on any
+   gallery, reviews, forms) gone. The page is laid out 680px wide on any
    screen, a phone's too, which fits the A4 page between its margins at
    natural print size (14px text ≈ 10.5pt), on white to match the margins,
    with sections spaced for paper. */
@@ -459,6 +459,14 @@ main {
 .pdf-capture details[data-state] > div { height: auto !important; opacity: 1 !important; }
 .pdf-capture hr,
 .pdf-capture [data-pdf-hide] { display: none !important; }
+/* The route map prints as a still (components/map/MapContent.tsx): no zoom
+   buttons, and its map credits spelled out rather than behind their button.
+   The credits are a <details>, whose button is its <summary>: hidden from
+   view only, as without one the browser draws a "Details" of its own. */
+.pdf-capture .maplibregl-ctrl-group { display: none !important; }
+.pdf-capture .maplibregl-ctrl-attrib-button { visibility: hidden !important; }
+.pdf-capture .maplibregl-ctrl-attrib.maplibregl-compact { padding: 2px 8px !important; }
+.pdf-capture .maplibregl-ctrl-attrib.maplibregl-compact .maplibregl-ctrl-attrib-inner { display: block !important; }
 
 /* Status Badge Pulse for Pending Items */
 @keyframes pulse-dot {

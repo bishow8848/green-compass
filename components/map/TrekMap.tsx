@@ -125,7 +125,7 @@ export function TrekMap({
       </div>
 
       {/* Controls overlay */}
-      <div className="absolute right-3 top-3 z-10 flex gap-2">
+      <div className="absolute right-3 top-3 z-10 flex gap-2" data-pdf-hide="">
         <button
           onClick={() => {
             if (isExpanded && onClose) {

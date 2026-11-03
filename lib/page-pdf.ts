@@ -66,6 +66,21 @@ export interface PdfOptions {
   location: string;
 }
 
+/**
+ * Fired on window as a capture starts, with the page laid out for paper.
+ * What the capture can't copy as it is — a live map draws with WebGL, which
+ * reads back blank — puts a still of itself in its place and passes
+ * waitUntil a promise, settled once the still is shown, of what puts it back
+ * (components/map/MapContent.tsx).
+ */
+export type PdfCaptureEvent = CustomEvent<{ waitUntil(standIn: Promise<() => void>): void }>;
+
+declare global {
+  interface WindowEventMap {
+    "pdf-capture": PdfCaptureEvent;
+  }
+}
+
 export async function downloadPagePdf(options: PdfOptions): Promise<void> {
   const [{ domToForeignObjectSvg }, { jsPDF }, logo] = await Promise.all([
     import("modern-screenshot"),
@@ -261,6 +276,9 @@ async function capturePage(
     // wherever the reader had scrolled.
     window.scrollTo({ top: 0, behavior: "instant" });
 
+    // Live maps show a still of themselves, framed for the laid-out page.
+    undo.push(await standInStills());
+
     await loadImages(root);
 
     const rect = root.getBoundingClientRect();
@@ -406,6 +424,24 @@ function keepLines(cloned: Node) {
   if (!(cloned instanceof HTMLElement)) return;
   if (cloned.hasAttribute(ONE_LINE)) cloned.style.setProperty("text-wrap-mode", "nowrap");
   if (cloned.hasAttribute(ONE_ROW)) cloned.style.setProperty("flex-wrap", "nowrap");
+}
+
+/**
+ * Lets what the capture can't copy put a still of itself in its place (see
+ * PdfCaptureEvent), and returns what puts them all back. One that fails is
+ * left as it is rather than stopping the export.
+ */
+async function standInStills(): Promise<() => void> {
+  const pending: Array<Promise<() => void>> = [];
+  const detail: PdfCaptureEvent["detail"] = { waitUntil: (standIn) => pending.push(standIn) };
+  window.dispatchEvent(new CustomEvent("pdf-capture", { detail }));
+
+  const restores: Array<() => void> = [];
+  for (const result of await Promise.allSettled(pending)) {
+    if (result.status === "fulfilled") restores.push(result.value);
+    else console.warn("PDF export: no still for part of the page:", result.reason);
+  }
+  return () => restores.forEach((restore) => restore());
 }
 
 /** Lazy images below the fold haven't loaded yet: load the ones shown, waiting up to 15s. */

@@ -17,6 +17,87 @@ interface MapContentProps {
 
 const subscribeToClient = () => () => {};
 
+interface RouteView {
+  bounds: maplibregl.LngLatBounds;
+  maxZoom: number;
+}
+
+/** Pixel ratio the PDF's still of the map is drawn at: about the PDF's own (RENDER_WIDTH in lib/page-pdf.ts). */
+const STILL_PIXEL_RATIO = 2.5;
+/** How long the PDF waits on the map's tiles before taking what has loaded. */
+const STILL_TILE_TIMEOUT = 10000;
+
+/** Room (CSS px) left around the route in the PDF's still, enough for the day markers. */
+const STILL_PADDING = 40;
+
+/**
+ * Fits the whole route in the map, padded, keeping its tilt and bearing.
+ * fitBounds sizes the route as if seen from straight above, so on the tilted
+ * map its near side spreads wider and runs off the edges: the route's
+ * corners are then measured where they land, and the map zoomed out and
+ * recentred on them until they are in.
+ */
+function frameRoute(m: maplibregl.Map, route: RouteView, camera: { pitch: number; bearing: number }) {
+  const { bounds, maxZoom } = route;
+  m.fitBounds(bounds, { padding: STILL_PADDING, maxZoom, pitch: camera.pitch, bearing: camera.bearing, animate: false });
+
+  const { clientWidth: width, clientHeight: height } = m.getContainer();
+  const corners = [bounds.getSouthWest(), bounds.getNorthWest(), bounds.getNorthEast(), bounds.getSouthEast()];
+  for (let i = 0; i < 3; i++) {
+    const points = corners.map((corner) => m.project(corner));
+    const xs = points.map((p) => p.x);
+    const ys = points.map((p) => p.y);
+    const [left, right, top, bottom] = [Math.min(...xs), Math.max(...xs), Math.min(...ys), Math.max(...ys)];
+    if (left >= STILL_PADDING - 1 && right <= width - STILL_PADDING + 1 && top >= STILL_PADDING - 1 && bottom <= height - STILL_PADDING + 1) return;
+    const overflow = Math.max((right - left) / (width - 2 * STILL_PADDING), (bottom - top) / (height - 2 * STILL_PADDING));
+    m.jumpTo({
+      center: m.unproject([(left + right) / 2, (top + bottom) / 2]),
+      zoom: m.getZoom() - Math.log2(Math.max(overflow, 1)),
+    });
+  }
+}
+
+/**
+ * For "Share as PDF" (lib/page-pdf.ts), which copies a canvas by reading it
+ * back — and a WebGL map reads back blank once its frame is on screen. The
+ * map is framed on the whole route at its print size, drawn sharp once its
+ * tiles are in, read back inside the frame that drew it, and shown as an
+ * image over its hidden canvas; the day markers stay on top. Returns what
+ * puts the map back the way the reader left it.
+ */
+async function showStill(m: maplibregl.Map, route: RouteView | null): Promise<() => void> {
+  const camera = { center: m.getCenter(), zoom: m.getZoom(), pitch: m.getPitch(), bearing: m.getBearing() };
+
+  // Also resizes the map to its container, which the capture has just narrowed.
+  m.setPixelRatio(Math.max(devicePixelRatio, STILL_PIXEL_RATIO));
+  if (route) frameRoute(m, route, camera);
+  await Promise.race([
+    new Promise((resolve) => m.once("idle", resolve)),
+    new Promise((resolve) => setTimeout(resolve, STILL_TILE_TIMEOUT)),
+  ]);
+  const src = await new Promise<string>((resolve) => {
+    m.once("render", () => resolve(m.getCanvas().toDataURL("image/jpeg", 0.9)));
+    m.triggerRepaint();
+  });
+
+  const canvas = m.getCanvas();
+  const still = new Image();
+  still.src = src;
+  still.alt = "Trek route map";
+  still.style.cssText = "position:absolute;inset:0;width:100%;height:100%";
+  await still.decode();
+  canvas.after(still);
+  canvas.style.display = "none";
+
+  return () => {
+    still.remove();
+    canvas.style.removeProperty("display");
+    // null hands the pixel ratio back to the screen's (documented, though typed as a number).
+    m.setPixelRatio(null as unknown as number);
+    m.jumpTo(camera);
+  };
+}
+
 export default function MapContent({
   geoJsonUrl,
   geoJsonData,
@@ -25,6 +106,8 @@ export default function MapContent({
 }: MapContentProps) {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<maplibregl.Map | null>(null);
+  // The route's extent, kept to frame the whole route again for a PDF.
+  const routeView = useRef<RouteView | null>(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const token = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
   const [error, setError] = useState<string | null>(token ? null : "Mapbox token not configured");
@@ -38,6 +121,11 @@ export default function MapContent({
 
     function withPitchAndBearing(m: maplibregl.Map) {
       return { pitch: m.getPitch(), bearing: m.getBearing() };
+    }
+
+    function fitRoute(m: maplibregl.Map, bounds: maplibregl.LngLatBounds, maxZoom = m.getMaxZoom()) {
+      routeView.current = { bounds, maxZoom };
+      m.fitBounds(bounds, { padding: 60, maxZoom, ...withPitchAndBearing(m) });
     }
 
     function drawGeoJsonRoute(m: maplibregl.Map, data: any) {
@@ -76,7 +164,7 @@ export default function MapContent({
       } else if (data.type === "Feature" && data.geometry?.type === "LineString") {
         data.geometry.coordinates.forEach((c: number[]) => bounds.extend(c as [number, number]));
       }
-      if (!bounds.isEmpty()) m.fitBounds(bounds, { padding: 60, ...withPitchAndBearing(m) });
+      if (!bounds.isEmpty()) fitRoute(m, bounds);
     }
 
     function drawWaypointRoute(m: maplibregl.Map, wps: Array<{ lng: number; lat: number }>) {
@@ -108,7 +196,7 @@ export default function MapContent({
 
       const bounds = new maplibregl.LngLatBounds();
       coords.forEach((c) => bounds.extend(c as [number, number]));
-      if (!bounds.isEmpty()) m.fitBounds(bounds, { padding: 60, maxZoom: 14, ...withPitchAndBearing(m) });
+      if (!bounds.isEmpty()) fitRoute(m, bounds, 14);
     }
 
     try {
@@ -246,7 +334,7 @@ export default function MapContent({
                     f.geometry.coordinates.forEach((c: number[]) => b.extend(c as [number, number]));
                   }
                 });
-                if (!b.isEmpty()) newMap.fitBounds(b, { padding: 60, maxZoom: 13, pitch: newMap.getPitch(), bearing: newMap.getBearing() });
+                if (!b.isEmpty()) fitRoute(newMap, b, 13);
               })
               .catch((err) => {
                 console.error("Failed to load GeoJSON:", err);
@@ -384,6 +472,14 @@ export default function MapContent({
   }, [geoJsonUrl, waypoints, itinerary]);
 
   useEffect(() => {
+    function standInStill(event: WindowEventMap["pdf-capture"]) {
+      if (map.current) event.detail.waitUntil(showStill(map.current, routeView.current));
+    }
+    window.addEventListener("pdf-capture", standInStill);
+    return () => window.removeEventListener("pdf-capture", standInStill);
+  }, []);
+
+  useEffect(() => {
     const id = requestAnimationFrame(() => map.current?.resize());
     return () => cancelAnimationFrame(id);
   }, [isFullscreen]);
@@ -433,6 +529,7 @@ export default function MapContent({
       onClick={() => setIsFullscreen((prev) => !prev)}
       aria-label={isFullscreen ? "Exit full screen" : "View full screen"}
       title={isFullscreen ? "Exit full screen" : "View full screen"}
+      data-pdf-hide=""
       className="absolute right-3 top-3 z-10 flex h-9 w-9 items-center justify-center rounded-lg bg-surface/90 text-foreground shadow-md backdrop-blur-sm transition-colors hover:bg-surface"
     >
       {isFullscreen ? <Minimize2 className="h-4 w-4" /> : <Maximize2 className="h-4 w-4" />}
