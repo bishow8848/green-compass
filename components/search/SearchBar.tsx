@@ -275,7 +275,7 @@ export function SearchBar({ treks = [], authorSlug, placeholder, initialQuery = 
           onKeyDown={handleKeyDown}
           placeholder={placeholder ?? "Where do you want to go?"}
           aria-label="Search packages and articles"
-          className="flex-1 border-none bg-transparent px-4 py-3 text-sm placeholder:text-sm sm:px-5 sm:py-4 sm:text-base sm:placeholder:text-base text-foreground placeholder-text-muted outline-none"
+          className="min-w-0 flex-1 border-none bg-transparent px-4 py-3 text-sm placeholder:text-sm sm:px-5 sm:py-4 sm:text-base sm:placeholder:text-base text-foreground placeholder-text-muted outline-none"
         />
         <m.button
           type="button"

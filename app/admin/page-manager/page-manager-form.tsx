@@ -130,7 +130,7 @@ export function PageManagerForm({
     ...(pc.home?.hero || { badge: "", title: "", titleHighlight: "", subtitle: "", description: "", backgroundImage: "" }),
     // Prefill with the hero's own default so saving an untouched form doesn't
     // silently blank the kicker. Clearing the field still hides it.
-    badge: pc.home?.hero?.badge ?? "Locally guided from Pokhara, Nepal",
+    badge: pc.home?.hero?.badge ?? "Locally owned · Pokhara, Nepal",
     primaryCtaLabel: homeHeroCtas.primaryCtaLabel,
     primaryCtaHref: homeHeroCtas.primaryCtaHref,
     secondaryCtaLabel: homeHeroCtas.secondaryCtaLabel,
@@ -475,16 +475,16 @@ export function PageManagerForm({
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="sm:col-span-2">
                 <label className="block text-xs font-medium text-slate-500 mb-1">Kicker</label>
-                <input value={homeHero.badge || ""} onChange={(e) => setHomeHeroField("badge", e.target.value)} placeholder="Locally guided from Pokhara, Nepal" className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" />
+                <input value={homeHero.badge || ""} onChange={(e) => setHomeHeroField("badge", e.target.value)} placeholder="Locally owned · Pokhara, Nepal" className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" />
                 <p className="mt-1 text-[11px] text-slate-400">Small line above the headline. Leave blank to hide it.</p>
               </div>
               <div>
                 <label className="block text-xs font-medium text-slate-500 mb-1">Title</label>
-                <input value={homeHero.title} onChange={(e) => setHomeHeroField("title", e.target.value)} placeholder="e.g. Go where the world feels" className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" />
+                <input value={homeHero.title} onChange={(e) => setHomeHeroField("title", e.target.value)} placeholder="e.g. Trek the Himalaya with" className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" />
               </div>
               <div>
                 <label className="block text-xs font-medium text-slate-500 mb-1">Title Highlight</label>
-                <input value={homeHero.titleHighlight} onChange={(e) => setHomeHeroField("titleHighlight", e.target.value)} placeholder="Highlighted word in title" className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" />
+                <input value={homeHero.titleHighlight} onChange={(e) => setHomeHeroField("titleHighlight", e.target.value)} placeholder="e.g. Green Compass Treks." className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" />
               </div>
               <div className="sm:col-span-2">
                 <label className="block text-xs font-medium text-slate-500 mb-1">Supporting Line</label>

@@ -3,6 +3,10 @@
 /* Active while the admin "Share as PDF" export captures the page (lib/page-pdf.ts). */
 @custom-variant pdf (&:where(.pdf-capture *));
 
+/* Home hero side-by-side layout: wide enough, and not portrait-tall. Keep in
+   step with the SPLIT_MQ query in components/home/GreenCompassHero.tsx. */
+@custom-variant split (@media (min-width: 40rem) and (min-aspect-ratio: 4/5));
+
 @theme inline {
   /* Background Colors */
   --color-background: #f7faf8;

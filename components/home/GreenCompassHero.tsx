@@ -20,6 +20,8 @@ interface GreenCompassHeroProps {
   titleHighlight?: string;
   /** Letterspaced kicker above the headline. Pass "" to hide it. */
   eyebrow?: string;
+  /** Supporting line under the headline. Empty hides it. */
+  description?: string;
   /** Primary CTA button (name + link) shown under the headline. */
   primaryCta?: HeroCta;
   /** Secondary CTA button (name + link) shown under the headline. */
@@ -27,6 +29,9 @@ interface GreenCompassHeroProps {
   /** Extra absolutely-positioned content rendered inside the hero (e.g. carousel nav). */
   children?: React.ReactNode;
 }
+
+/** Side-by-side layout — the `split:` variant in globals.css; keep the two in step. */
+const SPLIT_MQ = "(min-width: 40rem) and (min-aspect-ratio: 4/5)";
 
 /** Globe zoom controls slide in from the edge once the globe is up. */
 const controlVariants = {
@@ -55,7 +60,8 @@ function hexToNum(hex: string): number {
 export function GreenCompassHero({
   title,
   titleHighlight,
-  eyebrow = "Nepal · Himalaya",
+  eyebrow = "Locally owned · Pokhara, Nepal",
+  description,
   primaryCta = { label: "Start exploring", href: "/search" },
   secondaryCta = { label: "View field notes", href: "/blog" },
   children,
@@ -63,13 +69,14 @@ export function GreenCompassHero({
   const sectionRef = useRef<HTMLElement | null>(null);
   const globeRef = useRef<HTMLCanvasElement | null>(null);
   const hitzoneRef = useRef<HTMLDivElement | null>(null);
+  const copyRef = useRef<HTMLDivElement | null>(null);
   const [hintVisible, setHintVisible] = useState(true);
   const zoomInRef = useRef<HTMLButtonElement | null>(null);
   const zoomOutRef = useRef<HTMLButtonElement | null>(null);
   const zoomResetRef = useRef<HTMLButtonElement | null>(null);
 
-  const heroTitle = title || "Go where the world feels";
-  const heroHighlight = titleHighlight || "wild.";
+  const heroTitle = title || "Trek the Himalaya with";
+  const heroHighlight = titleHighlight || "Green Compass Treks.";
 
   /* ─────────────────────────────────────────────────────────────
      GLOBE — Three.js scene, built entirely on the client.
@@ -78,8 +85,11 @@ export function GreenCompassHero({
     const canvas = globeRef.current!;
     const hitzone = hitzoneRef.current!;
     const hero = sectionRef.current!;
+    // The copy block (Stagger) — its ref is taken by the reveal hook, so reach it via the wrapper.
+    const copy = copyRef.current!.firstElementChild as HTMLElement;
 
     const rm = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const split = window.matchMedia(SPLIT_MQ);
 
     // Colors from the global.css theme.
     const brand = hexToNum(readVar("--color-primary", "#fe4100"));
@@ -233,16 +243,26 @@ export function GreenCompassHero({
     let lastH = 0;
     function measureBase() {
       const hr = hero.getBoundingClientRect();
-      if (hr.width <= 720) {
+      if (split.matches) {
+        // Side by side: the copy holds the left half, the globe the right half —
+        // no taller than it is wide, so the whole sphere fits its column.
+        baseW = hr.width * 0.5;
+        baseH = Math.min(hr.height, baseW * 1.15);
+        cx = hr.width * 0.75;
+        cy = hr.height * 0.5;
+      } else if (hr.width >= 640) {
+        // Portrait tablet: stack the globe above the copy, in whatever room the
+        // copy leaves (headline length is CMS-driven, so measure, don't guess).
+        const room = copy.getBoundingClientRect().top - hr.top - 16;
+        baseW = hr.width;
+        baseH = Math.min(room, hr.width * 1.15);
+        cx = hr.width * 0.5;
+        cy = room * 0.5;
+      } else {
         baseW = hr.width;
         baseH = hr.height * 0.62;
         cx = hr.width * 0.5;
         cy = hr.height * 0.29;
-      } else {
-        baseW = hr.width * 0.58;
-        baseH = hr.height;
-        cx = hr.width * 0.71;
-        cy = hr.height * 0.5;
       }
     }
     measureBase();
@@ -281,6 +301,9 @@ export function GreenCompassHero({
       fitGlobe();
     };
     window.addEventListener("resize", onResize);
+    // Re-fit when the copy reflows (web fonts landing, headline re-wrapping).
+    const copyObserver = new ResizeObserver(onResize);
+    copyObserver.observe(copy);
 
     let raf = 0;
     function loop() {
@@ -298,6 +321,7 @@ export function GreenCompassHero({
     return () => {
       cancelAnimationFrame(raf);
       window.removeEventListener("resize", onResize);
+      copyObserver.disconnect();
       oc.dispose();
       scene.traverse((obj) => {
         const mesh = obj as THREE.Mesh;
@@ -382,24 +406,31 @@ export function GreenCompassHero({
             initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0, transition: { delay: 1.6, duration: 0.6, ease: EASE_OUT } }}
             exit={{ opacity: 0, transition: { duration: 0.4 } }}
-            className="absolute bottom-5 right-4 z-30 hidden text-[10px] font-medium uppercase tracking-[0.18em] text-text-muted sm:bottom-8 sm:right-8 sm:block"
+            className="absolute bottom-5 right-4 z-30 hidden text-[10px] font-medium uppercase tracking-[0.18em] text-text-muted sm:bottom-8 sm:right-8 split:block"
           >
-            Drag to rotate · scroll to zoom
+            Drag to rotate · <span className="pointer-coarse:hidden">scroll</span>
+            <span className="hidden pointer-coarse:inline">pinch</span> to zoom
           </m.p>
         )}
       </AnimatePresence>
 
       {/* ── Copy — the headline and the trek search that is this page's main
              action. Pointer-transparent so the globe hitzone behind it stays
-             draggable/zoomable; interactive bits opt back in. ── */}
-      <div className="pointer-events-none relative z-20 mx-auto flex min-h-full w-full max-w-[1400px] flex-col justify-end px-5 pb-10 sm:px-8 sm:pb-12 lg:justify-center lg:px-14 lg:pb-0">
-        <Stagger className="relative w-full max-w-xl lg:max-w-2xl">
+             draggable/zoomable; interactive bits opt back in. Side by side it
+             holds the left half; stacked it sits under the globe,
+             padded up by the sticky header's height (the header pushes this
+             full-height hero that far below the fold). ── */}
+      <div
+        ref={copyRef}
+        className="pointer-events-none relative z-20 mx-auto flex min-h-full w-full max-w-[1400px] flex-col justify-end px-5 pb-24 sm:px-8 sm:pb-28 lg:px-14 lg:pb-40 split:justify-center split:pb-0"
+      >
+        <Stagger className="relative w-full max-w-xl split:max-w-[50%]">
           {/* Rhumb lines — the bearing lines that radiate from a compass rose on
               an old chart. The origin sits off the left edge, so the copy reads
               as sitting on the chart rather than next to a diagram. */}
           <m.svg
             viewBox="-550 -550 1100 1100"
-            className="pointer-events-none absolute -left-[760px] top-1/2 hidden h-[1100px] w-[1100px] -translate-y-1/2 text-primary/[0.10] lg:block"
+            className="pointer-events-none absolute -left-[760px] top-1/2 hidden h-[1100px] w-[1100px] -translate-y-1/2 text-primary/[0.10] lg:split:block"
             aria-hidden="true"
             initial={{ opacity: 0, rotate: -14 }}
             animate={{ opacity: 1, rotate: 0 }}
@@ -446,38 +477,48 @@ export function GreenCompassHero({
                 animate={{ scaleX: 1 }}
                 transition={{ duration: 0.8, delay: 0.45, ease: EASE_OUT }}
               />
-              <p className="text-[10px] font-semibold uppercase tracking-[0.26em] text-text-muted sm:text-xs sm:tracking-[0.3em]">
+              <p className="text-balance text-[10px] font-semibold uppercase tracking-[0.26em] text-text-muted sm:text-xs sm:tracking-[0.3em]">
                 {eyebrow}
               </p>
             </StaggerItem>
           )}
 
-          {/* Headline */}
-          <StaggerItem as="h1" className="relative mt-4 font-display text-[2.6rem] leading-[1.05] tracking-[-0.02em] text-foreground sm:mt-5 sm:text-6xl lg:text-[4.75rem]">
+          {/* Headline — sized to the viewport so the highlight (an unbreakable
+              inline-block) always fits its column on one line. */}
+          <StaggerItem as="h1" className="relative mt-4 font-display text-[min(2.6rem,9.4vw)] leading-[1.05] tracking-[-0.02em] text-foreground sm:mt-5 sm:text-6xl split:text-[min(4.25rem,4.8vw)]">
             {heroTitle}{" "}
             <em className="relative inline-block font-serif font-medium italic text-primary">
               {heroHighlight}
-              {/* Hand-drawn trail under the highlight, drawn in once the page is live */}
-              <svg
+              {/* Hand-drawn trail under the highlight, wiped in once the page is
+                  live. A clip, not pathLength: the dash maths behind pathLength
+                  breaks up under a non-scaling stroke once the highlight is wide. */}
+              <m.svg
                 viewBox="0 0 100 12"
                 preserveAspectRatio="none"
                 className="pointer-events-none absolute -bottom-1 left-0 h-2.5 w-full text-primary/45 sm:-bottom-2 sm:h-3.5"
                 aria-hidden="true"
+                initial={{ clipPath: "inset(0 100% 0 0)" }}
+                animate={{ clipPath: "inset(0 0% 0 0)" }}
+                transition={{ duration: 1.1, delay: 0.7, ease: EASE_OUT }}
               >
-                <m.path
+                <path
                   d="M2 8 C 22 3, 48 2.5, 70 5 S 92 8, 98 4"
                   fill="none"
                   stroke="currentColor"
                   strokeWidth="2.5"
                   strokeLinecap="round"
                   vectorEffect="non-scaling-stroke"
-                  initial={{ pathLength: 0 }}
-                  animate={{ pathLength: 1 }}
-                  transition={{ duration: 1.1, delay: 0.7, ease: EASE_OUT }}
                 />
-              </svg>
+              </m.svg>
             </em>
           </StaggerItem>
+
+          {/* Supporting line — from sm up; on phones it would push the copy into the globe */}
+          {description?.trim() && (
+            <StaggerItem as="p" className="relative mt-6 hidden max-w-lg text-lg leading-relaxed text-text-muted sm:block">
+              {description}
+            </StaggerItem>
+          )}
 
           {/* Search — the same autocomplete bar the category and trek pages use */}
           <StaggerItem className="pointer-events-auto relative z-10 mt-6 w-full max-w-md sm:mt-8">

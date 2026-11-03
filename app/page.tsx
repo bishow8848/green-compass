@@ -292,6 +292,7 @@ export default async function HomePage() {
         title={settings?.heroTitle || pageHero.title || ""}
         titleHighlight={settings?.heroTitleHighlight || pageHero.titleHighlight || ""}
         eyebrow={pageHero.badge}
+        description={pageHero.description}
         primaryCta={heroPrimaryCta}
         secondaryCta={heroSecondaryCta}
       />
