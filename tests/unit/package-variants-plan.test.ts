@@ -130,7 +130,8 @@ describe("price and text", () => {
     expect(inclusions).not.toMatch(/Airport pickup|Accommodation in Kathmandu|Tourist bus/);
     expect(exclusions).not.toMatch(/visa|International flight/);
     expect(exclusions).toContain("Accommodation and meals in Kathmandu or Pokhara unless mentioned in the itinerary.");
-    expect(exclusions).toContain("14-day complete package");
+    expect(exclusions).toContain("Airport pickup and drop-off in Kathmandu.");
+    expect(exclusions).not.toContain("complete package");
   });
 
   it("moves only the links that describe the complete package", () => {
@@ -183,7 +184,10 @@ describe("planVariants", () => {
     expect(pkg.itinerary).toHaveLength(7);
     // The guide section stays on the city-to-city page; the package links to it.
     const headings = JSON.parse(String(pkg.scalars.customSections)).map((s: { data: { heading: string } }) => s.data.heading);
-    expect(headings).toEqual(["Trip Highlights", "What the Complete Package Covers", "Planning the Trek", "Trekking Guides & Articles"]);
+    expect(headings).toEqual(["Trip Highlights", "What the Package Covers", "Trekking Guides & Articles"]);
+    // Each page reads as a product of its own: no pointer to the other version.
+    expect(String(pkg.scalars.overview)).not.toMatch(/city-to-city|ridge-trek"/);
+    expect(family.city.patch.overview).not.toMatch(/complete package|-package"/);
     expect(family.linkRules[0]).toMatchObject({ to: "/treks/ridge-trek-package", completeDays: 7 });
   });
 

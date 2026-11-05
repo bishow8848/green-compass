@@ -23,6 +23,7 @@
  * the existing pairs ($150 for the four Kathmandu–Pokhara days) — on every
  * group-size tier, rounded to $5.
  */
+import { COVERS_HEADING, PLAIN_AIRPORT_EXCLUSION, plainCityIntro, plainPairNote } from "./plain-text";
 import {
   COMPLETE_PACKAGE_SUBTITLE,
   PACKAGE_SLUG_SUFFIX,
@@ -439,7 +440,7 @@ export function cityInclusions(
       opts.kind === "trek"
         ? `Accommodation and meals in ${opts.pokhara ? "Kathmandu or Pokhara" : "Kathmandu"} unless mentioned in the itinerary.`
         : "Accommodation and meals before the first day and after the last day of the tour.",
-      `Airport pickup and drop-off — both included in the ${opts.completeDays}-day complete package.`,
+      PLAIN_AIRPORT_EXCLUSION,
     ]
   );
   return { inclusions: incOut, exclusions: exc, notes };
@@ -529,8 +530,6 @@ type Ctx = {
   core: DayRow[];
 };
 
-const href = (ctx: Ctx, complete: boolean) => `/${ctx.category}/${ctx.base}${complete ? PACKAGE_SLUG_SUFFIX : ""}`;
-
 /** What the city-to-city version leaves to the traveller. */
 function leftOut(ctx: Ctx): string {
   const { hotels, transfers } = cityExtras(ctx.start, ctx.end);
@@ -539,17 +538,17 @@ function leftOut(ctx: Ctx): string {
     : "airport pickup and drop-off and the hotel nights before the first day and after the last";
 }
 
-/** Opens the city-to-city overview: what this version is, and the other one. */
+/**
+ * Opens a city-to-city overview as plain product copy: where the trip starts
+ * and ends, what is included and what is not. It does not mention the
+ * complete package — each page reads as a product of its own.
+ */
 export function cityIntro(ctx: Ctx): string {
   const included =
     ctx.noun === "trek"
-      ? `${onTheTrail(ctx.core, ctx.start, ctx.end, "trek")}, your licensed guide, the permits and the teahouse nights on the trail are included`
-      : "the transport, accommodation and guided visits on the itinerary are included";
-  return (
-    `<p><strong>${escapeHtml(ctx.name)}, city to city: ${ctx.cityDays} days, ${route(ctx.start, ctx.end)}.</strong> ` +
-    `This version of the ${ctx.noun} ${startsAndEnds(ctx.start, ctx.end)}: ${included}, while ${leftOut(ctx)} — which you may already have arranged — are not. ` +
-    `Flying into Nepal and want those taken care of too? The <a href="${href(ctx, true)}">${ctx.completeDays}-day complete package</a> adds them, from arrival to departure.</p>`
-  );
+      ? `${onTheTrail(ctx.core, ctx.start, ctx.end, "trek")}, your licensed guide, the permits and the teahouse nights on the trail`
+      : "the transport, accommodation and guided visits on the itinerary";
+  return plainCityIntro(escapeHtml(ctx.name), ctx.cityDays, ctx.start, ctx.end, ctx.noun, startsAndEnds(ctx.start, ctx.end), included, leftOut(ctx));
 }
 
 /** Opens the complete package's overview. */
@@ -558,32 +557,28 @@ export function completeIntro(ctx: Ctx, sourceOverview: string): string {
   const summary = opening(sourceOverview);
   const tripName = escapeHtml(ctx.name.replace(/\s+Package$/i, ""));
   return (
-    `<p><strong>The complete ${tripName} package covers the whole trip, from landing at Tribhuvan International Airport to your flight home: ${ctx.completeDays} days, ${ctx.cityDays} of them on the ${ctx.noun} itself.</strong> ` +
+    `<p><strong>The ${tripName} Package covers the whole trip, from landing at Tribhuvan International Airport to your flight home: ${ctx.completeDays} days, ${ctx.cityDays} of them on the ${ctx.noun} itself.</strong> ` +
     `We meet you at the airport and arrange your ${hotels}${transfers}, then run the ${ctx.noun} with a licensed guide and every permit and booking made in advance — one booking and one point of contact from arrival to departure.</p>` +
-    (summary ? `<p>${escapeHtml(summary)}</p>` : "") +
-    `<p>Already in ${ctx.start}, or arranging your own hotel? The <a href="${href(ctx, false)}">${ctx.cityDays}-day city-to-city ${tripName}</a> is the same ${ctx.noun}, ${route(ctx.start, ctx.end)}, without the arrival, departure and hotel nights.</p>`
+    (summary ? `<p>${escapeHtml(summary)}</p>` : "")
   );
 }
 
 /** A short note for a pair's complete package, whose own overview already describes it. */
 export function completeNote(ctx: Ctx): string {
-  return `<p><strong>Complete package: ${ctx.completeDays} days, arrival to departure.</strong> Airport pickup and drop-off, your ${cityExtras(ctx.start, ctx.end).hotels}${cityExtras(ctx.start, ctx.end).transfers} are included. Only want the ${ctx.noun}? The <a href="${href(ctx, false)}">${ctx.cityDays}-day city-to-city version</a> runs ${route(ctx.start, ctx.end)}.</p>`;
+  const { hotels, transfers } = cityExtras(ctx.start, ctx.end);
+  return plainPairNote(ctx.completeDays, `${hotels}${transfers}`);
 }
 
 export function cityFaqs(ctx: Ctx): FaqRow[] {
   const baseName = ctx.name;
   return [
     {
-      question: `Where does the city-to-city ${baseName} start and finish?`,
+      question: `Where does the ${baseName} start and finish?`,
       answer: `It ${startsAndEnds(ctx.start, ctx.end)}. Day 1 is "${plainDayTitle(ctx.core[0]?.title ?? "")}" and the last of the ${ctx.cityDays} days is "${plainDayTitle(ctx.core[ctx.core.length - 1]?.title ?? "").replace(COMBINED_DEPARTURE, "")}".`,
     },
     {
-      question: `What is not included in the city-to-city ${baseName}?`,
+      question: `What is not included in the ${baseName}?`,
       answer: `${leftOut(ctx)[0].toUpperCase()}${leftOut(ctx).slice(1)}. Everything on the ${ctx.cityDays}-day itinerary itself is included as listed above.`,
-    },
-    {
-      question: "Can I book the complete package instead?",
-      answer: `Yes. The ${ctx.completeDays}-day ${completeName(baseName)} runs from your arrival in Kathmandu to your departure and adds ${leftOut(ctx)}. Both versions follow the same ${ctx.noun}.`,
     },
   ];
 }
@@ -594,7 +589,7 @@ export function completeFaqs(ctx: Ctx, kathmanduNights: number): FaqRow[] {
   const cityName = ctx.name.replace(/\s+Package$/i, "");
   return [
     {
-      question: `What does the complete ${cityName} package include?`,
+      question: `What does the ${cityName} Package include?`,
       answer: `Everything from your arrival to your departure: airport pickup and drop-off, ${hotels}${transfers}, and the full ${ctx.cityDays}-day ${ctx.noun} with a licensed guide, permits and accommodation. The complete list is under Inclusions & Exclusions.`,
     },
     {
@@ -612,10 +607,6 @@ export function completeFaqs(ctx: Ctx, kathmanduNights: number): FaqRow[] {
     {
       question: "Can I add extra nights in Kathmandu?",
       answer: "Yes. Tell us when you book and we will add nights at the same hotel before or after the trip, or rearrange the days around your flights.",
-    },
-    {
-      question: `Is there a version without hotels and airport transfers?`,
-      answer: `Yes — the ${ctx.cityDays}-day city-to-city ${cityName} runs ${route(ctx.start, ctx.end)} on exactly the same ${ctx.noun}, for travellers who are already in Nepal or arranging their own hotel.`,
     },
   ];
 }
@@ -635,49 +626,32 @@ function parseSections(json: string | null): Section[] {
  * The complete package's own sections. The long guide sections (best time,
  * packing, altitude, insurance…) stay on the city-to-city page only: the two
  * pages would otherwise repeat thousands of words, and Google indexes one page
- * of a near-duplicate pair. This page links to them instead.
+ * of a near-duplicate pair. The blog guides linked under Trekking Guides &
+ * Articles cover the planning here.
  */
 export function completeSections(ctx: Ctx, source: TrekRow): { sections: Section[]; order: string[] } {
   const sections = parseSections(source.customSections);
   const highlights = sections.find((s) => /highlights/i.test(s.data?.heading ?? ""));
   const guides = sections.find((s) => /guides\s*&\s*articles/i.test(s.data?.heading ?? ""));
-  const guideHeadings = sections
-    .filter((s) => s !== highlights && s !== guides && s.data?.heading)
-    .map((s) => s.data!.heading!.trim());
   const { hotels } = cityExtras(ctx.start, ctx.end);
   const pokhara = ctx.start === "Pokhara" || ctx.end === "Pokhara";
-  const cityName = escapeHtml(ctx.name.replace(/\s+Package$/i, ""));
 
   const covers: Section = {
     id: "custom-package-covers",
     type: "custom",
     data: {
-      heading: "What the Complete Package Covers",
+      heading: COVERS_HEADING,
       content:
         `<p>Everything between your arrival and your departure is arranged before you land:</p><ul>` +
         `<li><strong>Airport transfers</strong> — pickup at Tribhuvan International Airport on day 1 and drop-off for your flight home on day ${ctx.completeDays}.</li>` +
         `<li><strong>Hotels</strong> — ${hotels} with breakfast, before and after the ${ctx.noun}.</li>` +
         (pokhara ? `<li><strong>Kathmandu–Pokhara transfers</strong> — the tourist bus to Pokhara and back, so the ${ctx.noun} starts the morning after you arrive there.</li>` : "") +
         `<li><strong>The ${ctx.noun}</strong> — ${ctx.cityDays} days, ${route(ctx.start, ctx.end)}, with ${onTheTrail(ctx.core, ctx.start, ctx.end, ctx.noun)}, a licensed guide and every permit arranged.</li>` +
-        `</ul><p>Only the ${ctx.noun}? The <a href="${href(ctx, false)}">city-to-city ${cityName}</a> is the same ${ctx.cityDays} days without the arrival, departure and hotel nights.</p>`,
+        `</ul>`,
     },
   };
-  const planning: Section | null =
-    guideHeadings.length > 0
-      ? {
-          id: "custom-package-planning",
-          type: "custom",
-          data: {
-            heading: `Planning the ${ctx.noun === "trek" ? "Trek" : "Tour"}`,
-            content:
-              `<p>The ${ctx.noun} itself is identical in both versions, so its planning guide lives on the <a href="${href(ctx, false)}">${cityName}</a> page:</p><ul>` +
-              guideHeadings.map((h) => `<li>${escapeHtml(h)}</li>`).join("") +
-              `</ul>`,
-          },
-        }
-      : null;
 
-  const out = [highlights, covers, planning, guides].filter(Boolean) as Section[];
+  const out = [highlights, covers, guides].filter(Boolean) as Section[];
   // Keep the saved order of the built-in sections; slot the new ones in after the overview.
   let order: string[];
   try {
@@ -686,9 +660,9 @@ export function completeSections(ctx: Ctx, source: TrekRow): { sections: Section
     order = [];
   }
   const removed = new Set(sections.filter((s) => !out.includes(s)).map((s) => s.id));
-  order = order.filter((id) => !removed.has(id) && id !== covers.id && id !== planning?.id);
+  order = order.filter((id) => !removed.has(id) && id !== covers.id);
   const anchor = highlights && order.includes(highlights.id) ? order.indexOf(highlights.id) + 1 : order.indexOf("overview") + 1;
-  order.splice(Math.max(anchor, 0), 0, covers.id, ...(planning ? [planning.id] : []));
+  order.splice(Math.max(anchor, 0), 0, covers.id);
   return { sections: out, order };
 }
 
@@ -707,7 +681,7 @@ export function completeDescription(ctx: Ctx): string {
   const pokhara = ctx.start === "Pokhara" || ctx.end === "Pokhara";
   const cityName = ctx.name.replace(/\s+Package$/i, "");
   return fit(
-    `${cityName} complete package: ${ctx.completeDays} days from arrival in Kathmandu to departure, with airport transfers, hotels${pokhara ? ", the bus to Pokhara and back" : ""}, permits and a licensed guide.`
+    `${cityName} Package: ${ctx.completeDays} days from arrival in Kathmandu to departure, with airport transfers, hotels${pokhara ? ", the bus to Pokhara and back" : ""}, permits and a licensed guide.`
   );
 }
 
