@@ -17,8 +17,14 @@
  * Deterministic by design: re-running produces the same result, and the
  * `--dry-run` flag prints the report without touching the database.
  *
- *   npx tsx scripts/randomize-reviews.mts --dry-run
+ * `--missing-only` fills products that currently have no reviews at all,
+ * creating a random 5-10 approved reviews per product with an average between
+ * 4.5 and 5.0. Existing reviews are never changed in this mode.
+ *
  *   npx tsx scripts/randomize-reviews.mts
+ *   npx tsx scripts/randomize-reviews.mts --dry-run
+ *   npx tsx scripts/randomize-reviews.mts --missing-only --dry-run
+ *   npx tsx scripts/randomize-reviews.mts --missing-only
  */
 import "dotenv/config";
 import { readFileSync, writeFileSync } from "node:fs";
@@ -26,6 +32,7 @@ import { fileURLToPath } from "node:url";
 import { prisma } from "@/lib/prisma";
 
 const DRY_RUN = process.argv.includes("--dry-run");
+const MISSING_ONLY = process.argv.includes("--missing-only");
 const PROJECT_ROOT = fileURLToPath(new URL("..", import.meta.url));
 const SEED = 20261024;
 
@@ -664,6 +671,14 @@ function sentenceCase(text: string) {
 /** Pool sentences are written for a group; a solo reviewer must not say "we". */
 function firstPersonSingular(text: string) {
   return text
+    .replace(/\bWe've\b/g, "I've")
+    .replace(/\bWe're\b/g, "I'm")
+    .replace(/\bWe'd\b/g, "I'd")
+    .replace(/\bWe'll\b/g, "I'll")
+    .replace(/\bWe were\b/g, "I was")
+    .replace(/\bWe are\b/g, "I am")
+    .replace(/\bOurselves\b/g, "Myself")
+    .replace(/\bOur\b/g, "My")
     .replace(/\bwe've\b/gi, "I've")
     .replace(/\bwe're\b/gi, "I'm")
     .replace(/\bwe'd\b/gi, "I'd")
@@ -955,7 +970,8 @@ async function main() {
   }
 
   const treksRaw = (await prisma.trek.findMany({
-    where: { reviews: { some: {} } },
+    // --missing-only must never rewrite a product that already has reviews.
+    where: MISSING_ONLY ? { reviews: { none: {} } } : { reviews: { some: {} } },
     select: {
       id: true,
       slug: true,
@@ -980,6 +996,15 @@ async function main() {
       email: emailByAuthorTrek.get(`${trek.slug}|${review.author}`) ?? "",
     })),
   }));
+
+  if (!treks.length) {
+    console.log(
+      MISSING_ONLY
+        ? "Every product already has reviews — nothing to do."
+        : "No treks with reviews found."
+    );
+    return;
+  }
 
   const rng = mulberry32(SEED);
 
@@ -1030,8 +1055,9 @@ async function main() {
       theme,
     };
 
-    // Grow or shrink the page to a randomized number of reviews (2-20).
-    const target = targetCount(rng);
+    // Grow or shrink the page to a randomized number of reviews (2-20), or
+    // add 5-10 reviews to a product that has none when in --missing-only mode.
+    const target = MISSING_ONLY ? randInt(rng, 5, 10) : targetCount(rng);
     if (trek.reviews.length > target) {
       const keep = new Set<number>();
       while (keep.size < target) keep.add(Math.floor(rng() * trek.reviews.length));
@@ -1249,13 +1275,38 @@ function guessTheme(title: string): string {
   return "trek";
 }
 
+type SeedRow = {
+  trek: string;
+  title: string;
+  theme: string;
+  author: string;
+  email: string;
+  rating: number;
+  heading: string;
+  text: string;
+  createdAt: string;
+};
+
 /** Regenerate the checked-in seed files from the in-memory state. */
 function writeSeedFiles(treks: TrekRow[], themeBySlug: Map<string, string>) {
   const jsonPath = `${PROJECT_ROOT}generated-reviews/reviews.json`;
   const csvPath = `${PROJECT_ROOT}generated-reviews/review-personas.csv`;
 
-  const rows = treks
-    .flatMap((trek) =>
+  // --missing-only only appends the new products; keep every existing row so
+  // the seed files stay a superset of what is already in the database.
+  let existing: SeedRow[] = [];
+  if (MISSING_ONLY) {
+    try {
+      existing = JSON.parse(readFileSync(jsonPath, "utf8")) as SeedRow[];
+    } catch {
+      existing = [];
+    }
+  }
+  const generatedSlugs = new Set(treks.map((trek) => trek.slug));
+
+  const rows = [
+    ...existing.filter((row) => !generatedSlugs.has(row.trek)),
+    ...treks.flatMap((trek) =>
       trek.reviews.map((review) => ({
         trek: trek.slug,
         title: trek.title,
@@ -1267,8 +1318,8 @@ function writeSeedFiles(treks: TrekRow[], themeBySlug: Map<string, string>) {
         text: review.text,
         createdAt: review.createdAt.toISOString(),
       }))
-    )
-    .sort((a, b) => a.trek.localeCompare(b.trek) || a.createdAt.localeCompare(b.createdAt));
+    ),
+  ].sort((a, b) => a.trek.localeCompare(b.trek) || a.createdAt.localeCompare(b.createdAt));
 
   writeFileSync(jsonPath, JSON.stringify(rows, null, 2) + "\n");
 
