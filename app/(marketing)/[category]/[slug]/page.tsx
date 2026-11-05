@@ -30,8 +30,6 @@ import { FAQAccordion } from "@/components/ui/FAQAccordion";
 import { CountUp, Disclosure, KenBurns, MotionAnchor, Reveal, ScrollProgress, Stagger, StaggerItem } from "@/components/motion";
 import { sanitizeRichText } from "@/lib/sanitize";
 import { slimRouteGeoJson } from "@/lib/route-geojson";
-import { COMPLETE_PACKAGE_SUBTITLE, packageKind, variantSiblingSlug } from "@/lib/package-variants";
-import { PackageLabel, PackageVariantSwitch } from "@/components/trek/PackageVariant";
 import { SITE_NAME, SITE_URL, brandedTitle, ogImages, seoDescription, seoImageUrl, serializeJsonLd } from "@/lib/seo";
 
 export const revalidate = 604800; // Trek detail cached 7 days; refreshed on-demand after CMS edits
@@ -265,46 +263,10 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
     } catch {}
   }
 
-  // The other version of this trip — city to city or complete package — if it
-  // is published (lib/package-variants.ts).
-  const siblingSlug = variantSiblingSlug(trek.slug);
-  const siblingPromise = getCachedOrFetch(
-    cacheKeys.trek(`variant:${siblingSlug}`),
-    () => prisma.trek.findFirst({
-      where: { slug: siblingSlug, status: "published" },
-      select: { slug: true, title: true, subtitle: true, duration: true, price: true, category: { select: { slug: true } } },
-    }),
-    CACHE_TTL.MODERATE
-  );
-
-  const [homeSettingsForContact, similarTreks, sibling] = await Promise.all([
+  const [homeSettingsForContact, similarTreks] = await Promise.all([
     homeSettingsPromise,
     similarTreksPromise,
-    siblingPromise,
   ]);
-  const kind = packageKind(trek);
-  const siblingKind = sibling ? packageKind(sibling) : null;
-  const packageOptions =
-    kind && sibling && siblingKind && siblingKind !== kind
-      ? {
-          current: {
-            kind,
-            href: `/${catSlug}/${trek.slug}`,
-            title: trek.title,
-            detail: kind === "complete" ? COMPLETE_PACKAGE_SUBTITLE : trek.subtitle || "",
-            duration: trek.duration,
-            price: offerLowPrice,
-          },
-          other: {
-            kind: siblingKind,
-            href: `/${sibling.category?.slug || catSlug}/${sibling.slug}`,
-            title: sibling.title,
-            detail: siblingKind === "complete" ? COMPLETE_PACKAGE_SUBTITLE : sibling.subtitle || "",
-            duration: sibling.duration,
-            price: sibling.price,
-          },
-        }
-      : null;
   const contactHeading = (homeSettingsForContact as any)?.contactHeading || "Ready for Your Himalayan Adventure?";
   const contactDescription = (homeSettingsForContact as any)?.contactDescription || null;
   const contactInfoCards: { title: string; description: string }[] = (homeSettingsForContact as any)?.contactInfoCards
@@ -514,21 +476,12 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
               >
                 {trek.title}
               </StaggerItem>
-              {kind && (
-                <StaggerItem className="mb-5">
-                  <PackageLabel
-                    slug={trek.slug}
-                    subtitle={trek.subtitle}
-                    className="inline-block rounded-full bg-white/15 px-4 py-1.5 text-sm text-white backdrop-blur-sm"
-                  />
-                </StaggerItem>
-              )}
               <StaggerItem
                 as="p"
                 className="mb-6 text-lg sm:text-xl"
                 style={{ color: "#e0e0e0" }}
               >
-                {/* The hand-written summary; the overview now opens with the package note. */}
+                {/* The hand-written one-line summary, rather than the overview cut off mid-sentence. */}
                 {trek.metaDescription || seoDescription(trek.overview, "A journey through the heart of the Himalayas.", 150)}
               </StaggerItem>
 
@@ -558,13 +511,6 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
         <div className="grid gap-12 lg:grid-cols-3 pdf:block">
           {/* ── MAIN CONTENT ── */}
           <div className="min-w-0 flex flex-col space-y-0 lg:col-span-2">
-            {/* City to city or complete package: both versions, the other one linked. */}
-            {packageOptions && (
-              <>
-                <PackageVariantSwitch current={packageOptions.current} other={packageOptions.other} />
-                <hr className="border-t border-slate-200" />
-              </>
-            )}
             {/* Pricing calculator at the top on mobile (hidden on desktop) */}
             <div className="lg:hidden mb-8" data-pdf-hide="">
               <PricingCalculator

@@ -1,4 +1,3 @@
-import { PackageLabel } from "@/components/trek/PackageVariant";
 import Link from "next/link";
 import { Clock, Mountain } from "lucide-react";
 import { CLOUDINARY_CLOUD_NAME } from "@/lib/cloudinary-url";
@@ -12,7 +11,6 @@ export const trekCardSelect = {
   difficulty: true,
   duration: true,
   price: true,
-  subtitle: true,
   category: { select: { slug: true } },
 } as const;
 
@@ -24,7 +22,6 @@ export type TrekCardData = {
   difficulty: string;
   duration: number;
   price: number;
-  subtitle?: string | null;
   category: { slug: string } | null;
 };
 
@@ -60,7 +57,6 @@ export function TrekCard({ trek, href }: { trek: TrekCardData; href: string }) {
         <h3 className="text-xl font-bold leading-tight text-foreground transition-colors group-hover:text-primary">
           {trek.title}
         </h3>
-        <PackageLabel slug={trek.slug} subtitle={trek.subtitle} className="mt-2 text-text-muted" />
         <div className="mt-auto pt-6 flex items-end justify-between">
           <div className="flex flex-col gap-1 text-xs text-text-muted font-medium">
             <span className="flex items-center gap-1.5">
