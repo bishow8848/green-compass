@@ -44,7 +44,7 @@ export const remoteA: BlogContent[] = [
               ],
             },
           },
-          { p: "We run it as an [[trek:dhaulagiri-circuit-trek|18-day camping expedition]] from Kathmandu. If the full circuit is more than you want, the [[trek:churen-himal-base-camp-trek|Churen Himal Base Camp trek]] reaches comparable remoteness on the western end of the same massif with no glacier travel." },
+          { p: "We run it as an [[trek:dhaulagiri-circuit-trek-package|18-day camping expedition]] from Kathmandu. If the full circuit is more than you want, the [[trek:churen-himal-base-camp-trek|Churen Himal Base Camp trek]] reaches comparable remoteness on the western end of the same massif with no glacier travel." },
         ],
       },
       {
@@ -257,7 +257,7 @@ export const remoteA: BlogContent[] = [
               ],
             },
           },
-          { p: "We run this as a [[trek:churen-himal-base-camp-trek|16-day camping trek]]. It shares its first three walking days with the [[trek:dhaulagiri-circuit-trek|Dhaulagiri Circuit]] before turning west at Lumsum, so the two make a natural pair of choices at either end of the same massif." },
+          { p: "We run this as a [[trek:churen-himal-base-camp-trek-package|16-day camping trek]]. It shares its first three walking days with the [[trek:dhaulagiri-circuit-trek|Dhaulagiri Circuit]] before turning west at Lumsum, so the two make a natural pair of choices at either end of the same massif." },
         ],
       },
       {
@@ -460,7 +460,7 @@ export const remoteA: BlogContent[] = [
               ],
             },
           },
-          { p: "We run it as a [[trek:ganesh-himal-trek|13-day trek]] from Kathmandu. It finishes at Syabrubesi, the same roadhead used by the [[trek:langtang-valley-trek|Langtang Valley trek]] and the [[trek:tamang-heritage-trek|Tamang Heritage trail]], so the two combine well if you have the days." },
+          { p: "We run it as a [[trek:ganesh-himal-trek-package|13-day trek]] from Kathmandu. It finishes at Syabrubesi, the same roadhead used by the [[trek:langtang-valley-trek|Langtang Valley trek]] and the [[trek:tamang-heritage-trek|Tamang Heritage trail]], so the two combine well if you have the days." },
         ],
       },
       {
@@ -653,7 +653,7 @@ export const remoteA: BlogContent[] = [
               ],
             },
           },
-          { p: "We run it as a [[trek:khori-himal-trek|10-day trip from Kathmandu]] and a [[trek:khori-himal-trek-from-pokhara|6-day version from Pokhara]] for travellers already in the city. Both walk the same four days." },
+          { p: "We run it as a [[trek:khori-himal-trek-package|10-day trip from Kathmandu]] and a [[trek:khori-himal-trek|6-day version from Pokhara]] for travellers already in the city. Both walk the same four days." },
         ],
       },
       {
@@ -779,7 +779,7 @@ export const remoteA: BlogContent[] = [
     ],
     relatedTreks: [
       "khori-himal-trek",
-      "khori-himal-trek-from-pokhara",
+      "khori-himal-trek",
       "mardi-himal-trek",
       "poonhill-trek",
       "lamjung-himal-trek",

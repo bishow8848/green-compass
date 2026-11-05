@@ -37,7 +37,7 @@ export const toursD: BlogContent[] = [
               ],
             },
           },
-          { p: "For two weeks, the usual shape is the Best of Nepal circuit plus Lumbini, or the cultural tour plus a short trek from Pokhara such as [[trek:poonhill-trek-from-pokhara|Poon Hill in three days]]." },
+          { p: "For two weeks, the usual shape is the Best of Nepal circuit plus Lumbini, or the cultural tour plus a short trek from Pokhara such as [[trek:poonhill-trek|Poon Hill in three days]]." },
         ],
       },
       {
@@ -64,7 +64,7 @@ export const toursD: BlogContent[] = [
               "<strong>Days 1–3, Kathmandu Valley.</strong> Kathmandu Durbar Square and Swayambhunath; Patan and the craft quarters; Bhaktapur with an overnight or a Nagarkot sunrise.",
               "<strong>Day 4, Bandipur.</strong> Break the drive to Pokhara at the ridge town rather than doing it in one go.",
               "<strong>Days 5–7, Pokhara.</strong> Sarangkot at dawn, Phewa Lake and the Peace Pagoda, and a paragliding flight or the mountain museum.",
-              "<strong>Days 8–10, a short trek or the Sanctuary flight.</strong> [[trek:poonhill-trek-from-pokhara|Poon Hill in three days]] for a genuine Himalayan sunrise, or [[trek:annapurna-base-camp-helicopter-tour|the Annapurna helicopter tour]] if walking is not wanted.",
+              "<strong>Days 8–10, a short trek or the Sanctuary flight.</strong> [[trek:poonhill-trek|Poon Hill in three days]] for a genuine Himalayan sunrise, or [[trek:annapurna-base-camp-helicopter-tour|the Annapurna helicopter tour]] if walking is not wanted.",
               "<strong>Days 11–13, Chitwan.</strong> Jeep safari, canoe, jungle walk and the elephant breeding centre.",
               "<strong>Day 14, return to Kathmandu</strong> for departure, with Patan or Boudhanath if the flight is late.",
             ],

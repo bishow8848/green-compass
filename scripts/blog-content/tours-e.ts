@@ -44,7 +44,7 @@ export const toursE: BlogContent[] = [
               ],
             },
           },
-          { p: "We run it as a [[trek:best-of-nepal-tour|10-day private tour]]. For a shorter version covering the two cities only, see the [[trek:kathmandu-pokhara-tour|Kathmandu and Pokhara tour]]." },
+          { p: "We run it as a [[trek:best-of-nepal-tour-package|10-day private tour]]. For a shorter version covering the two cities only, see the [[trek:kathmandu-pokhara-tour|Kathmandu and Pokhara tour]]." },
         ],
       },
       {
@@ -236,7 +236,7 @@ export const toursE: BlogContent[] = [
               ],
             },
           },
-          { p: "We run it as a [[trek:kathmandu-pokhara-tour|7-day private tour]], with a shorter [[trek:glimpse-of-nepal-tour|5-day version]] for tighter schedules. To add Chitwan and Lumbini, see the [[trek:best-of-nepal-tour|Best of Nepal tour]]." },
+          { p: "We run it as a [[trek:kathmandu-pokhara-tour-package|7-day private tour]], with a shorter [[trek:glimpse-of-nepal-tour-package|5-day version]] for tighter schedules. To add Chitwan and Lumbini, see the [[trek:best-of-nepal-tour|Best of Nepal tour]]." },
         ],
       },
       {
@@ -422,7 +422,7 @@ export const toursE: BlogContent[] = [
               ],
             },
           },
-          { p: "We run it as an [[trek:buddhist-pilgrimage-tour-nepal|8-day pilgrimage]]. For the Hindu equivalent, see the [[trek:hindu-pilgrimage-tour|Hindu Pilgrimage tour]]; for Lumbini alone, the [[trek:lumbini-tour|Lumbini tour]]." },
+          { p: "We run it as an [[trek:buddhist-pilgrimage-tour-nepal-package|8-day pilgrimage]]. For the Hindu equivalent, see the [[trek:hindu-pilgrimage-tour|Hindu Pilgrimage tour]]; for Lumbini alone, the [[trek:lumbini-tour|Lumbini tour]]." },
         ],
       },
       {
@@ -594,7 +594,7 @@ export const toursE: BlogContent[] = [
               ],
             },
           },
-          { p: "We run it as a [[trek:hindu-pilgrimage-tour|10-day pilgrimage]]. For Muktinath alone, see the [[trek:muktinath-pilgrimage-tour|Muktinath pilgrimage tour]] or the [[trek:muktinath-helicopter-tour-from-pokhara|helicopter option]]." },
+          { p: "We run it as a [[trek:hindu-pilgrimage-tour-package|10-day pilgrimage]]. For Muktinath alone, see the [[trek:muktinath-pilgrimage-tour|Muktinath pilgrimage tour]] or the [[trek:muktinath-helicopter-tour-from-pokhara|helicopter option]]." },
         ],
       },
       {

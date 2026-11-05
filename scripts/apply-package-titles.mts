@@ -8,13 +8,12 @@
  * not one of those words, and one even called itself a "Guide", competing
  * with the blog's own guide for the same search.
  *
- * Pattern, first variant that fits in 60 characters:
- *   multi-day  "<Trip> – <N> Days: Itinerary & Cost"   (climbs add "(6,812 m)" if it fits)
- *   day trip   "<Trip>: Price & Booking"
- * The duration is not repeated when the trip name already carries one
- * ("Pokhara Honeymoon Tour – 4 Days"). The page adds the brand only when the
- * result still fits (brandedTitle's maxLength), as Google shows the site name
- * above each result anyway.
+ * The pattern lives in lib/package-variants.ts (packageTitle), shared with
+ * scripts/apply-package-variants.mts so the two never disagree: a complete
+ * package reads "<Trip> Package – <N> Days from Kathmandu", a city-to-city trip
+ * "<Trip> from Pokhara – <N> Days: Itinerary & Cost", a day trip "<Trip>: Price
+ * & Booking". The page adds the brand only when the result still fits
+ * (brandedTitle's maxLength), as Google shows the site name above each result.
  *
  * Also fills the /treks listing's meta title and description when the admin
  * has left them empty (the other categories have their own).
@@ -32,12 +31,12 @@ import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
+import { packageTitle } from "@/lib/package-variants";
 
 const args = process.argv.slice(2);
 const DRY_RUN = args.includes("--dry-run");
 const RESTORE = args.includes("--restore") ? args[args.indexOf("--restore") + 1] : undefined;
 const BACKUP_DIR = fileURLToPath(new URL("./.backups/", import.meta.url));
-const MAX_LENGTH = 60;
 
 const TREKS_CATEGORY = {
   slug: "treks",
@@ -45,53 +44,6 @@ const TREKS_CATEGORY = {
   metaDescription:
     "Guided treks in Nepal — Everest Base Camp, Annapurna, Langtang, Manaslu, Mustang and Dolpo — with day-by-day itineraries, group prices and fixed departures.",
 };
-
-/** "14 Days", "2 Night", "3 Hours", "20 Minutes" already in the name. */
-const DURATION_IN_NAME = /\b\d+\s*-?\s*(?:days?|nights?|hours?|hrs?|minutes?|mins?)\b/i;
-/** "(6,097 m)" or "6812m" already in the name. */
-const ALTITUDE_IN_NAME = /\d,?\d{3}\s?m\b/i;
-
-type TripForTitle = {
-  title: string;
-  duration: number;
-  maxAltitude: number | null;
-  category: { slug: string } | null;
-};
-
-/** A trailing " – 3 Hours" / " – 1 Day" on the name. */
-const TRAILING_DURATION = /\s*[–-]\s*\d+\s*(?:hours?|hrs?|minutes?|mins?|days?|nights?)\s*$/i;
-
-function tidy(name: string): string {
-  return name.replace(/\s+(From|With)\s+/g, (_, word: string) => ` ${word.toLowerCase()} `).replace(/\s+/g, " ").trim();
-}
-
-export function packageTitle(trip: TripForTitle): string {
-  const name = tidy(trip.title);
-  let options: string[];
-
-  if (trip.duration <= 1) {
-    // For a long name, the words people search with ("price") outrank the
-    // flight time, which the page states anyway.
-    const base = name.replace(TRAILING_DURATION, "");
-    options = [`${name}: Price & Booking`, `${base}: Price & Booking`, `${name} | Price`];
-  } else {
-    const days = DURATION_IN_NAME.test(name) ? "" : ` – ${trip.duration} Days`;
-    const shortDays = DURATION_IN_NAME.test(name) ? "" : ` ${trip.duration} Days`;
-    const altitude =
-      trip.category?.slug === "climbing" && trip.maxAltitude && !ALTITUDE_IN_NAME.test(name)
-        ? ` (${Math.round(trip.maxAltitude).toLocaleString("en-US")} m)`
-        : "";
-    options = [
-      `${name}${altitude}${days}: Itinerary & Cost`,
-      `${name}${days}: Itinerary & Cost`,
-      `${name}${shortDays}: Itinerary & Cost`,
-      `${name}${days}: Cost`,
-      `${name}${days}`,
-    ];
-  }
-
-  return options.find((t) => t.length <= MAX_LENGTH) ?? name;
-}
 
 /**
  * One UPDATE for every row. Two hundred single-row updates in a transaction
@@ -127,7 +79,7 @@ async function main() {
   const [treks, category] = await Promise.all([
     prisma.trek.findMany({
       where: { status: "published" },
-      select: { id: true, slug: true, title: true, metaTitle: true, duration: true, maxAltitude: true, category: { select: { slug: true } } },
+      select: { id: true, slug: true, title: true, subtitle: true, metaTitle: true, duration: true, maxAltitude: true, category: { select: { slug: true } } },
       orderBy: [{ categoryId: "asc" }, { slug: "asc" }],
     }),
     prisma.category.findUnique({

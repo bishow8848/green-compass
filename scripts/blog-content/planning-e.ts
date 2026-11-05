@@ -78,7 +78,7 @@ export const planningE: BlogContent[] = [
               "<strong>Two long walks a week.</strong> Three to five hours on hills with a loaded pack beats any amount of gym work.",
               "<strong>Stairs.</strong> Twenty minutes of continuous stair climbing twice a week is the best proxy for Nepali trails available in a city.",
               "<strong>Break in your boots.</strong> Fifty kilometres minimum. A blister on day two ruins a trek more reliably than poor fitness.",
-              "<strong>Pick a route that matches your preparation.</strong> With four weeks, [[trek:poonhill-trek|Poon Hill]], [[trek:mardi-himal-trek-from-pokhara|Mardi Himal from Pokhara]], or [[trek:langtang-valley-trek|Langtang Valley]] are sensible. A 5,416 m pass is not.",
+              "<strong>Pick a route that matches your preparation.</strong> With four weeks, [[trek:poonhill-trek|Poon Hill]], [[trek:mardi-himal-trek|Mardi Himal from Pokhara]], or [[trek:langtang-valley-trek|Langtang Valley]] are sensible. A 5,416 m pass is not.",
             ],
           },
           { p: "And remember the thing training cannot do: fitness has no effect on how well you acclimatise. A very fit trekker who walks too fast is at more risk than a slower one. See our [[post:altitude-sickness-in-nepal-prevention-and-treatment|altitude sickness guide]]." },

@@ -162,7 +162,7 @@ export const everestC: BlogContent[] = [
               ],
             },
           },
-          { p: "Our [[trek:gokyo-lake-trek|12-day Gokyo Lake Trek]] diverges from the Base Camp route above Namche, climbing the Dudh Koshi's western branch through Dole and Machhermo to Gokyo, with an acclimatisation day at Namche and the Gokyo Ri climb on arrival day." },
+          { p: "Our [[trek:gokyo-lake-trek-package|12-day Gokyo Lake Trek]] diverges from the Base Camp route above Namche, climbing the Dudh Koshi's western branch through Dole and Machhermo to Gokyo, with an acclimatisation day at Namche and the Gokyo Ri climb on arrival day." },
         ],
       },
       {
@@ -299,7 +299,7 @@ export const everestC: BlogContent[] = [
               ],
             },
           },
-          { p: "Our [[trek:everest-three-pass-trek|17-day Everest Three Pass Trek]] runs the circuit anticlockwise — Kongma La first — which gets the hardest pass done while you are freshest and builds acclimatisation progressively." },
+          { p: "Our [[trek:everest-three-pass-trek-package|17-day Everest Three Pass Trek]] runs the circuit anticlockwise — Kongma La first — which gets the hardest pass done while you are freshest and builds acclimatisation progressively." },
         ],
       },
       {

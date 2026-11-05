@@ -284,7 +284,7 @@ export const planningC: BlogContent[] = [
             table: {
               head: ["Trip", "Days", "Package", "Plus personal spending"],
               rows: [
-                ["Short Pokhara-start trek — [[trek:mardi-himal-trek-from-pokhara|Mardi Himal from Pokhara]]", "5", "From around USD 375", "USD 60–100 in extras and tips"],
+                ["Short Pokhara-start trek — [[trek:mardi-himal-trek|Mardi Himal from Pokhara]]", "5", "From around USD 375", "USD 60–100 in extras and tips"],
                 ["Classic teahouse trek — [[trek:annapurna-base-camp-trek|Annapurna Base Camp]]", "9", "From around USD 525", "USD 120–200"],
                 ["Flight-dependent trek — [[trek:everest-base-camp-trek|Everest Base Camp]]", "14", "Package plus Lukla flights", "USD 200–300"],
                 ["Restricted area — [[trek:upper-mustang-trek|Upper Mustang]]", "16", "From around USD 1,400, including the USD 500 permit", "USD 250–350"],
@@ -353,11 +353,11 @@ export const planningC: BlogContent[] = [
       { question: "Do prices change by season?", answer: "Package prices are steady through the year, but peak-season lodges and flights are tighter, and climbing permit royalties are lower outside spring and autumn. The largest seasonal saving is on trekking-peak permits, which drop substantially in winter and summer." },
     ],
     relatedTreks: [
-      "mardi-himal-trek-from-pokhara",
+      "mardi-himal-trek",
       "annapurna-base-camp-trek",
       "everest-base-camp-trek",
       "upper-mustang-trek",
-      "poonhill-trek-from-pokhara",
+      "poonhill-trek",
     ],
     tripsNote: "The trips used in the worked budgets above — each page carries the current per-person price by group size.",
     relatedPosts: [

@@ -377,8 +377,8 @@ export const meditationB: BlogContent[] = [
       { question: "Do you arrange yoga sessions with a trek?", answer: "Yes. We arrange pre-trek and post-trek yoga sessions in Kathmandu and Pokhara with teachers we know, privately or for a group, and schedule them around your trek dates. Ask when you enquire." },
     ],
     relatedTreks: [
-      "annapurna-base-camp-with-ghorepani-poonhill-from-pokhara",
-      "khopra-danda-trek-from-pokhara",
+      "annapurna-base-camp-trek-with-ghorepani-poonhill-trek",
+      "khopra-danda-trek",
       "annapurna-base-camp-trek",
       "mardi-himal-trek",
       "poonhill-trek",
@@ -569,9 +569,9 @@ export const meditationB: BlogContent[] = [
       { question: "Do you organise mindful treks?", answer: "Yes. We arrange a pre-trek session to learn the practice, brief your guide to include silent stretches and monastery visits, pace the itinerary gently, and add a post-trek yoga and meditation session. Tell us when you enquire." },
     ],
     relatedTreks: [
-      "upper-mustang-trek-from-pokhara",
+      "upper-mustang-trek",
       "serang-gompa-trek",
-      "khopra-danda-trek-from-pokhara",
+      "khopra-danda-trek",
       "langtang-valley-trek",
       "mardi-himal-trek",
       "tsum-valley-trek",

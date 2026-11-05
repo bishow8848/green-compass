@@ -99,7 +99,7 @@ export const annapurnaE: BlogContent[] = [
               "<strong>A week</strong> — add rafting, the Kushma bungee, a day tour, and a short trek. Several of our guests treat Pokhara as a base and do two short treks from it.",
             ],
           },
-          { p: "Combining it with Kathmandu: the [[trek:kathmandu-pokhara-tour|7-day Kathmandu and Pokhara tour]] covers both cities with the valley's UNESCO sites, and [[trek:best-of-nepal-tour|the 10-day Best of Nepal tour]] adds Chitwan. Both work well either side of a trek, or instead of one." },
+          { p: "Combining it with Kathmandu: the [[trek:kathmandu-pokhara-tour-package|7-day Kathmandu and Pokhara tour]] covers both cities with the valley's UNESCO sites, and [[trek:best-of-nepal-tour-package|the 10-day Best of Nepal tour]] adds Chitwan. Both work well either side of a trek, or instead of one." },
         ],
       },
     ],

@@ -44,7 +44,7 @@ export const annapurnaA: BlogContent[] = [
               ],
             },
           },
-          { p: "We run it as a [[trek:annapurna-base-camp-trek|9-day trek from Kathmandu]] and a [[trek:annapurna-base-camp-trek-from-pokhara|5-day trek from Pokhara]] for travellers already in the city. Adding Poon Hill makes it [[trek:annapurna-base-camp-trek-with-ghorepani-poonhill-trek|a 12-day trip]], and linking it to the Mardi Himal ridge gives [[trek:mardi-himal-trek-with-annapurna-base-camp|a 14-day double base camp route]]." },
+          { p: "We run it as a [[trek:annapurna-base-camp-trek-package|9-day trek from Kathmandu]] and a [[trek:annapurna-base-camp-trek|5-day trek from Pokhara]] for travellers already in the city. Adding Poon Hill makes it [[trek:annapurna-base-camp-trek-with-ghorepani-poonhill-trek-package|a 12-day trip]], and linking it to the Mardi Himal ridge gives [[trek:mardi-himal-trek-with-annapurna-base-camp-package|a 14-day double base camp route]]." },
         ],
       },
       {
@@ -192,11 +192,11 @@ export const annapurnaA: BlogContent[] = [
               head: ["Itinerary", "Days", "Suits"],
               rows: [
                 ["[[trek:annapurna-base-camp-trek|Annapurna Base Camp from Kathmandu]]", "9", "The standard trip, including Kathmandu and Pokhara transfers"],
-                ["[[trek:annapurna-base-camp-trek-from-pokhara|ABC from Pokhara]]", "5", "Travellers already in Pokhara who want the Sanctuary and nothing else"],
+                ["[[trek:annapurna-base-camp-trek|ABC from Pokhara]]", "5", "Travellers already in Pokhara who want the Sanctuary and nothing else"],
                 ["[[trek:annapurna-base-camp-trek-with-ghorepani-poonhill-trek|ABC with Ghorepani and Poon Hill]]", "12", "Adds the Poon Hill sunrise and the Ghorepani rhododendron forest"],
-                ["[[trek:annapurna-base-camp-with-ghorepani-poonhill-from-pokhara|ABC with Poon Hill from Pokhara]]", "8", "The same combination, Pokhara start and finish"],
+                ["[[trek:annapurna-base-camp-trek-with-ghorepani-poonhill-trek|ABC with Poon Hill from Pokhara]]", "8", "The same combination, Pokhara start and finish"],
                 ["[[trek:mardi-himal-trek-with-annapurna-base-camp|ABC with Mardi Himal]]", "14", "Two base camps, a high ridge, and the hot springs between them"],
-                ["[[trek:annapurna-base-camp-trek-with-mardi-himal-trek-from-pokhara|ABC with Mardi Himal from Pokhara]]", "10", "The double base camp route without Kathmandu days"],
+                ["[[trek:mardi-himal-trek-with-annapurna-base-camp|ABC with Mardi Himal from Pokhara]]", "10", "The double base camp route without Kathmandu days"],
               ],
             },
           },
@@ -222,10 +222,10 @@ export const annapurnaA: BlogContent[] = [
     ],
     relatedTreks: [
       "annapurna-base-camp-trek",
-      "annapurna-base-camp-trek-from-pokhara",
+      "annapurna-base-camp-trek",
       "annapurna-base-camp-trek-with-ghorepani-poonhill-trek",
       "mardi-himal-trek-with-annapurna-base-camp",
-      "annapurna-base-camp-with-ghorepani-poonhill-from-pokhara",
+      "annapurna-base-camp-trek-with-ghorepani-poonhill-trek",
     ],
     tripsNote: "Every version of the Sanctuary trek we run, from five days out of Pokhara to the fourteen-day double base camp route.",
     relatedPosts: [
@@ -315,7 +315,7 @@ export const annapurnaA: BlogContent[] = [
       {
         h2: "The 5-Day Pokhara Version",
         blocks: [
-          { p: "Our [[trek:annapurna-base-camp-trek-from-pokhara|5-day ABC trek from Pokhara]] reaches the same Base Camp by starting and ending in Pokhara and using jeep transfers to shorten the walk in. It removes the Kathmandu transfer days and compresses the lower hill section rather than cutting anything above Chhomrong." },
+          { p: "Our [[trek:annapurna-base-camp-trek|5-day ABC trek from Pokhara]] reaches the same Base Camp by starting and ending in Pokhara and using jeep transfers to shorten the walk in. It removes the Kathmandu transfer days and compresses the lower hill section rather than cutting anything above Chhomrong." },
           {
             table: {
               head: ["Day", "Stage", "Sleep at"],
@@ -336,8 +336,8 @@ export const annapurnaA: BlogContent[] = [
         blocks: [
           {
             ul: [
-              "<strong>Poon Hill</strong> — add three days for the dawn viewpoint at 3,210 m over Dhaulagiri and Annapurna, and the Ghorepani rhododendron forest. See [[trek:annapurna-base-camp-trek-with-ghorepani-poonhill-trek|the 12-day combination]] or [[trek:annapurna-base-camp-with-ghorepani-poonhill-from-pokhara|the 8-day Pokhara version]].",
-              "<strong>Mardi Himal</strong> — add the high ridge under Machhapuchhre for [[trek:mardi-himal-trek-with-annapurna-base-camp|a 14-day double base camp trek]], or [[trek:annapurna-base-camp-trek-with-mardi-himal-trek-from-pokhara|10 days from Pokhara]].",
+              "<strong>Poon Hill</strong> — add three days for the dawn viewpoint at 3,210 m over Dhaulagiri and Annapurna, and the Ghorepani rhododendron forest. See [[trek:annapurna-base-camp-trek-with-ghorepani-poonhill-trek-package|the 12-day combination]] or [[trek:annapurna-base-camp-trek-with-ghorepani-poonhill-trek|the 8-day Pokhara version]].",
+              "<strong>Mardi Himal</strong> — add the high ridge under Machhapuchhre for [[trek:mardi-himal-trek-with-annapurna-base-camp-package|a 14-day double base camp trek]], or [[trek:mardi-himal-trek-with-annapurna-base-camp|10 days from Pokhara]].",
               "<strong>Ghandruk and Landruk</strong> — a slower lower route through the Gurung villages, worth it if you want culture as well as mountains.",
               "<strong>Khopra Danda</strong> — a quieter ridge to the west, reached from the same trailhead. See [[trek:khopra-danda-trek|the Khopra Danda trek]].",
             ],
@@ -357,7 +357,7 @@ export const annapurnaA: BlogContent[] = [
     ],
     relatedTreks: [
       "annapurna-base-camp-trek",
-      "annapurna-base-camp-trek-from-pokhara",
+      "annapurna-base-camp-trek",
       "annapurna-base-camp-trek-with-ghorepani-poonhill-trek",
       "mardi-himal-trek-with-annapurna-base-camp",
     ],
@@ -411,7 +411,7 @@ export const annapurnaA: BlogContent[] = [
               ],
             },
           },
-          { p: "We run it as a [[trek:annapurna-circuit-trek|15-day Annapurna Circuit]], a [[trek:short-annapurna-circuit-trek|7-day short circuit]] using jeep transfers, and a [[trek:annapurna-circuit-with-tilicho-lake-trek|14-day version including Tilicho Lake]]." },
+          { p: "We run it as a [[trek:annapurna-circuit-trek-package|15-day Annapurna Circuit]], a [[trek:short-annapurna-circuit-trek|7-day short circuit]] using jeep transfers, and a [[trek:annapurna-circuit-with-tilicho-lake-trek-package|14-day version including Tilicho Lake]]." },
         ],
       },
       {
@@ -515,7 +515,7 @@ export const annapurnaA: BlogContent[] = [
         blocks: [
           { p: "The most popular addition to the circuit is <strong>Tilicho Lake at 4,919 m</strong> — one of the highest large lakes in the world, held in a bowl of bare rock beneath the Grand Barrier. It adds two to three days from Manang, via Khangsar and the Tilicho Base Camp, on a traverse across a notoriously loose landslide slope." },
           { p: "It is worth it. The lake is turquoise and enormous, ringed by Tilicho Peak and Nilgiri, and the approach is among the most spectacular walking in Nepal. It is also an excellent acclimatisation exercise before Thorong La." },
-          { p: "Options: [[trek:annapurna-circuit-with-tilicho-lake-trek|the circuit with Tilicho in 14 days]], [[trek:tilicho-lake-trek|Tilicho Lake as a 12-day trek in its own right]], or [[trek:short-tilicho-lake-trek|a 9-day short version]]. Note that the landslide traverse needs dry conditions and a guide watching the slope." },
+          { p: "Options: [[trek:annapurna-circuit-with-tilicho-lake-trek-package|the circuit with Tilicho in 14 days]], [[trek:tilicho-lake-trek-package|Tilicho Lake as a 12-day trek in its own right]], or [[trek:short-tilicho-lake-trek|a 9-day short version]]. Note that the landslide traverse needs dry conditions and a guide watching the slope." },
         ],
       },
       {

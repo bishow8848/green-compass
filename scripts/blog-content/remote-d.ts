@@ -45,7 +45,7 @@ export const remoteD: BlogContent[] = [
               ],
             },
           },
-          { p: "We run it as a [[trek:kanchenjunga-north-base-camp-trek|14-day trek]]. The [[trek:kanchenjunga-south-base-camp-trek|South Base Camp trek]] is the shorter, lower alternative, and the [[trek:kanchenjunga-circuit-trek|full circuit]] links both sides over the Sele La." },
+          { p: "We run it as a [[trek:kanchenjunga-north-base-camp-trek-package|14-day trek]]. The [[trek:kanchenjunga-south-base-camp-trek|South Base Camp trek]] is the shorter, lower alternative, and the [[trek:kanchenjunga-circuit-trek|full circuit]] links both sides over the Sele La." },
         ],
       },
       {
@@ -240,7 +240,7 @@ export const remoteD: BlogContent[] = [
               ],
             },
           },
-          { p: "We run it as an [[trek:kanchenjunga-south-base-camp-trek|11-day trek]]. For the more dramatic north side, see the [[trek:kanchenjunga-north-base-camp-trek|North Base Camp trek]]; for both, the [[trek:kanchenjunga-circuit-trek|full circuit]]." },
+          { p: "We run it as an [[trek:kanchenjunga-south-base-camp-trek-package|11-day trek]]. For the more dramatic north side, see the [[trek:kanchenjunga-north-base-camp-trek|North Base Camp trek]]; for both, the [[trek:kanchenjunga-circuit-trek|full circuit]]." },
         ],
       },
       {
@@ -419,7 +419,7 @@ export const remoteD: BlogContent[] = [
               ],
             },
           },
-          { p: "We run it as a [[trek:langtang-ganja-la-pass-trek|14-day trek]]. If you want the same country entirely in teahouses, the [[trek:langtang-gosaikunda-lake-trek|Langtang Gosaikunda trek]] covers it without the pass." },
+          { p: "We run it as a [[trek:langtang-ganja-la-pass-trek-package|14-day trek]]. If you want the same country entirely in teahouses, the [[trek:langtang-gosaikunda-lake-trek|Langtang Gosaikunda trek]] covers it without the pass." },
         ],
       },
       {
@@ -597,7 +597,7 @@ export const remoteD: BlogContent[] = [
               ],
             },
           },
-          { p: "We run it as a [[trek:tsho-rolpa-trek|12-day trek]]. The [[trek:tashi-lapcha-pass-trek|Tashi Lapcha Pass trek]] continues over the glaciated pass at the head of the valley into the Khumbu, and the [[trek:rolwaling-valley-trek|Rolwaling Valley trek]] covers the wider region." },
+          { p: "We run it as a [[trek:tsho-rolpa-trek-package|12-day trek]]. The [[trek:tashi-lapcha-pass-trek|Tashi Lapcha Pass trek]] continues over the glaciated pass at the head of the valley into the Khumbu, and the [[trek:rolwaling-valley-trek|Rolwaling Valley trek]] covers the wider region." },
         ],
       },
       {

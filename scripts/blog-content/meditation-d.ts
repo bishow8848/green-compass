@@ -559,7 +559,7 @@ export const meditationD: BlogContent[] = [
       { question: "Do you help nervous first-time trekkers?", answer: "Yes. We arrange a guided pre-trek meditation session, choose an itinerary with extra rest days and less exposure, brief your guide, monitor oxygen levels on high routes, and arrange a post-trek session to unwind." },
     ],
     relatedTreks: [
-      "poonhill-trek-from-pokhara",
+      "poonhill-trek",
       "everest-base-camp-trek",
       "langtang-valley-trek",
       "mardi-himal-trek",

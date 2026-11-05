@@ -252,7 +252,7 @@ export const seasonalE: BlogContent[] = [
               head: ["Trip", "Days", "In November"],
               rows: [
                 ["[[trek:upper-mustang-trek|Upper Mustang trek]]", "16", "The full walk in and out by different routes. Start by the first days of the month."],
-                ["[[trek:upper-mustang-trek-from-pokhara|Upper Mustang trek from Pokhara]]", "12", "The same trek without the Kathmandu days."],
+                ["[[trek:upper-mustang-trek|Upper Mustang trek from Pokhara]]", "12", "The same trek without the Kathmandu days."],
                 ["[[trek:upper-mustang-photography-tour|Upper Mustang Photography Tour]]", "11", "Jeep-supported, timed for morning and evening light. The best fit for mid-month."],
                 ["[[trek:lower-mustang-trek|Lower Mustang trek]]", "10", "Jomsom, Kagbeni, Muktinath and Marpha. No restricted permit, open all winter."],
               ],
@@ -288,7 +288,7 @@ export const seasonalE: BlogContent[] = [
       { question: "Can I drive to Lo Manthang instead of trekking?", answer: "Yes. A rough road runs from Jomsom to Lo Manthang, and jeep tours cover the route in about two days each way. The restricted-area permit and a guide are still required." },
       { question: "Is Lower Mustang open in winter?", answer: "Yes. Jomsom, Kagbeni, Marpha and Muktinath are inhabited all year, need no restricted-area permit and can be visited in any month, though it is cold and windy from December to February." },
     ],
-    relatedTreks: ["upper-mustang-trek", "upper-mustang-photography-tour", "upper-mustang-trek-from-pokhara", "lower-mustang-trek", "jomsom-muktinath-trek", "muktinath-pilgrimage-tour"],
+    relatedTreks: ["upper-mustang-trek", "upper-mustang-photography-tour", "upper-mustang-trek", "lower-mustang-trek", "jomsom-muktinath-trek", "muktinath-pilgrimage-tour"],
     tripsNote: "Mustang on foot and by jeep, above and below the restricted line.",
     relatedPosts: [
       "upper-mustang-trek-complete-guide",

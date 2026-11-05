@@ -188,7 +188,7 @@ export const toursB: BlogContent[] = [
                 ["[[trek:muktinath-pilgrimage-tour|By road from Pokhara]]", "6 days", "Pilgrims and travellers who want the temple without trekking"],
                 ["[[trek:muktinath-helicopter-tour-from-pokhara|Helicopter from Pokhara]]", "1 day", "Limited time, limited mobility, or elderly pilgrims"],
                 ["[[trek:jomsom-muktinath-trek|Jomsom Muktinath trek]]", "9 days", "Walking the Kali Gandaki with Kagbeni and Marpha on the way"],
-                ["[[trek:jomsom-muktinath-trek-from-pokhara|Jomsom Muktinath from Pokhara]]", "5 days", "The short trekking version"],
+                ["[[trek:jomsom-muktinath-trek|Jomsom Muktinath from Pokhara]]", "5 days", "The short trekking version"],
                 ["[[trek:annapurna-circuit-trek|Annapurna Circuit]]", "15 days", "Arriving over the Thorong La at 5,416 m, as trekkers have for decades"],
                 ["[[trek:muktinath-damodar-kunda-helicopter-tour|Muktinath and Damodar Kunda helicopter]]", "1 day", "Adding the high sacred lakes at 4,890 m"],
               ],

@@ -35,7 +35,7 @@ export const annapurnaC: BlogContent[] = [
               ],
             },
           },
-          { p: "We run it as a [[trek:khopra-danda-trek|13-day trek from Kathmandu]] and a [[trek:khopra-danda-trek-from-pokhara|9-day version from Pokhara]]." },
+          { p: "We run it as a [[trek:khopra-danda-trek-package|13-day trek from Kathmandu]] and a [[trek:khopra-danda-trek|9-day version from Pokhara]]." },
         ],
       },
       {
@@ -114,7 +114,7 @@ export const annapurnaC: BlogContent[] = [
     ],
     relatedTreks: [
       "khopra-danda-trek",
-      "khopra-danda-trek-from-pokhara",
+      "khopra-danda-trek",
       "mohare-danda-trek",
       "poonhill-trek",
     ],
@@ -167,7 +167,7 @@ export const annapurnaC: BlogContent[] = [
               ],
             },
           },
-          { p: "We run it as a [[trek:mohare-danda-trek|10-day trek from Kathmandu]] and a [[trek:mohare-danda-trek-from-pokhara|6-day version from Pokhara]]." },
+          { p: "We run it as a [[trek:mohare-danda-trek-package|10-day trek from Kathmandu]] and a [[trek:mohare-danda-trek|6-day version from Pokhara]]." },
         ],
       },
       {
@@ -243,7 +243,7 @@ export const annapurnaC: BlogContent[] = [
     ],
     relatedTreks: [
       "mohare-danda-trek",
-      "mohare-danda-trek-from-pokhara",
+      "mohare-danda-trek",
       "khopra-danda-trek",
       "poonhill-trek",
     ],
@@ -297,7 +297,7 @@ export const annapurnaC: BlogContent[] = [
               ],
             },
           },
-          { p: "We run it as a [[trek:nar-phu-valley-trek|14-day Nar Phu Valley Trek]], usually combined with Manang and sometimes with Thorong La to complete the Annapurna Circuit." },
+          { p: "We run it as a [[trek:nar-phu-valley-trek-package|14-day Nar Phu Valley Trek]], usually combined with Manang and sometimes with Thorong La to complete the Annapurna Circuit." },
         ],
       },
       {
@@ -454,9 +454,9 @@ export const annapurnaC: BlogContent[] = [
             table: {
               head: ["If your priority is…", "Choose", "Why"],
               rows: [
-                ["Three or four days only", "[[trek:poonhill-trek-from-pokhara|Poon Hill from Pokhara]]", "The only one that fits, and it still delivers two eight-thousanders at dawn"],
+                ["Three or four days only", "[[trek:poonhill-trek|Poon Hill from Pokhara]]", "The only one that fits, and it still delivers two eight-thousanders at dawn"],
                 ["A first trek with a family", "[[trek:poonhill-trek|Poon Hill]]", "Short days, good lodges, no altitude risk"],
-                ["A ridge walk and close mountains", "[[trek:mardi-himal-trek-from-pokhara|Mardi Himal]]", "Machhapuchhre overhead and two days above the treeline"],
+                ["A ridge walk and close mountains", "[[trek:mardi-himal-trek|Mardi Himal]]", "Machhapuchhre overhead and two days above the treeline"],
                 ["Avoiding crowds", "[[trek:mardi-himal-trek|Mardi Himal]], or better [[trek:khopra-danda-trek|Khopra Danda]]", "A fraction of the Ghorepani traffic"],
                 ["The most dramatic scenery", "[[trek:annapurna-base-camp-trek|Annapurna Base Camp]]", "The Sanctuary is unlike anywhere else in Nepal"],
                 ["Going as high as possible", "[[trek:annapurna-base-camp-trek|Annapurna Base Camp]] at 4,130 m", "Or Mardi's 4,500 m day walk without sleeping that high"],
@@ -474,9 +474,9 @@ export const annapurnaC: BlogContent[] = [
           {
             ul: [
               "<strong>[[trek:annapurna-base-camp-trek-with-ghorepani-poonhill-trek|ABC with Ghorepani and Poon Hill]]</strong>, 12 days — the Sanctuary plus the sunrise viewpoint. Our most-booked Annapurna combination.",
-              "<strong>[[trek:annapurna-base-camp-with-ghorepani-poonhill-from-pokhara|ABC with Poon Hill from Pokhara]]</strong>, 8 days — the same pairing without Kathmandu days.",
+              "<strong>[[trek:annapurna-base-camp-trek-with-ghorepani-poonhill-trek|ABC with Poon Hill from Pokhara]]</strong>, 8 days — the same pairing without Kathmandu days.",
               "<strong>[[trek:mardi-himal-trek-with-annapurna-base-camp|Mardi Himal with ABC]]</strong>, 14 days — two base camps, a high ridge, and the hot springs between them. The best fortnight in the region.",
-              "<strong>[[trek:annapurna-base-camp-trek-with-mardi-himal-trek-from-pokhara|Mardi plus ABC from Pokhara]]</strong>, 10 days — the same double route, Pokhara to Pokhara.",
+              "<strong>[[trek:mardi-himal-trek-with-annapurna-base-camp|Mardi plus ABC from Pokhara]]</strong>, 10 days — the same double route, Pokhara to Pokhara.",
             ],
           },
           { p: "A practical note on fitting any of them around the rest of a trip. All three start within two hours of Pokhara, so a trek can sit between a Chitwan safari and a few days in Kathmandu without awkward transfers. Poon Hill leaves room for both in a two-week holiday; Annapurna Base Camp from Pokhara leaves room for one; the fourteen-day Mardi and Sanctuary combination is the holiday." },
@@ -494,9 +494,9 @@ export const annapurnaC: BlogContent[] = [
       { question: "Which works best in winter?", answer: "Poon Hill, comfortably, and Mardi Himal below High Camp with warm kit. Annapurna Base Camp is possible in winter but needs avalanche caution in the Sanctuary gorge after snowfall. Mohare Danda is the other strong winter choice in the same hills." },
     ],
     relatedTreks: [
-      "poonhill-trek-from-pokhara",
-      "mardi-himal-trek-from-pokhara",
-      "annapurna-base-camp-trek-from-pokhara",
+      "poonhill-trek",
+      "mardi-himal-trek",
+      "annapurna-base-camp-trek",
       "annapurna-base-camp-trek-with-ghorepani-poonhill-trek",
       "mardi-himal-trek-with-annapurna-base-camp",
     ],

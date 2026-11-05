@@ -210,7 +210,7 @@ export const healthD: BlogContent[] = [
     ],
     relatedTreks: [
       "annapurna-base-camp-trek",
-      "annapurna-base-camp-trek-with-mardi-himal-trek-from-pokhara",
+      "mardi-himal-trek-with-annapurna-base-camp",
       "everest-base-camp-trek",
       "annapurna-circuit-trek",
       "mardi-himal-trek-with-annapurna-base-camp",

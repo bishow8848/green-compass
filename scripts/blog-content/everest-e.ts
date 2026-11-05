@@ -389,7 +389,7 @@ export const everestE: BlogContent[] = [
               "You want flexibility to combine the trek with Pokhara, Chitwan, or a short add-on.",
             ],
           },
-          { p: "Book [[trek:annapurna-base-camp-trek|Annapurna Base Camp]], or [[trek:annapurna-base-camp-trek-from-pokhara|the Pokhara-start version]] if you have five days. Adding Poon Hill with [[trek:annapurna-base-camp-trek-with-ghorepani-poonhill-trek|this variant]] gives you a sunrise viewpoint as well." },
+          { p: "Book [[trek:annapurna-base-camp-trek|Annapurna Base Camp]], or [[trek:annapurna-base-camp-trek|the Pokhara-start version]] if you have five days. Adding Poon Hill with [[trek:annapurna-base-camp-trek-with-ghorepani-poonhill-trek|this variant]] gives you a sunrise viewpoint as well." },
         ],
       },
       {
@@ -421,7 +421,7 @@ export const everestE: BlogContent[] = [
     relatedTreks: [
       "everest-base-camp-trek",
       "annapurna-base-camp-trek",
-      "annapurna-base-camp-trek-from-pokhara",
+      "annapurna-base-camp-trek",
       "mardi-himal-trek",
       "gokyo-lake-trek",
     ],

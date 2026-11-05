@@ -101,7 +101,7 @@ export const manasluC: BlogContent[] = [
     ],
     relatedTreks: [
       "upper-mustang-trek",
-      "upper-mustang-trek-from-pokhara",
+      "upper-mustang-trek",
       "jomsom-muktinath-trek",
       "lower-mustang-trek",
     ],
@@ -155,7 +155,7 @@ export const manasluC: BlogContent[] = [
               ],
             },
           },
-          { p: "We run it as [[trek:shey-phoksundo-lake-trek|a 14-day Shey Phoksundo Lake trek]], with [[trek:lower-dolpo-trek|the 17-day Lower Dolpo trek]] and [[trek:upper-dolpo-trek|the 26-day Upper Dolpo trek]] as the longer routes through the same region." },
+          { p: "We run it as [[trek:shey-phoksundo-lake-trek-package|a 14-day Shey Phoksundo Lake trek]], with [[trek:lower-dolpo-trek-package|the 17-day Lower Dolpo trek]] and [[trek:upper-dolpo-trek-package|the 26-day Upper Dolpo trek]] as the longer routes through the same region." },
         ],
       },
       {
@@ -288,7 +288,7 @@ export const manasluC: BlogContent[] = [
               ],
             },
           },
-          { p: "We run it as [[trek:lower-dolpo-trek|a 17-day Lower Dolpo trek]]. The shorter [[trek:shey-phoksundo-lake-trek|Shey Phoksundo Lake trek]] covers the lake alone in 14 days." },
+          { p: "We run it as [[trek:lower-dolpo-trek-package|a 17-day Lower Dolpo trek]]. The shorter [[trek:shey-phoksundo-lake-trek|Shey Phoksundo Lake trek]] covers the lake alone in 14 days." },
         ],
       },
       {
@@ -422,7 +422,7 @@ export const manasluC: BlogContent[] = [
               ],
             },
           },
-          { p: "We run it as [[trek:upper-dolpo-trek|a 26-day Upper Dolpo trek]], with [[trek:jomsom-dolpo-trek|a 22-day Jomsom to Dolpo traverse]] as the variant linking it to Mustang." },
+          { p: "We run it as [[trek:upper-dolpo-trek-package|a 26-day Upper Dolpo trek]], with [[trek:jomsom-dolpo-trek-package|a 22-day Jomsom to Dolpo traverse]] as the variant linking it to Mustang." },
         ],
       },
       {

@@ -36,7 +36,7 @@ export const langtangC: BlogContent[] = [
               ],
             },
           },
-          { p: "We run it as [[trek:ama-yangri-trek|a 5-day Ama Yangri trek]], and it is also the final section of the [[trek:langtang-gosaikunda-lake-trek|15-day Langtang and Gosaikunda route]], which descends through this same country." },
+          { p: "We run it as [[trek:ama-yangri-trek-package|a 5-day Ama Yangri trek]], and it is also the final section of the [[trek:langtang-gosaikunda-lake-trek-package|15-day Langtang and Gosaikunda route]], which descends through this same country." },
         ],
       },
       {
@@ -156,7 +156,7 @@ export const langtangC: BlogContent[] = [
               ],
             },
           },
-          { p: "We run it as [[trek:panch-pokhari-trek|an 11-day Panch Pokhari trek]]." },
+          { p: "We run it as [[trek:panch-pokhari-trek-package|an 11-day Panch Pokhari trek]]." },
         ],
       },
       {

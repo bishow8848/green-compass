@@ -35,7 +35,7 @@ export const eastB: BlogContent[] = [
               ],
             },
           },
-          { p: "We run it as [[trek:mundum-trek|a 13-day Mundum trek]]." },
+          { p: "We run it as [[trek:mundum-trek-package|a 13-day Mundum trek]]." },
         ],
       },
       {
@@ -168,7 +168,7 @@ export const eastB: BlogContent[] = [
               ],
             },
           },
-          { p: "We run it as [[trek:red-panda-trail-trek|a 12-day Red Panda Trail trek]]." },
+          { p: "We run it as [[trek:red-panda-trail-trek-package|a 12-day Red Panda Trail trek]]." },
         ],
       },
       {
@@ -297,7 +297,7 @@ export const eastB: BlogContent[] = [
               ],
             },
           },
-          { p: "We run it as [[trek:rara-lake-trek|an 11-day Rara Lake trek]]." },
+          { p: "We run it as [[trek:rara-lake-trek-package|an 11-day Rara Lake trek]]." },
         ],
       },
       {

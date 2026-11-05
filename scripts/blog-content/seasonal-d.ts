@@ -230,7 +230,7 @@ export const seasonalD: BlogContent[] = [
               "<strong>The steps are the difficulty.</strong> More than three thousand of them on the Ulleri climb alone. Poles help; so does starting from higher up the road, which jeeps now reach.",
             ],
           },
-          { p: "We run it as a [[trek:poonhill-trek|seven-day Poon Hill trek]] from Kathmandu and a [[trek:poonhill-trek-from-pokhara|three-day version from Pokhara]]. The route is described stage by stage in our [[post:poon-hill-trek-guide|Poon Hill guide]]." },
+          { p: "We run it as a [[trek:poonhill-trek|seven-day Poon Hill trek]] from Kathmandu and a [[trek:poonhill-trek|three-day version from Pokhara]]. The route is described stage by stage in our [[post:poon-hill-trek-guide|Poon Hill guide]]." },
         ],
       },
       {
@@ -245,7 +245,7 @@ export const seasonalD: BlogContent[] = [
               "<strong>Altitude is felt.</strong> Going from Pokhara to 3,580 metres in three days is quick. Headaches at High Camp are common. Do not shorten the standard schedule.",
             ],
           },
-          { p: "We run a [[trek:mardi-himal-trek|nine-day Mardi Himal trek]] from Kathmandu and a [[trek:mardi-himal-trek-from-pokhara|five-day version from Pokhara]]. Everything about the route is in the [[post:mardi-himal-trek-complete-guide|complete Mardi Himal guide]]." },
+          { p: "We run a [[trek:mardi-himal-trek|nine-day Mardi Himal trek]] from Kathmandu and a [[trek:mardi-himal-trek|five-day version from Pokhara]]. Everything about the route is in the [[post:mardi-himal-trek-complete-guide|complete Mardi Himal guide]]." },
           {
             figure: {
               image: trekImage("mardi-himal-trek", "00-high-camp-of-mardi-himal-trek-08"),
@@ -297,7 +297,7 @@ export const seasonalD: BlogContent[] = [
       { question: "Is Poon Hill crowded in November?", answer: "At sunrise in the first half of the month, yes. It is quieter after mid-November, and at any time the summit is nearly empty at sunset or an hour after dawn." },
       { question: "Can I combine Poon Hill and Mardi Himal?", answer: "Yes, in about a week. A ridge trail links Ghorepani and Tadapani with Landruk and the start of the Mardi Himal route, so the two can be walked as one continuous trek." },
     ],
-    relatedTreks: ["poonhill-trek", "mardi-himal-trek", "poonhill-trek-from-pokhara", "mardi-himal-trek-from-pokhara", "mohare-danda-trek", "khopra-danda-trek"],
+    relatedTreks: ["poonhill-trek", "mardi-himal-trek", "poonhill-trek", "mardi-himal-trek", "mohare-danda-trek", "khopra-danda-trek"],
     tripsNote: "Short treks above Pokhara, from three days to nine.",
     relatedPosts: [
       "mardi-himal-vs-poon-hill-vs-annapurna-base-camp",

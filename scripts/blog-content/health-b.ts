@@ -201,7 +201,7 @@ export const healthB: BlogContent[] = [
     ],
     relatedTreks: [
       "annapurna-circuit-trek",
-      "jomsom-muktinath-trek-from-pokhara",
+      "jomsom-muktinath-trek",
       "annapurna-circuit-with-tilicho-lake-trek",
       "everest-base-camp-trek",
       "manaslu-circuit-trek",
@@ -619,8 +619,8 @@ export const healthB: BlogContent[] = [
       { question: "Do your guides help if I get sick?", answer: "Yes. Guides carry rehydration salts, adjust the day or add a rest day, watch for dehydration and altitude symptoms, and arrange descent or evacuation if needed. After the trek we can arrange a clinic visit before you fly." },
     ],
     relatedTreks: [
-      "annapurna-base-camp-with-ghorepani-poonhill-from-pokhara",
-      "annapurna-base-camp-trek-from-pokhara",
+      "annapurna-base-camp-trek-with-ghorepani-poonhill-trek",
+      "annapurna-base-camp-trek",
       "everest-base-camp-trek",
       "annapurna-base-camp-trek",
       "poonhill-trek",

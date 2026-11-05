@@ -35,7 +35,7 @@ export const toursA: BlogContent[] = [
               ],
             },
           },
-          { p: "We cover them across several itineraries: [[trek:seven-world-heritage-kathmandu-day-tour|all seven in one long day]], [[trek:kathmandu-day-tour|a shorter Kathmandu day tour]], and dedicated half days to [[trek:patan-day-tour|Patan]] and [[trek:bhaktapur-day-tour|Bhaktapur]]. Longer options include [[trek:kathmandu-valley-tour|a 5-day valley tour]] and [[trek:nepal-cultural-tour|a 9-day cultural tour]]." },
+          { p: "We cover them across several itineraries: [[trek:seven-world-heritage-kathmandu-day-tour|all seven in one long day]], [[trek:kathmandu-day-tour|a shorter Kathmandu day tour]], and dedicated half days to [[trek:patan-day-tour|Patan]] and [[trek:bhaktapur-day-tour|Bhaktapur]]. Longer options include [[trek:kathmandu-valley-tour|a 5-day valley tour]] and [[trek:nepal-cultural-tour-package|a 9-day cultural tour]]." },
         ],
       },
       {

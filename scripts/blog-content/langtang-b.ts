@@ -57,7 +57,7 @@ export const langtangB: BlogContent[] = [
       {
         h2: "Ama Yangri: The Best Five-Day Option",
         blocks: [
-          { p: "Four hours north-east of Kathmandu, the Helambu region holds the Sherpa and Tamang villages of Tarkeghyang and Sermathang and, above them, the sacred ridge of <strong>Ama Yangri</strong>. Our [[trek:ama-yangri-trek|5-day Ama Yangri trek]] is the best short trek from Kathmandu by a clear margin." },
+          { p: "Four hours north-east of Kathmandu, the Helambu region holds the Sherpa and Tamang villages of Tarkeghyang and Sermathang and, above them, the sacred ridge of <strong>Ama Yangri</strong>. Our [[trek:ama-yangri-trek-package|5-day Ama Yangri trek]] is the best short trek from Kathmandu by a clear margin." },
           {
             ul: [
               "<strong>The summit</strong> is a pilgrimage site with prayer flags, reached by a steep climb from Tarkeghyang, and the view takes in Langtang Lirung, Dorje Lakpa, Gauri Shankar and the Jugal Himal.",
@@ -67,7 +67,7 @@ export const langtangB: BlogContent[] = [
               "<strong>Empty.</strong> You will likely see no other trekking group.",
             ],
           },
-          { p: "It is also the tail end of the Gosaikunda and Helambu route, so if you walk the [[trek:langtang-gosaikunda-lake-trek|15-day Langtang and Gosaikunda trek]] you finish through this same country." },
+          { p: "It is also the tail end of the Gosaikunda and Helambu route, so if you walk the [[trek:langtang-gosaikunda-lake-trek-package|15-day Langtang and Gosaikunda trek]] you finish through this same country." },
         ],
       },
       {
@@ -281,7 +281,7 @@ export const langtangB: BlogContent[] = [
               ],
             },
           },
-          { p: "We run it as [[trek:ruby-valley-circuit-trek|an 11-day Ruby Valley Circuit]]." },
+          { p: "We run it as [[trek:ruby-valley-circuit-trek-package|an 11-day Ruby Valley Circuit]]." },
         ],
       },
       {

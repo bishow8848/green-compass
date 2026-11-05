@@ -45,7 +45,7 @@ export const everestA: BlogContent[] = [
               ],
             },
           },
-          { p: "Our [[trek:everest-base-camp-trek|14-day Everest Base Camp Trek]] follows the standard route with two full acclimatisation days, at Namche Bazaar and Dingboche. Shorter itineraries exist; they work by removing one of those days, which is the wrong economy." },
+          { p: "Our [[trek:everest-base-camp-trek-package|14-day Everest Base Camp Trek]] follows the standard route with two full acclimatisation days, at Namche Bazaar and Dingboche. Shorter itineraries exist; they work by removing one of those days, which is the wrong economy." },
         ],
       },
       {
@@ -416,7 +416,7 @@ export const everestA: BlogContent[] = [
       {
         h2: "The Package, and What Sits Outside It",
         blocks: [
-          { p: "Our [[trek:everest-base-camp-trek|14-day Everest Base Camp Trek]] is priced per person and tiered by group size, from a solo rate down to a lower rate for larger groups. That price includes:" },
+          { p: "Our [[trek:everest-base-camp-trek-package|14-day Everest Base Camp Trek]] is priced per person and tiered by group size, from a solo rate down to a lower rate for larger groups. That price includes:" },
           {
             ul: [
               "Licensed English-speaking guide, insured, for the whole trek.",

@@ -44,7 +44,7 @@ export const remoteB: BlogContent[] = [
               ],
             },
           },
-          { p: "We run it as a [[trek:guerrilla-trek|15-day trek]]. It shares its approach over the Jaljala Pass with the [[trek:churen-himal-base-camp-trek|Churen Himal Base Camp trek]], then turns west into Rolpa where that route turns north." },
+          { p: "We run it as a [[trek:guerrilla-trek-package|15-day trek]]. It shares its approach over the Jaljala Pass with the [[trek:churen-himal-base-camp-trek|Churen Himal Base Camp trek]], then turns west into Rolpa where that route turns north." },
         ],
       },
       {
@@ -235,7 +235,7 @@ export const remoteB: BlogContent[] = [
               ],
             },
           },
-          { p: "We run it as a [[trek:lamjung-himal-trek|13-day trek]] from Kathmandu. It sits in the same quiet corner of the Annapurnas as the [[trek:khori-himal-trek|Khori Himal trek]] to Kori Danda, and the two together make an excellent fortnight away from the main trails." },
+          { p: "We run it as a [[trek:lamjung-himal-trek-package|13-day trek]] from Kathmandu. It sits in the same quiet corner of the Annapurnas as the [[trek:khori-himal-trek|Khori Himal trek]] to Kori Danda, and the two together make an excellent fortnight away from the main trails." },
         ],
       },
       {
@@ -426,7 +426,7 @@ export const remoteB: BlogContent[] = [
               ],
             },
           },
-          { p: "We run it as a [[trek:helambu-trek|7-day trek]]. For a shorter taste of the same country, the [[trek:ama-yangri-trek|Ama Yangri trek]] climbs the ridge above Tarke Ghyang in a long weekend." },
+          { p: "We run it as a [[trek:helambu-trek-package|7-day trek]]. For a shorter taste of the same country, the [[trek:ama-yangri-trek|Ama Yangri trek]] climbs the ridge above Tarke Ghyang in a long weekend." },
         ],
       },
       {
@@ -616,7 +616,7 @@ export const remoteB: BlogContent[] = [
               ],
             },
           },
-          { p: "We run it as a [[trek:badimalika-trek|13-day trek]] with a contingency day built into the Kathmandu end, because the Kolti flight is the least reliable link in the chain." },
+          { p: "We run it as a [[trek:badimalika-trek-package|13-day trek]] with a contingency day built into the Kathmandu end, because the Kolti flight is the least reliable link in the chain." },
         ],
       },
       {

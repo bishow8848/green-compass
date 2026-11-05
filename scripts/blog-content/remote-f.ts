@@ -45,7 +45,7 @@ export const remoteF: BlogContent[] = [
               ],
             },
           },
-          { p: "We run it as a [[trek:sherpani-col-passes-trek|24-day expedition]]. If you want the Barun valley without the cols, the [[trek:makalu-base-camp-trek|Makalu Base Camp trek]] is the route; the [[trek:everest-three-pass-trek|Everest Three Passes trek]] is the serious but non-technical alternative." },
+          { p: "We run it as a [[trek:sherpani-col-passes-trek-package|24-day expedition]]. If you want the Barun valley without the cols, the [[trek:makalu-base-camp-trek|Makalu Base Camp trek]] is the route; the [[trek:everest-three-pass-trek|Everest Three Passes trek]] is the serious but non-technical alternative." },
         ],
       },
       {
@@ -229,7 +229,7 @@ export const remoteF: BlogContent[] = [
               ],
             },
           },
-          { p: "We run it as a [[trek:saribung-pass-trek|21-day expedition]]. The [[trek:teri-la-pass-trek|Teri La Pass trek]] links the same two regions over a non-glaciated pass, and the [[trek:saribung-peak-climbing|Saribung Peak climb]] adds the summit above the col." },
+          { p: "We run it as a [[trek:saribung-pass-trek-package|21-day expedition]]. The [[trek:teri-la-pass-trek|Teri La Pass trek]] links the same two regions over a non-glaciated pass, and the [[trek:saribung-peak-climbing|Saribung Peak climb]] adds the summit above the col." },
         ],
       },
       {
@@ -413,7 +413,7 @@ export const remoteF: BlogContent[] = [
               ],
             },
           },
-          { p: "We run it as a [[trek:teri-la-pass-trek|20-day trek]]. The [[trek:saribung-pass-trek|Saribung Pass trek]] is the glaciated alternative; the [[trek:nar-phu-valley-trek|Nar Phu Valley trek]] reaches the eastern villages without the crossing." },
+          { p: "We run it as a [[trek:teri-la-pass-trek-package|20-day trek]]. The [[trek:saribung-pass-trek|Saribung Pass trek]] is the glaciated alternative; the [[trek:nar-phu-valley-trek|Nar Phu Valley trek]] reaches the eastern villages without the crossing." },
         ],
       },
       {

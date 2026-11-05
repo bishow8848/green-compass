@@ -142,7 +142,7 @@ export const winterA: BlogContent[] = [
             },
           },
           {
-            p: "Two December variations are worth considering. If you are worried about the cold at 4,130 m, you can sleep at Machhapuchhre Base Camp and walk up to Annapurna Base Camp before dawn for the sunrise. And if you have more time, the [[trek:annapurna-base-camp-trek-with-ghorepani-poonhill-trek|Annapurna Base Camp trek with Ghorepani Poon Hill]] adds the famous sunrise viewpoint at 3,210 m, which is spectacular in clear winter air. If you are starting from Pokhara, the [[trek:annapurna-base-camp-trek-from-pokhara|five-day version from Pokhara]] fits into a shorter holiday.",
+            p: "Two December variations are worth considering. If you are worried about the cold at 4,130 m, you can sleep at Machhapuchhre Base Camp and walk up to Annapurna Base Camp before dawn for the sunrise. And if you have more time, the [[trek:annapurna-base-camp-trek-with-ghorepani-poonhill-trek|Annapurna Base Camp trek with Ghorepani Poon Hill]] adds the famous sunrise viewpoint at 3,210 m, which is spectacular in clear winter air. If you are starting from Pokhara, the [[trek:annapurna-base-camp-trek|five-day version from Pokhara]] fits into a shorter holiday.",
           },
         ],
       },
@@ -286,7 +286,7 @@ export const winterA: BlogContent[] = [
     ],
     relatedTreks: [
       "annapurna-base-camp-trek",
-      "annapurna-base-camp-trek-from-pokhara",
+      "annapurna-base-camp-trek",
       "annapurna-base-camp-trek-with-ghorepani-poonhill-trek",
       "mardi-himal-trek-with-annapurna-base-camp",
       "poonhill-trek",
@@ -417,7 +417,7 @@ export const winterA: BlogContent[] = [
           },
           {
             figure: {
-              image: trekImage("poonhill-trek-from-pokhara", "00-tea-house-in-tadapani-ghandruk-nepal-4402"),
+              image: trekImage("poonhill-trek", "00-tea-house-in-tadapani-ghandruk-nepal-4402"),
               alt: "A two-storey blue and white teahouse lodge at Tadapani on the Poon Hill route, among trees with a flagpole and a stone path in front.",
               caption:
                 "A teahouse at Tadapani. Bedrooms like these are unheated; the warmth is in the dining room stove and in your sleeping bag. Archive photograph.",

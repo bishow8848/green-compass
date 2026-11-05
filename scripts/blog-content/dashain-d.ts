@@ -201,10 +201,10 @@ export const dashainD: BlogContent[] = [
             table: {
               head: ["Trek", "Days", "Highest point", "From", "Crowds after the tika"],
               rows: [
-                ["[[trek:poonhill-trek-from-pokhara|Poon Hill]]", "3 – 4", "3,210 m", "Pokhara", "Very high"],
-                ["[[trek:mardi-himal-trek-from-pokhara|Mardi Himal]]", "4 – 5", "4,200 m viewpoint", "Pokhara", "Very high"],
-                ["[[trek:mohare-danda-trek-from-pokhara|Mohare Danda]]", "4 – 5", "3,300 m", "Pokhara", "Low"],
-                ["[[trek:khopra-danda-trek-from-pokhara|Khopra Danda]]", "5 – 7", "3,660 m", "Pokhara", "Low"],
+                ["[[trek:poonhill-trek|Poon Hill]]", "3 – 4", "3,210 m", "Pokhara", "Very high"],
+                ["[[trek:mardi-himal-trek|Mardi Himal]]", "4 – 5", "4,200 m viewpoint", "Pokhara", "Very high"],
+                ["[[trek:mohare-danda-trek|Mohare Danda]]", "4 – 5", "3,300 m", "Pokhara", "Low"],
+                ["[[trek:khopra-danda-trek|Khopra Danda]]", "5 – 7", "3,660 m", "Pokhara", "Low"],
                 ["[[trek:ama-yangri-trek|Ama Yangri]]", "3 – 4", "3,771 m", "Kathmandu", "Moderate"],
                 ["[[trek:helambu-trek|Helambu]]", "5 – 7", "About 3,650 m", "Kathmandu", "Low"],
                 ["[[trek:gosaikunda-lake-trek|Gosaikunda]]", "5 – 6", "4,380 m", "Kathmandu", "High"],
@@ -312,9 +312,9 @@ export const dashainD: BlogContent[] = [
       { question: "Can beginners do these treks?", answer: "Poon Hill, Mohare Danda, Helambu and the Tamang Heritage Trail are suitable for a first trek with ordinary fitness. Mardi Himal, Gosaikunda and Pikey Peak go above 4,000 m and need a sensible pace." },
     ],
     relatedTreks: [
-      "mohare-danda-trek-from-pokhara",
-      "poonhill-trek-from-pokhara",
-      "mardi-himal-trek-from-pokhara",
+      "mohare-danda-trek",
+      "poonhill-trek",
+      "mardi-himal-trek",
       "ama-yangri-trek",
       "langtang-valley-trek",
       "pikey-peak-trek",

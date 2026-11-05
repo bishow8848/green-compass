@@ -44,7 +44,7 @@ export const remoteC: BlogContent[] = [
               ],
             },
           },
-          { p: "We run it as a [[trek:humla-limi-valley-trek|20-day trek]] from Kathmandu. It is the most committing of the far-western routes; the [[trek:rara-lake-trek|Rara Lake trek]] and the [[trek:upper-dolpo-trek|Upper Dolpo trek]] are the nearest comparisons." },
+          { p: "We run it as a [[trek:humla-limi-valley-trek-package|20-day trek]] from Kathmandu. It is the most committing of the far-western routes; the [[trek:rara-lake-trek|Rara Lake trek]] and the [[trek:upper-dolpo-trek|Upper Dolpo trek]] are the nearest comparisons." },
         ],
       },
       {
@@ -237,7 +237,7 @@ export const remoteC: BlogContent[] = [
               ],
             },
           },
-          { p: "We run it as a [[trek:jomsom-dolpo-trek|22-day traverse]]. If the full crossing is too much, the [[trek:upper-dolpo-trek|Upper Dolpo trek]] and the [[trek:shey-phoksundo-lake-trek|Shey Phoksundo trek]] reach the western half on shorter itineraries." },
+          { p: "We run it as a [[trek:jomsom-dolpo-trek-package|22-day traverse]]. If the full crossing is too much, the [[trek:upper-dolpo-trek|Upper Dolpo trek]] and the [[trek:shey-phoksundo-lake-trek|Shey Phoksundo trek]] reach the western half on shorter itineraries." },
         ],
       },
       {
@@ -419,7 +419,7 @@ export const remoteC: BlogContent[] = [
               ],
             },
           },
-          { p: "We run it as an [[trek:ramaroshan-lakes-trek|11-day trek]]. It is the gentlest introduction to far-western Nepal — considerably less committing than the [[trek:api-himal-base-camp-trek|Api Himal Base Camp trek]] or [[trek:humla-limi-valley-trek|Humla]]." },
+          { p: "We run it as an [[trek:ramaroshan-lakes-trek-package|11-day trek]]. It is the gentlest introduction to far-western Nepal — considerably less committing than the [[trek:api-himal-base-camp-trek|Api Himal Base Camp trek]] or [[trek:humla-limi-valley-trek|Humla]]." },
         ],
       },
       {
@@ -610,7 +610,7 @@ export const remoteC: BlogContent[] = [
               ],
             },
           },
-          { p: "We run it as a [[trek:serang-gompa-trek|12-day trek]]. Because Bihi sits on the main Manaslu trail, it can also be added to the [[trek:manaslu-circuit-trek|Manaslu Circuit]] as a two- to three-day detour, or combined with the [[trek:tsum-valley-trek|Tsum Valley]]." },
+          { p: "We run it as a [[trek:serang-gompa-trek-package|12-day trek]]. Because Bihi sits on the main Manaslu trail, it can also be added to the [[trek:manaslu-circuit-trek|Manaslu Circuit]] as a two- to three-day detour, or combined with the [[trek:tsum-valley-trek|Tsum Valley]]." },
         ],
       },
       {

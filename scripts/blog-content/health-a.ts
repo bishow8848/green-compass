@@ -613,7 +613,7 @@ export const healthA: BlogContent[] = [
       { question: "Do you ask for medical information when I book?", answer: "Yes. The booking form has space for medical conditions, medication and allergies. We treat what you tell us as confidential and use it to advise on the route and brief your guide. We also send an altitude profile of your itinerary to take to your doctor." },
     ],
     relatedTreks: [
-      "annapurna-base-camp-trek-from-pokhara",
+      "annapurna-base-camp-trek",
       "everest-base-camp-trek",
       "poonhill-trek",
       "annapurna-base-camp-trek",

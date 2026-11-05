@@ -134,7 +134,7 @@ export const tiharD: BlogContent[] = [
           { h3: "Trek first, lights after" },
           { p: "Start around 28 – 30 October and walk out on the 6th or 7th. You are in Pokhara or Kathmandu for Kukur Tihar and Laxmi Puja on the 8th, with your guide home in good time. This is the plan we suggest most often. Nine-day [[trek:annapurna-base-camp-trek|Annapurna Base Camp]] and ten-day [[trek:langtang-valley-trek|Langtang]] both fit." },
           { h3: "Festival on the trail" },
-          { p: "Start a short trek on 5 or 6 November and be in a Gurung village on the 8th. [[trek:poonhill-trek-from-pokhara|Poon Hill from Pokhara]] gives you Ghorepani or Ghandruk for the lamps and has you down by the 9th." },
+          { p: "Start a short trek on 5 or 6 November and be in a Gurung village on the 8th. [[trek:poonhill-trek|Poon Hill from Pokhara]] gives you Ghorepani or Ghandruk for the lamps and has you down by the 9th." },
           { h3: "Lights first, trek after" },
           { p: "Spend 7 – 11 November in the Kathmandu valley, collect permits when offices reopen on the 12th, and trek from the 13th into the quiet second half of the month. The city side of this is in [[post:kathmandu-during-tihar|Kathmandu during Tihar]]." },
           { p: "Whichever you choose, the festival as a whole is described in our [[post:tihar-festival-nepal-travel-guide|Tihar travel guide]], and the comparison with the earlier festival in [[post:trekking-in-nepal-during-dashain|trekking during Dashain]]." },

@@ -357,6 +357,7 @@ export default async function CategoryListingPage({
         duration: true,
         price: true,
         region: true,
+        subtitle: true,
         reviews: { where: { approved: true }, select: { rating: true } },
       },
     }),
@@ -377,6 +378,7 @@ export default async function CategoryListingPage({
     duration: t.duration,
     price: t.price,
     region: t.region,
+    subtitle: t.subtitle,
     avgRating: (() => {
       const avg = avgRating(t.reviews);
       return avg !== null ? Math.round(avg * 10) / 10 : null;

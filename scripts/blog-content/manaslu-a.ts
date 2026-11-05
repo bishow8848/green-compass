@@ -37,7 +37,7 @@ export const manasluA: BlogContent[] = [
               ],
             },
           },
-          { p: "We run it as [[trek:manaslu-circuit-trek|a 15-day Manaslu Circuit]], as [[trek:tsum-valley-and-manaslu-circuit-trek|a 20-day circuit with the Tsum Valley]], and as [[trek:larke-pass-trek|a 14-day Larke Pass trek]] focused on the crossing itself." },
+          { p: "We run it as [[trek:manaslu-circuit-trek-package|a 15-day Manaslu Circuit]], as [[trek:tsum-valley-and-manaslu-circuit-trek-package|a 20-day circuit with the Tsum Valley]], and as [[trek:larke-pass-trek-package|a 14-day Larke Pass trek]] focused on the crossing itself." },
         ],
       },
       {
@@ -160,7 +160,7 @@ export const manasluA: BlogContent[] = [
         h2: "Adding the Tsum Valley",
         blocks: [
           { p: "The <strong>Tsum Valley</strong> branches north-east off the Budhi Gandaki at Lokpa, running up toward the Tibetan border. It is a separate restricted area, culturally distinct, and one of the most remarkable places in Nepal — a valley where hunting has been prohibited by Buddhist vow for generations and where the gompas at Mu and Rachen are among the most remote working monasteries in the country." },
-          { p: "Adding it takes the trek to [[trek:tsum-valley-and-manaslu-circuit-trek|20 days]], or it can be walked alone as [[trek:tsum-valley-trek|a 13-day trek]]. If you have the time, the combined route is the best three weeks of teahouse trekking in Nepal. Our [[post:tsum-valley-trek-guide|Tsum Valley guide]] covers it in detail." },
+          { p: "Adding it takes the trek to [[trek:tsum-valley-and-manaslu-circuit-trek-package|20 days]], or it can be walked alone as [[trek:tsum-valley-trek-package|a 13-day trek]]. If you have the time, the combined route is the best three weeks of teahouse trekking in Nepal. Our [[post:tsum-valley-trek-guide|Tsum Valley guide]] covers it in detail." },
         ],
       },
       {
@@ -397,7 +397,7 @@ export const manasluA: BlogContent[] = [
               ],
             },
           },
-          { p: "We run it as [[trek:tsum-valley-trek|a 13-day Tsum Valley trek]] and as [[trek:tsum-valley-and-manaslu-circuit-trek|a 20-day combination with the Manaslu Circuit]]." },
+          { p: "We run it as [[trek:tsum-valley-trek-package|a 13-day Tsum Valley trek]] and as [[trek:tsum-valley-and-manaslu-circuit-trek-package|a 20-day combination with the Manaslu Circuit]]." },
         ],
       },
       {

@@ -86,8 +86,8 @@
       "annapurna-base-camp-helicopter-tour",
       "pokhara-helicopter-sightseeing-tour",
       "mountain-flight-from-pokhara",
-      "annapurna-base-camp-trek-from-pokhara",
-      "mardi-himal-trek-from-pokhara"
+      "annapurna-base-camp-trek",
+      "mardi-himal-trek"
     ],
     "posts": [
       "helicopter-tours-in-nepal-guide",
@@ -100,10 +100,8 @@
   "annapurna-base-camp-trek-complete-guide": {
     "treks": [
       "annapurna-base-camp-trek",
-      "annapurna-base-camp-trek-from-pokhara",
       "annapurna-base-camp-trek-with-ghorepani-poonhill-trek",
-      "mardi-himal-trek-with-annapurna-base-camp",
-      "annapurna-base-camp-with-ghorepani-poonhill-from-pokhara"
+      "mardi-himal-trek-with-annapurna-base-camp"
     ],
     "posts": [
       "annapurna-base-camp-trek-itinerary",
@@ -116,7 +114,6 @@
   "annapurna-base-camp-trek-in-december": {
     "treks": [
       "annapurna-base-camp-trek",
-      "annapurna-base-camp-trek-from-pokhara",
       "annapurna-base-camp-trek-with-ghorepani-poonhill-trek",
       "mardi-himal-trek-with-annapurna-base-camp",
       "poonhill-trek",
@@ -135,7 +132,6 @@
   "annapurna-base-camp-trek-in-november": {
     "treks": [
       "annapurna-base-camp-trek",
-      "annapurna-base-camp-trek-from-pokhara",
       "annapurna-base-camp-trek-with-ghorepani-poonhill-trek",
       "mardi-himal-trek-with-annapurna-base-camp",
       "mardi-himal-trek",
@@ -154,7 +150,6 @@
   "annapurna-base-camp-trek-itinerary": {
     "treks": [
       "annapurna-base-camp-trek",
-      "annapurna-base-camp-trek-from-pokhara",
       "annapurna-base-camp-trek-with-ghorepani-poonhill-trek",
       "mardi-himal-trek-with-annapurna-base-camp"
     ],
@@ -270,9 +265,9 @@
   },
   "annapurna-treks-during-dashain": {
     "treks": [
-      "poonhill-trek-from-pokhara",
-      "mardi-himal-trek-from-pokhara",
-      "annapurna-base-camp-trek-from-pokhara",
+      "poonhill-trek",
+      "mardi-himal-trek",
+      "annapurna-base-camp-trek",
       "mohare-danda-trek",
       "khopra-danda-trek",
       "ghalegaun-ghanpokhara-village-tour"
@@ -741,7 +736,7 @@
   },
   "christmas-and-new-year-in-nepal": {
     "treks": [
-      "poonhill-trek-from-pokhara",
+      "poonhill-trek",
       "pokhara-day-tour-with-sarangkot-sunrise",
       "chitwan-national-park-tour-3-days",
       "kathmandu-pokhara-tour",
@@ -883,7 +878,7 @@
       "best-of-nepal-tour",
       "kathmandu-photography-tour",
       "ghalegaun-ghanpokhara-village-tour",
-      "poonhill-trek-from-pokhara",
+      "poonhill-trek",
       "everest-base-camp-trek"
     ],
     "posts": [
@@ -1061,7 +1056,7 @@
   "diamox-for-trekking-in-nepal": {
     "treks": [
       "annapurna-circuit-trek",
-      "jomsom-muktinath-trek-from-pokhara",
+      "jomsom-muktinath-trek",
       "annapurna-circuit-with-tilicho-lake-trek",
       "everest-base-camp-trek",
       "manaslu-circuit-trek",
@@ -1309,7 +1304,6 @@
     "treks": [
       "everest-base-camp-trek",
       "annapurna-base-camp-trek",
-      "annapurna-base-camp-trek-from-pokhara",
       "mardi-himal-trek",
       "gokyo-lake-trek"
     ],
@@ -1703,11 +1697,11 @@
   },
   "how-much-does-trekking-in-nepal-cost": {
     "treks": [
-      "mardi-himal-trek-from-pokhara",
+      "mardi-himal-trek",
       "annapurna-base-camp-trek",
       "everest-base-camp-trek",
       "upper-mustang-trek",
-      "poonhill-trek-from-pokhara"
+      "poonhill-trek"
     ],
     "posts": [
       "nepal-trekking-permits-explained",
@@ -1858,7 +1852,6 @@
   "jomsom-muktinath-trek-guide": {
     "treks": [
       "jomsom-muktinath-trek",
-      "jomsom-muktinath-trek-from-pokhara",
       "lower-mustang-trek",
       "muktinath-pilgrimage-tour",
       "upper-mustang-trek"
@@ -2097,7 +2090,6 @@
   "khopra-danda-trek-guide": {
     "treks": [
       "khopra-danda-trek",
-      "khopra-danda-trek-from-pokhara",
       "mohare-danda-trek",
       "poonhill-trek"
     ],
@@ -2112,7 +2104,6 @@
   "khori-himal-trek-guide": {
     "treks": [
       "khori-himal-trek",
-      "khori-himal-trek-from-pokhara",
       "mardi-himal-trek",
       "poonhill-trek",
       "lamjung-himal-trek"
@@ -2501,7 +2492,6 @@
   "lower-mustang-trek-guide": {
     "treks": [
       "lower-mustang-trek",
-      "lower-mustang-trek-from-pokhara",
       "upper-mustang-trek",
       "jomsom-muktinath-trek",
       "muktinath-pilgrimage-tour"
@@ -2709,8 +2699,6 @@
     "treks": [
       "poonhill-trek",
       "mardi-himal-trek",
-      "poonhill-trek-from-pokhara",
-      "mardi-himal-trek-from-pokhara",
       "mohare-danda-trek",
       "khopra-danda-trek"
     ],
@@ -2727,9 +2715,7 @@
   "mardi-himal-trek-complete-guide": {
     "treks": [
       "mardi-himal-trek",
-      "mardi-himal-trek-from-pokhara",
-      "mardi-himal-trek-with-annapurna-base-camp",
-      "annapurna-base-camp-trek-with-mardi-himal-trek-from-pokhara"
+      "mardi-himal-trek-with-annapurna-base-camp"
     ],
     "posts": [
       "mardi-himal-vs-poon-hill-vs-annapurna-base-camp",
@@ -2741,9 +2727,9 @@
   },
   "mardi-himal-vs-poon-hill-vs-annapurna-base-camp": {
     "treks": [
-      "poonhill-trek-from-pokhara",
-      "mardi-himal-trek-from-pokhara",
-      "annapurna-base-camp-trek-from-pokhara",
+      "poonhill-trek",
+      "mardi-himal-trek",
+      "annapurna-base-camp-trek",
       "annapurna-base-camp-trek-with-ghorepani-poonhill-trek",
       "mardi-himal-trek-with-annapurna-base-camp"
     ],
@@ -2789,7 +2775,7 @@
   },
   "meditation-for-trek-anxiety-and-fear-of-altitude": {
     "treks": [
-      "poonhill-trek-from-pokhara",
+      "poonhill-trek",
       "everest-base-camp-trek",
       "langtang-valley-trek",
       "mardi-himal-trek"
@@ -2872,7 +2858,6 @@
   "mohare-danda-community-trek-guide": {
     "treks": [
       "mohare-danda-trek",
-      "mohare-danda-trek-from-pokhara",
       "khopra-danda-trek",
       "poonhill-trek"
     ],
@@ -3240,7 +3225,7 @@
   "nepal-trip-costs-and-booking-during-dashain": {
     "treks": [
       "kathmandu-valley-tour",
-      "poonhill-trek-from-pokhara",
+      "poonhill-trek",
       "everest-view-trek",
       "glimpse-of-nepal-tour",
       "kathmandu-pokhara-tour"
@@ -3613,7 +3598,7 @@
     "treks": [
       "pokhara-day-tour",
       "pokhara-day-tour-with-sarangkot-sunrise",
-      "poonhill-trek-from-pokhara",
+      "poonhill-trek",
       "sirubari-village-tour",
       "paragliding-in-pokhara",
       "pokhara-honeymoon-tour"
@@ -3664,7 +3649,6 @@
   "poon-hill-trek-guide": {
     "treks": [
       "poonhill-trek",
-      "poonhill-trek-from-pokhara",
       "annapurna-base-camp-trek-with-ghorepani-poonhill-trek",
       "mohare-danda-trek",
       "khopra-danda-trek"
@@ -3680,9 +3664,8 @@
   "post-trek-meditation-and-mental-recovery": {
     "treks": [
       "pokhara-day-tour-with-sarangkot-sunrise",
-      "annapurna-base-camp-trek-from-pokhara",
-      "annapurna-circuit-trek",
       "annapurna-base-camp-trek",
+      "annapurna-circuit-trek",
       "mardi-himal-trek"
     ],
     "posts": [
@@ -3696,10 +3679,9 @@
   "post-trek-recovery-what-your-body-needs": {
     "treks": [
       "annapurna-base-camp-trek",
-      "annapurna-base-camp-trek-with-mardi-himal-trek-from-pokhara",
+      "mardi-himal-trek-with-annapurna-base-camp",
       "everest-base-camp-trek",
-      "annapurna-circuit-trek",
-      "mardi-himal-trek-with-annapurna-base-camp"
+      "annapurna-circuit-trek"
     ],
     "posts": [
       "post-trek-meditation-and-mental-recovery",
@@ -3728,10 +3710,9 @@
   },
   "pre-trek-medical-check-up-for-nepal": {
     "treks": [
-      "annapurna-base-camp-trek-from-pokhara",
+      "annapurna-base-camp-trek",
       "everest-base-camp-trek",
       "poonhill-trek",
-      "annapurna-base-camp-trek",
       "everest-view-trek"
     ],
     "posts": [
@@ -4157,9 +4138,9 @@
   },
   "short-treks-for-the-dashain-holiday": {
     "treks": [
-      "mohare-danda-trek-from-pokhara",
-      "poonhill-trek-from-pokhara",
-      "mardi-himal-trek-from-pokhara",
+      "mohare-danda-trek",
+      "poonhill-trek",
+      "mardi-himal-trek",
       "ama-yangri-trek",
       "langtang-valley-trek",
       "pikey-peak-trek"
@@ -4176,12 +4157,12 @@
   },
   "short-treks-from-pokhara": {
     "treks": [
-      "poonhill-trek-from-pokhara",
-      "mardi-himal-trek-from-pokhara",
-      "annapurna-base-camp-trek-from-pokhara",
-      "khopra-danda-trek-from-pokhara",
-      "mohare-danda-trek-from-pokhara",
-      "annapurna-base-camp-trek-with-mardi-himal-trek-from-pokhara"
+      "poonhill-trek",
+      "mardi-himal-trek",
+      "annapurna-base-camp-trek",
+      "khopra-danda-trek",
+      "mohare-danda-trek",
+      "mardi-himal-trek-with-annapurna-base-camp"
     ],
     "posts": [
       "pokhara-travel-guide",
@@ -4294,10 +4275,9 @@
   },
   "stomach-illness-on-a-nepal-trek-medication-and-recovery": {
     "treks": [
-      "annapurna-base-camp-with-ghorepani-poonhill-from-pokhara",
-      "annapurna-base-camp-trek-from-pokhara",
-      "everest-base-camp-trek",
+      "annapurna-base-camp-trek-with-ghorepani-poonhill-trek",
       "annapurna-base-camp-trek",
+      "everest-base-camp-trek",
       "poonhill-trek",
       "langtang-valley-trek"
     ],
@@ -4462,7 +4442,6 @@
   "tiji-festival-upper-mustang": {
     "treks": [
       "upper-mustang-trek",
-      "upper-mustang-trek-from-pokhara",
       "jomsom-muktinath-trek",
       "lower-mustang-trek"
     ],
@@ -4544,7 +4523,7 @@
       "kathmandu-to-lukla-helicopter-flight",
       "trishuli-river-rafting-1-day",
       "best-of-nepal-tour",
-      "poonhill-trek-from-pokhara"
+      "poonhill-trek"
     ],
     "posts": [
       "domestic-flights-in-nepal-for-trekkers",
@@ -4670,12 +4649,11 @@
   },
   "trekking-in-nepal-with-a-medical-condition": {
     "treks": [
-      "poonhill-trek-from-pokhara",
+      "poonhill-trek",
       "dhulikhel-namobuddha-hike",
-      "mardi-himal-trek-from-pokhara",
+      "mardi-himal-trek",
       "everest-view-trek",
-      "langtang-valley-trek",
-      "poonhill-trek"
+      "langtang-valley-trek"
     ],
     "posts": [
       "pre-trek-medical-check-up-for-nepal",
@@ -4688,7 +4666,6 @@
   "trekking-in-nepal-with-children": {
     "treks": [
       "poonhill-trek",
-      "poonhill-trek-from-pokhara",
       "ghalegaun-ghanpokhara-village-tour",
       "chitwan-national-park-tour-3-days",
       "everest-view-trek",
@@ -4825,7 +4802,6 @@
     "treks": [
       "upper-mustang-trek",
       "upper-mustang-photography-tour",
-      "upper-mustang-trek-from-pokhara",
       "lower-mustang-trek",
       "jomsom-muktinath-trek",
       "muktinath-pilgrimage-tour"
@@ -4843,7 +4819,6 @@
   "upper-mustang-trek-complete-guide": {
     "treks": [
       "upper-mustang-trek",
-      "upper-mustang-trek-from-pokhara",
       "lower-mustang-trek",
       "jomsom-muktinath-trek",
       "nar-phu-valley-trek"
@@ -4874,9 +4849,9 @@
   },
   "walking-meditation-on-a-nepal-trek": {
     "treks": [
-      "upper-mustang-trek-from-pokhara",
+      "upper-mustang-trek",
       "serang-gompa-trek",
-      "khopra-danda-trek-from-pokhara",
+      "khopra-danda-trek",
       "langtang-valley-trek",
       "mardi-himal-trek",
       "tsum-valley-trek"
@@ -4977,8 +4952,8 @@
   },
   "yoga-for-trekkers-before-and-after-the-trail": {
     "treks": [
-      "annapurna-base-camp-with-ghorepani-poonhill-from-pokhara",
-      "khopra-danda-trek-from-pokhara",
+      "annapurna-base-camp-trek-with-ghorepani-poonhill-trek",
+      "khopra-danda-trek",
       "annapurna-base-camp-trek",
       "mardi-himal-trek",
       "poonhill-trek"

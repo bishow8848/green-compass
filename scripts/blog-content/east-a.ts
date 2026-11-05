@@ -36,7 +36,7 @@ export const eastA: BlogContent[] = [
               ],
             },
           },
-          { p: "We run the full [[trek:kanchenjunga-circuit-trek|21-day circuit]], and shorter routes to each base camp separately: [[trek:kanchenjunga-north-base-camp-trek|the 14-day north base camp trek]] and [[trek:kanchenjunga-south-base-camp-trek|the 11-day south base camp trek]]." },
+          { p: "We run the full [[trek:kanchenjunga-circuit-trek-package|21-day circuit]], and shorter routes to each base camp separately: [[trek:kanchenjunga-north-base-camp-trek-package|the 14-day north base camp trek]] and [[trek:kanchenjunga-south-base-camp-trek-package|the 11-day south base camp trek]]." },
         ],
       },
       {
@@ -168,7 +168,7 @@ export const eastA: BlogContent[] = [
               ],
             },
           },
-          { p: "We run it as [[trek:makalu-base-camp-trek|a 17-day Makalu Base Camp trek]]. The far harder [[trek:sherpani-col-passes-trek|Sherpani Col route]] crosses from the Barun into the Khumbu over three technical passes, and [[trek:makalu-base-camp-with-sherpani-col-and-mera-peak-climbing|a 29-day expedition]] combines that with Mera Peak." },
+          { p: "We run it as [[trek:makalu-base-camp-trek-package|a 17-day Makalu Base Camp trek]]. The far harder [[trek:sherpani-col-passes-trek|Sherpani Col route]] crosses from the Barun into the Khumbu over three technical passes, and [[trek:makalu-base-camp-with-sherpani-col-and-mera-peak-climbing|a 29-day expedition]] combines that with Mera Peak." },
         ],
       },
       {
@@ -304,7 +304,7 @@ export const eastA: BlogContent[] = [
               ],
             },
           },
-          { p: "We run it as [[trek:pikey-peak-trek|an 8-day Pikey Peak trek]]." },
+          { p: "We run it as [[trek:pikey-peak-trek-package|an 8-day Pikey Peak trek]]." },
         ],
       },
       {

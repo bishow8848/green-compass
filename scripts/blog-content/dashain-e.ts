@@ -154,7 +154,7 @@ export const dashainE: BlogContent[] = [
       "kathmandu-to-lukla-helicopter-flight",
       "trishuli-river-rafting-1-day",
       "best-of-nepal-tour",
-      "poonhill-trek-from-pokhara",
+      "poonhill-trek",
     ],
     tripsNote: "Trips built to use flights for the long legs and to break the highway where it is worth stopping.",
     relatedPosts: [
@@ -415,7 +415,7 @@ export const dashainE: BlogContent[] = [
           { p: "Pokhara is the gateway to the Annapurna treks, and the trick at Dashain is to walk before the crowd rather than with it. Start a short trek on Phulpati, spend the tika in a mountain village, and walk out as the rush walks in." },
           {
             ul: [
-              "<strong>Treks:</strong> [[trek:poonhill-trek-from-pokhara|Poon Hill]], [[trek:mardi-himal-trek-from-pokhara|Mardi Himal]] and [[trek:annapurna-base-camp-trek-from-pokhara|Annapurna Base Camp]], all from Pokhara — see [[post:annapurna-treks-during-dashain|Annapurna treks during Dashain]].",
+              "<strong>Treks:</strong> [[trek:poonhill-trek|Poon Hill]], [[trek:mardi-himal-trek|Mardi Himal]] and [[trek:annapurna-base-camp-trek|Annapurna Base Camp]], all from Pokhara — see [[post:annapurna-treks-during-dashain|Annapurna treks during Dashain]].",
               "<strong>In the air:</strong> [[trek:paragliding-in-pokhara|tandem paragliding]] from Sarangkot and the [[trek:ultra-light-flight-in-pokhara|ultra-light flight]] both operate through the festival. October's stable mornings are the best flying weather of the year.",
               "<strong>On the water:</strong> boating on Phewa Lake, and [[trek:seti-river-rafting-in-pokhara|rafting on the Seti]].",
               "<strong>For the mountains without walking:</strong> the [[trek:annapurna-base-camp-helicopter-tour|Annapurna Base Camp helicopter tour]].",
@@ -451,7 +451,7 @@ export const dashainE: BlogContent[] = [
     relatedTreks: [
       "pokhara-day-tour",
       "pokhara-day-tour-with-sarangkot-sunrise",
-      "poonhill-trek-from-pokhara",
+      "poonhill-trek",
       "sirubari-village-tour",
       "paragliding-in-pokhara",
       "pokhara-honeymoon-tour",

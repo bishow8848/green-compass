@@ -623,10 +623,10 @@ export const seasonalF: BlogContent[] = [
             table: {
               head: ["Trek", "Days", "The holiday version"],
               rows: [
-                ["[[trek:poonhill-trek-from-pokhara|Poon Hill from Pokhara]]", "3", "Walk in on the 29th; first sunrise of the year from the summit; back at Lakeside on New Year's Day"],
+                ["[[trek:poonhill-trek|Poon Hill from Pokhara]]", "3", "Walk in on the 29th; first sunrise of the year from the summit; back at Lakeside on New Year's Day"],
                 ["[[trek:poonhill-trek|Poon Hill trek]]", "7", "From Kathmandu, at an easy pace, with a night in Ghandruk"],
-                ["[[trek:mardi-himal-trek-from-pokhara|Mardi Himal from Pokhara]]", "5", "Christmas on a ridge under Machhapuchhre; snow likely near the top"],
-                ["[[trek:mohare-danda-trek-from-pokhara|Mohare Danda]]", "6", "Community lodges and an empty viewpoint, for those avoiding the crowds"],
+                ["[[trek:mardi-himal-trek|Mardi Himal from Pokhara]]", "5", "Christmas on a ridge under Machhapuchhre; snow likely near the top"],
+                ["[[trek:mohare-danda-trek|Mohare Danda]]", "6", "Community lodges and an empty viewpoint, for those avoiding the crowds"],
                 ["[[trek:langtang-valley-trek|Langtang Valley]]", "10", "A full trek with no flight; Christmas at Kyanjin Gompa"],
                 ["[[trek:everest-view-trek|Everest View trek]]", "7", "Christmas in Namche Bazaar, which has bakeries, bars and a view of Everest"],
               ],
@@ -689,7 +689,7 @@ export const seasonalF: BlogContent[] = [
       { question: "When is Tamu Lhosar in 2026?", answer: "Tamu Lhosar, the Gurung New Year, falls on 30 December 2026. It is celebrated with processions, traditional dress, music and feasting, most visibly in Pokhara and at Tundikhel in Kathmandu." },
       { question: "Do I need to book in advance for New Year in Nepal?", answer: "Yes for Pokhara between 28 December and 1 January, for Nagarkot and Sarangkot on New Year's Eve, and for Chitwan lodges over the holiday. Flights between Kathmandu and Pokhara on those days should also be booked early." },
     ],
-    relatedTreks: ["poonhill-trek-from-pokhara", "pokhara-day-tour-with-sarangkot-sunrise", "chitwan-national-park-tour-3-days", "kathmandu-pokhara-tour", "best-of-nepal-tour", "everest-view-trek"],
+    relatedTreks: ["poonhill-trek", "pokhara-day-tour-with-sarangkot-sunrise", "chitwan-national-park-tour-3-days", "kathmandu-pokhara-tour", "best-of-nepal-tour", "everest-view-trek"],
     tripsNote: "Short treks and tours that fit a holiday week at the end of December.",
     relatedPosts: [
       "trekking-in-nepal-in-december",

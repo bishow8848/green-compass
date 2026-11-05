@@ -208,9 +208,9 @@ export const healthC: BlogContent[] = [
       { question: "Do you arrange treks for people with medical conditions?", answer: "Yes. We advise on suitable routes, provide an altitude profile for your specialist, arrange private treks at a gentler pace, brief your guide on your condition and plan, and prepare evacuation arrangements with your insurer." },
     ],
     relatedTreks: [
-      "poonhill-trek-from-pokhara",
+      "poonhill-trek",
       "dhulikhel-namobuddha-hike",
-      "mardi-himal-trek-from-pokhara",
+      "mardi-himal-trek",
       "everest-view-trek",
       "langtang-valley-trek",
       "poonhill-trek",

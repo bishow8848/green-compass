@@ -18,6 +18,7 @@ import * as m from "framer-motion/m";
 import { Reveal } from "@/components/motion";
 import { SPRING_SNAPPY } from "@/components/motion/presets";
 import { MobileFilterSheet } from "@/components/filters/MobileFilterSheet";
+import { PackageLabel } from "@/components/trek/PackageVariant";
 
 interface TrekCard {
   id: string;
@@ -28,6 +29,7 @@ interface TrekCard {
   duration: number;
   price: number;
   region: string | null;
+  subtitle?: string | null;
   avgRating: number | null;
 }
 
@@ -594,6 +596,7 @@ function CategoryView({
                         <h3 className="text-xl font-bold leading-tight text-foreground transition-colors group-hover:text-primary">
                           {trek.title}
                         </h3>
+                        <PackageLabel slug={trek.slug} subtitle={trek.subtitle} className="mt-2 text-text-muted" />
                         <div className="mt-auto pt-6 flex items-end justify-between">
                           <div className="flex flex-col gap-1 text-xs text-text-muted font-medium">
                             <span className="flex items-center gap-1.5">

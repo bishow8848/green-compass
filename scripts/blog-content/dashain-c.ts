@@ -385,7 +385,7 @@ export const dashainC: BlogContent[] = [
         h2: "Getting to Pokhara and the Trailheads",
         blocks: [
           { p: "Pokhara is twenty-five minutes from Kathmandu by air and six to eight hours by road on a normal day. In festival traffic the road can take ten or more. Fly if you can, and book early — see [[post:travelling-around-nepal-during-dashain|getting around Nepal during Dashain]]." },
-          { p: "From Pokhara the trailheads are one to three hours away by jeep: Nayapul and Ulleri for Poon Hill, Kimche or Ghandruk for Annapurna Base Camp, Kande or Sidhing for Mardi Himal. Shared jeeps thin out on the tika day and the day before. A private jeep booked with the trek is the reliable answer, and starting from Pokhara rather than Kathmandu saves a day either way — our [[trek:poonhill-trek-from-pokhara|Poon Hill]], [[trek:mardi-himal-trek-from-pokhara|Mardi Himal]] and [[trek:annapurna-base-camp-trek-from-pokhara|Annapurna Base Camp]] treks are all offered from Pokhara." },
+          { p: "From Pokhara the trailheads are one to three hours away by jeep: Nayapul and Ulleri for Poon Hill, Kimche or Ghandruk for Annapurna Base Camp, Kande or Sidhing for Mardi Himal. Shared jeeps thin out on the tika day and the day before. A private jeep booked with the trek is the reliable answer, and starting from Pokhara rather than Kathmandu saves a day either way — our [[trek:poonhill-trek|Poon Hill]], [[trek:mardi-himal-trek|Mardi Himal]] and [[trek:annapurna-base-camp-trek|Annapurna Base Camp]] treks are all offered from Pokhara." },
         ],
       },
       {
@@ -440,9 +440,9 @@ export const dashainC: BlogContent[] = [
       { question: "Is the weather good in the Annapurna region during Dashain?", answer: "In a mid or late October Dashain, yes: clear mornings, mild days in the foothills, and frost only above about 3,500 m. In a late September Dashain, expect some afternoon rain and leeches on the lower forest trails." },
     ],
     relatedTreks: [
-      "poonhill-trek-from-pokhara",
-      "mardi-himal-trek-from-pokhara",
-      "annapurna-base-camp-trek-from-pokhara",
+      "poonhill-trek",
+      "mardi-himal-trek",
+      "annapurna-base-camp-trek",
       "mohare-danda-trek",
       "khopra-danda-trek",
       "ghalegaun-ghanpokhara-village-tour",

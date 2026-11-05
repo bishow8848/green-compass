@@ -36,7 +36,7 @@ export const eastC: BlogContent[] = [
               ],
             },
           },
-          { p: "We run it as [[trek:api-himal-base-camp-trek|a 15-day Api Himal Base Camp trek]], and the mountain itself as [[trek:api-himal-expedition|a 32-day expedition]] for climbing teams." },
+          { p: "We run it as [[trek:api-himal-base-camp-trek-package|a 15-day Api Himal Base Camp trek]], and the mountain itself as [[trek:api-himal-expedition|a 32-day expedition]] for climbing teams." },
         ],
       },
       {
@@ -169,7 +169,7 @@ export const eastC: BlogContent[] = [
               ],
             },
           },
-          { p: "There is also [[trek:tsho-rolpa-trek|a 12-day Tsho Rolpa trek]], which reaches the glacial lake and returns — the shortest way into Rolwaling and the right choice if you have under two weeks." },
+          { p: "There is also [[trek:tsho-rolpa-trek-package|a 12-day Tsho Rolpa trek]], which reaches the glacial lake and returns — the shortest way into Rolwaling and the right choice if you have under two weeks." },
         ],
       },
       {

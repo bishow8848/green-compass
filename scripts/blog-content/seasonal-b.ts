@@ -349,7 +349,7 @@ export const seasonalB: BlogContent[] = [
               head: ["Trip", "Days", "Best for"],
               rows: [
                 ["[[trek:annapurna-base-camp-trek|Annapurna Base Camp trek]] from Kathmandu", "9", "The standard route, with travel days and a sensible pace"],
-                ["[[trek:annapurna-base-camp-trek-from-pokhara|Annapurna Base Camp from Pokhara]]", "5", "Fit walkers already in Pokhara and short of time"],
+                ["[[trek:annapurna-base-camp-trek|Annapurna Base Camp from Pokhara]]", "5", "Fit walkers already in Pokhara and short of time"],
                 ["[[trek:annapurna-base-camp-trek-with-ghorepani-poonhill-trek|With Ghorepani and Poon Hill]]", "12", "Adding the classic sunrise viewpoint and better acclimatisation"],
                 ["[[trek:mardi-himal-trek-with-annapurna-base-camp|With Mardi Himal]]", "14", "Two very different views of the same mountains"],
               ],
@@ -393,7 +393,7 @@ export const seasonalB: BlogContent[] = [
       { question: "Do I need a guide for Annapurna Base Camp?", answer: "A licensed guide is required under current trekking rules, and in peak season a guide is also what secures your bed at base camp. See our guide to guides and porters for the details." },
       { question: "What is the best time of day to see the mountains at Annapurna Base Camp?", answer: "Sunrise. The sanctuary is usually clearest from dawn until mid-morning, and cloud often rises up the gorge in the afternoon. Sleep at base camp so that you are there at first light." },
     ],
-    relatedTreks: ["annapurna-base-camp-trek", "annapurna-base-camp-trek-from-pokhara", "annapurna-base-camp-trek-with-ghorepani-poonhill-trek", "mardi-himal-trek-with-annapurna-base-camp", "mardi-himal-trek", "poonhill-trek"],
+    relatedTreks: ["annapurna-base-camp-trek", "annapurna-base-camp-trek", "annapurna-base-camp-trek-with-ghorepani-poonhill-trek", "mardi-himal-trek-with-annapurna-base-camp", "mardi-himal-trek", "poonhill-trek"],
     tripsNote: "Annapurna Base Camp by four routes, and two shorter treks nearby.",
     relatedPosts: [
       "annapurna-base-camp-trek-complete-guide",

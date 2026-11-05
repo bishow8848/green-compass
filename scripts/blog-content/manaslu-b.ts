@@ -317,7 +317,7 @@ export const manasluB: BlogContent[] = [
               ],
             },
           },
-          { p: "We run it as [[trek:upper-mustang-trek|a 16-day trek from Kathmandu]] and [[trek:upper-mustang-trek-from-pokhara|a 12-day version from Pokhara]]." },
+          { p: "We run it as [[trek:upper-mustang-trek-package|a 16-day trek from Kathmandu]] and [[trek:upper-mustang-trek|a 12-day version from Pokhara]]." },
         ],
       },
       {
@@ -387,7 +387,7 @@ export const manasluB: BlogContent[] = [
     ],
     relatedTreks: [
       "upper-mustang-trek",
-      "upper-mustang-trek-from-pokhara",
+      "upper-mustang-trek",
       "lower-mustang-trek",
       "jomsom-muktinath-trek",
       "nar-phu-valley-trek",

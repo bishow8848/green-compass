@@ -44,7 +44,7 @@ export const remoteE: BlogContent[] = [
               ],
             },
           },
-          { p: "We run it as a [[trek:lower-manaslu-trek|10-day homestay trek]]. It ends at Machha Khola, which is where the [[trek:manaslu-circuit-trek|Manaslu Circuit]] begins, so the two can be walked back to back." },
+          { p: "We run it as a [[trek:lower-manaslu-trek-package|10-day homestay trek]]. It ends at Machha Khola, which is where the [[trek:manaslu-circuit-trek|Manaslu Circuit]] begins, so the two can be walked back to back." },
         ],
       },
       {
@@ -232,7 +232,7 @@ export const remoteE: BlogContent[] = [
               ],
             },
           },
-          { p: "We run it as a [[trek:lower-mustang-trek|10-day trip from Kathmandu]] and a [[trek:lower-mustang-trek-from-pokhara|7-day version from Pokhara]]. To continue north to Lo Manthang, see the [[trek:upper-mustang-trek|Upper Mustang trek]], which needs a separate restricted permit." },
+          { p: "We run it as a [[trek:lower-mustang-trek-package|10-day trip from Kathmandu]] and a [[trek:lower-mustang-trek|7-day version from Pokhara]]. To continue north to Lo Manthang, see the [[trek:upper-mustang-trek|Upper Mustang trek]], which needs a separate restricted permit." },
         ],
       },
       {
@@ -357,7 +357,7 @@ export const remoteE: BlogContent[] = [
     ],
     relatedTreks: [
       "lower-mustang-trek",
-      "lower-mustang-trek-from-pokhara",
+      "lower-mustang-trek",
       "upper-mustang-trek",
       "jomsom-muktinath-trek",
       "muktinath-pilgrimage-tour",
@@ -423,7 +423,7 @@ export const remoteE: BlogContent[] = [
               ],
             },
           },
-          { p: "We run it as a [[trek:rupina-la-pass-trek|12-day camping trek]]. It pairs naturally with the [[trek:manaslu-circuit-trek|Manaslu Circuit]] — turn north at Nyak instead of walking out, and add about a week." },
+          { p: "We run it as a [[trek:rupina-la-pass-trek-package|12-day camping trek]]. It pairs naturally with the [[trek:manaslu-circuit-trek|Manaslu Circuit]] — turn north at Nyak instead of walking out, and add about a week." },
         ],
       },
       {
@@ -597,7 +597,7 @@ export const remoteE: BlogContent[] = [
               ],
             },
           },
-          { p: "We run it as a [[trek:tilman-pass-trek|15-day trek]]. If you have not crossed a technical pass before, the [[trek:langtang-ganja-la-pass-trek|Ganja La]] is the better first step, and the [[trek:panch-pokhari-trek|Panch Pokhari trek]] reaches the lakes without any of the glacier ground." },
+          { p: "We run it as a [[trek:tilman-pass-trek-package|15-day trek]]. If you have not crossed a technical pass before, the [[trek:langtang-ganja-la-pass-trek|Ganja La]] is the better first step, and the [[trek:panch-pokhari-trek|Panch Pokhari trek]] reaches the lakes without any of the glacier ground." },
         ],
       },
       {
