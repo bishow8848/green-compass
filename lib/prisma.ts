@@ -107,11 +107,20 @@ function createPrismaClient() {
   // they inherit process.env, so this is visible inside every prerender worker.
   const isBuildPhase = process.env.NEXT_PHASE === "phase-production-build";
 
+  // `next dev` is one long-lived process, not a serverless instance, and it
+  // usually runs a long way from the database: from Nepal a fresh connection to
+  // the Seoul pooler takes ~1 s and each query ~400 ms. It also stalls its own
+  // event loop for seconds while it compiles a route on first visit, and a
+  // handshake caught behind that cannot finish — so the 10 s serverless budget
+  // failed there with "Connection terminated due to connection timeout" and a
+  // 500 on /treks. Give dev a few connections, kept warm, and a patient budget.
+  const isDev = process.env.NODE_ENV === "development";
+
   // Cap the connection pool per PrismaClient. A small pool is the recommended
   // pattern for serverless runtimes. Overridable via PRISMA_POOL_MAX.
   const poolMax = Math.max(
     1,
-    Number(process.env.PRISMA_POOL_MAX ?? (isBuildPhase ? 10 : 2))
+    Number(process.env.PRISMA_POOL_MAX ?? (isBuildPhase ? 10 : isDev ? 5 : 2))
   );
 
   const isPlainPostgres = (u?: string): u is string =>
@@ -141,13 +150,14 @@ function createPrismaClient() {
         // far deeper than any single request, has no user waiting on it, and
         // runs cross-region (build in iad1, database in ap-northeast-2), so the
         // build gets a patient budget rather than a dead page.
-        connectionTimeoutMillis: isBuildPhase ? 60_000 : 10_000,
+        connectionTimeoutMillis: isBuildPhase ? 60_000 : isDev ? 30_000 : 10_000,
         // Release idle connections quickly. Every idle client still occupies a
         // slot on the Supabase pooler, and serverless instances go idle between
         // bursts — holding them for 30s is what turns a traffic spike into
         // EMAXCONNSESSION. A build reuses the one pool continuously, where
-        // recycling that eagerly just pays the cross-region reconnect again.
-        idleTimeoutMillis: isBuildPhase ? 60_000 : 10_000,
+        // recycling that eagerly just pays the cross-region reconnect again —
+        // and so does a dev server between page views.
+        idleTimeoutMillis: isBuildPhase || isDev ? 60_000 : 10_000,
       }),
       // Heavy writes (e.g. updateTrek: ~530 child rows ≈ 9.8s) exceed Prisma's
       // default interactive transaction timeout (5000ms) → P2028. These match

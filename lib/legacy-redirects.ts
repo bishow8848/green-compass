@@ -16,6 +16,8 @@ const CACHE_TTL_MS = 60_000;
 // After a failed load, wait this long before trying the database again instead
 // of re-querying on every single request while it is down.
 const ERROR_BACKOFF_MS = 5_000;
+// Longest a request waits for the very first load of the map; see getLegacyRedirectMap.
+const FIRST_LOAD_WAIT_MS = 2_000;
 
 const EMPTY: RedirectMap = Object.freeze({});
 
@@ -96,9 +98,19 @@ export async function getLegacyRedirectMap(): Promise<RedirectMap> {
   // lookup must never take the site down.
   if (now < nextRefreshAt) return EMPTY;
 
+  // Nor hold it up: the proxy runs before every page, and an unbounded wait
+  // here once added 9 s to a request while the database was slow to connect.
+  // Past the budget the page goes ahead unredirected and the load carries on in
+  // the background, so the next request has the map. A retired trip still
+  // redirects from its own page (app/(marketing)/[category]/[slug]/page.tsx).
+  const load = refresh().catch(() => EMPTY); // failures already logged in loadRedirectMap
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  const budget = new Promise<RedirectMap>((resolve) => {
+    timer = setTimeout(() => resolve(EMPTY), FIRST_LOAD_WAIT_MS);
+  });
   try {
-    return await refresh();
-  } catch {
-    return EMPTY;
+    return await Promise.race([load, budget]);
+  } finally {
+    clearTimeout(timer);
   }
 }
