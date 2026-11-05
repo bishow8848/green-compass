@@ -28,7 +28,6 @@ export const annapurnaD: BlogContent[] = [
                 ["[[trek:poonhill-trek-from-pokhara|Poon Hill]]", "3", "3,210 m", "Two eight-thousanders at dawn, the easiest real trek in Nepal"],
                 ["[[trek:mardi-himal-trek-from-pokhara|Mardi Himal]]", "5", "3,580 m, day walk to 4,500 m", "A ridge above the treeline under Machhapuchhre"],
                 ["[[trek:annapurna-base-camp-trek-from-pokhara|Annapurna Base Camp]]", "5", "4,130 m", "Into the Sanctuary amphitheatre; the highest of the short options"],
-                ["[[trek:abc-trek-nepal|ABC Trek Nepal]]", "5", "4,129 m", "The compact Sanctuary route using jeep transfers"],
                 ["[[trek:jomsom-muktinath-trek-from-pokhara|Jomsom Muktinath]]", "5", "3,800 m", "Behind the Himalaya into Mustang desert and a pilgrimage site"],
                 ["[[trek:khori-himal-trek-from-pokhara|Khori Himal]]", "6", "3,850 m", "A new trail almost nobody walks"],
                 ["[[trek:mohare-danda-trek-from-pokhara|Mohare Danda]]", "6", "3,300 m", "Community-owned lodges on a quiet ridge"],

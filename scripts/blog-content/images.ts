@@ -75,6 +75,25 @@ export const FESTIVALS = {
   kukurTiharCollar: festivals("22-kukur-tihar-2"),
 } as const;
 
+const free = (name: string) => `mardi-treks/blog-free/blog-free-${name}`;
+
+/**
+ * Blog-only photographs that are free of copyright: every one is CC0 (public
+ * domain dedication) on Wikimedia Commons, so no credit is needed in the
+ * caption or anywhere else. Used by the NPL article and the November 2026
+ * series. Sources are listed in scripts/gallery-content/PHOTO-CREDITS.md for
+ * provenance only.
+ */
+export const FREE = {
+  kirtipurDusk: free("00-dusk-from-kirtipur-nepal"),
+  kathmanduView: free("01-view-from-kathmandu"),
+  janakiMandirNight: free("02-janaki-mandir-janakpur-nepal"),
+  nagarjunView: free("03-nagarjun-national-park"),
+  shivapuriTrailSign: free("04-trail-signboard-at-sano-deurali-in-shivapuri-nagarjun-nation"),
+  /** Uploaded with an earlier batch, under its own folder; also CC0. */
+  baghBhairabSwords: "mardi-treks/blog-kathmandu/blog-kathmandu-02-kirtipur-swords",
+} as const;
+
 /**
  * A photograph a product page already carries — its hero or one from its
  * gallery — by product slug and the file's own name.
@@ -82,4 +101,8 @@ export const FESTIVALS = {
 export const trekImage = (slug: string, name: string) => `mardi-treks/${slug}/${slug}-${name}`;
 
 /** Every blog-only image ID, for the validator. */
-export const BLOG_IMAGES: string[] = [...Object.values(DASHAIN), ...Object.values(FESTIVALS)];
+export const BLOG_IMAGES: string[] = [
+  ...Object.values(DASHAIN),
+  ...Object.values(FESTIVALS),
+  ...Object.values(FREE),
+];

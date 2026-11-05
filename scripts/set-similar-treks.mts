@@ -17,23 +17,22 @@ const APPLY = process.argv.includes("--apply");
 /** slug -> related slugs, most relevant first. Relations are made symmetric below. */
 const RELATED: Record<string, string[]> = {
   // --- Annapurna Sanctuary ---
-  "annapurna-base-camp-trek": ["abc-trek-nepal", "annapurna-base-camp-trek-from-pokhara", "annapurna-base-camp-trek-with-ghorepani-poonhill-trek", "mardi-himal-trek-with-annapurna-base-camp"],
-  "abc-trek-nepal": ["annapurna-base-camp-trek", "annapurna-base-camp-trek-from-pokhara", "annapurna-base-camp-with-ghorepani-poonhill-from-pokhara", "mardi-himal-trek-from-pokhara"],
-  "annapurna-base-camp-trek-from-pokhara": ["abc-trek-nepal", "annapurna-base-camp-trek", "annapurna-base-camp-with-ghorepani-poonhill-from-pokhara", "annapurna-base-camp-trek-with-mardi-himal-trek-from-pokhara"],
+  "annapurna-base-camp-trek": ["annapurna-base-camp-trek-from-pokhara", "annapurna-base-camp-trek-with-ghorepani-poonhill-trek", "mardi-himal-trek-with-annapurna-base-camp"],
+  "annapurna-base-camp-trek-from-pokhara": ["annapurna-base-camp-trek", "annapurna-base-camp-with-ghorepani-poonhill-from-pokhara", "annapurna-base-camp-trek-with-mardi-himal-trek-from-pokhara"],
   "annapurna-base-camp-trek-with-ghorepani-poonhill-trek": ["annapurna-base-camp-with-ghorepani-poonhill-from-pokhara", "annapurna-base-camp-trek", "poonhill-trek", "khopra-danda-trek"],
-  "annapurna-base-camp-with-ghorepani-poonhill-from-pokhara": ["annapurna-base-camp-trek-with-ghorepani-poonhill-trek", "annapurna-base-camp-trek-from-pokhara", "poonhill-trek-from-pokhara", "abc-trek-nepal"],
-  "mardi-himal-trek-with-annapurna-base-camp": ["annapurna-base-camp-trek-with-mardi-himal-trek-from-pokhara", "annapurna-base-camp-trek", "mardi-himal-trek", "abc-trek-nepal"],
-  "annapurna-base-camp-trek-with-mardi-himal-trek-from-pokhara": ["mardi-himal-trek-with-annapurna-base-camp", "annapurna-base-camp-trek-from-pokhara", "mardi-himal-trek-from-pokhara", "abc-trek-nepal"],
+  "annapurna-base-camp-with-ghorepani-poonhill-from-pokhara": ["annapurna-base-camp-trek-with-ghorepani-poonhill-trek", "annapurna-base-camp-trek-from-pokhara", "poonhill-trek-from-pokhara"],
+  "mardi-himal-trek-with-annapurna-base-camp": ["annapurna-base-camp-trek-with-mardi-himal-trek-from-pokhara", "annapurna-base-camp-trek", "mardi-himal-trek", "annapurna-base-camp-trek-from-pokhara"],
+  "annapurna-base-camp-trek-with-mardi-himal-trek-from-pokhara": ["mardi-himal-trek-with-annapurna-base-camp", "annapurna-base-camp-trek-from-pokhara", "mardi-himal-trek-from-pokhara"],
 
   // --- Mardi Himal ---
   "mardi-himal-trek": ["mardi-himal-trek-from-pokhara", "mardi-himal-trek-with-annapurna-base-camp", "annapurna-base-camp-trek", "poonhill-trek"],
-  "mardi-himal-trek-from-pokhara": ["mardi-himal-trek", "annapurna-base-camp-trek-with-mardi-himal-trek-from-pokhara", "abc-trek-nepal", "poonhill-trek-from-pokhara"],
+  "mardi-himal-trek-from-pokhara": ["mardi-himal-trek", "annapurna-base-camp-trek-with-mardi-himal-trek-from-pokhara", "annapurna-base-camp-trek-from-pokhara", "poonhill-trek-from-pokhara"],
 
   // --- Poon Hill / Khopra / Mohare ---
   "poonhill-trek": ["poonhill-trek-from-pokhara", "annapurna-base-camp-trek-with-ghorepani-poonhill-trek", "khopra-danda-trek", "mohare-danda-trek"],
   "poonhill-trek-from-pokhara": ["poonhill-trek", "annapurna-base-camp-with-ghorepani-poonhill-from-pokhara", "khopra-danda-trek-from-pokhara", "mohare-danda-trek-from-pokhara"],
   "khopra-danda-trek": ["khopra-danda-trek-from-pokhara", "mohare-danda-trek", "poonhill-trek", "annapurna-base-camp-trek"],
-  "khopra-danda-trek-from-pokhara": ["khopra-danda-trek", "mohare-danda-trek-from-pokhara", "poonhill-trek-from-pokhara", "abc-trek-nepal"],
+  "khopra-danda-trek-from-pokhara": ["khopra-danda-trek", "mohare-danda-trek-from-pokhara", "poonhill-trek-from-pokhara", "annapurna-base-camp-trek-from-pokhara"],
   "mohare-danda-trek": ["mohare-danda-trek-from-pokhara", "khopra-danda-trek", "poonhill-trek", "annapurna-base-camp-trek-with-ghorepani-poonhill-trek"],
   "mohare-danda-trek-from-pokhara": ["mohare-danda-trek", "khopra-danda-trek-from-pokhara", "poonhill-trek-from-pokhara", "annapurna-base-camp-with-ghorepani-poonhill-from-pokhara"],
 

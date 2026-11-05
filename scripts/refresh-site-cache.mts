@@ -22,12 +22,17 @@
  *
  *   npx tsx scripts/refresh-site-cache.mts
  *   npx tsx scripts/refresh-site-cache.mts --revalidate-url https://example.com
+ *
+ * After a remote refresh the home page, category listings and trip pages are
+ * re-rendered (scripts/warm-cache.mts) so crawlers never meet them cold; pass
+ * --no-warm to skip that.
  */
 import "dotenv/config";
 import { rmSync, existsSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { Redis } from "@upstash/redis";
+import { warmSite } from "./warm-cache.mjs";
 
 /** Cache directories belong to the project, not to wherever this was invoked from. */
 const PROJECT_ROOT = fileURLToPath(new URL("..", import.meta.url));
@@ -188,7 +193,16 @@ async function main() {
     console.log(`\n(pass ${REVALIDATE_URL_FLAG} https://yoursite.com to refresh a deployed site too)`);
     return;
   }
-  if (!(await revalidateRemote(site))) process.exitCode = 1;
+  if (!(await revalidateRemote(site))) {
+    process.exitCode = 1;
+    return;
+  }
+
+  // Every page is cold now. Re-render the ones that sell before a crawler
+  // reaches them — see scripts/warm-cache.mts.
+  if (args.includes("--no-warm")) return;
+  console.log("");
+  if (!(await warmSite(site))) process.exitCode = 1;
 }
 
 main().catch((e) => { console.error(e instanceof Error ? e.message : e); process.exitCode = 1; });

@@ -103,7 +103,6 @@
       "annapurna-base-camp-trek-from-pokhara",
       "annapurna-base-camp-trek-with-ghorepani-poonhill-trek",
       "mardi-himal-trek-with-annapurna-base-camp",
-      "abc-trek-nepal",
       "annapurna-base-camp-with-ghorepani-poonhill-from-pokhara"
     ],
     "posts": [
@@ -113,6 +112,25 @@
       "annapurna-region-permits-acap-guide"
     ],
     "note": "Every version of the Sanctuary trek we run, from five days out of Pokhara to the fourteen-day double base camp route."
+  },
+  "annapurna-base-camp-trek-in-december": {
+    "treks": [
+      "annapurna-base-camp-trek",
+      "annapurna-base-camp-trek-from-pokhara",
+      "annapurna-base-camp-trek-with-ghorepani-poonhill-trek",
+      "mardi-himal-trek-with-annapurna-base-camp",
+      "poonhill-trek",
+      "annapurna-base-camp-helicopter-tour"
+    ],
+    "posts": [
+      "annapurna-base-camp-trek-complete-guide",
+      "annapurna-base-camp-trek-itinerary",
+      "staying-warm-on-a-winter-trek-in-nepal",
+      "trekking-in-nepal-in-december",
+      "winter-trekking-in-nepal-best-routes",
+      "annapurna-base-camp-trek-in-november"
+    ],
+    "note": "Annapurna Base Camp in its different forms, all running through December."
   },
   "annapurna-base-camp-trek-in-november": {
     "treks": [
@@ -137,7 +155,6 @@
     "treks": [
       "annapurna-base-camp-trek",
       "annapurna-base-camp-trek-from-pokhara",
-      "abc-trek-nepal",
       "annapurna-base-camp-trek-with-ghorepani-poonhill-trek",
       "mardi-himal-trek-with-annapurna-base-camp"
     ],
@@ -952,6 +969,25 @@
     ],
     "note": "A valley tour for the festivals and a two-week trek for the days between them."
   },
+  "day-hikes-from-kathmandu": {
+    "treks": [
+      "chandragiri-cable-car-tour",
+      "dhulikhel-namobuddha-hike",
+      "nagarkot-sunrise-tour",
+      "bird-watching-in-kathmandu-valley",
+      "helambu-trek",
+      "pharping-dakshinkali-tour"
+    ],
+    "posts": [
+      "short-treks-near-kathmandu",
+      "kirtipur-travel-guide",
+      "nagarkot-and-sunrise-viewpoints-near-kathmandu",
+      "dhulikhel-namobuddha-hike-guide",
+      "chandragiri-cable-car-tour-guide",
+      "how-to-train-for-a-nepal-trek"
+    ],
+    "note": "Day hikes and short walks on the rim of the Kathmandu Valley, and the Helambu trek, which starts from it."
+  },
   "deusi-bhailo-tihar-songs-explained": {
     "treks": [
       "ghalegaun-ghanpokhara-village-tour",
@@ -1700,6 +1736,25 @@
     ],
     "note": "Quieter neighbours of the famous routes, all in good condition in autumn."
   },
+  "how-to-choose-a-trekking-company-in-nepal": {
+    "treks": [
+      "everest-base-camp-trek",
+      "annapurna-base-camp-trek",
+      "annapurna-circuit-trek",
+      "manaslu-circuit-trek",
+      "langtang-valley-trek",
+      "poonhill-trek"
+    ],
+    "posts": [
+      "guides-and-porters-in-nepal-rules-and-costs",
+      "how-much-does-trekking-in-nepal-cost",
+      "first-time-trekking-in-nepal-what-to-know",
+      "travel-insurance-for-trekking-in-nepal",
+      "responsible-trekking-in-nepal",
+      "nepal-trekking-permits-explained"
+    ],
+    "note": "Our most-booked treks. Every one has a full itinerary and a written list of what is included."
+  },
   "how-to-train-for-a-nepal-trek": {
     "treks": [
       "everest-base-camp-trek",
@@ -2086,6 +2141,25 @@
       "post-trek-recovery-what-your-body-needs"
     ],
     "note": "High, dry routes where the Khumbu cough is most common — and where guides monitor oxygen levels daily."
+  },
+  "kirtipur-travel-guide": {
+    "treks": [
+      "kathmandu-valley-tour",
+      "bungmati-khokana-village-tour",
+      "pharping-dakshinkali-tour",
+      "chandragiri-cable-car-tour",
+      "patan-day-tour",
+      "secret-food-tour-in-kathmandu"
+    ],
+    "posts": [
+      "nepal-premier-league-2026-schedule-and-trekking-in-nepal",
+      "day-hikes-from-kathmandu",
+      "kathmandu-valley-unesco-sites-guide",
+      "patan-travel-guide",
+      "bungmati-khokana-village-tour-guide",
+      "pharping-dakshinkali-tour-guide"
+    ],
+    "note": "Day tours on Kirtipur's side of the valley, and the full Kathmandu Valley tour."
   },
   "knee-pain-blisters-and-painkillers-on-a-nepal-trek": {
     "treks": [
@@ -3059,6 +3133,27 @@
     ],
     "note": "Trips that fit the weeks between Dashain and Chhath."
   },
+  "nepal-premier-league-2026-schedule-and-trekking-in-nepal": {
+    "treks": [
+      "poonhill-trek",
+      "annapurna-base-camp-trek",
+      "mardi-himal-trek",
+      "langtang-valley-trek",
+      "everest-view-trek",
+      "helambu-trek",
+      "rara-lake-trek",
+      "chitwan-national-park-tour-3-days"
+    ],
+    "posts": [
+      "kirtipur-travel-guide",
+      "trekking-in-nepal-in-november",
+      "short-treks-near-kathmandu",
+      "trekking-in-nepal-during-tihar",
+      "tihar-dates-calendar-for-travellers",
+      "chhath-festival-nepal-guide"
+    ],
+    "note": "Treks and tours that fit between NPL matches, or that take you to a team's home region."
+  },
   "nepal-suspends-high-altitude-trekking-permits-snowstorm-avalanche-warning": {
     "treks": [
       "everest-base-camp-trek",
@@ -3476,6 +3571,27 @@
     ],
     "note": "Annapurna-side climbing peaks, and the Circuit they all sit inside."
   },
+  "planning-a-spring-2027-trek-in-nepal": {
+    "treks": [
+      "poonhill-trek",
+      "everest-base-camp-trek",
+      "annapurna-base-camp-trek",
+      "langtang-valley-trek",
+      "upper-mustang-trek",
+      "island-peak-climbing",
+      "mardi-himal-trek",
+      "annapurna-circuit-trek"
+    ],
+    "posts": [
+      "best-time-to-visit-nepal-trekking-seasons",
+      "rhododendron-season-in-the-annapurna-region",
+      "how-to-train-for-a-nepal-trek",
+      "tiji-festival-upper-mustang",
+      "lukla-flight-guide",
+      "nepal-visa-on-arrival-guide"
+    ],
+    "note": "Treks at their best in spring, from rhododendron walks to the Everest expedition season."
+  },
   "pokalde-peak-climbing-guide": {
     "treks": [
       "pokalde-peak-climbing",
@@ -3564,7 +3680,7 @@
   "post-trek-meditation-and-mental-recovery": {
     "treks": [
       "pokhara-day-tour-with-sarangkot-sunrise",
-      "abc-trek-nepal",
+      "annapurna-base-camp-trek-from-pokhara",
       "annapurna-circuit-trek",
       "annapurna-base-camp-trek",
       "mardi-himal-trek"
@@ -3612,7 +3728,7 @@
   },
   "pre-trek-medical-check-up-for-nepal": {
     "treks": [
-      "abc-trek-nepal",
+      "annapurna-base-camp-trek-from-pokhara",
       "everest-base-camp-trek",
       "poonhill-trek",
       "annapurna-base-camp-trek",
@@ -4157,10 +4273,29 @@
     ],
     "note": "Routes that suit a first solo trek — busy enough to feel supported, with lodges at short intervals."
   },
+  "staying-warm-on-a-winter-trek-in-nepal": {
+    "treks": [
+      "everest-base-camp-trek",
+      "annapurna-base-camp-trek",
+      "gokyo-lake-trek",
+      "langtang-valley-trek",
+      "poonhill-trek",
+      "everest-view-trek"
+    ],
+    "posts": [
+      "winter-trekking-in-nepal-best-routes",
+      "nepal-trekking-packing-list",
+      "annapurna-base-camp-trek-in-december",
+      "everest-base-camp-trek-in-december",
+      "trekking-first-aid-kit-for-nepal",
+      "khumbu-cough-colds-and-chest-infections-on-a-trek"
+    ],
+    "note": "Winter treks from the gentle to the very cold, all running from December to February."
+  },
   "stomach-illness-on-a-nepal-trek-medication-and-recovery": {
     "treks": [
       "annapurna-base-camp-with-ghorepani-poonhill-from-pokhara",
-      "abc-trek-nepal",
+      "annapurna-base-camp-trek-from-pokhara",
       "everest-base-camp-trek",
       "annapurna-base-camp-trek",
       "poonhill-trek",
@@ -4514,6 +4649,25 @@
     ],
     "note": "Routes that are at their best in November."
   },
+  "trekking-in-nepal-over-50": {
+    "treks": [
+      "poonhill-trek",
+      "mardi-himal-trek",
+      "everest-view-trek",
+      "langtang-valley-trek",
+      "annapurna-base-camp-trek",
+      "everest-base-camp-trek-with-helicopter-return"
+    ],
+    "posts": [
+      "pre-trek-medical-check-up-for-nepal",
+      "trekking-in-nepal-with-a-medical-condition",
+      "knee-pain-blisters-and-painkillers-on-a-nepal-trek",
+      "how-to-train-for-a-nepal-trek",
+      "everest-base-camp-helicopter-return-guide",
+      "nepal-trek-difficulty-grades-explained"
+    ],
+    "note": "Routes from gentle to demanding that suit trekkers over 50, all available as private treks."
+  },
   "trekking-in-nepal-with-a-medical-condition": {
     "treks": [
       "poonhill-trek-from-pokhara",
@@ -4530,6 +4684,25 @@
       "nepal-trek-difficulty-grades-explained"
     ],
     "note": "Lower routes with quick access to a road or airstrip — where we usually start when a medical condition calls for wide margins."
+  },
+  "trekking-in-nepal-with-children": {
+    "treks": [
+      "poonhill-trek",
+      "poonhill-trek-from-pokhara",
+      "ghalegaun-ghanpokhara-village-tour",
+      "chitwan-national-park-tour-3-days",
+      "everest-view-trek",
+      "kathmandu-pokhara-tour"
+    ],
+    "posts": [
+      "poon-hill-trek-guide",
+      "altitude-sickness-in-nepal-prevention-and-treatment",
+      "vaccinations-for-trekking-in-nepal",
+      "short-treks-from-pokhara",
+      "travel-insurance-for-trekking-in-nepal",
+      "chitwan-national-park-guide"
+    ],
+    "note": "Treks and tours that work well for families, from village stays to short Himalayan treks."
   },
   "trekking-permits-during-dashain": {
     "treks": [

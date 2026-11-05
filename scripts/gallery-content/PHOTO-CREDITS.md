@@ -1170,3 +1170,18 @@ reused under the licence named in the row.
 | blog-festivals | mardi-treks/blog-festivals/blog-festivals-20-lukla-airport-dhc-6-twin-otter-yeti-airlines-nepal | Vyacheslav Argenberg | CC BY 4.0 |
 | blog-festivals | mardi-treks/blog-festivals/blog-festivals-21-hindu-festival-of-tihar-08 | Sushan116 | CC BY-SA 4.0 |
 | blog-festivals | mardi-treks/blog-festivals/blog-festivals-22-kukur-tihar-2 | rubber bullets | CC BY 2.0 |
+
+## Copyright-free blog photographs (CC0)
+
+Uploaded for the blog itself; no product page carries them. Every file is CC0
+(public domain dedication) on Wikimedia Commons, so no credit is required. They
+are listed here only to record where each came from.
+
+| Product | Cloudinary image | Source file on Wikimedia Commons | Licence |
+| --- | --- | --- | --- |
+| blog-free | mardi-treks/blog-free/blog-free-00-dusk-from-kirtipur-nepal | Dusk from Kirtipur, Nepal.jpg | CC0 |
+| blog-free | mardi-treks/blog-free/blog-free-01-view-from-kathmandu | View from Kathmandu.jpg | CC0 |
+| blog-free | mardi-treks/blog-free/blog-free-02-janaki-mandir-janakpur-nepal | Janaki Mandir Janakpur Nepal.jpg | CC0 |
+| blog-free | mardi-treks/blog-free/blog-free-03-nagarjun-national-park | Nagarjun National Park.jpg | CC0 |
+| blog-free | mardi-treks/blog-free/blog-free-04-trail-signboard-at-sano-deurali-in-shivapuri-nagarjun-nation | Trail signboard at Sano Deurali in Shivapuri Nagarjun National Park.jpg | CC0 |
+| blog-kathmandu | mardi-treks/blog-kathmandu/blog-kathmandu-02-kirtipur-swords | Kirtipur swords.jpg | CC0 |

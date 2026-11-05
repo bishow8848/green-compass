@@ -533,7 +533,7 @@ export const meditationA: BlogContent[] = [
     ],
     relatedTreks: [
       "pokhara-day-tour-with-sarangkot-sunrise",
-      "abc-trek-nepal",
+      "annapurna-base-camp-trek-from-pokhara",
       "annapurna-circuit-trek",
       "annapurna-base-camp-trek",
       "mardi-himal-trek",

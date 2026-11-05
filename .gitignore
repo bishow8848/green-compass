@@ -45,3 +45,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Before-values saved by scripts that write to the database (restore points)
+/scripts/.backups/

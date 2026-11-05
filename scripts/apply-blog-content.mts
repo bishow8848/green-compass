@@ -112,7 +112,7 @@ const MAX_GUIDES_PER_TREK = 6;
  * at most one slot, and only if one ranks high enough to take it; on a page
  * with room to spare they fill whatever is left.
  */
-const SEASONAL_CLUSTERS = new Set(["dashain", "tihar", "seasonal", "news"]);
+const SEASONAL_CLUSTERS = new Set(["dashain", "tihar", "seasonal", "news", "events", "winter"]);
 
 
 const NOW = new Date();

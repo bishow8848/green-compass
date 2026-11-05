@@ -6,7 +6,8 @@ import { Users, ArrowRight } from "lucide-react";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
+import { getLegacyRedirectMap, normalizeLegacyPath } from "@/lib/legacy-redirects";
 import { Check, Star, ChevronDown, Search, X as XIcon } from "lucide-react";
 import { prisma } from "@/lib/prisma";
 import { getCachedOrFetch, cacheKeys, CACHE_TTL } from "@/lib/redis";
@@ -28,6 +29,7 @@ import { SearchBar } from "@/components/search/SearchBar";
 import { FAQAccordion } from "@/components/ui/FAQAccordion";
 import { CountUp, Disclosure, KenBurns, MotionAnchor, Reveal, ScrollProgress, Stagger, StaggerItem } from "@/components/motion";
 import { sanitizeRichText } from "@/lib/sanitize";
+import { slimRouteGeoJson } from "@/lib/route-geojson";
 import { SITE_NAME, SITE_URL, brandedTitle, ogImages, seoDescription, seoImageUrl, serializeJsonLd } from "@/lib/seo";
 
 export const revalidate = 604800; // Trek detail cached 7 days; refreshed on-demand after CMS edits
@@ -59,7 +61,11 @@ async function getTrek(slug: string, categorySlug: string) {
       });
       if (!trek) return null;
       if (trek.category?.slug !== categorySlug) return null;
-      return trek;
+      // Slimmed before caching: the raw GPS export made the cached trip up to
+      // 928 KB, and that Redis write outlasted its 1 s budget — the trip was
+      // never cached, and three such timeouts tripped the breaker that turns
+      // Redis off for every key. Slimmed, the largest is ~100 KB.
+      return { ...trek, geoJsonData: slimRouteGeoJson(trek.geoJsonData) };
     },
     CACHE_TTL.MODERATE
   );
@@ -80,7 +86,9 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
   const trek = await getTrek(slug, catSlug);
   if (!trek) return {};
   const title = trek.metaTitle || trek.title;
-  const socialTitle = brandedTitle(title).absolute;
+  // Brand only when it fits: see brandedTitle. Titles come from
+  // scripts/apply-package-titles.mts ("<trip> – N Days: Itinerary & Cost").
+  const socialTitle = brandedTitle(title, { maxLength: 65 }).absolute;
   const description = seoDescription(
     trek.metaDescription || trek.overview,
     `Plan the ${trek.title} with local Nepal trekking experts, including itinerary, difficulty, price and practical trip details.`
@@ -147,7 +155,16 @@ function getAvgRating(reviews: any[]): number {
 export default async function ProductDetailPage({ params }: { params: Promise<{ category: string; slug: string }> }) {
   const { category: catSlug, slug } = await params;
   const trek = await getTrek(slug, catSlug);
-  if (!trek) notFound();
+  if (!trek) {
+    // A retired trip (scripts/merge-duplicate-trek.mts) is redirected by
+    // proxy.ts — but Vercel serves a cached page before the proxy runs, and a
+    // background re-render of the old URL would cache a 404 in the redirect's
+    // place. Redirecting here too keeps the old URL's links and rankings
+    // flowing to the trip that replaced it.
+    const moved = (await getLegacyRedirectMap())[normalizeLegacyPath(`/${catSlug}/${slug}`)];
+    if (moved) permanentRedirect(moved.newPath);
+    notFound();
+  }
 
   // Normalize data
   const itinerary = trek.itinerary || [];
@@ -1008,7 +1025,8 @@ sectionMap["map"] = () => <section id="map" className="py-10 sm:py-12">
   <Reveal from="scale" className="overflow-hidden rounded-3xl border" style={{ borderColor: "var(--color-border)" }}>
     <TrekMapWrapper
       geoJsonUrl={trek.geoJsonUrl || undefined}
-      geoJsonData={trek.geoJsonData || null}
+      // Already slim from getTrek; again here only for an entry cached before that.
+      geoJsonData={slimRouteGeoJson(trek.geoJsonData)}
       waypoints={waypoints?.length > 0 ? waypoints : undefined}
       itinerary={itinerary?.length > 0 ? itinerary : undefined}
       staticFallbackImage={trek.staticMapImage || undefined}

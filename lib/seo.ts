@@ -51,16 +51,24 @@ export function seoDescription(value: string | null | undefined, fallback: strin
   return `${clipped.replace(/[\s,;:–—-]+$/, "")}…`;
 }
 
-/** Avoid duplicated brand suffixes while keeping titles explicit and unique. */
-export function brandedTitle(value: string): { absolute: string } {
+/**
+ * Avoid duplicated brand suffixes while keeping titles explicit and unique.
+ *
+ * `maxLength` drops the suffix when it would push the title past that many
+ * characters. Google truncates titles at roughly 60 and already prints the
+ * site name above every result, so on a page whose title is doing keyword
+ * work (a trip: name, length, "Itinerary & Cost") the brand only pushes the
+ * words people search for off the end.
+ */
+export function brandedTitle(value: string, options: { maxLength?: number } = {}): { absolute: string } {
   const title = plainText(value);
   // Only append the brand when the title does not already carry it. This used to
   // test a hardcoded company name, which silently double-branded every title the
   // moment the name changed — so it is derived from SITE_NAME instead.
   const brand = SITE_NAME.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  return {
-    absolute: new RegExp(`\\b${brand}\\b`, "i").test(title) ? title : `${title} | ${SITE_NAME}`,
-  };
+  if (new RegExp(`\\b${brand}\\b`, "i").test(title)) return { absolute: title };
+  const branded = `${title} | ${SITE_NAME}`;
+  return { absolute: options.maxLength && branded.length > options.maxLength ? title : branded };
 }
 
 export function absoluteUrl(path = "/"): string {

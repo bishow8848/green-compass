@@ -1,5 +1,6 @@
 import { revalidatePath } from "next/cache";
 import { invalidateCachePattern, cacheKeys } from "@/lib/redis";
+import { revalidateBlogPages } from "@/lib/blog-publisher";
 
 /**
  * Payload CMS hooks for cache invalidation.
@@ -21,8 +22,9 @@ export async function invalidateBlogCache() {
     invalidateCachePattern(cacheKeys.pattern.blog),
     invalidateCachePattern(cacheKeys.pattern.home),
   ]);
-  revalidatePath("/blog", "layout");
-  revalidatePath("/sitemap.xml");
+  // Was revalidatePath("/blog", "layout"), which matches no cache tag (they
+  // carry the "(marketing)" route group) and so refreshed nothing.
+  revalidateBlogPages();
 }
 
 export async function invalidateCategoryCache() {

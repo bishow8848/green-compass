@@ -55,7 +55,12 @@ describe("publishDuePosts", () => {
       data: { status: "published" },
     });
     expect(mocks.invalidateCachePattern).toHaveBeenCalledWith("blog:*");
-    expect(mocks.revalidatePath).toHaveBeenCalledWith("/", "layout");
+    // The pages that list posts — never the whole site, which would drop
+    // every trip page's cached copy just to refresh the footer.
+    expect(mocks.revalidatePath).not.toHaveBeenCalledWith("/", "layout");
+    expect(mocks.revalidatePath).toHaveBeenCalledWith("/");
+    expect(mocks.revalidatePath).toHaveBeenCalledWith("/(marketing)/blog", "layout");
+    expect(mocks.revalidatePath).toHaveBeenCalledWith("/(marketing)/[category]", "page");
     expect(mocks.revalidatePath).toHaveBeenCalledWith("/sitemap.xml");
     // Each URL by name: one visited early holds a cached 404.
     expect(mocks.revalidatePath).toHaveBeenCalledWith("/blog/first-post");

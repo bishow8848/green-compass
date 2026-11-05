@@ -620,7 +620,7 @@ export const healthB: BlogContent[] = [
     ],
     relatedTreks: [
       "annapurna-base-camp-with-ghorepani-poonhill-from-pokhara",
-      "abc-trek-nepal",
+      "annapurna-base-camp-trek-from-pokhara",
       "everest-base-camp-trek",
       "annapurna-base-camp-trek",
       "poonhill-trek",

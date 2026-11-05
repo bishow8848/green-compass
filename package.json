@@ -19,6 +19,7 @@
     "cache:reset:all": "node scripts/cache-reset.mjs --all",
     "postinstall": "npx prisma generate",
     "cache:refresh": "npx tsx scripts/refresh-site-cache.mts",
+    "cache:warm": "npx tsx scripts/warm-cache.mts",
     "seo:indexnow": "npx tsx scripts/indexnow-submit.mts"
   },
   "prisma": {

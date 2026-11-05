@@ -55,6 +55,8 @@ const COLD_TIMEOUT_MS = Number(process.env.REDIS_COLD_TIMEOUT_MS) || 5000;
 const REDIS_TIMEOUT_MS =
   Number(process.env.REDIS_TIMEOUT_MS) || (isDev ? 3000 : 1000);
 const BREAKER_FAILURE_THRESHOLD = 3;
+/** Largest serialized value written to Redis; see writeCache. */
+const MAX_CACHE_VALUE_CHARS = 512 * 1024;
 const BREAKER_COOLDOWN_MS = 30_000;
 
 /** Cleared by the first successful command, which proves the pool is warm. */
@@ -344,6 +346,15 @@ async function writeCache(key: string, value: unknown, ttl: number): Promise<voi
     version: 1,
     payload: serializeCacheValue(value),
   };
+  // A value this size cannot be uploaded inside the command timeout (1 s in
+  // production), so trying only fails — and three failures open the breaker,
+  // switching Redis off for every key. Skip it; the caller already has it.
+  if (envelope.payload.length > MAX_CACHE_VALUE_CHARS) {
+    console.warn(
+      `[redis] not caching "${key}": ${Math.round(envelope.payload.length / 1024)} KB is over the ${MAX_CACHE_VALUE_CHARS / 1024} KB limit`
+    );
+    return;
+  }
   await tryRedis(`write cache key "${key}"`, () =>
     redis.set(namespacedKey(key), envelope, { ex: Math.max(1, Math.floor(ttl)) })
   );

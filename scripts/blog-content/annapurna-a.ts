@@ -44,7 +44,7 @@ export const annapurnaA: BlogContent[] = [
               ],
             },
           },
-          { p: "We run it as a [[trek:annapurna-base-camp-trek|9-day trek from Kathmandu]], a [[trek:annapurna-base-camp-trek-from-pokhara|5-day trek from Pokhara]] for travellers already in the city, and a [[trek:abc-trek-nepal|compact 5-day ABC trek]]. Adding Poon Hill makes it [[trek:annapurna-base-camp-trek-with-ghorepani-poonhill-trek|a 12-day trip]], and linking it to the Mardi Himal ridge gives [[trek:mardi-himal-trek-with-annapurna-base-camp|a 14-day double base camp route]]." },
+          { p: "We run it as a [[trek:annapurna-base-camp-trek|9-day trek from Kathmandu]] and a [[trek:annapurna-base-camp-trek-from-pokhara|5-day trek from Pokhara]] for travellers already in the city. Adding Poon Hill makes it [[trek:annapurna-base-camp-trek-with-ghorepani-poonhill-trek|a 12-day trip]], and linking it to the Mardi Himal ridge gives [[trek:mardi-himal-trek-with-annapurna-base-camp|a 14-day double base camp route]]." },
         ],
       },
       {
@@ -193,7 +193,6 @@ export const annapurnaA: BlogContent[] = [
               rows: [
                 ["[[trek:annapurna-base-camp-trek|Annapurna Base Camp from Kathmandu]]", "9", "The standard trip, including Kathmandu and Pokhara transfers"],
                 ["[[trek:annapurna-base-camp-trek-from-pokhara|ABC from Pokhara]]", "5", "Travellers already in Pokhara who want the Sanctuary and nothing else"],
-                ["[[trek:abc-trek-nepal|ABC Trek Nepal]]", "5", "The compact version, using jeep transfers to shorten the walk in"],
                 ["[[trek:annapurna-base-camp-trek-with-ghorepani-poonhill-trek|ABC with Ghorepani and Poon Hill]]", "12", "Adds the Poon Hill sunrise and the Ghorepani rhododendron forest"],
                 ["[[trek:annapurna-base-camp-with-ghorepani-poonhill-from-pokhara|ABC with Poon Hill from Pokhara]]", "8", "The same combination, Pokhara start and finish"],
                 ["[[trek:mardi-himal-trek-with-annapurna-base-camp|ABC with Mardi Himal]]", "14", "Two base camps, a high ridge, and the hot springs between them"],
@@ -226,7 +225,6 @@ export const annapurnaA: BlogContent[] = [
       "annapurna-base-camp-trek-from-pokhara",
       "annapurna-base-camp-trek-with-ghorepani-poonhill-trek",
       "mardi-himal-trek-with-annapurna-base-camp",
-      "abc-trek-nepal",
       "annapurna-base-camp-with-ghorepani-poonhill-from-pokhara",
     ],
     tripsNote: "Every version of the Sanctuary trek we run, from five days out of Pokhara to the fourteen-day double base camp route.",
@@ -360,7 +358,6 @@ export const annapurnaA: BlogContent[] = [
     relatedTreks: [
       "annapurna-base-camp-trek",
       "annapurna-base-camp-trek-from-pokhara",
-      "abc-trek-nepal",
       "annapurna-base-camp-trek-with-ghorepani-poonhill-trek",
       "mardi-himal-trek-with-annapurna-base-camp",
     ],
