@@ -165,7 +165,6 @@
     "treks": [
       "annapurna-circuit-trek",
       "annapurna-circuit-with-tilicho-lake-trek",
-      "short-annapurna-circuit-trek",
       "tilicho-lake-trek",
       "manaslu-circuit-trek",
       "jomsom-muktinath-trek"
@@ -183,7 +182,6 @@
   "annapurna-circuit-road-and-jeep-changes": {
     "treks": [
       "annapurna-circuit-trek",
-      "short-annapurna-circuit-trek",
       "manaslu-circuit-trek",
       "tilicho-lake-trek",
       "nar-phu-valley-trek"
@@ -200,7 +198,6 @@
     "treks": [
       "annapurna-circuit-trek",
       "annapurna-circuit-with-tilicho-lake-trek",
-      "short-annapurna-circuit-trek",
       "tilicho-lake-trek",
       "jomsom-muktinath-trek",
       "nar-phu-valley-trek"
@@ -367,7 +364,6 @@
   },
   "bardia-national-park-guide": {
     "treks": [
-      "bardia-national-park-tour-4-days",
       "bardia-jungle-safari-tour-5-days",
       "2-night-3-days-bardia-tour",
       "koshi-tappu-wildlife-reserve-tour",
@@ -451,7 +447,7 @@
     "treks": [
       "sirubari-village-tour",
       "ghalegaun-ghanpokhara-village-tour",
-      "kathmandu-valley-tour",
+      "glimpse-of-nepal-tour-package",
       "kathmandu-day-tour",
       "himalayan-village-tour"
     ],
@@ -468,7 +464,7 @@
   "bhaktapur-during-dashain-navadurga-and-mohani": {
     "treks": [
       "bhaktapur-day-tour",
-      "kathmandu-valley-tour",
+      "glimpse-of-nepal-tour-package",
       "kathmandu-photography-tour",
       "nagarkot-sunrise-tour",
       "seven-world-heritage-kathmandu-day-tour"
@@ -487,7 +483,7 @@
     "treks": [
       "bhaktapur-day-tour",
       "seven-world-heritage-kathmandu-day-tour",
-      "kathmandu-valley-tour",
+      "glimpse-of-nepal-tour-package",
       "nagarkot-sunrise-tour",
       "nepal-cultural-tour"
     ],
@@ -621,7 +617,7 @@
       "bungmati-khokana-village-tour",
       "patan-day-tour",
       "pharping-dakshinkali-tour",
-      "kathmandu-valley-tour",
+      "glimpse-of-nepal-tour-package",
       "seven-world-heritage-kathmandu-day-tour"
     ],
     "posts": [
@@ -669,7 +665,7 @@
     "treks": [
       "chandragiri-cable-car-tour",
       "nagarkot-sunrise-tour",
-      "kathmandu-valley-tour",
+      "glimpse-of-nepal-tour-package",
       "everest-mountain-flight",
       "dhulikhel-namobuddha-hike"
     ],
@@ -704,7 +700,6 @@
   "chitwan-national-park-guide": {
     "treks": [
       "chitwan-national-park-tour-3-days",
-      "chitwan-national-park-tour-4-days",
       "1-night-2-days-chitwan-trip",
       "bird-watching-in-chitwan-national-park",
       "best-of-nepal-tour"
@@ -857,7 +852,7 @@
   "dashain-dates-calendar-for-travellers": {
     "treks": [
       "glimpse-of-nepal-tour",
-      "kathmandu-valley-tour",
+      "glimpse-of-nepal-tour-package",
       "kathmandu-day-tour",
       "everest-view-trek",
       "poonhill-trek"
@@ -933,7 +928,7 @@
       "ghalegaun-ghanpokhara-village-tour",
       "sirubari-village-tour",
       "himalayan-village-tour",
-      "kathmandu-valley-tour",
+      "glimpse-of-nepal-tour-package",
       "pokhara-day-tour"
     ],
     "posts": [
@@ -949,7 +944,7 @@
   "dashain-vs-tihar-which-festival-to-visit": {
     "treks": [
       "nepal-cultural-tour",
-      "kathmandu-valley-tour",
+      "glimpse-of-nepal-tour-package",
       "everest-base-camp-trek",
       "annapurna-circuit-trek",
       "patan-day-tour"
@@ -1348,7 +1343,7 @@
   },
   "fifteen-days-of-dashain-explained": {
     "treks": [
-      "kathmandu-valley-tour",
+      "glimpse-of-nepal-tour-package",
       "kathmandu-day-tour",
       "bhaktapur-day-tour",
       "sirubari-village-tour",
@@ -1783,7 +1778,7 @@
   },
   "illness-after-a-nepal-trek-symptoms-not-to-ignore": {
     "treks": [
-      "chitwan-national-park-tour-4-days",
+      "chitwan-national-park-tour-3-days",
       "bardia-jungle-safari-tour-5-days",
       "everest-base-camp-trek",
       "annapurna-base-camp-trek",
@@ -1800,7 +1795,7 @@
   "is-dashain-a-good-time-to-visit-nepal": {
     "treks": [
       "himalayan-village-tour",
-      "kathmandu-valley-tour",
+      "glimpse-of-nepal-tour-package",
       "kathmandu-photography-tour",
       "poonhill-trek",
       "chitwan-national-park-tour-3-days"
@@ -1884,9 +1879,8 @@
   "jungle-safari-in-nepal-guide": {
     "treks": [
       "chitwan-national-park-tour-3-days",
-      "bardia-national-park-tour-4-days",
-      "koshi-tappu-wildlife-reserve-tour",
       "bardia-jungle-safari-tour-5-days",
+      "koshi-tappu-wildlife-reserve-tour",
       "bird-watching-in-chitwan-national-park"
     ],
     "posts": [
@@ -2017,7 +2011,7 @@
   "kathmandu-during-tihar": {
     "treks": [
       "kathmandu-day-tour",
-      "kathmandu-valley-tour",
+      "glimpse-of-nepal-tour-package",
       "kathmandu-photography-tour",
       "bhaktapur-day-tour",
       "patan-day-tour",
@@ -2076,7 +2070,7 @@
       "kathmandu-day-tour",
       "patan-day-tour",
       "bhaktapur-day-tour",
-      "kathmandu-valley-tour",
+      "glimpse-of-nepal-tour-package",
       "nepal-cultural-tour"
     ],
     "posts": [
@@ -2135,7 +2129,7 @@
   },
   "kirtipur-travel-guide": {
     "treks": [
-      "kathmandu-valley-tour",
+      "glimpse-of-nepal-tour-package",
       "bungmati-khokana-village-tour",
       "pharping-dakshinkali-tour",
       "chandragiri-cable-car-tour",
@@ -2172,7 +2166,7 @@
   "kukur-tihar-day-of-the-dogs": {
     "treks": [
       "kathmandu-day-tour",
-      "kathmandu-valley-tour",
+      "glimpse-of-nepal-tour-package",
       "kathmandu-photography-tour",
       "pokhara-day-tour",
       "bhaktapur-day-tour"
@@ -2410,7 +2404,7 @@
       "bhaktapur-day-tour",
       "patan-day-tour",
       "kathmandu-day-tour",
-      "kathmandu-valley-tour",
+      "glimpse-of-nepal-tour-package",
       "ghalegaun-ghanpokhara-village-tour",
       "pokhara-day-tour"
     ],
@@ -2665,7 +2659,6 @@
       "manaslu-circuit-trek",
       "annapurna-circuit-trek",
       "tsum-valley-and-manaslu-circuit-trek",
-      "short-annapurna-circuit-trek",
       "tilicho-lake-trek"
     ],
     "posts": [
@@ -2841,7 +2834,7 @@
       "patan-day-tour",
       "bhaktapur-day-tour",
       "secret-food-tour-in-kathmandu",
-      "kathmandu-valley-tour",
+      "glimpse-of-nepal-tour-package",
       "seven-world-heritage-kathmandu-day-tour",
       "kathmandu-day-tour"
     ],
@@ -2971,7 +2964,7 @@
     "treks": [
       "nagarkot-sunrise-tour",
       "bhaktapur-day-tour",
-      "kathmandu-valley-tour",
+      "glimpse-of-nepal-tour-package",
       "pokhara-day-tour-with-sarangkot-sunrise",
       "bird-watching-in-kathmandu-valley"
     ],
@@ -3052,7 +3045,7 @@
       "everest-base-camp-trek",
       "manaslu-circuit-trek",
       "annapurna-base-camp-trek",
-      "kathmandu-valley-tour",
+      "glimpse-of-nepal-tour-package",
       "chitwan-national-park-tour-3-days",
       "ghalegaun-ghanpokhara-village-tour"
     ],
@@ -3070,7 +3063,7 @@
     "treks": [
       "nepal-cultural-tour",
       "best-of-nepal-tour",
-      "kathmandu-valley-tour",
+      "glimpse-of-nepal-tour-package",
       "kathmandu-pokhara-tour",
       "lumbini-tour",
       "sirubari-village-tour"
@@ -3101,7 +3094,7 @@
   },
   "nepal-festivals-and-events-october-november-2026": {
     "treks": [
-      "kathmandu-valley-tour",
+      "glimpse-of-nepal-tour-package",
       "everest-base-camp-trek",
       "annapurna-base-camp-trek",
       "langtang-valley-trek",
@@ -3224,7 +3217,7 @@
   },
   "nepal-trip-costs-and-booking-during-dashain": {
     "treks": [
-      "kathmandu-valley-tour",
+      "glimpse-of-nepal-tour-package",
       "poonhill-trek",
       "everest-view-trek",
       "glimpse-of-nepal-tour",
@@ -3242,7 +3235,7 @@
   },
   "nepal-visa-on-arrival-guide": {
     "treks": [
-      "kathmandu-valley-tour",
+      "glimpse-of-nepal-tour-package",
       "everest-base-camp-trek",
       "annapurna-base-camp-trek"
     ],
@@ -3391,7 +3384,7 @@
       "patan-day-tour",
       "bungmati-khokana-village-tour",
       "seven-world-heritage-kathmandu-day-tour",
-      "kathmandu-valley-tour",
+      "glimpse-of-nepal-tour-package",
       "bird-watching-in-kathmandu-valley"
     ],
     "posts": [
@@ -3474,7 +3467,7 @@
     "treks": [
       "pharping-dakshinkali-tour",
       "bungmati-khokana-village-tour",
-      "kathmandu-valley-tour",
+      "glimpse-of-nepal-tour-package",
       "seven-world-heritage-kathmandu-day-tour",
       "patan-day-tour"
     ],
@@ -3601,7 +3594,7 @@
       "poonhill-trek",
       "sirubari-village-tour",
       "paragliding-in-pokhara",
-      "pokhara-honeymoon-tour"
+      "nepal-honeymoon-tour"
     ],
     "posts": [
       "pokhara-travel-guide",
@@ -4039,7 +4032,7 @@
   "secret-food-tour-in-kathmandu-guide": {
     "treks": [
       "secret-food-tour-in-kathmandu",
-      "kathmandu-valley-tour",
+      "glimpse-of-nepal-tour-package",
       "kathmandu-day-tour",
       "patan-day-tour",
       "seven-world-heritage-kathmandu-day-tour"
@@ -4373,7 +4366,6 @@
     "treks": [
       "annapurna-circuit-trek",
       "annapurna-circuit-with-tilicho-lake-trek",
-      "short-annapurna-circuit-trek",
       "jomsom-muktinath-trek"
     ],
     "posts": [
@@ -4386,7 +4378,7 @@
   },
   "tihar-dates-calendar-for-travellers": {
     "treks": [
-      "kathmandu-valley-tour",
+      "glimpse-of-nepal-tour-package",
       "kathmandu-day-tour",
       "bhaktapur-day-tour",
       "patan-day-tour",
@@ -4404,7 +4396,7 @@
   },
   "tihar-festival-nepal-travel-guide": {
     "treks": [
-      "kathmandu-valley-tour",
+      "glimpse-of-nepal-tour-package",
       "bhaktapur-day-tour",
       "kathmandu-day-tour",
       "ghalegaun-ghanpokhara-village-tour",
@@ -4456,7 +4448,6 @@
   "tilicho-lake-trek-guide": {
     "treks": [
       "tilicho-lake-trek",
-      "short-tilicho-lake-trek",
       "annapurna-circuit-with-tilicho-lake-trek",
       "annapurna-circuit-trek"
     ],
@@ -4833,8 +4824,8 @@
   },
   "vaccinations-for-trekking-in-nepal": {
     "treks": [
-      "chitwan-national-park-tour-4-days",
-      "bardia-national-park-tour-4-days",
+      "chitwan-national-park-tour-3-days",
+      "bardia-jungle-safari-tour-5-days",
       "everest-base-camp-trek",
       "annapurna-base-camp-trek",
       "upper-dolpo-trek"

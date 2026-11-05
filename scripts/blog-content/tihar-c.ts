@@ -144,7 +144,7 @@ export const tiharC: BlogContent[] = [
       { question: "What happens at Rani Pokhari on Bhai Tika?", answer: "The temple in the middle of Rani Pokhari in Kathmandu opens only on this day. People who have no brother or sister go there to worship and to exchange tika with one another." },
       { question: "Is everything closed on Bhai Tika?", answer: "Offices, banks and most local shops are closed, and there are very few buses or taxis until evening. Hotels and tourist restaurants stay open. Plan it as a quiet day in one place." },
     ],
-    relatedTreks: ["sirubari-village-tour", "ghalegaun-ghanpokhara-village-tour", "kathmandu-valley-tour", "kathmandu-day-tour", "himalayan-village-tour"],
+    relatedTreks: ["sirubari-village-tour", "ghalegaun-ghanpokhara-village-tour", "glimpse-of-nepal-tour-package", "kathmandu-day-tour", "himalayan-village-tour"],
     tripsNote: "Homestays and tours where the last day of Tihar is spent with a family.",
     relatedPosts: [
       "tihar-festival-nepal-travel-guide",
@@ -482,7 +482,7 @@ export const tiharC: BlogContent[] = [
               "<strong>Dress up a little</strong> on the 8th and 10th. Everyone else has.",
             ],
           },
-          { p: "A guided evening is worth it at least once: the best courtyards are behind doorways you would walk past. Our [[trek:kathmandu-day-tour|Kathmandu day tour]] and [[trek:kathmandu-valley-tour|Kathmandu Valley Tour]] are re-timed for the festival evenings on request, and the [[trek:kathmandu-photography-tour|Kathmandu Photography Tour]] is built round the light. New to the city? Start with [[post:arriving-in-kathmandu-first-48-hours|your first 48 hours in Kathmandu]]." },
+          { p: "A guided evening is worth it at least once: the best courtyards are behind doorways you would walk past. Our [[trek:kathmandu-day-tour|Kathmandu day tour]] and [[trek:glimpse-of-nepal-tour-package|Kathmandu Valley Tour]] are re-timed for the festival evenings on request, and the [[trek:kathmandu-photography-tour|Kathmandu Photography Tour]] is built round the light. New to the city? Start with [[post:arriving-in-kathmandu-first-48-hours|your first 48 hours in Kathmandu]]." },
         ],
       },
     ],
@@ -496,7 +496,7 @@ export const tiharC: BlogContent[] = [
       { question: "Is it noisy in Kathmandu during Tihar?", answer: "In the evenings, yes. There is singing, music and, despite an official ban, firecrackers, mainly from 8 to 10 November. It quietens by about ten or eleven at night." },
       { question: "Which area of Kathmandu is best to stay in for Tihar?", answer: "Thamel for convenience and open restaurants, Patan for atmosphere and traditional houses, and Bhaktapur for one night on Laxmi Puja. Boudha is the quietest option." },
     ],
-    relatedTreks: ["kathmandu-day-tour", "kathmandu-valley-tour", "kathmandu-photography-tour", "bhaktapur-day-tour", "patan-day-tour", "nagarkot-sunrise-tour"],
+    relatedTreks: ["kathmandu-day-tour", "glimpse-of-nepal-tour-package", "kathmandu-photography-tour", "bhaktapur-day-tour", "patan-day-tour", "nagarkot-sunrise-tour"],
     tripsNote: "City and valley tours that can be timed for the festival evenings.",
     relatedPosts: [
       "tihar-festival-nepal-travel-guide",

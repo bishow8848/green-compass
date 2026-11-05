@@ -37,7 +37,7 @@ export const activitiesC: BlogContent[] = [
                 ["[[trek:everest-base-camp-helicopter-tour|Everest helicopter tour]]", "Half day", "Kathmandu to Kala Patthar", "Low, high altitude"],
                 ["[[trek:annapurna-base-camp-helicopter-tour|Annapurna helicopter tour]]", "2 hours", "Pokhara to the Sanctuary", "Low"],
                 ["[[trek:chitwan-national-park-tour-3-days|Chitwan safari]]", "3 days", "Terai", "Low"],
-                ["[[trek:bardia-national-park-tour-4-days|Bardia safari]]", "4–5 days", "Far west Terai", "Low"],
+                ["[[trek:bardia-jungle-safari-tour-5-days|Bardia safari]]", "4–5 days", "Far west Terai", "Low"],
                 ["[[trek:ultra-light-flight-in-pokhara|Ultralight flight]]", "1 hour", "Pokhara", "Moderate"],
                 ["[[trek:atv-adventure-tour-in-pokhara|ATV tour]]", "Half day", "Pokhara valley", "Moderate"],
                 ["[[trek:nagarkot-sunrise-tour|Nagarkot sunrise]]", "Overnight", "Kathmandu valley rim", "None"],
@@ -81,9 +81,9 @@ export const activitiesC: BlogContent[] = [
           {
             ul: [
               "<strong>[[trek:chitwan-national-park-tour-3-days|Chitwan, three days]]</strong> — rhino sightings close to routine, jeep safaris, a dawn canoe on the Rapti, and a jungle walk. The easiest wildlife stop in Nepal and it sits on the Kathmandu–Pokhara road.",
-              "<strong>[[trek:bardia-national-park-tour-4-days|Bardia, four to five days]]</strong> — better tiger odds, wild elephant herds and river dolphins, at the cost of a flight to Nepalgunj. See our [[post:jungle-safari-in-nepal-guide|safari guide]].",
+              "<strong>[[trek:bardia-jungle-safari-tour-5-days|Bardia, four to five days]]</strong> — better tiger odds, wild elephant herds and river dolphins, at the cost of a flight to Nepalgunj. See our [[post:jungle-safari-in-nepal-guide|safari guide]].",
               "<strong>[[trek:koshi-tappu-wildlife-reserve-tour|Koshi Tappu]]</strong> — Nepal's best birding, with over 500 species on a Ramsar wetland. See our [[post:bird-watching-in-nepal-guide|birding guide]].",
-              "<strong>[[trek:seven-world-heritage-kathmandu-day-tour|The seven UNESCO sites]]</strong> in one day, or [[trek:kathmandu-valley-tour|five days across the valley]] with Nagarkot and the villages.",
+              "<strong>[[trek:seven-world-heritage-kathmandu-day-tour|The seven UNESCO sites]]</strong> in one day, or [[trek:glimpse-of-nepal-tour-package|five days across the valley]] with Nagarkot and the villages.",
               "<strong>[[trek:best-of-nepal-tour|The ten-day Best of Nepal circuit]]</strong> — the valley, Pokhara and Chitwan, which is the classic no-trekking itinerary. See our [[post:nepal-cultural-tour-itineraries|cultural itineraries guide]].",
               "<strong>[[trek:lumbini-tour|Lumbini]]</strong> — the birthplace of the Buddha, with the Ashoka Pillar and the monastic zone.",
             ],
@@ -261,7 +261,7 @@ export const activitiesC: BlogContent[] = [
     relatedTreks: [
       "nagarkot-sunrise-tour",
       "bhaktapur-day-tour",
-      "kathmandu-valley-tour",
+      "glimpse-of-nepal-tour-package",
       "pokhara-day-tour-with-sarangkot-sunrise",
       "bird-watching-in-kathmandu-valley",
     ],

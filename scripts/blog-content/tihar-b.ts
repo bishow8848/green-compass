@@ -148,7 +148,7 @@ export const tiharB: BlogContent[] = [
       { question: "Is it safe to walk around on the night of Laxmi Puja?", answer: "Yes. The streets are busy and festive. The practical hazards are open lamps at ground level, firecrackers and a shortage of taxis late in the evening, so stay somewhere within walking distance." },
       { question: "What is a rangoli?", answer: "A rangoli is a pattern made on the ground in coloured powder, rice and flower petals at the entrance to a house or shop. During Tihar it marks the place where the goddess Laxmi is welcomed, and a lamp is placed at its centre." },
     ],
-    relatedTreks: ["bhaktapur-day-tour", "patan-day-tour", "kathmandu-day-tour", "kathmandu-valley-tour", "ghalegaun-ghanpokhara-village-tour", "pokhara-day-tour"],
+    relatedTreks: ["bhaktapur-day-tour", "patan-day-tour", "kathmandu-day-tour", "glimpse-of-nepal-tour-package", "ghalegaun-ghanpokhara-village-tour", "pokhara-day-tour"],
     tripsNote: "Places to be when the lamps are lit.",
     relatedPosts: [
       "tihar-festival-nepal-travel-guide",
@@ -446,7 +446,7 @@ export const tiharB: BlogContent[] = [
       { question: "How do you say Happy New Year in Newar?", answer: "Nhu Daya Bhintuna. It is the greeting used for the Nepal Sambat New Year in Nepal Bhasa, the Newar language." },
       { question: "Who started the Nepal Sambat calendar?", answer: "According to tradition it was begun by Sankhadhar Sakhwa, a merchant of Kathmandu who paid off the debts of the valley's people in 879 CE. A new era was declared to mark the occasion, and he is honoured as a national hero." },
     ],
-    relatedTreks: ["patan-day-tour", "bhaktapur-day-tour", "secret-food-tour-in-kathmandu", "kathmandu-valley-tour", "seven-world-heritage-kathmandu-day-tour", "kathmandu-day-tour"],
+    relatedTreks: ["patan-day-tour", "bhaktapur-day-tour", "secret-food-tour-in-kathmandu", "glimpse-of-nepal-tour-package", "seven-world-heritage-kathmandu-day-tour", "kathmandu-day-tour"],
     tripsNote: "Tours of the Newar cities, where the New Year is celebrated.",
     relatedPosts: [
       "tihar-festival-nepal-travel-guide",

@@ -112,7 +112,7 @@ export const annapurnaB: BlogContent[] = [
             ul: [
               "<strong>[[trek:annapurna-circuit-trek-package|Annapurna Circuit, 15 days]]</strong> — the standard and best-acclimatised version.",
               "<strong>[[trek:annapurna-circuit-with-tilicho-lake-trek-package|Circuit with Tilicho Lake, 14 days]]</strong> — the Tilicho detour also doubles as excellent pre-pass acclimatisation.",
-              "<strong>[[trek:short-annapurna-circuit-trek|Short Annapurna Circuit, 7 days]]</strong> — jeep transfers to Manang, then the pass. Graded challenging, and only for trekkers with previous altitude experience.",
+              "<strong>[[trek:annapurna-circuit-trek|Short Annapurna Circuit, 7 days]]</strong> — jeep transfers to Manang, then the pass. Graded challenging, and only for trekkers with previous altitude experience.",
               "<strong>[[trek:saribung-pass-trek|Saribung Pass]]</strong> and other high-pass treks in the region, for trekkers who want more than one 5,000 m crossing.",
             ],
           },
@@ -133,7 +133,7 @@ export const annapurnaB: BlogContent[] = [
     relatedTreks: [
       "annapurna-circuit-trek",
       "annapurna-circuit-with-tilicho-lake-trek",
-      "short-annapurna-circuit-trek",
+      "annapurna-circuit-trek",
       "jomsom-muktinath-trek",
     ],
     tripsNote: "Itineraries that cross Thorong La, all run anticlockwise with acclimatisation days at Manang.",
@@ -619,7 +619,7 @@ export const annapurnaB: BlogContent[] = [
               ],
             },
           },
-          { p: "We run it as a [[trek:tilicho-lake-trek-package|12-day Tilicho Lake Trek]], a [[trek:short-tilicho-lake-trek|9-day short version]] using jeep transfers, and as part of the [[trek:annapurna-circuit-with-tilicho-lake-trek-package|14-day circuit with Tilicho]]." },
+          { p: "We run it as a [[trek:tilicho-lake-trek-package|12-day Tilicho Lake Trek]], a [[trek:tilicho-lake-trek|9-day short version]] using jeep transfers, and as part of the [[trek:annapurna-circuit-with-tilicho-lake-trek-package|14-day circuit with Tilicho]]." },
         ],
       },
       {
@@ -687,7 +687,7 @@ export const annapurnaB: BlogContent[] = [
     ],
     relatedTreks: [
       "tilicho-lake-trek",
-      "short-tilicho-lake-trek",
+      "tilicho-lake-trek",
       "annapurna-circuit-with-tilicho-lake-trek",
       "annapurna-circuit-trek",
     ],

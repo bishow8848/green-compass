@@ -339,7 +339,7 @@ export const dashainA: BlogContent[] = [
     ],
     relatedTreks: [
       "glimpse-of-nepal-tour",
-      "kathmandu-valley-tour",
+      "glimpse-of-nepal-tour-package",
       "kathmandu-day-tour",
       "everest-view-trek",
       "poonhill-trek",
@@ -473,7 +473,7 @@ export const dashainA: BlogContent[] = [
               ],
             },
           },
-          { p: "The Kathmandu valley's Newar community keeps the same days under different names and with its own rituals, including sword processions on the tenth day and the masked Navadurga dancers of Bhaktapur. A [[trek:kathmandu-valley-tour|Kathmandu Valley Tour]] timed for the week takes in both traditions." },
+          { p: "The Kathmandu valley's Newar community keeps the same days under different names and with its own rituals, including sword processions on the tenth day and the masked Navadurga dancers of Bhaktapur. A [[trek:glimpse-of-nepal-tour-package|Kathmandu Valley Tour]] timed for the week takes in both traditions." },
         ],
       },
     ],
@@ -488,7 +488,7 @@ export const dashainA: BlogContent[] = [
       { question: "Which day of Dashain is best for a visitor to see?", answer: "For public ceremony, Phulpati and Maha Navami in Kathmandu. For the heart of the festival, Vijaya Dashami with a host family. For atmosphere without ritual, any of the days before Phulpati, when the markets, kites and swings are at their best." },
     ],
     relatedTreks: [
-      "kathmandu-valley-tour",
+      "glimpse-of-nepal-tour-package",
       "kathmandu-day-tour",
       "bhaktapur-day-tour",
       "sirubari-village-tour",

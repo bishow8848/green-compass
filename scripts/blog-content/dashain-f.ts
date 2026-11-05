@@ -136,7 +136,7 @@ export const dashainF: BlogContent[] = [
       {
         h2: "Trips That Hold Their Price",
         blocks: [
-          { p: "Because our rates do not change for the festival, the simplest way to keep a Dashain trip on budget is to choose one with few moving parts: a [[trek:kathmandu-valley-tour|Kathmandu Valley Tour]] with no long transfers, a [[trek:poonhill-trek|Poon Hill trek from Pokhara]] reached by one short flight, or the [[trek:everest-view-trek|Everest View trek]], whose permits are all bought on the trail. The pricing table on each trip page shows the per-person rate by group size." },
+          { p: "Because our rates do not change for the festival, the simplest way to keep a Dashain trip on budget is to choose one with few moving parts: a [[trek:glimpse-of-nepal-tour-package|Kathmandu Valley Tour]] with no long transfers, a [[trek:poonhill-trek|Poon Hill trek from Pokhara]] reached by one short flight, or the [[trek:everest-view-trek|Everest View trek]], whose permits are all bought on the trail. The pricing table on each trip page shows the per-person rate by group size." },
         ],
       },
     ],
@@ -151,7 +151,7 @@ export const dashainF: BlogContent[] = [
       { question: "Is it cheaper to visit just after Dashain?", answer: "Marginally: international fares fall back and transport is easier. The weather is the same, and trek prices do not change. The saving is in convenience more than money." },
     ],
     relatedTreks: [
-      "kathmandu-valley-tour",
+      "glimpse-of-nepal-tour-package",
       "poonhill-trek",
       "everest-view-trek",
       "glimpse-of-nepal-tour",

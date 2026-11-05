@@ -117,7 +117,7 @@ export const tiharA: BlogContent[] = [
               ],
             },
           },
-          { p: "For most visitors the Kathmandu valley is the right answer, and two nights in Bhaktapur during the festival are worth more than a week at any other time. A [[trek:kathmandu-valley-tour|Kathmandu Valley Tour]] over these dates can be arranged around the evenings, and a village homestay — [[trek:ghalegaun-ghanpokhara-village-tour|Ghalegaun]] or [[trek:sirubari-village-tour|Sirubari]] — gives you the other extreme." },
+          { p: "For most visitors the Kathmandu valley is the right answer, and two nights in Bhaktapur during the festival are worth more than a week at any other time. A [[trek:glimpse-of-nepal-tour-package|Kathmandu Valley Tour]] over these dates can be arranged around the evenings, and a village homestay — [[trek:ghalegaun-ghanpokhara-village-tour|Ghalegaun]] or [[trek:sirubari-village-tour|Sirubari]] — gives you the other extreme." },
         ],
       },
       {
@@ -176,7 +176,7 @@ export const tiharA: BlogContent[] = [
       { question: "Can tourists take part in Tihar?", answer: "Yes. Visitors are welcome to watch and join deusi and bhailo, are often offered sweets, and are sometimes invited to receive Bhai Tika from a host family. A small gift or cash offering is appreciated." },
       { question: "Can I trek during Tihar?", answer: "Yes. All trekking lodges stay open and the weather is excellent. Arrange permits before the holiday and agree dates with your guide early, since many guides want to be home for Bhai Tika on the last day." },
     ],
-    relatedTreks: ["kathmandu-valley-tour", "bhaktapur-day-tour", "kathmandu-day-tour", "ghalegaun-ghanpokhara-village-tour", "annapurna-base-camp-trek", "poonhill-trek"],
+    relatedTreks: ["glimpse-of-nepal-tour-package", "bhaktapur-day-tour", "kathmandu-day-tour", "ghalegaun-ghanpokhara-village-tour", "annapurna-base-camp-trek", "poonhill-trek"],
     tripsNote: "Tours for the festival days, and treks that end in time for the lights.",
     relatedPosts: [
       "tihar-dates-calendar-for-travellers",
@@ -317,7 +317,7 @@ export const tiharA: BlogContent[] = [
       { question: "When is the Nepal Sambat New Year in 2026?", answer: "Nepal Sambat 1147 begins on Tuesday 10 November 2026, the fourth day of Tihar. It is marked by processions in the Kathmandu valley and by Mha Puja in Newar homes that evening." },
       { question: "When is Tihar in 2027?", answer: "Provisionally from about 27 to 31 October 2027, with Laxmi Puja around Friday 29 October. The dates will be confirmed when the official 2084 BS calendar is issued." },
     ],
-    relatedTreks: ["kathmandu-valley-tour", "kathmandu-day-tour", "bhaktapur-day-tour", "patan-day-tour", "pokhara-day-tour"],
+    relatedTreks: ["glimpse-of-nepal-tour-package", "kathmandu-day-tour", "bhaktapur-day-tour", "patan-day-tour", "pokhara-day-tour"],
     tripsNote: "Day tours and short trips for the five days of the festival.",
     relatedPosts: [
       "tihar-festival-nepal-travel-guide",
@@ -460,7 +460,7 @@ export const tiharA: BlogContent[] = [
       { question: "What do dogs eat on Kukur Tihar?", answer: "Meat, boiled eggs, milk, rice and sel roti, a fried rice-flour bread. If you want to offer food, plain meat or eggs are best. Do not give chocolate, grapes, raisins or cooked bones." },
       { question: "Are other animals honoured during Tihar?", answer: "Yes. The crow is honoured on the first day, the dog on the second, the cow on the third and the ox on the fourth. Each has a connection with Yama or with the household's prosperity." },
     ],
-    relatedTreks: ["kathmandu-day-tour", "kathmandu-valley-tour", "kathmandu-photography-tour", "pokhara-day-tour", "bhaktapur-day-tour"],
+    relatedTreks: ["kathmandu-day-tour", "glimpse-of-nepal-tour-package", "kathmandu-photography-tour", "pokhara-day-tour", "bhaktapur-day-tour"],
     tripsNote: "City tours for the morning of Kukur Tihar.",
     relatedPosts: [
       "tihar-festival-nepal-travel-guide",

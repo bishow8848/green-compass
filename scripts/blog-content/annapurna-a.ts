@@ -411,7 +411,7 @@ export const annapurnaA: BlogContent[] = [
               ],
             },
           },
-          { p: "We run it as a [[trek:annapurna-circuit-trek-package|15-day Annapurna Circuit]], a [[trek:short-annapurna-circuit-trek|7-day short circuit]] using jeep transfers, and a [[trek:annapurna-circuit-with-tilicho-lake-trek-package|14-day version including Tilicho Lake]]." },
+          { p: "We run it as a [[trek:annapurna-circuit-trek-package|15-day Annapurna Circuit]], a [[trek:annapurna-circuit-trek|7-day short circuit]] using jeep transfers, and a [[trek:annapurna-circuit-with-tilicho-lake-trek-package|14-day version including Tilicho Lake]]." },
         ],
       },
       {
@@ -434,7 +434,7 @@ export const annapurnaA: BlogContent[] = [
           {
             ul: [
               "<strong>NATT trails.</strong> Marked alternative walking trails avoid the road for much of the route — the high route through Ghyaru and Ngawal, the old path above the Marsyangdi, the west-bank trail in the Kali Gandaki. A good guide keeps you on these, and it makes most of the difference.",
-              "<strong>Jeeps can shorten the trek.</strong> A transfer to Chame or Manang cuts the first three or four days, which is how the [[trek:short-annapurna-circuit-trek|7-day circuit]] works. Useful if your time is short; a loss if you want the full transition of landscape.",
+              "<strong>Jeeps can shorten the trek.</strong> A transfer to Chame or Manang cuts the first three or four days, which is how the [[trek:annapurna-circuit-trek|7-day circuit]] works. Useful if your time is short; a loss if you want the full transition of landscape.",
               "<strong>The best part is untouched.</strong> From Manang over Thorong La to Muktinath, the highest and most dramatic section, there is no road and will not be one.",
               "<strong>The Kali Gandaki side is the most affected.</strong> Below Muktinath the road is busy and dusty, which is why many itineraries fly or drive out from Jomsom rather than walking to Tatopani.",
             ],
@@ -515,7 +515,7 @@ export const annapurnaA: BlogContent[] = [
         blocks: [
           { p: "The most popular addition to the circuit is <strong>Tilicho Lake at 4,919 m</strong> — one of the highest large lakes in the world, held in a bowl of bare rock beneath the Grand Barrier. It adds two to three days from Manang, via Khangsar and the Tilicho Base Camp, on a traverse across a notoriously loose landslide slope." },
           { p: "It is worth it. The lake is turquoise and enormous, ringed by Tilicho Peak and Nilgiri, and the approach is among the most spectacular walking in Nepal. It is also an excellent acclimatisation exercise before Thorong La." },
-          { p: "Options: [[trek:annapurna-circuit-with-tilicho-lake-trek-package|the circuit with Tilicho in 14 days]], [[trek:tilicho-lake-trek-package|Tilicho Lake as a 12-day trek in its own right]], or [[trek:short-tilicho-lake-trek|a 9-day short version]]. Note that the landslide traverse needs dry conditions and a guide watching the slope." },
+          { p: "Options: [[trek:annapurna-circuit-with-tilicho-lake-trek-package|the circuit with Tilicho in 14 days]], [[trek:tilicho-lake-trek-package|Tilicho Lake as a 12-day trek in its own right]], or [[trek:tilicho-lake-trek|a 9-day short version]]. Note that the landslide traverse needs dry conditions and a guide watching the slope." },
         ],
       },
       {
@@ -527,7 +527,6 @@ export const annapurnaA: BlogContent[] = [
               rows: [
                 ["[[trek:annapurna-circuit-trek|Annapurna Circuit]]", "15", "The full transition from subtropics to high desert, with acclimatisation days at Manang"],
                 ["[[trek:annapurna-circuit-with-tilicho-lake-trek|Circuit with Tilicho Lake]]", "14", "Adding the highest lake on the route, and better acclimatisation for the pass"],
-                ["[[trek:short-annapurna-circuit-trek|Short Annapurna Circuit]]", "7", "Trekkers with one week who still want Thorong La — harder than it looks"],
                 ["[[trek:jomsom-muktinath-trek|Jomsom Muktinath Trek]]", "9", "The western half only, with no pass and no altitude risk"],
                 ["[[trek:tilicho-lake-trek|Tilicho Lake Trek]]", "12", "The lake without the pass crossing"],
                 ["[[trek:nar-phu-valley-trek|Nar Phu Valley]]", "14", "A restricted-area detour north of Manang into two medieval villages"],
@@ -594,7 +593,7 @@ export const annapurnaA: BlogContent[] = [
     relatedTreks: [
       "annapurna-circuit-trek",
       "annapurna-circuit-with-tilicho-lake-trek",
-      "short-annapurna-circuit-trek",
+      "annapurna-circuit-trek",
       "tilicho-lake-trek",
       "jomsom-muktinath-trek",
       "nar-phu-valley-trek",

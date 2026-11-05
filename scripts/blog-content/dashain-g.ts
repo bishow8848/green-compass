@@ -167,7 +167,7 @@ export const dashainG: BlogContent[] = [
       "ghalegaun-ghanpokhara-village-tour",
       "sirubari-village-tour",
       "himalayan-village-tour",
-      "kathmandu-valley-tour",
+      "glimpse-of-nepal-tour-package",
       "pokhara-day-tour",
     ],
     tripsNote: "Homestay tours where the host family includes guests in the tika.",

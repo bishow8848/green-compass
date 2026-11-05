@@ -18,7 +18,7 @@ export const seasonalA: BlogContent[] = [
     cluster: "seasonal",
     date: "2026-10-10",
     hero: {
-      image: trekImage("kathmandu-valley-tour", "00-nepal-patan-durbar-square-10-full-res"),
+      image: trekImage("glimpse-of-nepal-tour-package", "00-nepal-patan-durbar-square-10-full-res"),
       alt: "The tiered temples and brick paving of Patan Durbar Square in the Kathmandu valley.",
     },
     excerpt:
@@ -129,7 +129,7 @@ export const seasonalA: BlogContent[] = [
             ul: [
               "<strong>Tika, then trek.</strong> Arrive around 19 October, see the Dashain tika in Kathmandu on the 21st, and fly to Lukla the next day for Mani Rimdu and Everest Base Camp.",
               "<strong>Trek, then lights.</strong> Start a two-week trek in the last week of October and walk out in time for Kukur Tihar and Laxmi Puja on 8 November. The [[trek:annapurna-base-camp-trek|Annapurna Base Camp trek]] and the [[trek:langtang-valley-trek|Langtang Valley trek]] both fit.",
-              "<strong>Culture only.</strong> A week in the Kathmandu valley over Tihar, with a [[trek:kathmandu-valley-tour|Kathmandu Valley Tour]] built around Laxmi Puja and the Nepal Sambat processions, then two days in Janakpur for Chhath.",
+              "<strong>Culture only.</strong> A week in the Kathmandu valley over Tihar, with a [[trek:glimpse-of-nepal-tour-package|Kathmandu Valley Tour]] built around Laxmi Puja and the Nepal Sambat processions, then two days in Janakpur for Chhath.",
               "<strong>After it all.</strong> Arrive around 12 November for late-autumn trekking with emptier trails. See [[post:trekking-in-nepal-in-november|trekking in Nepal in November]].",
             ],
           },
@@ -147,7 +147,7 @@ export const seasonalA: BlogContent[] = [
       { question: "Which festival is best for visitors to see?", answer: "Tihar is the easier one to witness, because the lamps, the rangoli and the singing are in the street. Dashain is mostly a family festival behind house doors, although its swings, kites and temple days are worth seeing. Mani Rimdu is the most dramatic if you are trekking in the Everest region." },
       { question: "Do festival dates in Nepal change every year?", answer: "Yes. Dashain, Tihar, Chhath and Mani Rimdu all follow lunar calendars, so they move by up to a month from one year to the next. In 2026 they fall later than usual, which puts them in the middle of the peak trekking season." },
     ],
-    relatedTreks: ["kathmandu-valley-tour", "everest-base-camp-trek", "annapurna-base-camp-trek", "langtang-valley-trek", "nepal-cultural-tour", "kathmandu-day-tour"],
+    relatedTreks: ["glimpse-of-nepal-tour-package", "everest-base-camp-trek", "annapurna-base-camp-trek", "langtang-valley-trek", "nepal-cultural-tour", "kathmandu-day-tour"],
     tripsNote: "Trips that fit the weeks between Dashain and Chhath.",
     relatedPosts: [
       "tihar-festival-nepal-travel-guide",

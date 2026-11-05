@@ -23,7 +23,7 @@ export const activitiesB: BlogContent[] = [
         blocks: [
           {
             table: {
-              head: ["", "[[trek:chitwan-national-park-tour-3-days|Chitwan]]", "[[trek:bardia-national-park-tour-4-days|Bardia]]", "[[trek:koshi-tappu-wildlife-reserve-tour|Koshi Tappu]]"],
+              head: ["", "[[trek:chitwan-national-park-tour-3-days|Chitwan]]", "[[trek:bardia-jungle-safari-tour-5-days|Bardia]]", "[[trek:koshi-tappu-wildlife-reserve-tour|Koshi Tappu]]"],
               rows: [
                 ["Size", "952 km²", "968 km²", "175 km²"],
                 ["Getting there", "4–5 hrs by road from Kathmandu", "Flight to Nepalgunj plus 2–3 hrs", "Flight to Biratnagar plus 1–2 hrs"],
@@ -54,7 +54,7 @@ export const activitiesB: BlogContent[] = [
               "<strong>Crowding</strong> is real at good sightings in peak season, with several jeeps at once.",
             ],
           },
-          { p: "Three days is the practical minimum. See our [[post:chitwan-national-park-guide|Chitwan guide]] for the detail, and our itineraries at [[trek:chitwan-national-park-tour-3-days|three days]], [[trek:chitwan-national-park-tour-4-days|four days]] or [[trek:1-night-2-days-chitwan-trip|a short two-day trip]]." },
+          { p: "Three days is the practical minimum. See our [[post:chitwan-national-park-guide|Chitwan guide]] for the detail, and our itineraries at [[trek:chitwan-national-park-tour-3-days|three days]], [[trek:chitwan-national-park-tour-3-days|four days]] or [[trek:1-night-2-days-chitwan-trip|a short two-day trip]]." },
         ],
       },
       {
@@ -71,7 +71,7 @@ export const activitiesB: BlogContent[] = [
               "<strong>Four days minimum</strong>, five better — the park is large and rewards patience.",
             ],
           },
-          { p: "See our [[post:bardia-national-park-guide|Bardia guide]], and itineraries at [[trek:bardia-national-park-tour-4-days|four days]] or [[trek:bardia-jungle-safari-tour-5-days|five days]]." },
+          { p: "See our [[post:bardia-national-park-guide|Bardia guide]], and itineraries at [[trek:bardia-jungle-safari-tour-5-days|four days]] or [[trek:bardia-jungle-safari-tour-5-days|five days]]." },
         ],
       },
       {
@@ -144,7 +144,7 @@ export const activitiesB: BlogContent[] = [
     ],
     relatedTreks: [
       "chitwan-national-park-tour-3-days",
-      "bardia-national-park-tour-4-days",
+      "bardia-jungle-safari-tour-5-days",
       "koshi-tappu-wildlife-reserve-tour",
       "bardia-jungle-safari-tour-5-days",
       "bird-watching-in-chitwan-national-park",
@@ -194,7 +194,7 @@ export const activitiesB: BlogContent[] = [
                 ["[[trek:bird-watching-in-pokhara-lakes|Pokhara lakes]]", "Lake, marsh, foothill forest", "Over 400 in the valley", "Waterfowl on Phewa and Begnas, raptors, kingfishers"],
                 ["[[trek:red-panda-trail-trek|Ilam and the Singalila ridge]]", "Eastern cloud forest", "Very high", "The richest forest bird diversity in Nepal — eastern specialities"],
                 ["[[trek:rara-lake-trek|Rara Lake]]", "High lake, conifer forest", "Over 200", "Migratory waterfowl, coots, grebes, teal, Himalayan species"],
-                ["[[trek:bardia-national-park-tour-4-days|Bardia]]", "Sal forest, riverine grassland", "Over 400", "Sarus crane, Bengal florican, white-rumped vulture"],
+                ["[[trek:bardia-jungle-safari-tour-5-days|Bardia]]", "Sal forest, riverine grassland", "Over 400", "Sarus crane, Bengal florican, white-rumped vulture"],
                 ["[[trek:langtang-valley-trek|Langtang]] and [[trek:everest-base-camp-trek|Khumbu]]", "Alpine and subalpine", "Fewer but specialised", "Himalayan monal, blood pheasant, snow pigeon, choughs, lammergeier"],
               ],
             },

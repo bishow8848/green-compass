@@ -396,7 +396,7 @@ export const seasonalD: BlogContent[] = [
               "<strong>Walk the old city</strong> from Durbar Square through Indra Chowk to Ason while the traffic is away.",
               "<strong>Go up to a viewpoint.</strong> [[trek:nagarkot-sunrise-tour|Nagarkot]], Chandragiri or Dhulikhel at dawn, with a horizon from Annapurna to Everest. See [[post:nagarkot-and-sunrise-viewpoints-near-kathmandu|sunrise viewpoints near Kathmandu]].",
               "<strong>Take a mountain flight.</strong> Mornings are reliably clear; the [[trek:everest-mountain-flight|Everest mountain flight]] rarely cancels in these weeks.",
-              "<strong>See Bhaktapur and Patan</strong> before the tour groups return in force — the [[trek:kathmandu-valley-tour|Kathmandu Valley Tour]] covers both.",
+              "<strong>See Bhaktapur and Patan</strong> before the tour groups return in force — the [[trek:glimpse-of-nepal-tour-package|Kathmandu Valley Tour]] covers both.",
               "<strong>Walk a day hike on the rim.</strong> The [[trek:dhulikhel-namobuddha-hike|Dhulikhel to Namobuddha hike]] runs through terraced fields in mid-harvest.",
             ],
           },
@@ -451,7 +451,7 @@ export const seasonalD: BlogContent[] = [
       { question: "Is Kathmandu still quiet after the Dashain tika?", answer: "For two or three days. The city fills again from about the fourth day after the tika. Those quiet days, with clean air and little traffic, are an excellent time for sightseeing." },
       { question: "Can I see both Dashain and Tihar on one trip?", answer: "Yes. Arrive a few days before the Dashain tika, trek for two weeks in the gap, and return to Kathmandu or Pokhara for Kukur Tihar and Laxmi Puja. In 2026 that means arriving by 19 October and staying until at least 9 November." },
     ],
-    relatedTreks: ["everest-base-camp-trek", "manaslu-circuit-trek", "annapurna-base-camp-trek", "kathmandu-valley-tour", "chitwan-national-park-tour-3-days", "ghalegaun-ghanpokhara-village-tour"],
+    relatedTreks: ["everest-base-camp-trek", "manaslu-circuit-trek", "annapurna-base-camp-trek", "glimpse-of-nepal-tour-package", "chitwan-national-park-tour-3-days", "ghalegaun-ghanpokhara-village-tour"],
     tripsNote: "Trips that fit the sixteen days between the two festivals.",
     relatedPosts: [
       "dashain-vs-tihar-which-festival-to-visit",

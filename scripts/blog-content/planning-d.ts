@@ -226,7 +226,7 @@ export const planningD: BlogContent[] = [
       { question: "Do children need a visa for Nepal?", answer: "Children under ten are issued a gratis visa, free of charge, but they still need their own passport and still go through the same kiosk and immigration process. Bring their photographs as well as your own." },
     ],
     relatedTreks: [
-      "kathmandu-valley-tour",
+      "glimpse-of-nepal-tour-package",
       "everest-base-camp-trek",
       "annapurna-base-camp-trek",
     ],

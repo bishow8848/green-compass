@@ -27,7 +27,7 @@ export const toursD: BlogContent[] = [
               rows: [
                 ["[[trek:kathmandu-day-tour|Kathmandu day tour]]", "1", "Durbar Square, Swayambhunath, Boudhanath, Pashupatinath"],
                 ["[[trek:seven-world-heritage-kathmandu-day-tour|Seven World Heritage sites]]", "1", "All seven valley monument zones in one long day"],
-                ["[[trek:kathmandu-valley-tour|Kathmandu Valley tour]]", "5", "The valley properly — all seven sites plus Nagarkot and the villages"],
+                ["[[trek:glimpse-of-nepal-tour-package|Kathmandu Valley tour]]", "5", "The valley properly — all seven sites plus Nagarkot and the villages"],
                 ["[[trek:kathmandu-pokhara-tour|Kathmandu and Pokhara]]", "7", "The valley, Pokhara, Sarangkot sunrise and Phewa Lake"],
                 ["[[trek:nepal-cultural-tour|Nepal Cultural Tour]]", "9", "The valley, Bandipur, Gorkha, Pokhara and the hill villages"],
                 ["[[trek:best-of-nepal-tour|Best of Nepal Tour]]", "10", "The valley, Pokhara and Chitwan — the classic first-visit circuit"],
@@ -102,7 +102,7 @@ export const toursD: BlogContent[] = [
     relatedTreks: [
       "nepal-cultural-tour",
       "best-of-nepal-tour",
-      "kathmandu-valley-tour",
+      "glimpse-of-nepal-tour-package",
       "kathmandu-pokhara-tour",
       "lumbini-tour",
       "sirubari-village-tour",
@@ -157,7 +157,7 @@ export const toursD: BlogContent[] = [
               ],
             },
           },
-          { p: "Set expectations properly: <strong>rhino sightings are close to routine</strong>, and tigers are not. Chitwan has around 125 tigers across a large area of dense habitat, and a sighting is a genuine piece of luck rather than an itinerary item. For better tiger odds, go to [[trek:bardia-national-park-tour-4-days|Bardia]] — see our [[post:bardia-national-park-guide|Bardia guide]]." },
+          { p: "Set expectations properly: <strong>rhino sightings are close to routine</strong>, and tigers are not. Chitwan has around 125 tigers across a large area of dense habitat, and a sighting is a genuine piece of luck rather than an itinerary item. For better tiger odds, go to [[trek:bardia-jungle-safari-tour-5-days|Bardia]] — see our [[post:bardia-national-park-guide|Bardia guide]]." },
         ],
       },
       {
@@ -215,7 +215,7 @@ export const toursD: BlogContent[] = [
           {
             ul: [
               "<strong>Getting there:</strong> four to five hours by road from Kathmandu, five from Pokhara, or a 25-minute flight to Bharatpur. Sauraha is the main visitor village on the park's northern edge.",
-              "<strong>Itineraries:</strong> [[trek:chitwan-national-park-tour-3-days|three days]] or [[trek:chitwan-national-park-tour-4-days|four days]] with us, or [[trek:1-night-2-days-chitwan-trip|a two-day trip]] if you are very short of time. Three days is the minimum that allows a full-day jeep safari plus a canoe and a walk.",
+              "<strong>Itineraries:</strong> [[trek:chitwan-national-park-tour-3-days|three days]] or [[trek:chitwan-national-park-tour-3-days|four days]] with us, or [[trek:1-night-2-days-chitwan-trip|a two-day trip]] if you are very short of time. Three days is the minimum that allows a full-day jeep safari plus a canoe and a walk.",
               "<strong>Park fees</strong> are charged per entry day and included in our packages.",
               "<strong>Accommodation</strong> ranges from simple lodges in Sauraha to comfortable riverside resorts. Inside-park lodges were closed some years ago, so all accommodation is on the park boundary.",
               "<strong>What to bring:</strong> neutral-coloured clothing, long sleeves and trousers for mosquitoes, insect repellent, binoculars, a sun hat, and a zoom lens if you have one.",
@@ -239,7 +239,7 @@ export const toursD: BlogContent[] = [
     ],
     relatedTreks: [
       "chitwan-national-park-tour-3-days",
-      "chitwan-national-park-tour-4-days",
+      "chitwan-national-park-tour-3-days",
       "1-night-2-days-chitwan-trip",
       "bird-watching-in-chitwan-national-park",
       "best-of-nepal-tour",
@@ -328,7 +328,7 @@ export const toursD: BlogContent[] = [
               "<strong>Birdwatching.</strong> Early morning in the grasslands and along the rivers.",
             ],
           },
-          { p: "We run it as [[trek:bardia-national-park-tour-4-days|a 4-day tour]], [[trek:bardia-jungle-safari-tour-5-days|a 5-day jungle safari]], and [[trek:2-night-3-days-bardia-tour|a 3-day trip]] for travellers tight on time. Four days is the minimum that allows two full safaris plus a river trip." },
+          { p: "We run it as [[trek:bardia-jungle-safari-tour-5-days|a 4-day tour]], [[trek:bardia-jungle-safari-tour-5-days|a 5-day jungle safari]], and [[trek:2-night-3-days-bardia-tour|a 3-day trip]] for travellers tight on time. Four days is the minimum that allows two full safaris plus a river trip." },
         ],
       },
       {
@@ -385,7 +385,7 @@ export const toursD: BlogContent[] = [
       { question: "Do you offer elephant rides in Bardia?", answer: "No, here or anywhere. The training and handling methods involved are widely regarded as cruel. Jeep safaris, river trips and guided walks see more wildlife with less disturbance, and in Bardia the riverbank sit is the single most productive activity." },
     ],
     relatedTreks: [
-      "bardia-national-park-tour-4-days",
+      "bardia-jungle-safari-tour-5-days",
       "bardia-jungle-safari-tour-5-days",
       "2-night-3-days-bardia-tour",
       "koshi-tappu-wildlife-reserve-tour",

@@ -138,7 +138,7 @@ export const dashainH: BlogContent[] = [
               ],
             },
           },
-          { p: "A [[trek:kathmandu-valley-tour|Kathmandu Valley Tour]] dated for the festival puts its Bhaktapur day on the eighth or the tenth, and the [[trek:kathmandu-photography-tour|Kathmandu Photography Tour]] finishes here at golden hour. For Kathmandu's side of the festival, see [[post:kathmandu-during-dashain|Kathmandu during Dashain]]." },
+          { p: "A [[trek:glimpse-of-nepal-tour-package|Kathmandu Valley Tour]] dated for the festival puts its Bhaktapur day on the eighth or the tenth, and the [[trek:kathmandu-photography-tour|Kathmandu Photography Tour]] finishes here at golden hour. For Kathmandu's side of the festival, see [[post:kathmandu-during-dashain|Kathmandu during Dashain]]." },
         ],
       },
     ],
@@ -154,7 +154,7 @@ export const dashainH: BlogContent[] = [
     ],
     relatedTreks: [
       "bhaktapur-day-tour",
-      "kathmandu-valley-tour",
+      "glimpse-of-nepal-tour-package",
       "kathmandu-photography-tour",
       "nagarkot-sunrise-tour",
       "seven-world-heritage-kathmandu-day-tour",

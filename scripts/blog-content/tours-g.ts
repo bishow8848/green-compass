@@ -156,7 +156,7 @@ export const toursG: BlogContent[] = [
     relatedTreks: [
       "pharping-dakshinkali-tour",
       "bungmati-khokana-village-tour",
-      "kathmandu-valley-tour",
+      "glimpse-of-nepal-tour-package",
       "seven-world-heritage-kathmandu-day-tour",
       "patan-day-tour",
     ],
@@ -343,7 +343,7 @@ export const toursG: BlogContent[] = [
     relatedTreks: [
       "chandragiri-cable-car-tour",
       "nagarkot-sunrise-tour",
-      "kathmandu-valley-tour",
+      "glimpse-of-nepal-tour-package",
       "everest-mountain-flight",
       "dhulikhel-namobuddha-hike",
     ],
@@ -575,7 +575,7 @@ export const toursG: BlogContent[] = [
               ],
             },
           },
-          { p: "We run it as a [[trek:secret-food-tour-in-kathmandu|private walking food tour]]. It goes well after a day on the [[trek:kathmandu-valley-tour|Kathmandu valley tour]], when you have seen the monuments and want the city itself." },
+          { p: "We run it as a [[trek:secret-food-tour-in-kathmandu|private walking food tour]]. It goes well after a day on the [[trek:glimpse-of-nepal-tour-package|Kathmandu valley tour]], when you have seen the monuments and want the city itself." },
         ],
       },
       {
@@ -699,7 +699,7 @@ export const toursG: BlogContent[] = [
     ],
     relatedTreks: [
       "secret-food-tour-in-kathmandu",
-      "kathmandu-valley-tour",
+      "glimpse-of-nepal-tour-package",
       "kathmandu-day-tour",
       "patan-day-tour",
       "seven-world-heritage-kathmandu-day-tour",

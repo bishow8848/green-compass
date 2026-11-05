@@ -264,7 +264,6 @@ export const seasonalC: BlogContent[] = [
               rows: [
                 ["[[trek:annapurna-circuit-trek|Annapurna Circuit trek]]", "15", "The full approach on foot from the lower valley, with proper acclimatisation"],
                 ["[[trek:annapurna-circuit-with-tilicho-lake-trek|Circuit with Tilicho Lake]]", "14", "Adds the lake; best in the first half of the month"],
-                ["[[trek:short-annapurna-circuit-trek|Short Annapurna Circuit]]", "7", "Jeep to the upper valley and out from Muktinath; only for those already acclimatised or willing to add rest days"],
               ],
             },
           },
@@ -282,7 +281,7 @@ export const seasonalC: BlogContent[] = [
       { question: "What time should I start the Thorong La crossing?", answer: "Between four and five in the morning from High Camp or Thorong Phedi. The wind on the pass strengthens from mid-morning, so the aim is to reach the top by about nine." },
       { question: "Is Tilicho Lake frozen in November?", answer: "Not usually in the first half of the month. It begins to freeze from around the third week, and the trail to it can be icy. Early November is the better time to include it." },
     ],
-    relatedTreks: ["annapurna-circuit-trek", "annapurna-circuit-with-tilicho-lake-trek", "short-annapurna-circuit-trek", "tilicho-lake-trek", "manaslu-circuit-trek", "jomsom-muktinath-trek"],
+    relatedTreks: ["annapurna-circuit-trek", "annapurna-circuit-with-tilicho-lake-trek", "annapurna-circuit-trek", "tilicho-lake-trek", "manaslu-circuit-trek", "jomsom-muktinath-trek"],
     tripsNote: "The circuit in three lengths, and the routes that share its ground.",
     relatedPosts: [
       "annapurna-circuit-trek-complete-guide",

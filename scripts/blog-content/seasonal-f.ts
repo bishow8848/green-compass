@@ -643,7 +643,7 @@ export const seasonalF: BlogContent[] = [
           {
             ul: [
               "<strong>Chitwan:</strong> two or three nights. See the [[trek:chitwan-national-park-tour-3-days|three-day Chitwan tour]] and [[post:chitwan-national-park-guide|our guide to the park]].",
-              "<strong>Bardia:</strong> wilder, further, and the best chance of a tiger. Four nights at least; see the [[trek:bardia-national-park-tour-4-days|Bardia tour]].",
+              "<strong>Bardia:</strong> wilder, further, and the best chance of a tiger. Four nights at least; see the [[trek:bardia-jungle-safari-tour-5-days|Bardia tour]].",
               "<strong>Lumbini:</strong> the birthplace of the Buddha, comfortable only in winter. Pairs naturally with Chitwan; see the [[trek:lumbini-tour|Lumbini tour]].",
             ],
           },

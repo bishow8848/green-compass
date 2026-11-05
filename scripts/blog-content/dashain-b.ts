@@ -69,7 +69,7 @@ export const dashainB: BlogContent[] = [
             table: {
               head: ["Type of trip", "Dashain verdict", "Why"],
               rows: [
-                ["Cultural tour of the Kathmandu valley", "Excellent", "The festival is the attraction, and the heritage sites stay open — [[trek:kathmandu-valley-tour|Kathmandu Valley Tour]]"],
+                ["Cultural tour of the Kathmandu valley", "Excellent", "The festival is the attraction, and the heritage sites stay open — [[trek:glimpse-of-nepal-tour-package|Kathmandu Valley Tour]]"],
                 ["Village homestay", "The best week of the year", "This is where Dashain actually happens — [[trek:himalayan-village-tour|Himalayan Village Tour]]"],
                 ["Everest Base Camp or Gokyo", "Good", "Sherpa country carries on as normal; book flights early — [[trek:everest-base-camp-trek|Everest Base Camp trek]]"],
                 ["Short Annapurna treks", "Good but busy", "Festive villages and full lodges — [[trek:poonhill-trek|Poon Hill]], [[trek:mardi-himal-trek|Mardi Himal]]"],
@@ -142,7 +142,7 @@ export const dashainB: BlogContent[] = [
     ],
     relatedTreks: [
       "himalayan-village-tour",
-      "kathmandu-valley-tour",
+      "glimpse-of-nepal-tour-package",
       "kathmandu-photography-tour",
       "poonhill-trek",
       "chitwan-national-park-tour-3-days",
@@ -426,7 +426,7 @@ export const dashainB: BlogContent[] = [
               head: ["Dates (2026)", "Plan"],
               rows: [
                 ["15 – 16 October", "Arrive Kathmandu; permits and cash on the last working days"],
-                ["17 – 21 October", "Phulpati to the tika in the valley — [[trek:kathmandu-valley-tour|Kathmandu Valley Tour]] and a day in [[trek:bhaktapur-day-tour|Bhaktapur]]"],
+                ["17 – 21 October", "Phulpati to the tika in the valley — [[trek:glimpse-of-nepal-tour-package|Kathmandu Valley Tour]] and a day in [[trek:bhaktapur-day-tour|Bhaktapur]]"],
                 ["22 October – 5 November", "A two-week trek: [[trek:everest-base-camp-trek|Everest Base Camp]], [[trek:annapurna-circuit-trek|Annapurna Circuit]] or, with the permit arranged beforehand, [[trek:manaslu-circuit-trek|Manaslu]]"],
                 ["6 – 8 November", "Back in Kathmandu or Pokhara for Kukur Tihar and the lamps of Lakshmi Puja"],
                 ["9 – 11 November", "Mha Puja in the Newar towns of [[trek:patan-day-tour|Patan]] and Bhaktapur; Bhai Tika; depart"],
@@ -463,7 +463,7 @@ export const dashainB: BlogContent[] = [
     ],
     relatedTreks: [
       "nepal-cultural-tour",
-      "kathmandu-valley-tour",
+      "glimpse-of-nepal-tour-package",
       "everest-base-camp-trek",
       "annapurna-circuit-trek",
       "patan-day-tour",

@@ -188,7 +188,7 @@ export const planningE: BlogContent[] = [
               "<strong>Assuming altitude equals difficulty.</strong> [[trek:everest-base-camp-trek|Everest Base Camp]] reaches 5,545 m at Kala Patthar but is graded moderate, because the profile is gradual, the trail is good, and lodges and rescue are close. [[trek:khori-himal-trek|Khori Himal]] at 3,850 m is harder on the legs.",
               "<strong>Underestimating descent.</strong> The Annapurna stone staircases punish knees more than any climb on the route.",
               "<strong>Ignoring consecutive days.</strong> Seven days of six hours is much harder than two days of eight, and most people train for the wrong one.",
-              "<strong>Treating a short trek as an easy one.</strong> The [[trek:short-annapurna-circuit-trek|Short Annapurna Circuit]] compresses a 5,416 m pass into seven days, which makes it harder than the full circuit, not easier.",
+              "<strong>Treating a short trek as an easy one.</strong> The [[trek:annapurna-circuit-trek|Short Annapurna Circuit]] compresses a 5,416 m pass into seven days, which makes it harder than the full circuit, not easier.",
             ],
           },
           { p: "That last point is worth dwelling on when you compare a short itinerary with a long one. Fewer days at the same altitude means less acclimatisation, not less effort." },

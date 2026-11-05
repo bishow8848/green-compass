@@ -434,7 +434,7 @@ export const dashainE: BlogContent[] = [
       {
         h2: "A Quiet Corner",
         blocks: [
-          { p: "If Lakeside in the rush is more company than you want, there are easy escapes: the north shore of the lake beyond the last hotels, the World Peace Pagoda at dawn, and Begnas Lake, forty minutes east, which stays calm when Phewa does not. Couples timing a trip for the festival will find the hill resorts above the town quieter than the strip — see our [[trek:pokhara-honeymoon-tour|Pokhara Honeymoon Tour]]. And after a trek, Pokhara's yoga and meditation studios keep their schedules through the holiday: [[post:meditation-and-yoga-in-pokhara-after-a-trek|meditation and yoga in Pokhara]]." },
+          { p: "If Lakeside in the rush is more company than you want, there are easy escapes: the north shore of the lake beyond the last hotels, the World Peace Pagoda at dawn, and Begnas Lake, forty minutes east, which stays calm when Phewa does not. Couples timing a trip for the festival will find the hill resorts above the town quieter than the strip — see our [[trek:nepal-honeymoon-tour|Pokhara Honeymoon Tour]]. And after a trek, Pokhara's yoga and meditation studios keep their schedules through the holiday: [[post:meditation-and-yoga-in-pokhara-after-a-trek|meditation and yoga in Pokhara]]." },
         ],
       },
     ],
@@ -454,7 +454,7 @@ export const dashainE: BlogContent[] = [
       "poonhill-trek",
       "sirubari-village-tour",
       "paragliding-in-pokhara",
-      "pokhara-honeymoon-tour",
+      "nepal-honeymoon-tour",
     ],
     tripsNote: "Day tours, a village stay and a short trek, all starting from the lake.",
     relatedPosts: [

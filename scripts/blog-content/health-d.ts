@@ -436,7 +436,7 @@ export const healthD: BlogContent[] = [
       { question: "Can you help if I am ill at the end of my trek?", answer: "Yes. We arrange an appointment and transport to a travel-medicine clinic in Kathmandu or Pokhara, provide a record of your trek for your doctor, and help with insurance paperwork. We can also be contacted after you get home." },
     ],
     relatedTreks: [
-      "chitwan-national-park-tour-4-days",
+      "chitwan-national-park-tour-3-days",
       "bardia-jungle-safari-tour-5-days",
       "everest-base-camp-trek",
       "annapurna-base-camp-trek",

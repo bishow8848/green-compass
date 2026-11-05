@@ -193,7 +193,7 @@ export const annapurnaE: BlogContent[] = [
           { p: "It is worth being even-handed: the road has opened the circuit to people who could not do it before." },
           {
             ul: [
-              "<strong>Shorter itineraries.</strong> Our [[trek:short-annapurna-circuit-trek|7-day Short Annapurna Circuit]] uses a jeep to Chame or Manang and still crosses Thorong La. Without the road it would take a fortnight.",
+              "<strong>Shorter itineraries.</strong> Our [[trek:annapurna-circuit-trek|7-day Short Annapurna Circuit]] uses a jeep to Chame or Manang and still crosses Thorong La. Without the road it would take a fortnight.",
               "<strong>Skipping the dull parts.</strong> There is no merit in walking a dusty jeep track for four hours. Driving it and spending the time in Manang or Kagbeni is a better trek.",
               "<strong>Escape routes.</strong> If someone is ill at Manang, a jeep out is now possible. That is a real safety improvement.",
               "<strong>Resupply and lodge quality.</strong> Lodges in Manang and Chame are better than they were because goods arrive by vehicle rather than by mule.",
@@ -235,7 +235,7 @@ export const annapurnaE: BlogContent[] = [
     ],
     relatedTreks: [
       "annapurna-circuit-trek",
-      "short-annapurna-circuit-trek",
+      "annapurna-circuit-trek",
       "manaslu-circuit-trek",
       "tilicho-lake-trek",
       "nar-phu-valley-trek",

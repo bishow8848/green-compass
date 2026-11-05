@@ -174,7 +174,7 @@ export const guidesA: BlogContent[] = [
         h2: "Seeing Kirtipur With Us",
         blocks: [
           {
-            p: "Kirtipur fits easily into a day in Kathmandu before or after a trek. You can add it to the [[trek:kathmandu-valley-tour|Kathmandu Valley tour]], to a [[trek:patan-day-tour|Patan day tour]], or pair it with the [[trek:chandragiri-cable-car-tour|Chandragiri cable car]], which is on the same side of the valley. If you have a spare day while waiting for a Lukla flight or recovering from a trek, it is one of the best uses of it.",
+            p: "Kirtipur fits easily into a day in Kathmandu before or after a trek. You can add it to the [[trek:glimpse-of-nepal-tour-package|Kathmandu Valley tour]], to a [[trek:patan-day-tour|Patan day tour]], or pair it with the [[trek:chandragiri-cable-car-tour|Chandragiri cable car]], which is on the same side of the valley. If you have a spare day while waiting for a Lukla flight or recovering from a trek, it is one of the best uses of it.",
           },
           {
             p: "Tell us what you would like to see when you book, and we will build it into your days in Kathmandu. You can reach us through the <a href=\"/contact\">contact page</a>; we reply within 24 hours.",
@@ -245,7 +245,7 @@ export const guidesA: BlogContent[] = [
       },
     ],
     relatedTreks: [
-      "kathmandu-valley-tour",
+      "glimpse-of-nepal-tour-package",
       "bungmati-khokana-village-tour",
       "pharping-dakshinkali-tour",
       "chandragiri-cable-car-tour",

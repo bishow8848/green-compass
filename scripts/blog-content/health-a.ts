@@ -388,8 +388,8 @@ export const healthA: BlogContent[] = [
       { question: "Do you help with health preparation?", answer: "Yes. We send the route, altitude and season details your travel clinic needs, give a health briefing on arrival, and arrange clinic visits and evacuation in Nepal if needed. Vaccines and prescriptions themselves come from your own clinic." },
     ],
     relatedTreks: [
-      "chitwan-national-park-tour-4-days",
-      "bardia-national-park-tour-4-days",
+      "chitwan-national-park-tour-3-days",
+      "bardia-jungle-safari-tour-5-days",
       "everest-base-camp-trek",
       "annapurna-base-camp-trek",
       "upper-dolpo-trek",
