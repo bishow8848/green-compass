@@ -8,7 +8,7 @@ import {
   ShoppingCart, Users, ImageIcon, Calendar, Settings, FolderKanban,
   Home, MessageSquare, TrendingUp, MapPin, Send,
   Activity, BarChart, Shield, Contact,
-  ArrowRightLeft
+  ArrowRightLeft, FileDown
 } from "lucide-react";
 import { AnimatePresence, stagger } from "framer-motion";
 import * as m from "framer-motion/m";
@@ -29,7 +29,7 @@ const iconMap: Record<string, any> = {
   Users, ImageIcon, Calendar, Settings, FolderKanban,
   Home, Menu, MessageSquare, TrendingUp, MapPin, Send,
   Activity, BarChart, Shield, Contact,
-  ArrowRightLeft,
+  ArrowRightLeft, FileDown,
 };
 
 interface NavItem {
@@ -126,9 +126,9 @@ export function AdminMobileSidebar({ nav, crmNav, userName }: { nav: NavItem[]; 
               animate="visible"
             >
               <p className="px-3 pb-2 text-[10px] font-semibold uppercase tracking-widest text-text-muted">Main Menu</p>
-              {nav.slice(0, 4).map((item) => <NavLink key={item.href} item={item} />)}
+              {nav.slice(0, 5).map((item) => <NavLink key={item.href} item={item} />)}
               <p className="mt-5 px-3 pb-2 text-[10px] font-semibold uppercase tracking-widest text-text-muted">Management</p>
-              {nav.slice(4).map((item) => <NavLink key={item.href} item={item} />)}
+              {nav.slice(5).map((item) => <NavLink key={item.href} item={item} />)}
 
               {/* CRM Section */}
               {crmNav && crmNav.length > 0 && (

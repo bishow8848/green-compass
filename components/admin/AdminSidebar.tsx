@@ -7,7 +7,7 @@ import {
   ShoppingCart, Users, ImageIcon, Calendar, Settings, FolderKanban,
   Home, Menu, MessageSquare, TrendingUp, MapPin, Send,
   Activity, BarChart, Shield, Contact,
-  ArrowRightLeft
+  ArrowRightLeft, FileDown
 } from "lucide-react";
 import * as m from "framer-motion/m";
 import { MotionLink } from "@/components/motion";
@@ -18,7 +18,7 @@ const iconMap: Record<string, any> = {
   Users, ImageIcon, Calendar, Settings, FolderKanban,
   Home, Menu, MessageSquare, TrendingUp, MapPin, Send,
   Activity, BarChart, Shield, Contact,
-  ArrowRightLeft,
+  ArrowRightLeft, FileDown,
 };
 
 interface NavItem {
@@ -104,11 +104,11 @@ export function AdminSidebar({
         <p className="px-3 pb-2 text-[10px] font-semibold uppercase tracking-widest text-text-muted">
           Main Menu
         </p>
-        {nav.slice(0, 4).map(renderNavLink)}
+        {nav.slice(0, 5).map(renderNavLink)}
         <p className="mt-5 px-3 pb-2 text-[10px] font-semibold uppercase tracking-widest text-text-muted">
           Management
         </p>
-        {nav.slice(4).map(renderNavLink)}
+        {nav.slice(5).map(renderNavLink)}
 
         {/* CRM Section */}
         {crmNav && crmNav.length > 0 && (

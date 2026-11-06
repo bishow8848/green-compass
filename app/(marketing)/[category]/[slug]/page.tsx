@@ -19,6 +19,8 @@ import { ReviewCarousel } from "@/components/home/ReviewCarousel";
 import { FixDepartureTable } from "@/components/trek/FixDepartureTable";
 import { SectionNav } from "@/components/trek/SectionNav";
 import { SharePdfButton } from "@/components/trek/SharePdfButton";
+import { pdfLetterhead } from "@/lib/pdf-letterhead";
+import { GUIDES_HEADING } from "@/lib/pdf-package";
 import GallerySection from "@/components/trek/GallerySection";
 import { GalleryProvider } from "@/components/trek/GalleryContext";
 import { ScrollToHash } from "@/components/trek/ScrollToHash";
@@ -33,14 +35,6 @@ import { slimRouteGeoJson } from "@/lib/route-geojson";
 import { SITE_NAME, SITE_URL, brandedTitle, ogImages, seoDescription, seoImageUrl, serializeJsonLd } from "@/lib/seo";
 
 export const revalidate = 604800; // Trek detail cached 7 days; refreshed on-demand after CMS edits
-
-// Heading of the custom section scripts/apply-blog-content.mts writes (GUIDES_HEADING in scripts/blog-content/build.ts).
-const GUIDES_HEADING = "Trekking Guides & Articles";
-
-// Letterhead of every page of the admin PDF export.
-const PDF_CONTACT_LABEL = "Call / WhatsApp";
-const PDF_CONTACT_NUMBER = "+977 9864379436";
-const PDF_LOCATION = "Location: Lakeside, Pokhara";
 
 async function getTrek(slug: string, categorySlug: string) {
   const cacheKey = cacheKeys.trek(`${categorySlug}:${slug}`);
@@ -963,17 +957,22 @@ sectionMap["fixedDepartures"] = () => (fixedDepartureDays.length > 0 || customSt
 sectionMap["addons"] = () => addons.length > 0 ? <section id="addons" className="py-10 sm:py-12">
   <Reveal as="h2" className="mb-2 text-2xl font-bold" style={{ color: "var(--color-secondary)" }}>{sectionData.addons?.heading || "Add-ons"}</Reveal>
   <Reveal as="p" delay={0.06} className="mb-8 text-sm" style={{ color: "var(--color-text-muted)" }}>{sectionData.addons?.description || "Optional extras to enhance your experience."}</Reveal>
-  {/* In the PDF export this is a plain table, like Pricing above. */}
-  <Stagger gap={0.06} className="overflow-hidden rounded-2xl border pdf:rounded-none" style={{ borderColor: "var(--color-border)" }}>
-    <div className="hidden sm:grid sm:grid-cols-[1fr_1.5fr_auto] pdf:grid-cols-[170px_1fr_150px]!" style={{ backgroundColor: "var(--color-surface-alt)" }}>
+  {/* In the PDF export this is a plain table, like Pricing above. From sm up
+      the header and every row share the table's columns (subgrid), so each
+      column starts at the same place in every row, header included. */}
+  <Stagger gap={0.06} className="overflow-hidden rounded-2xl border sm:grid sm:grid-cols-[1fr_1.5fr_auto] pdf:grid-cols-[170px_1fr_150px]! pdf:rounded-none" style={{ borderColor: "var(--color-border)" }}>
+    <div className="hidden sm:col-span-3 sm:grid sm:grid-cols-subgrid" style={{ backgroundColor: "var(--color-surface-alt)" }}>
       <span className="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wider pdf:border-r pdf:border-border pdf:py-2.5 pdf:text-sm pdf:normal-case pdf:tracking-normal" style={{ color: "var(--color-secondary)" }}>Add-on</span>
       <span className="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wider pdf:border-r pdf:border-border pdf:py-2.5 pdf:text-sm pdf:normal-case pdf:tracking-normal" style={{ color: "var(--color-secondary)" }}>Description</span>
       <span className="px-5 py-3 text-right text-xs font-semibold uppercase tracking-wider pdf:py-2.5 pdf:text-sm pdf:normal-case pdf:tracking-normal" style={{ color: "var(--color-secondary)" }}>Price</span>
     </div>
+    {/* From sm up a row has no side padding of its own: each cell has the
+        header's px-5, so a title that wraps onto a second line keeps its
+        left edge. */}
     {addons.map((addon: any, i: number) => (
-      <StaggerItem key={i} from="left" distance={16} className="flex flex-col gap-1.5 border-t px-5 py-4 sm:grid sm:grid-cols-[1fr_1.5fr_auto] sm:items-center sm:gap-0 pdf:grid-cols-[170px_1fr_150px]! pdf:items-stretch! pdf:p-0!" style={{ borderColor: "var(--color-border)" }}>
-        <div className="flex flex-wrap items-start justify-between gap-x-2 gap-y-1 sm:block sm:self-start sm:pt-1 pdf:self-stretch! pdf:border-r pdf:border-border pdf:py-2.5!">
-          <span className="text-sm font-semibold sm:px-5 pdf:block" style={{ color: "var(--color-secondary)" }}>{addon.title}</span>
+      <StaggerItem key={i} from="left" distance={16} className="flex flex-col gap-1.5 border-t px-5 py-4 sm:col-span-3 sm:grid sm:grid-cols-subgrid sm:items-center sm:gap-0 sm:px-0 pdf:items-stretch! pdf:p-0!" style={{ borderColor: "var(--color-border)" }}>
+        <div className="flex flex-wrap items-start justify-between gap-x-2 gap-y-1 sm:block sm:self-start sm:px-5 sm:pt-1 pdf:self-stretch! pdf:border-r pdf:border-border pdf:py-2.5!">
+          <span className="text-sm font-semibold" style={{ color: "var(--color-secondary)" }}>{addon.title}</span>
           {/* Mobile: price shown inline after title */}
           <span className="text-right text-sm sm:hidden" style={{ color: "var(--color-text-muted)" }}>
             <span className="text-slate-400 line-through">${(Math.round((addon.pricePerUnit || 0) * 1.1)).toLocaleString()}</span>
@@ -1264,15 +1263,7 @@ sectionMap["gallery"] = () => trek.galleryImages?.length > 0 ? <div data-pdf-hid
         sectionOrder={sectionOrderList}
       />
 
-      <SharePdfButton
-        fileName={`${slug}.pdf`}
-        title={trek.title}
-        contactLabel={PDF_CONTACT_LABEL}
-        contactNumber={PDF_CONTACT_NUMBER}
-        contactUrl={`https://wa.me/${PDF_CONTACT_NUMBER.replace(/\D/g, "")}`}
-        website={SITE_URL}
-        location={PDF_LOCATION}
-      />
+      <SharePdfButton {...pdfLetterhead({ fileName: `${slug}.pdf`, title: trek.title, website: SITE_URL })} />
 
     </GalleryProvider>
   );

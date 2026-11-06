@@ -88,14 +88,20 @@ declare global {
   }
 }
 
-export async function downloadPagePdf(options: PdfOptions): Promise<void> {
+/**
+ * Saves `root` as the PDF: by default the whole page, which the capture lays
+ * out for paper (.pdf-capture in globals.css). Any other element must already
+ * be laid out for paper, 680px wide inside a .pdf-capture container, as the
+ * admin PDF builder's document is (app/admin/pdf-builder/_builder/document.tsx).
+ */
+export async function downloadPagePdf(options: PdfOptions, root: HTMLElement = document.body): Promise<void> {
   const [{ domToForeignObjectSvg }, { jsPDF }, logo] = await Promise.all([
     import("modern-screenshot"),
     import("jspdf"),
     loadLogo(),
   ]);
 
-  const { svg, width, height, boxes, ink, links } = await capturePage(domToForeignObjectSvg);
+  const { svg, width, height, boxes, ink, links } = await capturePage(domToForeignObjectSvg, root);
   const image = await loadSvg(svg);
 
   // The page is captured 680px wide on any screen (.pdf-capture in
@@ -254,27 +260,34 @@ async function loadLogo(): Promise<Uint8Array | null> {
 }
 
 /**
- * Puts the page in its finished state, captures it, and puts it back the way
- * the reader left it.
+ * Puts the page in its finished state, captures `root`, and puts the page
+ * back the way the reader left it.
  */
 async function capturePage(
-  domToForeignObjectSvg: typeof import("modern-screenshot").domToForeignObjectSvg
+  domToForeignObjectSvg: typeof import("modern-screenshot").domToForeignObjectSvg,
+  root: HTMLElement
 ): Promise<Capture> {
-  const root = document.body;
+  const wholePage = root === document.body;
   const scrollY = window.scrollY;
   const undo: Array<() => void> = [];
 
   try {
-    // Every reveal landed and the parts marked data-pdf-hide gone (.pdf-capture in globals.css).
+    // Every reveal landed and the parts marked data-pdf-hide gone (.pdf-capture
+    // in globals.css). An element captured on its own sits inside a
+    // .pdf-capture container already; on <html> the class would also narrow
+    // the page around it to 680px.
     const html = document.documentElement;
-    html.classList.add("pdf-capture");
-    undo.push(() => html.classList.remove("pdf-capture"));
+    if (wholePage) {
+      html.classList.add("pdf-capture");
+      undo.push(() => html.classList.remove("pdf-capture"));
+    }
 
     // A phone or tablet gets the desktop layout, so the PDF is the same from any screen.
     if (window.innerWidth < DESKTOP_WIDTH) undo.push(layOutAsDesktop());
 
     // Collapsed itinerary days and FAQs can't be clicked open on paper.
-    for (const details of document.querySelectorAll<HTMLDetailsElement>("main details:not([open])")) {
+    const closed = wholePage ? document.querySelectorAll<HTMLDetailsElement>("main details:not([open])") : root.querySelectorAll<HTMLDetailsElement>("details:not([open])");
+    for (const details of closed) {
       details.open = true;
       undo.push(() => {
         details.open = false;

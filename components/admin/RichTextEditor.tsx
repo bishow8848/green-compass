@@ -35,6 +35,12 @@ interface RichTextEditorProps {
   placeholder?: string;
   /** Hide the word count / heading outline bar under the editor */
   hideStatusBar?: boolean;
+  /**
+   * Leave an image removed from the content in Cloudinary. For an editor
+   * whose content is never saved (the PDF builder), where the image is still
+   * in use by the saved page.
+   */
+  keepRemovedImages?: boolean;
 }
 
 /** Live document stats, recomputed (debounced) as the author types. */
@@ -172,7 +178,7 @@ const CaptionImage = ImageExtension.extend({
 });
 
 export const RichTextEditor = forwardRef<RichTextEditorHandle, RichTextEditorProps>(
-  function RichTextEditor({ content, onChange, placeholder, hideStatusBar }, ref) {
+  function RichTextEditor({ content, onChange, placeholder, hideStatusBar, keepRemovedImages }, ref) {
   const [linkUrl, setLinkUrl] = useState("");
   const [showLinkInput, setShowLinkInput] = useState(false);
 
@@ -228,7 +234,7 @@ export const RichTextEditor = forwardRef<RichTextEditorHandle, RichTextEditorPro
       const oldUrls = trackedUrlsRef.current;
 
       // Detect Cloudinary images that were removed by the user and delete from Cloudinary
-      for (const url of oldUrls) {
+      for (const url of keepRemovedImages ? [] : oldUrls) {
         if (!newUrls.includes(url) && !url.startsWith("data:")) {
           const publicId = publicIdFromUrl(url);
           if (publicId) {

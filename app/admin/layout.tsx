@@ -9,6 +9,7 @@ export const nav = [
   { label: "Dashboard", href: "/admin", icon: "LayoutDashboard" },
   { label: "Visitors", href: "/admin/visitors", icon: "Activity" },
   { label: "Treks", href: "/admin/treks", icon: "List" },
+  { label: "PDF Builder", href: "/admin/pdf-builder", icon: "FileDown" },
   { label: "Categories", href: "/admin/categories", icon: "FolderKanban" },
   { label: "Blog Posts", href: "/admin/blog", icon: "FileText" },
   { label: "Authors", href: "/admin/authors", icon: "Users" },
