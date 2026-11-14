@@ -149,7 +149,7 @@ export const dashainG: BlogContent[] = [
       {
         h2: "Arranging It",
         blocks: [
-          { p: "An invitation cannot be bought, but it can be made likely. Travel with a guide and you will probably be asked. Stay in a homestay village over the tenth day and you certainly will be: our [[trek:ghalegaun-ghanpokhara-village-tour|Ghalegaun and Ghanpokhara]], [[trek:sirubari-village-tour|Sirubari]] and [[trek:himalayan-village-tour|Himalayan Village]] tours can each be dated so that the tika falls on a night in the village. Our guides to [[post:ghalegaun-ghanpokhara-village-tour-guide|Ghalegaun]] and [[post:sirubari-village-tour-guide|Sirubari]] describe the villages, and [[post:where-to-see-dashain-celebrations-in-nepal|where to see Dashain celebrations]] sets out the other options." },
+          { p: "An invitation cannot be bought, but it can be made likely. Travel with a guide and you will probably be asked. Stay in a homestay village over the tenth day and you certainly will be: our [[trek:ghalegaun-ghanpokhara-village-tour|Ghalegaun and Ghanpokhara]], [[trek:sirubari-village-tour|Sirubari]] and [[trek:himalayan-village-tour|Himalayan Village]] tours can each be dated so that the tika falls on a night in the village. [[post:where-to-see-dashain-celebrations-in-nepal|Where to see Dashain celebrations]] sets out the other options." },
         ],
       },
     ],
@@ -167,7 +167,7 @@ export const dashainG: BlogContent[] = [
       "ghalegaun-ghanpokhara-village-tour",
       "sirubari-village-tour",
       "himalayan-village-tour",
-      "glimpse-of-nepal-tour-package",
+      "glimpse-of-nepal-tour",
       "pokhara-day-tour",
     ],
     tripsNote: "Homestay tours where the host family includes guests in the tika.",
@@ -263,7 +263,7 @@ export const dashainG: BlogContent[] = [
               "<strong>Thwon</strong> — milky rice beer.",
             ],
           },
-          { p: "On the eighth day families sit down to <em>Kuchhi Bhoye</em>, eaten off banana leaves in order of age. The easiest way for a visitor to taste this cooking is our [[trek:secret-food-tour-in-kathmandu|Secret Food Tour in Kathmandu]], which walks the old-city eating houses with a guide — see the [[post:secret-food-tour-in-kathmandu-guide|food tour guide]]. Bhaktapur, where the festival is described in [[post:bhaktapur-during-dashain-navadurga-and-mohani|Bhaktapur during Dashain]], adds <em>juju dhau</em>, the richest yoghurt in the country." },
+          { p: "On the eighth day families sit down to <em>Kuchhi Bhoye</em>, eaten off banana leaves in order of age. The easiest way for a visitor to taste this cooking is our [[trek:secret-food-tour-in-kathmandu|Secret Food Tour in Kathmandu]], which walks the old-city eating houses with a guide. Bhaktapur, where the festival is described in [[post:bhaktapur-during-dashain-navadurga-and-mohani|Bhaktapur during Dashain]], adds <em>juju dhau</em>, the richest yoghurt in the country." },
           {
             figure: {
               image: "mardi-treks/secret-food-tour-in-kathmandu/secret-food-tour-in-kathmandu-03-newari-khaja-set",

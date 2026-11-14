@@ -171,8 +171,6 @@ export function PackageDocument({ pkg, route, similarTreks, ref }: Props) {
                 <div key={i} className="grid grid-cols-[1fr_220px] border-t border-border">
                   <span className="border-r border-border px-5 py-2.5 text-sm" style={TEXT}>{tier.groupSize} pax</span>
                   <span className="px-5 py-2.5 text-right text-sm whitespace-nowrap" style={MUTED}>
-                    <span className="text-slate-400 line-through">{dollars(Math.round(tier.pricePerPerson * 1.1))}</span>
-                    &nbsp;
                     <span className="font-semibold" style={PRIMARY}>{dollars(tier.pricePerPerson)}</span>
                   </span>
                 </div>

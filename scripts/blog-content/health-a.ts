@@ -616,7 +616,6 @@ export const healthA: BlogContent[] = [
       "annapurna-base-camp-trek",
       "everest-base-camp-trek",
       "poonhill-trek",
-      "annapurna-base-camp-trek",
       "everest-view-trek",
     ],
     tripsNote: "Three altitude bands to discuss with your doctor — and the Everest View trek for Khumbu scenery without the highest nights.",

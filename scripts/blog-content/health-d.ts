@@ -213,7 +213,6 @@ export const healthD: BlogContent[] = [
       "mardi-himal-trek-with-annapurna-base-camp",
       "everest-base-camp-trek",
       "annapurna-circuit-trek",
-      "mardi-himal-trek-with-annapurna-base-camp",
     ],
     tripsNote: "Longer, higher treks that leave the biggest debt to repay — plan a recovery day or two after any of them.",
     relatedPosts: [

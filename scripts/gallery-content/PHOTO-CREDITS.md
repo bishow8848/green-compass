@@ -1184,4 +1184,6 @@ are listed here only to record where each came from.
 | blog-free | mardi-treks/blog-free/blog-free-02-janaki-mandir-janakpur-nepal | Janaki Mandir Janakpur Nepal.jpg | CC0 |
 | blog-free | mardi-treks/blog-free/blog-free-03-nagarjun-national-park | Nagarjun National Park.jpg | CC0 |
 | blog-free | mardi-treks/blog-free/blog-free-04-trail-signboard-at-sano-deurali-in-shivapuri-nagarjun-nation | Trail signboard at Sano Deurali in Shivapuri Nagarjun National Park.jpg | CC0 |
+| blog-free | mardi-treks/blog-free/blog-free-05-lighting-lamps | Lighting Lamps!.jpg (cropped) | CC0 |
+| blog-free | mardi-treks/blog-free/blog-free-06-annapurna-base-camp-trekking-route | Annapurna Base Camp Trekking Route, Ghandruk, Nepal (Unsplash).jpg | CC0 |
 | blog-kathmandu | mardi-treks/blog-kathmandu/blog-kathmandu-02-kirtipur-swords | Kirtipur swords.jpg | CC0 |

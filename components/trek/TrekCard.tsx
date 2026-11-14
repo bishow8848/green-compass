@@ -28,8 +28,7 @@ export type TrekCardData = {
 /** Trip card used by the Similar Treks and Related Treks grids. */
 export function TrekCard({ trek, href }: { trek: TrekCardData; href: string }) {
   return (
-    <Link
-      href={href}
+    <article
       className="group relative flex h-full flex-col overflow-hidden rounded-3xl bg-surface shadow-[0_4px_20px_-4px_rgba(0,0,0,0.1)] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_20px_40px_-10px_rgba(234,88,12,0.25)]"
     >
       {trek.heroImage ? (
@@ -55,7 +54,10 @@ export function TrekCard({ trek, href }: { trek: TrekCardData; href: string }) {
           </span>
         </div>
         <h3 className="text-xl font-bold leading-tight text-foreground transition-colors group-hover:text-primary">
-          {trek.title}
+          {/* Only the trip's name is the link, so that is the link text search engines read; its ::after covers the card, so the whole card still clicks through. */}
+          <Link href={href} className="after:absolute after:inset-0 after:z-10 after:content-['']">
+            {trek.title}
+          </Link>
         </h3>
         <div className="mt-auto pt-6 flex items-end justify-between">
           <div className="flex flex-col gap-1 text-xs text-text-muted font-medium">
@@ -69,6 +71,6 @@ export function TrekCard({ trek, href }: { trek: TrekCardData; href: string }) {
           </div>
         </div>
       </div>
-    </Link>
+    </article>
   );
 }

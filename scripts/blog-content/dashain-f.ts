@@ -136,7 +136,7 @@ export const dashainF: BlogContent[] = [
       {
         h2: "Trips That Hold Their Price",
         blocks: [
-          { p: "Because our rates do not change for the festival, the simplest way to keep a Dashain trip on budget is to choose one with few moving parts: a [[trek:glimpse-of-nepal-tour-package|Kathmandu Valley Tour]] with no long transfers, a [[trek:poonhill-trek|Poon Hill trek from Pokhara]] reached by one short flight, or the [[trek:everest-view-trek|Everest View trek]], whose permits are all bought on the trail. The pricing table on each trip page shows the per-person rate by group size." },
+          { p: "Because our rates do not change for the festival, the simplest way to keep a Dashain trip on budget is to choose one with few moving parts: a [[trek:glimpse-of-nepal-tour|Kathmandu Valley Tour]] with no long transfers, a [[trek:poonhill-trek|Poon Hill trek from Pokhara]] reached by one short flight, or the [[trek:everest-view-trek|Everest View trek]], whose permits are all bought on the trail. The pricing table on each trip page shows the per-person rate by group size." },
         ],
       },
     ],
@@ -151,10 +151,9 @@ export const dashainF: BlogContent[] = [
       { question: "Is it cheaper to visit just after Dashain?", answer: "Marginally: international fares fall back and transport is easier. The weather is the same, and trek prices do not change. The saving is in convenience more than money." },
     ],
     relatedTreks: [
-      "glimpse-of-nepal-tour-package",
+      "glimpse-of-nepal-tour",
       "poonhill-trek",
       "everest-view-trek",
-      "glimpse-of-nepal-tour",
       "kathmandu-pokhara-tour",
     ],
     tripsNote: "Trips with few moving parts, which keep a festival budget predictable.",
@@ -229,7 +228,7 @@ export const dashainF: BlogContent[] = [
           { h3: "3. Dakshinkali" },
           { p: "A temple of Kali in a forested gorge south of the city, and the place most associated with animal sacrifice. On the eighth and ninth days the queue stretches up the hillside. It is not for everyone, and it is the truest picture of what the festival's middle days are about. Read [[post:animal-sacrifice-at-dashain-what-travellers-should-know|animal sacrifice at Dashain]] before deciding; the [[trek:pharping-dakshinkali-tour|Pharping and Dakshinkali tour]] pairs it with the quiet Buddhist caves nearby." },
           { h3: "4. Khokana" },
-          { p: "A Newar farming village south of Patan that famously does not celebrate Dashain. Instead it holds <strong>Shikali Jatra</strong>, a five-day festival of its own in the same week, with masked dancers and a procession to the shrine on the hill above the village. If you want ritual without sacrifice and without crowds of visitors, this is the one. It is on our [[trek:bungmati-khokana-village-tour|Bungamati and Khokana tour]] — see the [[post:bungmati-khokana-village-tour-guide|guide]]." },
+          { p: "A Newar farming village south of Patan that famously does not celebrate Dashain. Instead it holds <strong>Shikali Jatra</strong>, a five-day festival of its own in the same week, with masked dancers and a procession to the shrine on the hill above the village. If you want ritual without sacrifice and without crowds of visitors, this is the one. It is on our [[trek:bungmati-khokana-village-tour|Bungamati and Khokana tour]]." },
         ],
       },
       {
@@ -445,7 +444,7 @@ export const dashainF: BlogContent[] = [
               "<strong>With a day on the river.</strong> The put-in for [[trek:trishuli-river-rafting-1-day|Trishuli rafting]] is a short drive from the cable car.",
               "<strong>With a village stay.</strong> Bandipur is an hour beyond the Gorkha turning, and Ghalegaun a few hours north — see the [[trek:himalayan-village-tour|Himalayan Village Tour]].",
               "<strong>Before a Manaslu trek.</strong> The [[trek:manaslu-circuit-trek|Manaslu Circuit]] and the [[trek:lower-manaslu-trek|Lower Manaslu trek]] both lie in Gorkha district; a night in the town on the way in adds the palace without adding a day of driving.",
-              "<strong>As part of a pilgrimage.</strong> Manakamana sits naturally with Pashupatinath and Muktinath on a [[trek:hindu-pilgrimage-tour|Hindu Pilgrimage Tour]] — see the [[post:hindu-pilgrimage-tour-guide|pilgrimage guide]].",
+              "<strong>As part of a pilgrimage.</strong> Manakamana sits naturally with Pashupatinath and Muktinath on a [[trek:hindu-pilgrimage-tour|Hindu Pilgrimage Tour]].",
             ],
           },
         ],

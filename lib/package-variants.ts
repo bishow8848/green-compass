@@ -1,15 +1,18 @@
 /**
- * Every trek and multi-day tour is sold two ways, as two pages:
+ * Every trip is sold on one page.
  *
- *   city to city      /treks/annapurna-base-camp-trek          the trip itself, between two cities
- *                                                              ("Pokhara to Pokhara")
- *   complete package  /treks/annapurna-base-camp-trek-package  arrival in Nepal to departure, with
- *                                                              airport transfers and hotel nights
+ *   city to city      /treks/annapurna-base-camp-trek   the trip itself, between two cities
+ *                                                       ("Pokhara to Pokhara"). Hotel nights and the
+ *                                                       Kathmandu–Pokhara flight or bus are add-ons
+ *                                                       on the same page (scripts/apply-city-addons.mts).
+ *   complete package  climbing only                     arrival in Nepal to departure
  *
- * Climbing is always a complete package; activities and day tours are always
- * city to city. The two pages of a pair are linked by slug alone (no schema
- * change), and `subtitle` carries the label shown on the page and its cards.
- * scripts/apply-package-variants.mts builds the pairs.
+ * Treks and multi-day tours used to have a second, "complete package" page at
+ * "<slug>-package". Those pages duplicated the trip and split its searches, so
+ * they are archived and redirect to the city-to-city page
+ * (scripts/retire-packages-and-guides.mts). The suffix is kept here because
+ * the archived rows, and the scripts that pair a trip with its old package,
+ * still use it. `subtitle` carries the label shown on the page and its cards.
  */
 
 export const PACKAGE_SLUG_SUFFIX = "-package";

@@ -49,7 +49,7 @@ export const seasonalB: BlogContent[] = [
         blocks: [
           { p: "The Everest Base Camp trail is the busiest in Nepal, and the first half of November is still part of its peak. Expect a steady line of trekkers and yak trains on the climb to Namche, full dining rooms, and competition for beds at Lobuche and Gorak Shep, where there are few lodges and nowhere else to go." },
           { p: "In 2026 the Tihar festival falls on 7 to 11 November. It has almost no effect in the Sherpa villages above Lukla, but it does thin the number of Nepali trekkers for a few days and it tightens flights either side. From about the 15th the trail quietens steadily, and by the last week you may share a lodge with only a handful of others — the reward for accepting the cold." },
-          { p: "If the crowds matter to you more than the destination, the Gokyo valley next door has the same sky and a third of the people. The [[trek:gokyo-lake-trek|Gokyo Lakes trek]] is the usual alternative; see our [[post:gokyo-lakes-trek-guide|Gokyo guide]]." },
+          { p: "If the crowds matter to you more than the destination, the Gokyo valley next door has the same sky and a third of the people. The [[trek:gokyo-lake-trek|Gokyo Lakes trek]] is the usual alternative." },
         ],
       },
       {
@@ -115,7 +115,7 @@ export const seasonalB: BlogContent[] = [
               ],
             },
           },
-          { p: "For most people the middle of the month is the answer. If you are comfortable with cold and want the trail close to yourself, go late. Either way, the standard fourteen-day [[trek:everest-base-camp-trek|Everest Base Camp trek]] is the right length. Those short of time or wary of the walk back in the cold often choose the [[trek:everest-base-camp-trek-with-helicopter-return|trek with a helicopter return]] from Gorak Shep." },
+          { p: "For most people the middle of the month is the answer. If you are comfortable with cold and want the trail close to yourself, go late. Either way, the standard twelve-day [[trek:everest-base-camp-trek|Everest Base Camp trek]] is the right length. Those short of time or wary of the walk back in the cold often choose the [[trek:everest-base-camp-trek-with-helicopter-return|trek with a helicopter return]] from Gorak Shep." },
           { p: "And if you would rather look at Everest in November than sleep at 5,000 metres to do it, the week-long [[trek:everest-view-trek|Everest View trek]] to Tengboche stays below 3,900 metres, where the nights are merely chilly." },
         ],
       },
@@ -348,10 +348,9 @@ export const seasonalB: BlogContent[] = [
             table: {
               head: ["Trip", "Days", "Best for"],
               rows: [
-                ["[[trek:annapurna-base-camp-trek|Annapurna Base Camp trek]] from Kathmandu", "9", "The standard route, with travel days and a sensible pace"],
                 ["[[trek:annapurna-base-camp-trek|Annapurna Base Camp from Pokhara]]", "5", "Fit walkers already in Pokhara and short of time"],
-                ["[[trek:annapurna-base-camp-trek-with-ghorepani-poonhill-trek|With Ghorepani and Poon Hill]]", "12", "Adding the classic sunrise viewpoint and better acclimatisation"],
-                ["[[trek:mardi-himal-trek-with-annapurna-base-camp|With Mardi Himal]]", "14", "Two very different views of the same mountains"],
+                ["[[trek:annapurna-base-camp-trek-with-ghorepani-poonhill-trek|With Ghorepani and Poon Hill]]", "8", "Adding the classic sunrise viewpoint and better acclimatisation"],
+                ["[[trek:mardi-himal-trek-with-annapurna-base-camp|With Mardi Himal]]", "10", "Two very different views of the same mountains"],
               ],
             },
           },
@@ -393,7 +392,7 @@ export const seasonalB: BlogContent[] = [
       { question: "Do I need a guide for Annapurna Base Camp?", answer: "A licensed guide is required under current trekking rules, and in peak season a guide is also what secures your bed at base camp. See our guide to guides and porters for the details." },
       { question: "What is the best time of day to see the mountains at Annapurna Base Camp?", answer: "Sunrise. The sanctuary is usually clearest from dawn until mid-morning, and cloud often rises up the gorge in the afternoon. Sleep at base camp so that you are there at first light." },
     ],
-    relatedTreks: ["annapurna-base-camp-trek", "annapurna-base-camp-trek", "annapurna-base-camp-trek-with-ghorepani-poonhill-trek", "mardi-himal-trek-with-annapurna-base-camp", "mardi-himal-trek", "poonhill-trek"],
+    relatedTreks: ["annapurna-base-camp-trek", "annapurna-base-camp-trek-with-ghorepani-poonhill-trek", "mardi-himal-trek-with-annapurna-base-camp", "mardi-himal-trek", "poonhill-trek"],
     tripsNote: "Annapurna Base Camp by four routes, and two shorter treks nearby.",
     relatedPosts: [
       "annapurna-base-camp-trek-complete-guide",

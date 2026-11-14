@@ -38,7 +38,7 @@ export function buildFixDepartureConfig(t: any): FixDepartureTrek {
 /** Shared page shell (hero + table) used by the per-trek fix-departure pages. */
 export function FixDeparturePageShell({
   badge = "Fixed Departure",
-  title = "Fix Departure",
+  title = "Fixed Departures",
   description = "Guaranteed departures with confirmed start dates. Pick your preferred date — every trip listed below runs as scheduled.",
   heroImage,
   treks,

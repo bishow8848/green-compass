@@ -17,6 +17,8 @@
  * link in the blog valid by construction.
  */
 
+import { RETIRED_GUIDES } from "./retired";
+
 const CLOUD_NAME = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME || "dk7ggjvlw";
 
 // ─── Content shapes ──────────────────────────────────────────────────
@@ -113,6 +115,16 @@ export function resolveLinks(
     if (!postSlugs.has(slug)) {
       errors.push(`${at} link token points at unknown article "${slug}"`);
       return label;
+    }
+    // A retired trip guide now lives on its product page (./retired.ts).
+    const product = RETIRED_GUIDES[slug];
+    if (product) {
+      const trek = treks.get(product);
+      if (!trek) {
+        errors.push(`${at} retired guide "${slug}" points at unknown trek "${product}"`);
+        return label;
+      }
+      return `<a href="/${trek.categorySlug}/${product}">${label}</a>`;
     }
     return `<a href="/blog/${slug}">${label}</a>`;
   });
@@ -236,8 +248,8 @@ export function buildRelations(posts: BlogContent[]): Record<string, BlogRelatio
   const out: Record<string, BlogRelation> = {};
   for (const p of [...posts].sort((a, b) => a.slug.localeCompare(b.slug))) {
     out[p.slug] = {
-      treks: p.relatedTreks,
-      posts: p.relatedPosts,
+      treks: [...new Set(p.relatedTreks)],
+      posts: p.relatedPosts.filter((slug) => !RETIRED_GUIDES[slug]),
       ...(p.tripsNote ? { note: p.tripsNote } : {}),
     };
   }

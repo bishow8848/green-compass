@@ -139,7 +139,8 @@ export default async function HomePage() {
   const latestReviewsPromise = getCachedOrFetch(
     cacheKeys.latestReviews,
     () => prisma.trekReview.findMany({
-      where: { approved: true },
+      // Only trips that are still on sale: a card links to the trip it reviews.
+      where: { approved: true, trek: { status: "published" } },
       orderBy: { createdAt: "desc" },
       take: 9,
       include: { trek: { select: { title: true, slug: true, category: { select: { slug: true } } } } },

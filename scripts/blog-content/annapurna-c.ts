@@ -35,7 +35,7 @@ export const annapurnaC: BlogContent[] = [
               ],
             },
           },
-          { p: "We run it as a [[trek:khopra-danda-trek-package|13-day trek from Kathmandu]] and a [[trek:khopra-danda-trek|9-day version from Pokhara]]." },
+          { p: "We run it as a [[trek:khopra-danda-trek|9-day trek from Pokhara]]." },
         ],
       },
       {
@@ -114,7 +114,6 @@ export const annapurnaC: BlogContent[] = [
     ],
     relatedTreks: [
       "khopra-danda-trek",
-      "khopra-danda-trek",
       "mohare-danda-trek",
       "poonhill-trek",
     ],
@@ -167,7 +166,7 @@ export const annapurnaC: BlogContent[] = [
               ],
             },
           },
-          { p: "We run it as a [[trek:mohare-danda-trek-package|10-day trek from Kathmandu]] and a [[trek:mohare-danda-trek|6-day version from Pokhara]]." },
+          { p: "We run it as a [[trek:mohare-danda-trek|6-day trek from Pokhara]]." },
         ],
       },
       {
@@ -243,7 +242,6 @@ export const annapurnaC: BlogContent[] = [
     ],
     relatedTreks: [
       "mohare-danda-trek",
-      "mohare-danda-trek",
       "khopra-danda-trek",
       "poonhill-trek",
     ],
@@ -297,7 +295,7 @@ export const annapurnaC: BlogContent[] = [
               ],
             },
           },
-          { p: "We run it as a [[trek:nar-phu-valley-trek-package|14-day Nar Phu Valley Trek]], usually combined with Manang and sometimes with Thorong La to complete the Annapurna Circuit." },
+          { p: "We run it as a [[trek:nar-phu-valley-trek|12-day Nar Phu Valley Trek]], usually combined with Manang and sometimes with Thorong La to complete the Annapurna Circuit." },
         ],
       },
       {

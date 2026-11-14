@@ -100,8 +100,7 @@ export async function TopRatedTreks({
             const catSlug = trek.category?.slug || "treks";
             return (
               <Reveal key={trek.id} delay={(index % 3) * 0.08} className="h-full">
-                <Link
-                  href={`/${catSlug}/${trek.slug}`}
+                <article
                   className="group relative flex h-full flex-col overflow-hidden rounded-3xl bg-surface shadow-[0_4px_20px_-4px_rgba(0,0,0,0.1)] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_20px_40px_-10px_rgba(234,88,12,0.25)]"
                 >
                   {/* Image */}
@@ -145,7 +144,10 @@ export async function TopRatedTreks({
 
                     {/* Title */}
                     <h3 className="text-xl font-bold leading-tight text-foreground transition-colors group-hover:text-primary">
-                      {trek.title}
+                      {/* Only the trip's name is the link, so that is the link text search engines read; its ::after covers the card, so the whole card still clicks through. */}
+                      <Link href={`/${catSlug}/${trek.slug}`} className="after:absolute after:inset-0 after:z-10 after:content-['']">
+                        {trek.title}
+                      </Link>
                     </h3>
 
                     {/* Footer */}
@@ -162,7 +164,7 @@ export async function TopRatedTreks({
                       </div>
                     </div>
                   </div>
-                </Link>
+                </article>
               </Reveal>
             );
           })}

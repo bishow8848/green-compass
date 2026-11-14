@@ -184,7 +184,7 @@ export const climbingD: BlogContent[] = [
               ],
             },
           },
-          { p: "We run it as [[trek:everest-expedition|a 50-day Everest expedition]], and as [[trek:everest-and-lhotse-expedition|a combined Everest and Lhotse expedition]], which uses the same route and base camp to attempt two eight-thousanders in one season." },
+          { p: "We run it as [[trek:everest-expedition|a 51-day Everest expedition]], and as [[trek:everest-and-lhotse-expedition|a combined Everest and Lhotse expedition]], which uses the same route and base camp to attempt two eight-thousanders in one season." },
         ],
       },
       {

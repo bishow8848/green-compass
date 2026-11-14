@@ -163,7 +163,7 @@ export const annapurnaD: BlogContent[] = [
           {
             ul: [
               "<strong>[[trek:mardi-himal-trek|Mardi Himal]]</strong> — the single best rhododendron trek in Nepal. The forest between Pitam Deurali and Forest Camp is dense, moss-hung arboreum that flowers from late March, and the trail goes through the middle of it for three hours.",
-              "<strong>[[trek:poonhill-trek|Poon Hill and Ghorepani]]</strong> — the climb from Ulleri to Ghorepani is a famous rhododendron stretch, peaking late March to mid April. Combine it with the Sanctuary on [[trek:annapurna-base-camp-trek-with-ghorepani-poonhill-trek-package|this 12-day itinerary]].",
+              "<strong>[[trek:poonhill-trek|Poon Hill and Ghorepani]]</strong> — the climb from Ulleri to Ghorepani is a famous rhododendron stretch, peaking late March to mid April. Combine it with the Sanctuary on [[trek:annapurna-base-camp-trek-with-ghorepani-poonhill-trek|this 8-day itinerary]].",
               "<strong>[[trek:annapurna-base-camp-trek|Annapurna Base Camp]]</strong> — the gorge between Chhomrong and Deurali carries rhododendron and bamboo, flowering through April.",
               "<strong>[[trek:khopra-danda-trek|Khopra Danda]]</strong> — the forest above Swanta, with far fewer people in it.",
               "<strong>[[trek:langtang-valley-trek|Langtang Valley]]</strong> — the climb from Syabrubesi to Lama Hotel runs through superb rhododendron and oak, peaking late March.",
@@ -274,7 +274,7 @@ export const annapurnaD: BlogContent[] = [
               ],
             },
           },
-          { p: "We run it as a [[trek:jomsom-muktinath-trek-package|9-day trek from Kathmandu]] and a [[trek:jomsom-muktinath-trek|5-day version from Pokhara]], with [[trek:lower-mustang-trek|the Lower Mustang trek]] as the longer 10-day exploration of the same valley." },
+          { p: "We run it as a [[trek:jomsom-muktinath-trek|5-day trek from Pokhara]], with [[trek:lower-mustang-trek|the Lower Mustang trek]] as the longer 7-day exploration of the same valley." },
         ],
       },
       {
@@ -326,7 +326,7 @@ export const annapurnaD: BlogContent[] = [
               "<strong>Etiquette</strong> — remove shoes in the temple complex, walk clockwise, dress modestly, and ask before photographing pilgrims.",
             ],
           },
-          { p: "If pilgrimage is the purpose rather than the walking, we also run [[trek:muktinath-pilgrimage-tour-package|a 6-day Muktinath pilgrimage tour]] by road and [[trek:muktinath-helicopter-tour-from-pokhara|a helicopter day tour from Pokhara]], both of which avoid the trekking entirely." },
+          { p: "If pilgrimage is the purpose rather than the walking, we also run [[trek:muktinath-pilgrimage-tour|a 4-day Muktinath pilgrimage tour]] by road and [[trek:muktinath-helicopter-tour-from-pokhara|a helicopter day tour from Pokhara]], both of which avoid the trekking entirely." },
         ],
       },
     ],
@@ -341,7 +341,6 @@ export const annapurnaD: BlogContent[] = [
       { question: "Can I reach Muktinath without trekking?", answer: "Yes — by road on a six-day pilgrimage tour, or by helicopter from Pokhara as a day trip. Both avoid the walking entirely and are popular with pilgrims and travellers short of time." },
     ],
     relatedTreks: [
-      "jomsom-muktinath-trek",
       "jomsom-muktinath-trek",
       "lower-mustang-trek",
       "muktinath-pilgrimage-tour",

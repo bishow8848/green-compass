@@ -52,7 +52,7 @@ export function SectionNav({
     hasItinerary && { id: "itinerary", label: "Itinerary", icon: Route },
     hasInclusions && { id: "inEx", label: "Inclusions", icon: CheckCircle },
     hasPricing && { id: "pricing", label: "Pricing", icon: DollarSign },
-    hasFixedDepartures && { id: "fixedDepartures", label: "Fix Departure", icon: CalendarDays },
+    hasFixedDepartures && { id: "fixedDepartures", label: "Fixed Departures", icon: CalendarDays },
     { id: "map", label: "Map", icon: Map },
     hasFaqs && { id: "faqs", label: "FAQs", icon: HelpCircle },
     hasGallery && { id: "gallery", label: "Gallery", icon: Images },

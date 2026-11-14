@@ -535,7 +535,6 @@ export const meditationA: BlogContent[] = [
       "pokhara-day-tour-with-sarangkot-sunrise",
       "annapurna-base-camp-trek",
       "annapurna-circuit-trek",
-      "annapurna-base-camp-trek",
       "mardi-himal-trek",
     ],
     tripsNote: "Treks that finish in Pokhara, where a day or two of post-trek recovery is easiest to add.",

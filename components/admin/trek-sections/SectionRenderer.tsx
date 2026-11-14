@@ -783,7 +783,7 @@ function FixedDeparturesSection({ data, onChange }: { data: FixedDeparturesData;
   return (
     <div className="space-y-4">
       <Field label="Section Heading">
-        <input value={data.heading || ""} onChange={(e) => set("heading", e.target.value)} placeholder="e.g. Fix Departure" className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" />
+        <input value={data.heading || ""} onChange={(e) => set("heading", e.target.value)} placeholder="e.g. Fixed Departures" className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" />
       </Field>
       <Field label="Section Description (optional)">
         <textarea rows={2} value={data.description || ""} onChange={(e) => set("description", e.target.value)} placeholder="e.g. This trek runs every week on the selected days..." className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" />
@@ -812,7 +812,7 @@ function FixedDeparturesSection({ data, onChange }: { data: FixedDeparturesData;
           })}
         </div>
         {weekdays.length === 0 && customDates.length === 0 && (
-          <p className="mt-3 text-[11px] text-amber-600">Select at least one day or add a custom date to enable Fix Departure.</p>
+          <p className="mt-3 text-[11px] text-amber-600">Select at least one day or add a custom date to enable Fixed Departures.</p>
         )}
       </div>
 

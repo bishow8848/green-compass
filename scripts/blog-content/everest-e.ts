@@ -421,7 +421,6 @@ export const everestE: BlogContent[] = [
     relatedTreks: [
       "everest-base-camp-trek",
       "annapurna-base-camp-trek",
-      "annapurna-base-camp-trek",
       "mardi-himal-trek",
       "gokyo-lake-trek",
     ],

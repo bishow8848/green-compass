@@ -253,7 +253,6 @@ export const guidesB: BlogContent[] = [
     ],
     relatedTreks: [
       "poonhill-trek",
-      "poonhill-trek",
       "ghalegaun-ghanpokhara-village-tour",
       "chitwan-national-park-tour-3-days",
       "everest-view-trek",

@@ -622,7 +622,6 @@ export const healthB: BlogContent[] = [
       "annapurna-base-camp-trek-with-ghorepani-poonhill-trek",
       "annapurna-base-camp-trek",
       "everest-base-camp-trek",
-      "annapurna-base-camp-trek",
       "poonhill-trek",
       "langtang-valley-trek",
     ],

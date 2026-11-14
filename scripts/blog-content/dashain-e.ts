@@ -264,7 +264,7 @@ export const dashainE: BlogContent[] = [
         h2: "Temples of the Goddess",
         blocks: [
           { p: "Dashain belongs to Durga, and her temples carry the festival in the city: Bhadrakali beside Tundikhel, Shobha Bhagwati on the Bishnumati, Naxal Bhagwati, Maitidevi, Sankata in the old town, and Guhyeshwari near Pashupatinath. All have queues from early morning on the eighth and ninth days, and animal sacrifice at most of them." },
-          { p: "The best known is <strong>Dakshinkali</strong>, in a wooded gorge an hour south of the city, which is at its most intense on these two days. Go if you want to understand the festival, and read [[post:animal-sacrifice-at-dashain-what-travellers-should-know|animal sacrifice at Dashain]] first. Our [[trek:pharping-dakshinkali-tour|Pharping and Dakshinkali tour]] visits it with the Buddhist caves of Pharping nearby; the [[post:pharping-dakshinkali-tour-guide|guide to that day]] has the detail. Boudhanath and Swayambhunath, being Buddhist, have none of it." },
+          { p: "The best known is <strong>Dakshinkali</strong>, in a wooded gorge an hour south of the city, which is at its most intense on these two days. Go if you want to understand the festival, and read [[post:animal-sacrifice-at-dashain-what-travellers-should-know|animal sacrifice at Dashain]] first. Our [[trek:pharping-dakshinkali-tour|Pharping and Dakshinkali tour]] visits it with the Buddhist caves of Pharping nearby. Boudhanath and Swayambhunath, being Buddhist, have none of it." },
         ],
       },
       {
@@ -381,7 +381,7 @@ export const dashainE: BlogContent[] = [
         blocks: [
           { p: "The best Dashain outing from Pokhara needs no temple. Drive or walk up to one of the ridge villages — <strong>Sarangkot</strong>, <strong>Kaskikot</strong>, <strong>Dhampus</strong>, <strong>Astam</strong> — and you will find a bamboo swing on the village ground, children queuing for it, houses freshly painted, and on the tenth day a great deal of coming and going between them. Visitors who stop to watch are usually handed a turn on the swing." },
           { p: "Sarangkot at sunrise is the classic, and on a Dashain morning the light on Annapurna South and Machhapuchhre comes with kites going up below you — [[trek:pokhara-day-tour-with-sarangkot-sunrise|Pokhara day tour with Sarangkot sunrise]]. The [[trek:five-himalayan-viewpoints-tour-from-pokhara|five viewpoints tour]] links several ridges in a day. See [[post:dashain-swings-and-kites|Dashain swings and kites]] for what you are watching being built." },
-          { p: "For the tika itself, a Gurung homestay puts you inside a household for it. [[trek:sirubari-village-tour|Sirubari]] in Syangja and [[trek:ghalegaun-ghanpokhara-village-tour|Ghalegaun]] in Lamjung are both a few hours from Pokhara — see our guides to [[post:sirubari-village-tour-guide|Sirubari]] and [[post:ghalegaun-ghanpokhara-village-tour-guide|Ghalegaun]]." },
+          { p: "For the tika itself, a Gurung homestay puts you inside a household for it. [[trek:sirubari-village-tour|Sirubari]] in Syangja and [[trek:ghalegaun-ghanpokhara-village-tour|Ghalegaun]] in Lamjung are both a few hours from Pokhara." },
         ],
       },
       {

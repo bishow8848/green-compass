@@ -213,7 +213,6 @@ export const healthC: BlogContent[] = [
       "mardi-himal-trek",
       "everest-view-trek",
       "langtang-valley-trek",
-      "poonhill-trek",
     ],
     tripsNote: "Lower routes with quick access to a road or airstrip — where we usually start when a medical condition calls for wide margins.",
     relatedPosts: [

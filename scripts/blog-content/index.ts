@@ -86,6 +86,7 @@ import { tiharA } from "./tihar-a";
 import { tiharB } from "./tihar-b";
 import { tiharC } from "./tihar-c";
 import { tiharD } from "./tihar-d";
+import { tiharE } from "./tihar-e";
 import { newsA } from "./news-a";
 import { newsB } from "./news-b";
 import { newsC } from "./news-c";
@@ -195,6 +196,7 @@ export const ALL_POSTS: BlogContent[] = [
   ...tiharB,
   ...tiharC,
   ...tiharD,
+  ...tiharE,
   ...newsA,
   ...newsB,
   ...newsC,

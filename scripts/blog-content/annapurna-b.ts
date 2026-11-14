@@ -110,9 +110,8 @@ export const annapurnaB: BlogContent[] = [
         blocks: [
           {
             ul: [
-              "<strong>[[trek:annapurna-circuit-trek-package|Annapurna Circuit, 15 days]]</strong> — the standard and best-acclimatised version.",
-              "<strong>[[trek:annapurna-circuit-with-tilicho-lake-trek-package|Circuit with Tilicho Lake, 14 days]]</strong> — the Tilicho detour also doubles as excellent pre-pass acclimatisation.",
-              "<strong>[[trek:annapurna-circuit-trek|Short Annapurna Circuit, 7 days]]</strong> — jeep transfers to Manang, then the pass. Graded challenging, and only for trekkers with previous altitude experience.",
+              "<strong>[[trek:annapurna-circuit-trek|Annapurna Circuit, 12 days]]</strong> — the standard and best-acclimatised version.",
+              "<strong>[[trek:annapurna-circuit-with-tilicho-lake-trek|Circuit with Tilicho Lake, 11 days]]</strong> — the Tilicho detour also doubles as excellent pre-pass acclimatisation.",
               "<strong>[[trek:saribung-pass-trek|Saribung Pass]]</strong> and other high-pass treks in the region, for trekkers who want more than one 5,000 m crossing.",
             ],
           },
@@ -133,7 +132,6 @@ export const annapurnaB: BlogContent[] = [
     relatedTreks: [
       "annapurna-circuit-trek",
       "annapurna-circuit-with-tilicho-lake-trek",
-      "annapurna-circuit-trek",
       "jomsom-muktinath-trek",
     ],
     tripsNote: "Itineraries that cross Thorong La, all run anticlockwise with acclimatisation days at Manang.",
@@ -186,7 +184,7 @@ export const annapurnaB: BlogContent[] = [
               ],
             },
           },
-          { p: "We run it as a [[trek:mardi-himal-trek-package|9-day trek from Kathmandu]] and a [[trek:mardi-himal-trek|5-day trek from Pokhara]], and combine it with the Sanctuary on the [[trek:mardi-himal-trek-with-annapurna-base-camp-package|14-day double base camp route]]." },
+          { p: "We run it as a [[trek:mardi-himal-trek|5-day trek from Pokhara]] and a [[trek:mardi-himal-trek|5-day trek from Pokhara]], and combine it with the Sanctuary on the [[trek:mardi-himal-trek-with-annapurna-base-camp|10-day double base camp route]]." },
         ],
       },
       {
@@ -349,8 +347,6 @@ export const annapurnaB: BlogContent[] = [
     ],
     relatedTreks: [
       "mardi-himal-trek",
-      "mardi-himal-trek",
-      "mardi-himal-trek-with-annapurna-base-camp",
       "mardi-himal-trek-with-annapurna-base-camp",
     ],
     tripsNote: "The Mardi Himal ridge on its own, or linked to the Annapurna Sanctuary.",
@@ -402,7 +398,7 @@ export const annapurnaB: BlogContent[] = [
               ],
             },
           },
-          { p: "We run it as a [[trek:poonhill-trek-package|7-day trek from Kathmandu]] and a [[trek:poonhill-trek|3-day trek from Pokhara]], and it combines naturally with the Annapurna Sanctuary on [[trek:annapurna-base-camp-trek-with-ghorepani-poonhill-trek-package|this 12-day itinerary]]." },
+          { p: "We run it as a [[trek:poonhill-trek|3-day trek from Pokhara]], and it combines naturally with the Annapurna Sanctuary on [[trek:annapurna-base-camp-trek-with-ghorepani-poonhill-trek|this 8-day itinerary]]." },
         ],
       },
       {
@@ -565,7 +561,6 @@ export const annapurnaB: BlogContent[] = [
     ],
     relatedTreks: [
       "poonhill-trek",
-      "poonhill-trek",
       "annapurna-base-camp-trek-with-ghorepani-poonhill-trek",
       "mohare-danda-trek",
       "khopra-danda-trek",
@@ -619,7 +614,7 @@ export const annapurnaB: BlogContent[] = [
               ],
             },
           },
-          { p: "We run it as a [[trek:tilicho-lake-trek-package|12-day Tilicho Lake Trek]], a [[trek:tilicho-lake-trek|9-day short version]] using jeep transfers, and as part of the [[trek:annapurna-circuit-with-tilicho-lake-trek-package|14-day circuit with Tilicho]]." },
+          { p: "We run it as a [[trek:tilicho-lake-trek|10-day Tilicho Lake Trek]] and as part of the [[trek:annapurna-circuit-with-tilicho-lake-trek|11-day circuit with Tilicho]]." },
         ],
       },
       {
@@ -655,7 +650,7 @@ export const annapurnaB: BlogContent[] = [
         h2: "Tilicho as Acclimatisation for Thorong La",
         blocks: [
           { p: "One of the strongest arguments for adding Tilicho to the Annapurna Circuit is that it is superb preparation for the pass. The detour takes you from Manang at 3,519 m to a night at 4,150 m and a day walk to 4,919 m, then back down — which is textbook climb high, sleep low, at exactly the altitudes that matter before Thorong La." },
-          { p: "Trekkers who do Tilicho before the pass generally find Thorong La substantially easier than those who go straight up the Marsyangdi. On the [[trek:annapurna-circuit-with-tilicho-lake-trek-package|14-day circuit with Tilicho]] that is the design rather than a side effect." },
+          { p: "Trekkers who do Tilicho before the pass generally find Thorong La substantially easier than those who go straight up the Marsyangdi. On the [[trek:annapurna-circuit-with-tilicho-lake-trek|11-day circuit with Tilicho]] that is the design rather than a side effect." },
           { p: "The other option — Tilicho on its own, returning to Manang and walking out — gives you the lake at 4,919 m without a pass crossing, which suits trekkers who want the altitude and the landscape without committing to Thorong La. Our [[post:thorong-la-pass-crossing-guide|Thorong La guide]] covers that decision." },
         ],
       },
@@ -686,7 +681,6 @@ export const annapurnaB: BlogContent[] = [
       { question: "When is the best time to visit Tilicho Lake?", answer: "October and November for the clearest water colour and the most stable conditions on the traverse, or April to May. Avoid the monsoon, when the landslide section is at its worst, and be cautious in late winter and early spring after heavy snow." },
     ],
     relatedTreks: [
-      "tilicho-lake-trek",
       "tilicho-lake-trek",
       "annapurna-circuit-with-tilicho-lake-trek",
       "annapurna-circuit-trek",

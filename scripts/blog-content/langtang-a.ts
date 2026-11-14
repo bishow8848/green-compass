@@ -36,7 +36,7 @@ export const langtangA: BlogContent[] = [
               ],
             },
           },
-          { p: "We run it as a [[trek:langtang-valley-trek-package|10-day Langtang Valley Trek]], with [[trek:langtang-gosaikunda-lake-trek-package|a 15-day version adding Gosaikunda]] and [[trek:langtang-ganja-la-pass-trek-package|a 14-day route over the Ganja La]] for experienced trekkers." },
+          { p: "We run it as an [[trek:langtang-valley-trek|8-day Langtang Valley Trek]], with [[trek:langtang-gosaikunda-lake-trek|a 13-day version adding Gosaikunda]] and [[trek:langtang-ganja-la-pass-trek|a 12-day route over the Ganja La]] for experienced trekkers." },
         ],
       },
       {
@@ -259,7 +259,7 @@ export const langtangA: BlogContent[] = [
               ],
             },
           },
-          { p: "We run it as [[trek:gosaikunda-lake-trek|a 12-day Gosaikunda Lake Trek]], as part of [[trek:langtang-gosaikunda-lake-trek-package|a 15-day combination with the Langtang valley]], and as [[trek:gosainkunda-holy-tour|a shorter pilgrimage-focused tour]]." },
+          { p: "We run it as [[trek:gosaikunda-lake-trek|a 5-day Gosaikunda Lake Trek]], as part of [[trek:langtang-gosaikunda-lake-trek|a 13-day combination with the Langtang valley]], and as [[trek:gosainkunda-holy-tour|a shorter pilgrimage-focused tour]]." },
         ],
       },
       {
@@ -390,7 +390,7 @@ export const langtangA: BlogContent[] = [
               ],
             },
           },
-          { p: "We run it as [[trek:tamang-heritage-trek-package|a 13-day trek]] that combines the heritage villages with the Langtang valley itself, which is how it works best — culture first, then the high valley." },
+          { p: "We run it as [[trek:tamang-heritage-trek|an 11-day trek]] that combines the heritage villages with the Langtang valley itself, which is how it works best — culture first, then the high valley." },
         ],
       },
       {

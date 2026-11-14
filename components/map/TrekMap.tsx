@@ -3,22 +3,15 @@
 import Image from "next/image";
 import dynamic from "next/dynamic";
 import { useState, useEffect } from "react";
-import { Loader2, Maximize2, Minimize2 } from "lucide-react";
-import { CLOUDINARY_CLOUD_NAME } from "@/lib/cloudinary-url";
+import { Maximize2, Minimize2 } from "lucide-react";
+import { MapPlaceholder, mapImageSrc } from "./MapPlaceholder";
 
 // Dynamic import with ssr:false — Mapbox GL JS is heavy and must not block LCP
 const MapWithNoSSR = dynamic(
   () => import("./MapContent"),
   {
     ssr: false,
-    loading: () => (
-      <div className="flex aspect-[21/9] items-center justify-center bg-surface">
-        <div className="text-center">
-          <Loader2 className="mx-auto h-8 w-8 animate-spin text-primary" />
-          <p className="mt-2 text-sm text-text-muted">Loading map...</p>
-        </div>
-      </div>
-    ),
+    loading: () => <MapPlaceholder />,
   }
 );
 
@@ -28,6 +21,8 @@ interface TrekMapProps {
   waypoints?: Array<{ lng: number; lat: number; label: string; description?: string; dayNumber?: number }>;
   itinerary?: Array<{ dayNumber: number; title: string; elevation?: string | null }>;
   staticFallbackImage?: string;
+  /** What the map shows, e.g. "Annapurna Base Camp Trek route map" — the alt text of its still image. */
+  title?: string;
   /** When set, the map starts already expanded (fullscreen) */
   startExpanded?: boolean;
   /** When set, clicking the minimize button calls this instead of toggling locally */
@@ -40,17 +35,14 @@ export function TrekMap({
   waypoints,
   itinerary,
   staticFallbackImage,
+  title = "Trek route map",
   startExpanded,
   onClose,
 }: TrekMapProps) {
   const [isExpanded, setIsExpanded] = useState(startExpanded ?? false);
 
   // Images are stored either as a bare Cloudinary public ID or a full URL.
-  const staticImageSrc = staticFallbackImage
-    ? staticFallbackImage.startsWith("http")
-      ? staticFallbackImage
-      : `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/f_auto,q_auto/${staticFallbackImage}`
-    : null;
+  const staticImageSrc = mapImageSrc(staticFallbackImage);
 
   // No route file (.gpx/.kml/.geojson) was uploaded for this trek. If the admin
   // uploaded a map image instead, show that image in place of the interactive
@@ -92,7 +84,7 @@ export function TrekMap({
           <div className="relative h-full w-full bg-surface">
             <Image
               src={staticImageSrc!}
-              alt="Trek route map"
+              alt={title}
               fill
               sizes="(max-width: 1024px) 100vw, 1200px"
               className={isExpanded ? "object-contain" : "object-cover"}
@@ -106,7 +98,7 @@ export function TrekMap({
                 <div className="relative h-full w-full">
                   <Image
                     src={staticImageSrc}
-                    alt="Trek route map"
+                    alt={title}
                     fill
                     className="object-cover"
                     priority

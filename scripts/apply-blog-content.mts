@@ -60,6 +60,7 @@ import {
 } from "./blog-content/build";
 import { BLOG_IMAGES } from "./blog-content/images";
 import { ALL_POSTS } from "./blog-content/index";
+import { RETIRED_GUIDES } from "./blog-content/retired";
 import { TOPIC_ARTICLES, addTopicLinks } from "./blog-content/topic-links";
 import { formatNepalDateTime, nepalDateToPublishAt } from "../lib/blog-schedule";
 
@@ -255,8 +256,10 @@ async function main() {
   // is still waiting for its date. Those join the list on the first run after
   // they go live.
   const guidesByTrek = new Map<string, BlogContent[]>();
-  for (const p of ALL_POSTS.filter(isLive)) {
-    for (const slug of p.relatedTreks) {
+  // A retired trip guide (blog-content/retired.ts) redirects to its product
+  // page, so no product page lists it.
+  for (const p of ALL_POSTS.filter(isLive).filter((p) => !RETIRED_GUIDES[p.slug])) {
+    for (const slug of new Set(p.relatedTreks)) {
       if (!treks.has(slug)) continue;
       const list = guidesByTrek.get(slug) ?? [];
       list.push(p);
@@ -450,9 +453,11 @@ async function main() {
     const publishAt = nepalDateToPublishAt(p.date)!;
     const ahead = !isLive(p);
     const existing = await prisma.blogPost.findUnique({ where: { slug: p.slug }, select: { status: true } });
+    // A retired trip guide stays a draft: its URL redirects to the product page.
+    const retired = Boolean(RETIRED_GUIDES[p.slug]);
     if (!existing) {
       await prisma.blogPost.create({
-        data: { ...data, slug: p.slug, publishedDate: publishAt, status: ahead ? "scheduled" : "published" },
+        data: { ...data, slug: p.slug, publishedDate: publishAt, status: retired ? "draft" : ahead ? "scheduled" : "published" },
       });
       created++;
       if (ahead) scheduled++;
@@ -462,7 +467,7 @@ async function main() {
       const reschedule = existing.status === "scheduled" && ahead;
       await prisma.blogPost.update({
         where: { slug: p.slug },
-        data: reschedule ? { ...data, publishedDate: publishAt } : data,
+        data: retired ? { ...data, status: "draft" } : reschedule ? { ...data, publishedDate: publishAt } : data,
       });
       updated++;
     }

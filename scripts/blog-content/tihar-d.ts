@@ -132,7 +132,7 @@ export const tiharD: BlogContent[] = [
         h2: "Three Ways to Plan It in 2026",
         blocks: [
           { h3: "Trek first, lights after" },
-          { p: "Start around 28 – 30 October and walk out on the 6th or 7th. You are in Pokhara or Kathmandu for Kukur Tihar and Laxmi Puja on the 8th, with your guide home in good time. This is the plan we suggest most often. Nine-day [[trek:annapurna-base-camp-trek|Annapurna Base Camp]] and ten-day [[trek:langtang-valley-trek|Langtang]] both fit." },
+          { p: "Start around 28 – 30 October and walk out on the 6th or 7th. You are in Pokhara or Kathmandu for Kukur Tihar and Laxmi Puja on the 8th, with your guide home in good time. This is the plan we suggest most often. Five-day [[trek:annapurna-base-camp-trek|Annapurna Base Camp]] from Pokhara and eight-day [[trek:langtang-valley-trek|Langtang]] both fit." },
           { h3: "Festival on the trail" },
           { p: "Start a short trek on 5 or 6 November and be in a Gurung village on the 8th. [[trek:poonhill-trek|Poon Hill from Pokhara]] gives you Ghorepani or Ghandruk for the lamps and has you down by the 9th." },
           { h3: "Lights first, trek after" },

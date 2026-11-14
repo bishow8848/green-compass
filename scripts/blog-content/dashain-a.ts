@@ -305,7 +305,7 @@ export const dashainA: BlogContent[] = [
             },
           },
           { p: "An arrival on 14 or 15 October is the sweet spot for most trips: two working days for paperwork and money, the markets at their busiest, and then the festival itself. Our [[post:arriving-in-kathmandu-first-48-hours|guide to your first 48 hours in Kathmandu]] covers the arrival, and the [[post:nepal-visa-on-arrival-guide|visa on arrival]] desk at the airport works through the holiday as normal." },
-          { p: "Short trips slot neatly either side of the tika. The five-day [[trek:glimpse-of-nepal-tour|Glimpse of Nepal Tour]] and a [[trek:kathmandu-day-tour|Kathmandu day tour]] cover the festival days in the valley; the week-long [[trek:everest-view-trek|Everest View trek]] and the [[trek:poonhill-trek|Poon Hill trek]] fit the days after it, and neither needs a permit from an office that is closed." },
+          { p: "Short trips slot neatly either side of the tika. The three-day [[trek:glimpse-of-nepal-tour|Glimpse of Nepal Tour]] and a [[trek:kathmandu-day-tour|Kathmandu day tour]] cover the festival days in the valley; the five-day [[trek:everest-view-trek|Everest View trek]] and the [[trek:poonhill-trek|Poon Hill trek]] fit the days after it, and neither needs a permit from an office that is closed." },
         ],
       },
       {
@@ -339,7 +339,6 @@ export const dashainA: BlogContent[] = [
     ],
     relatedTreks: [
       "glimpse-of-nepal-tour",
-      "glimpse-of-nepal-tour-package",
       "kathmandu-day-tour",
       "everest-view-trek",
       "poonhill-trek",
@@ -473,7 +472,7 @@ export const dashainA: BlogContent[] = [
               ],
             },
           },
-          { p: "The Kathmandu valley's Newar community keeps the same days under different names and with its own rituals, including sword processions on the tenth day and the masked Navadurga dancers of Bhaktapur. A [[trek:glimpse-of-nepal-tour-package|Kathmandu Valley Tour]] timed for the week takes in both traditions." },
+          { p: "The Kathmandu valley's Newar community keeps the same days under different names and with its own rituals, including sword processions on the tenth day and the masked Navadurga dancers of Bhaktapur. A [[trek:glimpse-of-nepal-tour|Kathmandu Valley Tour]] timed for the week takes in both traditions." },
         ],
       },
     ],
@@ -488,7 +487,7 @@ export const dashainA: BlogContent[] = [
       { question: "Which day of Dashain is best for a visitor to see?", answer: "For public ceremony, Phulpati and Maha Navami in Kathmandu. For the heart of the festival, Vijaya Dashami with a host family. For atmosphere without ritual, any of the days before Phulpati, when the markets, kites and swings are at their best." },
     ],
     relatedTreks: [
-      "glimpse-of-nepal-tour-package",
+      "glimpse-of-nepal-tour",
       "kathmandu-day-tour",
       "bhaktapur-day-tour",
       "sirubari-village-tour",

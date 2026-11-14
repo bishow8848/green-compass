@@ -16,7 +16,7 @@ const ADDABLE_SECTION_TYPES: { type: TrekSection["type"]; label: string; icon: s
   { type: "itinerary", label: "Itinerary", icon: "🗺️" },
   { type: "inEx", label: "Inclusions & Exclusions", icon: "✅" },
   { type: "pricing", label: "Pricing Tiers", icon: "💰" },
-  { type: "fixedDepartures", label: "Fix Departure", icon: "📅" },
+  { type: "fixedDepartures", label: "Fixed Departures", icon: "📅" },
   { type: "addons", label: "Add-ons", icon: "➕" },
   { type: "faqs", label: "FAQs", icon: "❓" },
   { type: "gallery", label: "Gallery", icon: "🖼️" },

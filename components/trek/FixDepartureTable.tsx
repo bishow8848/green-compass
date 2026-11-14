@@ -384,9 +384,6 @@ function PriceModal({ departures, onClose }: { departures: Departure[]; onClose:
                           {tier.groupSize} pax
                         </span>
                         <span className="flex items-center gap-2">
-                          <span className="text-xs text-slate-400 line-through">
-                            ${(Math.round(tier.pricePerPerson * 1.1)).toLocaleString()}
-                          </span>
                           <span className="font-semibold" style={{ color: "var(--color-primary)" }}>
                             ${tier.pricePerPerson.toLocaleString()}
                           </span>
@@ -976,7 +973,7 @@ export function FixDepartureTable({
 
                 {/* Status — green checkmark confirming it's a fix departure */}
                 <div>
-                  <span className="inline-flex items-center gap-1.5" title="Fix Departure">
+                  <span className="inline-flex items-center gap-1.5" title="Fixed Departures">
                     <CheckCircle className="h-6 w-6" style={{ color: "#16a34a" }} />
                     <span className="text-xs font-semibold uppercase tracking-wide" style={{ color: "#16a34a" }}>
                       Confirmed

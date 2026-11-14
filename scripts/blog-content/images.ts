@@ -90,6 +90,9 @@ export const FREE = {
   janakiMandirNight: free("02-janaki-mandir-janakpur-nepal"),
   nagarjunView: free("03-nagarjun-national-park"),
   shivapuriTrailSign: free("04-trail-signboard-at-sano-deurali-in-shivapuri-nagarjun-nation"),
+  /** Cropped before upload to remove a watermark in the corner. */
+  lightingLamps: free("05-lighting-lamps"),
+  annapurnaSanctuary: free("06-annapurna-base-camp-trekking-route"),
   /** Uploaded with an earlier batch, under its own folder; also CC0. */
   baghBhairabSwords: "mardi-treks/blog-kathmandu/blog-kathmandu-02-kirtipur-swords",
 } as const;

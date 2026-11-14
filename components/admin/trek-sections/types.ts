@@ -304,9 +304,9 @@ export function createDefaultSection(type: SectionType, trek?: any): TrekSection
     case "fixedDepartures":
       return {
         ...base,
-        label: "Fix Departure",
+        label: "Fixed Departures",
         data: {
-          heading: meta.heading || "Fix Departure",
+          heading: meta.heading || "Fixed Departures",
           description: meta.description || "This trek runs every week on the selected day(s). Choose custom dates for one-off departures.",
           weekdays: parseJsonArray(trek?.fixedDepartureDays),
           customDates: parseJsonArray(trek?.customStartDates),

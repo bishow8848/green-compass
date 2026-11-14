@@ -3,7 +3,8 @@ import type { ReactNode } from "react";
 import { CLOUDINARY_CLOUD_NAME } from "@/lib/cloudinary-url";
 import Image from "next/image";
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
+import { getLegacyRedirectMap, normalizeLegacyPath } from "@/lib/legacy-redirects";
 import { Calendar, Clock, ArrowLeft, ArrowRight, Mountain } from "lucide-react";
 import { prisma } from "@/lib/prisma";
 import { getCachedOrFetch, cacheKeys, CACHE_TTL } from "@/lib/redis";
@@ -181,7 +182,16 @@ export default async function BlogPostPage({
     CACHE_TTL.DAILY
   );
 
-  if (!post) notFound();
+  if (!post) {
+    // A trip guide folded into its product page (scripts/blog-content/retired.ts)
+    // is redirected by proxy.ts — but a cached copy of the article is served
+    // before the proxy runs, and re-rendering the old URL in the background
+    // would cache a 404 in the redirect's place. Redirecting here too keeps
+    // the article's links and rankings flowing to the product page.
+    const moved = (await getLegacyRedirectMap())[normalizeLegacyPath(`/blog/${slug}`)];
+    if (moved) permanentRedirect(moved.newPath);
+    notFound();
+  }
 
   const relations = getBlogRelations(slug, post.content || "");
 

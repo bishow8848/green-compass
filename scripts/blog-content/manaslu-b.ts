@@ -67,7 +67,7 @@ export const manasluB: BlogContent[] = [
               "<strong>No restricted permit and no group minimum.</strong> A solo trekker can do it with a guide; Manaslu needs two people.",
               "<strong>Better lodges.</strong> Manang has bakeries, a cinema and an HRA aid post. Chame and Jomsom are comfortable towns.",
               "<strong>Cheaper.</strong> No restricted permit, and road access keeps lodge prices down.",
-              "<strong>Easier to shorten.</strong> Jeeps allow a [[trek:annapurna-circuit-trek|7-day version]] that still crosses Thorong La. Manaslu cannot be meaningfully compressed.",
+              "<strong>Easier to shorten.</strong> Jeeps on the lower valley can cut the [[trek:annapurna-circuit-trek|Annapurna Circuit]] to about a week, and it still crosses Thorong La. Manaslu cannot be meaningfully compressed.",
               "<strong>More escape options.</strong> Roads at Manang and Muktinath mean a sick trekker can get out quickly. On Manaslu, beyond Samdo there is no road for days.",
               "<strong>Muktinath.</strong> A major pilgrimage site with 108 water spouts and an eternal flame, which is a genuine cultural highlight.",
               "<strong>Tilicho Lake.</strong> A 4,919 m lake as a side trip, which is one of the best detours in Nepal.",
@@ -104,7 +104,7 @@ export const manasluB: BlogContent[] = [
         blocks: [
           { p: "The two circuits meet at <strong>Dharapani</strong>. You can walk Manaslu over the Larke La, arrive at Dharapani, and instead of driving out continue up the Marsyangdi to Manang, Thorong La and Muktinath." },
           { p: "That makes a trek of around four weeks with two 5,000 m passes, and it is one of the great Himalayan traverses — a full crossing of the Manaslu and Annapurna ranges on foot. With the Tsum Valley added at the start it becomes five weeks and is about as complete a central Nepal trek as exists." },
-          { p: "It needs the Manaslu restricted permit, MCAP and ACAP, a group of two or more, and serious fitness. If you have the month, tell us and we will build it. Otherwise, the fifteen-day [[trek:manaslu-circuit-trek|Manaslu Circuit]] and the fifteen-day [[trek:annapurna-circuit-trek|Annapurna Circuit]] are both complete treks in their own right, and our [[post:manaslu-circuit-trek-complete-guide|Manaslu guide]] and [[post:annapurna-circuit-trek-complete-guide|Annapurna guide]] cover each in full." },
+          { p: "It needs the Manaslu restricted permit, MCAP and ACAP, a group of two or more, and serious fitness. If you have the month, tell us and we will build it. Otherwise, the 13-day [[trek:manaslu-circuit-trek|Manaslu Circuit]] and the 12-day [[trek:annapurna-circuit-trek|Annapurna Circuit]] are both complete treks in their own right." },
         ],
       },
     ],
@@ -121,7 +121,6 @@ export const manasluB: BlogContent[] = [
       "manaslu-circuit-trek",
       "annapurna-circuit-trek",
       "tsum-valley-and-manaslu-circuit-trek",
-      "annapurna-circuit-trek",
       "tilicho-lake-trek",
     ],
     tripsNote: "Both circuits as we run them, plus the combinations and short versions.",
@@ -317,7 +316,7 @@ export const manasluB: BlogContent[] = [
               ],
             },
           },
-          { p: "We run it as [[trek:upper-mustang-trek-package|a 16-day trek from Kathmandu]] and [[trek:upper-mustang-trek|a 12-day version from Pokhara]]." },
+          { p: "We run it as [[trek:upper-mustang-trek|a 12-day trek from Pokhara]]." },
         ],
       },
       {
@@ -386,7 +385,6 @@ export const manasluB: BlogContent[] = [
       { question: "Is Upper Mustang worth USD 500 in permits?", answer: "For most people who go, yes — it is culturally the most remarkable trekking region in Nepal and genuinely unlike anywhere else. If the cost is prohibitive, Nar Phu at USD 100 per week offers comparable Tibetan-Buddhist culture with a high pass, and Lower Dolpo at USD 20 per week offers comparable desert landscape." },
     ],
     relatedTreks: [
-      "upper-mustang-trek",
       "upper-mustang-trek",
       "lower-mustang-trek",
       "jomsom-muktinath-trek",

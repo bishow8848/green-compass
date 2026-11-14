@@ -100,7 +100,7 @@ export const meditationC: BlogContent[] = [
               "<strong>The atmosphere</strong> is entirely different from the city sites: slow, devotional, visited far more by pilgrims than by tourists.",
             ],
           },
-          { p: "Sitting for twenty minutes in a cave that has been used for meditation for twelve centuries is an experience that needs no belief to appreciate. Our [[trek:pharping-dakshinkali-tour|Pharping and Dakshinkali day tour]] pairs it with the Kali temple in the gorge below; more detail is in the [[post:pharping-dakshinkali-tour-guide|Pharping guide]]." },
+          { p: "Sitting for twenty minutes in a cave that has been used for meditation for twelve centuries is an experience that needs no belief to appreciate. Our [[trek:pharping-dakshinkali-tour|Pharping and Dakshinkali day tour]] pairs it with the Kali temple in the gorge below." },
           {
             figure: {
               image: "mardi-treks/pharping-dakshinkali-tour/pharping-dakshinkali-tour-00-phamting-vajra-yogini-temple-pharping",
@@ -121,7 +121,7 @@ export const meditationC: BlogContent[] = [
               "<strong>Walks</strong> along the ridge are quiet, and there is a classic day hike here from Dhulikhel.",
             ],
           },
-          { p: "One night at Namo Buddha is the best short pre-trek retreat within reach of the city, and at this modest altitude it is a gentle start for the legs too. See the [[trek:dhulikhel-namobuddha-hike|Dhulikhel to Namo Buddha hike]] and our [[post:dhulikhel-namobuddha-hike-guide|guide to it]]." },
+          { p: "One night at Namo Buddha is the best short pre-trek retreat within reach of the city, and at this modest altitude it is a gentle start for the legs too. See the [[trek:dhulikhel-namobuddha-hike|Dhulikhel to Namo Buddha hike]]." },
         ],
       },
       {

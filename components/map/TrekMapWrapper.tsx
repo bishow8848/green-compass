@@ -1,22 +1,7 @@
 "use client";
 
-import dynamic from "next/dynamic";
-import { Loader2, Map } from "lucide-react";
-
-const TrekMapClient = dynamic(
-  () => import("./TrekMap").then((m) => ({ default: m.TrekMap })),
-  {
-    ssr: false,
-    loading: () => (
-      <div className="flex aspect-[21/9] items-center justify-center rounded-xl bg-slate-100">
-        <div className="text-center">
-          <Loader2 className="mx-auto h-8 w-8 animate-spin text-teal-600" />
-          <p className="mt-2 text-sm text-slate-500">Loading map...</p>
-        </div>
-      </div>
-    ),
-  }
-);
+import { useEffect, useState, type ComponentType } from "react";
+import { MapPlaceholder } from "./MapPlaceholder";
 
 interface Props {
   geoJsonUrl?: string;
@@ -24,8 +9,28 @@ interface Props {
   waypoints?: Array<{ lng: number; lat: number; label: string; description?: string; dayNumber?: number }>;
   itinerary?: Array<{ dayNumber: number; title: string; elevation?: string | null }>;
   staticFallbackImage?: string;
+  /** What the map shows, e.g. "Annapurna Base Camp Trek route map" — the alt text of its still image. */
+  title?: string;
 }
 
+/**
+ * The interactive route map. Mapbox GL is heavy and browser-only, so it is
+ * fetched after the page has hydrated; until then, and in the HTML the server
+ * sends, the map's place is held by MapPlaceholder.
+ */
 export function TrekMapWrapper(props: Props) {
-  return <TrekMapClient {...props} />;
+  const [TrekMap, setTrekMap] = useState<ComponentType<Props> | null>(null);
+
+  useEffect(() => {
+    let active = true;
+    import("./TrekMap").then((m) => {
+      if (active) setTrekMap(() => m.TrekMap);
+    });
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  if (TrekMap) return <TrekMap {...props} />;
+  return <MapPlaceholder image={props.staticFallbackImage} alt={props.title} />;
 }

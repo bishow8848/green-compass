@@ -713,7 +713,7 @@ export const toursF: BlogContent[] = [
       "bungmati-khokana-village-tour",
       "patan-day-tour",
       "pharping-dakshinkali-tour",
-      "glimpse-of-nepal-tour-package",
+      "glimpse-of-nepal-tour",
       "seven-world-heritage-kathmandu-day-tour",
     ],
     tripsNote: "Kathmandu valley day tours that go beyond the three Durbar Squares.",

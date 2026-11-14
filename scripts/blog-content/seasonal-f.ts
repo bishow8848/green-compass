@@ -497,7 +497,7 @@ export const seasonalF: BlogContent[] = [
             },
           },
           { p: "If you are in the second column but have December dates, there are good answers. The [[trek:everest-view-trek|Everest View trek]] goes as far as Tengboche, stays below 3,900 metres and takes a week. The [[trek:pikey-peak-trek|Pikey Peak trek]] shows you Everest from the south without a flight. And the [[trek:everest-base-camp-helicopter-tour|Everest Base Camp helicopter tour]] lands at Kala Patthar and has you back in Kathmandu for lunch — in winter visibility, a remarkable morning." },
-          { p: "For the trek itself, the fourteen-day [[trek:everest-base-camp-trek|Everest Base Camp trek]] is the right length, and many winter trekkers choose the [[trek:everest-base-camp-trek-with-helicopter-return|helicopter return]] from Gorak Shep, which spares the cold walk back down and takes the return flight out of the fog's hands. The route in full is in our [[post:everest-base-camp-trek-complete-guide|complete guide]], and the month before in [[post:everest-base-camp-trek-in-november|Everest Base Camp in November]]." },
+          { p: "For the trek itself, the twelve-day [[trek:everest-base-camp-trek|Everest Base Camp trek]] is the right length, and many winter trekkers choose the [[trek:everest-base-camp-trek-with-helicopter-return|helicopter return]] from Gorak Shep, which spares the cold walk back down and takes the return flight out of the fog's hands. The month before is covered in [[post:everest-base-camp-trek-in-november|Everest Base Camp in November]]." },
         ],
       },
     ],

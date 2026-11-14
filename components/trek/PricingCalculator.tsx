@@ -224,9 +224,6 @@ function GroupPricingModal({
                   {tier.groupSize} pax
                 </span>
                 <span className="flex items-center gap-2">
-                  <span className="text-xs text-slate-400 line-through">
-                    ${(Math.round(tier.pricePerPerson * 1.1)).toLocaleString()}
-                  </span>
                   <span className="font-semibold" style={{ color: "var(--color-primary)" }}>
                     ${tier.pricePerPerson.toLocaleString()}
                   </span>
@@ -409,9 +406,6 @@ export function PricingCalculator({
               Trek ({travelers} &times; ${pricePerPerson})
             </span>
             <span className="flex items-center gap-2">
-              <span className="text-xs text-slate-400 line-through tabular-nums">
-                ${(Math.round(trekTotal * 1.1)).toLocaleString()}
-              </span>
               <span className="font-semibold tabular-nums" style={{ color: "var(--color-foreground)" }}>
                 ${trekTotal.toLocaleString()}
               </span>
@@ -432,9 +426,6 @@ export function PricingCalculator({
                   {addons[i].title} &times; {addonQtys[i]}
                 </span>
                 <span className="flex items-center gap-1.5">
-                  <span className="text-xs text-slate-400 line-through tabular-nums">
-                    +${(Math.round(total * 1.1)).toLocaleString()}
-                  </span>
                   <span className="font-semibold tabular-nums" style={{ color: "var(--color-foreground)" }}>
                     +${total.toLocaleString()}
                   </span>
@@ -448,9 +439,6 @@ export function PricingCalculator({
               Total
             </span>
             <span className="flex items-center gap-2">
-              <span className="text-sm text-slate-400 line-through tabular-nums">
-                ${(Math.round(grandTotal * 1.1)).toLocaleString()}
-              </span>
               <Ticker
                 value={`$${grandTotal.toLocaleString()}`}
                 direction={countDirection}
@@ -502,8 +490,7 @@ export function PricingCalculator({
                   <div className="flex-1 min-w-0">
                     <AddonTitle title={addon.title} description={addon.description} />
                     <p className="text-[11px]" style={{ color: "var(--color-text-muted)" }}>
-                      <span className="text-slate-400 line-through">${(Math.round(addon.pricePerUnit * 1.1)).toLocaleString()}</span>
-                      &nbsp;${addon.pricePerUnit}/{addon.unit}
+                      ${addon.pricePerUnit} / {addon.unit}
                     </p>
                   </div>
                   <div className="flex items-center gap-1.5 shrink-0">
@@ -535,9 +522,6 @@ export function PricingCalculator({
                     </m.button>
                   </div>
                   <span className="flex items-center gap-1 shrink-0">
-                    <span className="text-xs text-slate-400 line-through tabular-nums">
-                      ${(Math.round(addonTotals[i] * 1.1)).toLocaleString()}
-                    </span>
                     <span
                       className="w-14 text-right text-sm font-semibold tabular-nums"
                       style={{ color: "var(--color-primary)" }}
@@ -568,7 +552,6 @@ export function PricingCalculator({
           style={{ backgroundColor: "var(--color-primary)" }}
         >
           Book Now &mdash; ${grandTotal.toLocaleString()}
-          <span className="text-sm text-slate-300 line-through ml-1">${(Math.round(grandTotal * 1.1)).toLocaleString()}</span>
         </MotionLink>
 
         <p className="text-center text-xs" style={{ color: "var(--color-text-muted)" }}>

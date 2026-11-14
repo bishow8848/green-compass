@@ -54,7 +54,7 @@ export const activitiesB: BlogContent[] = [
               "<strong>Crowding</strong> is real at good sightings in peak season, with several jeeps at once.",
             ],
           },
-          { p: "Three days is the practical minimum. See our [[post:chitwan-national-park-guide|Chitwan guide]] for the detail, and our itineraries at [[trek:chitwan-national-park-tour-3-days|three days]], [[trek:chitwan-national-park-tour-3-days|four days]] or [[trek:1-night-2-days-chitwan-trip|a short two-day trip]]." },
+          { p: "Three days is the practical minimum. See our [[post:chitwan-national-park-guide|Chitwan guide]] for the detail, and our [[trek:chitwan-national-park-tour-3-days|three-day Chitwan National Park tour]] or [[trek:1-night-2-days-chitwan-trip|a short two-day trip]]." },
         ],
       },
       {
@@ -71,7 +71,7 @@ export const activitiesB: BlogContent[] = [
               "<strong>Four days minimum</strong>, five better — the park is large and rewards patience.",
             ],
           },
-          { p: "See our [[post:bardia-national-park-guide|Bardia guide]], and itineraries at [[trek:bardia-jungle-safari-tour-5-days|four days]] or [[trek:bardia-jungle-safari-tour-5-days|five days]]." },
+          { p: "See our [[post:bardia-national-park-guide|Bardia guide]], and our [[trek:bardia-jungle-safari-tour-5-days|five-day Bardia jungle safari]]." },
         ],
       },
       {
@@ -146,7 +146,6 @@ export const activitiesB: BlogContent[] = [
       "chitwan-national-park-tour-3-days",
       "bardia-jungle-safari-tour-5-days",
       "koshi-tappu-wildlife-reserve-tour",
-      "bardia-jungle-safari-tour-5-days",
       "bird-watching-in-chitwan-national-park",
     ],
     tripsNote: "Every wildlife park we operate in, from a two-day Chitwan stop to a five-day Bardia safari.",

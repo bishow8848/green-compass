@@ -316,10 +316,10 @@ export async function sendFixDepartureContactEmail({
       replyTo: email,
       from: EMAIL_NOTIFICATIONS_FROM,
       to: ADMIN_EMAIL,
-      subject: `[Green Compass Treks Fix Departure] ${escapeHtml(trekTitle)} - ${escapeHtml(startDate)}`,
+      subject: `[Green Compass Treks Fixed Departure] ${escapeHtml(trekTitle)} - ${escapeHtml(startDate)}`,
       html: `
         <div style="font-family:sans-serif;max-width:600px;margin:0 auto;">
-          <h2 style="color:#fe4100;">New Fix Departure Interest</h2>
+          <h2 style="color:#fe4100;">New Fixed Departure Interest</h2>
           <table style="width:100%;border-collapse:collapse;">
             <tr><td style="padding:8px;font-weight:bold;color:#46576a;">Name</td><td style="padding:8px;">${escapeHtml(name)}</td></tr>
             <tr><td style="padding:8px;font-weight:bold;color:#46576a;">Email</td><td style="padding:8px;">${escapeHtml(email)}</td></tr>
@@ -331,7 +331,7 @@ export async function sendFixDepartureContactEmail({
           <hr style="border:none;border-top:1px solid #e5e7eb;margin:16px 0;" />
           <p style="color:#334155;line-height:1.6;white-space:pre-wrap;">${escapeHtml(note || "")}</p>
           <hr style="border:none;border-top:1px solid #e5e7eb;margin:16px 0;" />
-          <p style="font-size:12px;color:#64748b;">Sent from the Fix Departure page</p>
+          <p style="font-size:12px;color:#64748b;">Sent from the Fixed Departures page</p>
         </div>
       `,
     });

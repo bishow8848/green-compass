@@ -99,7 +99,7 @@ export const annapurnaE: BlogContent[] = [
               "<strong>A week</strong> — add rafting, the Kushma bungee, a day tour, and a short trek. Several of our guests treat Pokhara as a base and do two short treks from it.",
             ],
           },
-          { p: "Combining it with Kathmandu: the [[trek:kathmandu-pokhara-tour-package|7-day Kathmandu and Pokhara tour]] covers both cities with the valley's UNESCO sites, and [[trek:best-of-nepal-tour-package|the 10-day Best of Nepal tour]] adds Chitwan. Both work well either side of a trek, or instead of one." },
+          { p: "Combining it with Kathmandu: the [[trek:kathmandu-pokhara-tour|5-day Kathmandu and Pokhara tour]] covers both cities with the valley's UNESCO sites, and [[trek:best-of-nepal-tour|the 8-day Best of Nepal tour]] adds Chitwan. Both work well either side of a trek, or instead of one." },
         ],
       },
     ],
@@ -193,7 +193,7 @@ export const annapurnaE: BlogContent[] = [
           { p: "It is worth being even-handed: the road has opened the circuit to people who could not do it before." },
           {
             ul: [
-              "<strong>Shorter itineraries.</strong> Our [[trek:annapurna-circuit-trek|7-day Short Annapurna Circuit]] uses a jeep to Chame or Manang and still crosses Thorong La. Without the road it would take a fortnight.",
+              "<strong>Shorter itineraries.</strong> A jeep to Chame or Manang takes days off the approach and still leaves Thorong La to cross on foot. Tell us if you are short of time and we will show you how far the [[trek:annapurna-circuit-trek|12-day Annapurna Circuit]] can be shortened.",
               "<strong>Skipping the dull parts.</strong> There is no merit in walking a dusty jeep track for four hours. Driving it and spending the time in Manang or Kagbeni is a better trek.",
               "<strong>Escape routes.</strong> If someone is ill at Manang, a jeep out is now possible. That is a real safety improvement.",
               "<strong>Resupply and lodge quality.</strong> Lodges in Manang and Chame are better than they were because goods arrive by vehicle rather than by mule.",
@@ -234,7 +234,6 @@ export const annapurnaE: BlogContent[] = [
       { question: "Where does the circuit trek now usually end?", answer: "At Jomsom, with a flight or jeep to Pokhara. Walking on from Muktinath to Tatopani follows a busy dusty road with little reward, which is why we do not include it by default." },
     ],
     relatedTreks: [
-      "annapurna-circuit-trek",
       "annapurna-circuit-trek",
       "manaslu-circuit-trek",
       "tilicho-lake-trek",

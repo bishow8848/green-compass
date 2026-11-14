@@ -123,21 +123,17 @@ export const winterA: BlogContent[] = [
         h2: "A December Itinerary",
         blocks: [
           {
-            p: "Our nine-day [[trek:annapurna-base-camp-trek|Annapurna Base Camp trek]] works well in December as it stands. The table shows the plan and what to expect each day in winter.",
+            p: "Our five-day [[trek:annapurna-base-camp-trek|Annapurna Base Camp trek]] from Pokhara works well in December as it stands. The table shows the plan and what to expect each day in winter. If you need a four-season sleeping bag or a down jacket, rent one in Pokhara or Kathmandu before you start.",
           },
           {
             table: {
               head: ["Day", "Route", "December notes"],
               rows: [
-                ["1", "Arrive in Kathmandu (1,400 m)", "Rent a four-season sleeping bag or down jacket in Thamel if you need one"],
-                ["2", "Drive to Pokhara (822 m)", "Warm and sunny; a good evening by the lake"],
-                ["3", "Drive to Jhinu Danda (1,780 m), trek to Lower Sinuwa (2,340 m)", "Crisp night; the first real cold"],
-                ["4", "Lower Sinuwa to Deurali (3,230 m)", "Start early: the gorge goes into shade by mid-afternoon. Below freezing at night"],
-                ["5", "Deurali to Annapurna Base Camp (4,130 m)", "The avalanche section, crossed in the morning after a conditions check. Very cold night at the top"],
-                ["6", "Sunrise at base camp, descend to Bamboo (2,310 m)", "The coldest and most beautiful morning of the trek; sunrise reaches the peaks around 6:45 AM"],
-                ["7", "Bamboo to Jhinu Danda (1,780 m), drive to Pokhara", "Stop at the hot springs below Jhinu before the drive"],
-                ["8", "Drive to Kathmandu", "–"],
-                ["9", "Depart Kathmandu", "–"],
+                ["1", "Drive from Pokhara (822 m) to Jhinu Danda (1,780 m), trek to Lower Sinuwa (2,340 m)", "Crisp night; the first real cold"],
+                ["2", "Lower Sinuwa to Deurali (3,230 m)", "Start early: the gorge goes into shade by mid-afternoon. Below freezing at night"],
+                ["3", "Deurali to Annapurna Base Camp (4,130 m)", "The avalanche section, crossed in the morning after a conditions check. Very cold night at the top"],
+                ["4", "Sunrise at base camp, descend to Bamboo (2,310 m)", "The coldest and most beautiful morning of the trek; sunrise reaches the peaks around 6:45 AM"],
+                ["5", "Bamboo to Jhinu Danda (1,780 m), drive to Pokhara", "Stop at the hot springs below Jhinu before the drive"],
               ],
             },
           },
@@ -285,7 +281,6 @@ export const winterA: BlogContent[] = [
       },
     ],
     relatedTreks: [
-      "annapurna-base-camp-trek",
       "annapurna-base-camp-trek",
       "annapurna-base-camp-trek-with-ghorepani-poonhill-trek",
       "mardi-himal-trek-with-annapurna-base-camp",

@@ -33,6 +33,7 @@ import { CountUp, Disclosure, KenBurns, MotionAnchor, Reveal, ScrollProgress, St
 import { sanitizeRichText } from "@/lib/sanitize";
 import { slimRouteGeoJson } from "@/lib/route-geojson";
 import { SITE_NAME, SITE_URL, brandedTitle, ogImages, seoDescription, seoImageUrl, serializeJsonLd } from "@/lib/seo";
+import { TRAILING_DURATION } from "@/lib/package-variants";
 
 export const revalidate = 604800; // Trek detail cached 7 days; refreshed on-demand after CMS edits
 
@@ -91,12 +92,13 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
   return {
     title: { absolute: socialTitle },
     description,
-    keywords: trek.keywords || undefined,
     alternates: { canonical: `${SITE_URL}/${catSlug}/${slug}` },
+    // No `type` here: Next's metadata API only knows website, article and the
+    // media types, and writes no og:type when it is left out. The page itself
+    // renders og:type "product" with its price (see ProductDetailPage).
     openGraph: {
       title: socialTitle,
       description,
-      type: "article",
       url: `${SITE_URL}/${catSlug}/${slug}`,
       siteName: SITE_NAME,
       locale: "en_US",
@@ -116,6 +118,23 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
 function parseElevation(elevation: string): number {
   const parsed = parseFloat(elevation.replace(/[,m\s]/g, ""));
   return isNaN(parsed) ? 0 : parsed;
+}
+
+/** Metres as feet, for readers who think in feet: 4,130 -> "13,550 ft". */
+function feet(metres: number): string {
+  return `${Math.round(metres * 3.28084).toLocaleString("en-US")} ft`;
+}
+
+/**
+ * An elevation as stored ("2,340 m", "3230m") with its height in feet added:
+ * "2,340 m / 7,677 ft". Anything that is not a single height in metres, or
+ * that already gives feet, is shown as it is.
+ */
+function withFeet(elevation: string): string {
+  const match = elevation.trim().match(/^(\d{1,2},?\d{3}|\d{2,3})\s*m$/i);
+  if (!match) return elevation;
+  const metres = Number(match[1].replace(",", ""));
+  return `${metres.toLocaleString("en-US")} m / ${feet(metres)}`;
 }
 
 function getMinPrice(tiers: any[]): number {
@@ -232,6 +251,25 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
   const maxAltitude = trek.maxAltitude || getMaxAltitude(itinerary);
   const avgRating = getAvgRating(reviews);
 
+  // Section headings name the trip ("Annapurna Base Camp Trek Itinerary: 5
+  // Days"), which is what people search for, unless the admin has written a
+  // heading of their own. The stock headings below count as not written.
+  const tripName = trek.title.replace(TRAILING_DURATION, "");
+  const heading = (stored: string | undefined, stock: string[], named: string) =>
+    !stored || stock.includes(stored.trim()) ? named : stored;
+  const priceYear = new Date().getFullYear();
+  const itineraryHeading = heading(
+    sectionData.itinerary?.heading,
+    ["Itinerary", "Tour Plan"],
+    trek.duration > 1 ? `${tripName} Itinerary: ${trek.duration} Days` : `${tripName} Itinerary`
+  );
+  const pricingHeading = heading(sectionData.pricing?.heading, ["Pricing"], `${tripName} Cost ${priceYear}–${priceYear + 1}`);
+  const mapHeading = heading(sectionData.map?.heading, ["Route Map", "Tour Map"], `${tripName} Route Map`);
+  // Stored as a Date, or as its ISO string when the trip came from the cache.
+  const updatedLabel = trek.updatedAt
+    ? new Date(trek.updatedAt).toLocaleDateString("en-US", { month: "long", year: "numeric", timeZone: "UTC" })
+    : null;
+
   // Start independent reads together to avoid server-side request waterfalls.
   const homeSettingsPromise = getCachedOrFetch(
     cacheKeys.homeSettings,
@@ -277,6 +315,14 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
 
   return (
     <GalleryProvider>
+      {/* Open Graph: a trip is a product with a price, not an article. React
+          lifts these <meta> tags into <head>; generateMetadata leaves og:type
+          out so that this is the only one. */}
+      <meta property="og:type" content="product" />
+      {offerLowPrice > 0 && <meta property="product:price:amount" content={String(offerLowPrice)} />}
+      {offerLowPrice > 0 && <meta property="product:price:currency" content="USD" />}
+      <meta property="product:availability" content="in stock" />
+
       {/* Product schema for Google — uses refined Product type */}
       <script
         type="application/ld+json"
@@ -578,7 +624,16 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
           Max Altitude
         </span>
         <span className="text-xl font-bold" style={{ color: "var(--color-secondary)" }}>
-          {maxAltitude > 0 ? `${maxAltitude.toLocaleString()}m` : "\u2014"}
+          {maxAltitude > 0 ? (
+            <>
+              {maxAltitude.toLocaleString("en-US")} m
+              <span className="ml-1.5 text-sm font-medium" style={{ color: "var(--color-text-muted)" }}>
+                / {feet(maxAltitude)}
+              </span>
+            </>
+          ) : (
+            "\u2014"
+          )}
         </span>
       </div>
     </StaggerItem>
@@ -629,6 +684,12 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
     </StaggerItem>
   </Stagger>
 
+  {updatedLabel && (
+    <p className="mb-6 text-xs" style={{ color: "var(--color-text-muted)" }} data-pdf-hide="">
+      Itinerary and prices last updated: {updatedLabel}
+    </p>
+  )}
+
   {/* Overview description */}
   {trek.overview && (
     <Reveal
@@ -644,7 +705,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
       className="mb-2 text-2xl font-bold sm:text-3xl"
       style={{ color: "var(--color-secondary)" }}
     >
-      {sectionData.itinerary?.heading || "Itinerary"}
+      {itineraryHeading}
     </Reveal>
     {sectionData.itinerary?.description && (
       <Reveal as="p" delay={0.06} className="mb-10 text-sm" style={{ color: "var(--color-text-muted)" }}>
@@ -736,7 +797,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
                         className="h-1 w-1 rounded-full"
                         style={{ backgroundColor: "var(--color-primary-light)" }}
                       />
-                      Elevation: {day.elevation}
+                      Elevation: {withFeet(day.elevation)}
                     </span>
                   )}
                   {day.accommodation && (
@@ -886,7 +947,7 @@ sectionMap["inEx"] = () => {
   </section> : null;
 };
              sectionMap["pricing"] = () => pricingTiers.length > 0 ? <section id="pricing" className="py-10 sm:py-12">
-  <Reveal as="h2" className="mb-2 text-2xl font-bold" style={{ color: "var(--color-secondary)" }}>{sectionData.pricing?.heading || "Pricing"}</Reveal>
+  <Reveal as="h2" className="mb-2 text-2xl font-bold" style={{ color: "var(--color-secondary)" }}>{pricingHeading}</Reveal>
   <Reveal as="p" delay={0.06} className="mb-8 text-sm" style={{ color: "var(--color-text-muted)" }}>{sectionData.pricing?.description || "Per-person pricing based on group size."}</Reveal>
   {/* In the PDF export this is a plain table: square, with ruled columns. */}
   <Stagger gap={0.06} className="overflow-hidden rounded-2xl border pdf:rounded-none" style={{ borderColor: "var(--color-border)" }}>
@@ -904,8 +965,6 @@ sectionMap["inEx"] = () => {
           </span>
           {/* Show price inline on mobile, move to own cell on desktop */}
           <span className="text-right text-sm sm:hidden" style={{ color: "var(--color-text-muted)" }}>
-            <span className="text-slate-400 line-through">${(Math.round(tier.pricePerPerson * 1.1)).toLocaleString()}</span>
-            &nbsp;
             <span className="font-semibold" style={{ color: "var(--color-primary)" }}>
               ${tier.pricePerPerson.toLocaleString()}
             </span>
@@ -913,8 +972,6 @@ sectionMap["inEx"] = () => {
         </div>
         <div className="flex items-center justify-end sm:px-5 pdf:py-2.5">
           <span className="hidden whitespace-nowrap text-right text-sm sm:block" style={{ color: "var(--color-text-muted)" }}>
-            <span className="text-slate-400 line-through">${(Math.round(tier.pricePerPerson * 1.1)).toLocaleString()}</span>
-            &nbsp;
             <span className="font-semibold" style={{ color: "var(--color-primary)" }}>
               ${tier.pricePerPerson.toLocaleString()}
             </span>
@@ -949,7 +1006,7 @@ sectionMap["fixedDepartures"] = () => (fixedDepartureDays.length > 0 || customSt
         customDates: customStartDates,
       }]}
       showSortFilter
-      heading={sectionData.fixedDepartures?.heading || "Fix Departure"}
+      heading={sectionData.fixedDepartures?.heading || "Fixed Departures"}
       description={sectionData.fixedDepartures?.description}
     />
   </section>
@@ -975,8 +1032,6 @@ sectionMap["addons"] = () => addons.length > 0 ? <section id="addons" className=
           <span className="text-sm font-semibold" style={{ color: "var(--color-secondary)" }}>{addon.title}</span>
           {/* Mobile: price shown inline after title */}
           <span className="text-right text-sm sm:hidden" style={{ color: "var(--color-text-muted)" }}>
-            <span className="text-slate-400 line-through">${(Math.round((addon.pricePerUnit || 0) * 1.1)).toLocaleString()}</span>
-            &nbsp;
             <span className="font-bold" style={{ color: "var(--color-primary)" }}>
               ${addon.pricePerUnit?.toLocaleString()}
             </span>
@@ -990,8 +1045,6 @@ sectionMap["addons"] = () => addons.length > 0 ? <section id="addons" className=
         {/* Price column (desktop only) */}
         <div className="flex items-start justify-end whitespace-nowrap sm:px-5 pdf:py-2.5">
           <span className="hidden text-right text-sm sm:block" style={{ color: "var(--color-text-muted)" }}>
-            <span className="text-slate-400 line-through pdf:hidden">${(Math.round((addon.pricePerUnit || 0) * 1.1)).toLocaleString()}</span>
-            &nbsp;
             <span className="font-bold" style={{ color: "var(--color-primary)" }}>
               ${addon.pricePerUnit?.toLocaleString()}
             </span>
@@ -1008,7 +1061,7 @@ const mapIsImageOnly = !trek.geoJsonUrl && !trek.geoJsonData && !!trek.staticMap
 sectionMap["map"] = () => <section id="map" className="py-10 sm:py-12">
   <Reveal className="mb-6 flex flex-wrap items-end justify-between gap-4">
     <div>
-      <h2 className="mb-2 text-2xl font-bold" style={{ color: "var(--color-secondary)" }}>{sectionData.map?.heading || "Route Map"}</h2>
+      <h2 className="mb-2 text-2xl font-bold" style={{ color: "var(--color-secondary)" }}>{mapHeading}</h2>
       <p className="text-sm" style={{ color: "var(--color-text-muted)" }}>{sectionData.map?.description || "Explore the terrain map showing the trek route."}</p>
     </div>
     {waypoints?.length > 0 && !mapIsImageOnly && (
@@ -1030,8 +1083,32 @@ sectionMap["map"] = () => <section id="map" className="py-10 sm:py-12">
       waypoints={waypoints?.length > 0 ? waypoints : undefined}
       itinerary={itinerary?.length > 0 ? itinerary : undefined}
       staticFallbackImage={trek.staticMapImage || undefined}
+      title={`${tripName} route map`}
     />
   </Reveal>
+
+  {/* The stops as text: the interactive map draws in the browser, so this is
+      what a search engine, a screen reader or a slow connection gets. */}
+  {waypoints?.length > 0 && (
+    <div className="mt-8" data-pdf-hide="">
+      <h3 className="mb-4 text-base font-semibold" style={{ color: "var(--color-secondary)" }}>
+        Places on the {tripName} route
+      </h3>
+      <ol className="grid gap-x-10 gap-y-3 text-sm sm:grid-cols-2">
+        {waypoints.map((stop: { label: string; description?: string; dayNumber?: number }, i: number) => (
+          <li key={`${stop.label}-${i}`} className="flex gap-3">
+            <span className="w-12 shrink-0 text-xs font-semibold uppercase leading-5 tabular-nums" style={{ color: "var(--color-primary)" }}>
+              {stop.dayNumber ? `Day ${stop.dayNumber}` : `Stop ${i + 1}`}
+            </span>
+            <span style={{ color: "var(--color-text-muted)" }}>
+              <span className="font-semibold" style={{ color: "var(--color-text)" }}>{stop.label}</span>
+              {stop.description ? ` — ${stop.description}` : ""}
+            </span>
+          </li>
+        ))}
+      </ol>
+    </div>
+  )}
 </section>;
 sectionMap["faqs"] = () => faqs.length > 0 ? (
   <FAQAccordion

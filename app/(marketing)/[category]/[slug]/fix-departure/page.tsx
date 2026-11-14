@@ -47,7 +47,7 @@ export async function generateMetadata({
 
   const config = buildFixDepartureConfig(trek);
   const hasData = config.weekdays.length > 0 || config.customDates.length > 0;
-  const title = hasData ? `${trek.title} – Fix Departure` : "Fix Departure";
+  const title = hasData ? `${trek.title} – Fixed Departures` : "Fixed Departures";
   return {
     title,
     description: `Guaranteed fixed departure dates for ${trek.title}. Pick your preferred date — every trip listed runs as scheduled.`,
@@ -84,7 +84,7 @@ export default async function FixDeparturePage({
   return (
     <FixDeparturePageShell
       badge="Fixed Departure"
-      title={`${trek.title} – Fix Departure`}
+      title={`${trek.title} – Fixed Departures`}
       description={`Guaranteed departures for ${trek.title}. Pick your preferred date — every trip listed below runs as scheduled.`}
       heroImage={trek.heroImage}
       treks={hasData ? [config] : []}
