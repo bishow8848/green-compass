@@ -33,7 +33,8 @@ import { CountUp, Disclosure, KenBurns, MotionAnchor, Reveal, ScrollProgress, St
 import { sanitizeRichText } from "@/lib/sanitize";
 import { slimRouteGeoJson } from "@/lib/route-geojson";
 import { SITE_NAME, SITE_URL, brandedTitle, ogImages, seoDescription, seoImageUrl, serializeJsonLd } from "@/lib/seo";
-import { TRAILING_DURATION } from "@/lib/package-variants";
+import { routeMapAlt, staticRouteMapUrl } from "@/lib/static-map";
+import { tripFaqs, tripLead, tripName as nameOf } from "@/lib/trip-summary";
 
 export const revalidate = 604800; // Trek detail cached 7 days; refreshed on-demand after CMS edits
 
@@ -142,11 +143,6 @@ function getMinPrice(tiers: any[]): number {
   return Math.min(...tiers.map((t: any) => t.pricePerPerson || 0));
 }
 
-function getMaxPrice(tiers: any[]): number {
-  if (!tiers || tiers.length === 0) return 0;
-  return Math.max(...tiers.map((t: any) => t.pricePerPerson || 0));
-}
-
 function getMaxAltitude(itinerary: any[]): number {
   let max = 0;
   for (const day of itinerary) {
@@ -228,20 +224,16 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
   sectionOrderList.forEach((id, i) => { sectionOrderMap[id] = i; });
 
   const minPrice = getMinPrice(pricingTiers);
-  const offerLowPrice = minPrice > 0 ? minPrice : trek.price;
-  const offerHighPrice = Math.max(offerLowPrice, getMaxPrice(pricingTiers));
-  // Price range across the group-size tiers, which Google shows as "$low to
-  // $high" in the search result. A tour with one price stays a plain Offer.
+  const offerPrice = minPrice > 0 ? minPrice : trek.price;
+  const priceYear = new Date().getFullYear();
+  // One price, the lowest the trip is sold at — the "From $…" the page shows
+  // everywhere else — so a search result can print a price beside "In stock".
   const offers = {
-    ...(offerHighPrice > offerLowPrice
-      ? {
-          "@type": "AggregateOffer",
-          lowPrice: offerLowPrice,
-          highPrice: offerHighPrice,
-          offerCount: pricingTiers.length,
-        }
-      : { "@type": "Offer", price: offerLowPrice }),
+    "@type": "Offer",
+    price: offerPrice,
     priceCurrency: "USD",
+    // The prices are published for this season and the next (see the pricing heading).
+    priceValidUntil: `${priceYear + 1}-12-31`,
     availability: "https://schema.org/InStock",
     url: `${SITE_URL}/${catSlug}/${slug}`,
     seller: {
@@ -254,10 +246,9 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
   // Section headings name the trip ("Annapurna Base Camp Trek Itinerary: 5
   // Days"), which is what people search for, unless the admin has written a
   // heading of their own. The stock headings below count as not written.
-  const tripName = trek.title.replace(TRAILING_DURATION, "");
+  const tripName = nameOf(trek.title);
   const heading = (stored: string | undefined, stock: string[], named: string) =>
     !stored || stock.includes(stored.trim()) ? named : stored;
-  const priceYear = new Date().getFullYear();
   const itineraryHeading = heading(
     sectionData.itinerary?.heading,
     ["Itinerary", "Tour Plan"],
@@ -265,6 +256,31 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
   );
   const pricingHeading = heading(sectionData.pricing?.heading, ["Pricing"], `${tripName} Cost ${priceYear}–${priceYear + 1}`);
   const mapHeading = heading(sectionData.map?.heading, ["Route Map", "Tour Map"], `${tripName} Route Map`);
+  // The opening paragraph and two FAQs are written from the trip's own data
+  // (lib/trip-summary.ts), so they always agree with the facts box and prices.
+  const tripFacts = {
+    title: trek.title,
+    duration: trek.duration,
+    subtitle: trek.subtitle,
+    categorySlug: catSlug,
+    difficulty: trek.difficulty,
+    bestTime: trek.bestTime,
+    maxAltitude,
+    price: trek.price,
+    pricingTiers,
+    addons,
+  };
+  const lead = tripLead(tripFacts);
+  const allFaqs: { question: string; answer: string }[] = [
+    ...faqs.map((f: any) => ({ question: f.question, answer: f.answer })),
+    ...tripFaqs(tripFacts, faqs),
+  ];
+  // The still shown until the interactive map has loaded, and to anything
+  // that does not run it: the admin's own map image, or one drawn from the route.
+  const drawnStill = (size: "wide" | "compact") =>
+    staticRouteMapUrl({ stops: waypoints, geoJson: slimRouteGeoJson(trek.geoJsonData), token: process.env.NEXT_PUBLIC_MAPBOX_TOKEN, size }) ?? undefined;
+  const mapStill = trek.staticMapImage || drawnStill("wide");
+  const mapStillCompact = trek.staticMapImage ? undefined : drawnStill("compact");
   // Stored as a Date, or as its ISO string when the trip came from the cache.
   const updatedLabel = trek.updatedAt
     ? new Date(trek.updatedAt).toLocaleDateString("en-US", { month: "long", year: "numeric", timeZone: "UTC" })
@@ -319,8 +335,8 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
           lifts these <meta> tags into <head>; generateMetadata leaves og:type
           out so that this is the only one. */}
       <meta property="og:type" content="product" />
-      {offerLowPrice > 0 && <meta property="product:price:amount" content={String(offerLowPrice)} />}
-      {offerLowPrice > 0 && <meta property="product:price:currency" content="USD" />}
+      {offerPrice > 0 && <meta property="product:price:amount" content={String(offerPrice)} />}
+      {offerPrice > 0 && <meta property="product:price:currency" content="USD" />}
       <meta property="product:availability" content="in stock" />
 
       {/* Product schema for Google — uses refined Product type */}
@@ -441,19 +457,20 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
       />
 
       {/* FAQPage schema for SEO */}
-      {faqs.length > 0 && (
+      {allFaqs.length > 0 && (
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: serializeJsonLd({
               "@context": "https://schema.org",
               "@type": "FAQPage",
-              mainEntity: faqs.map((faq: any) => ({
+              mainEntity: allFaqs.map((faq) => ({
                 "@type": "Question",
                 name: faq.question,
                 acceptedAnswer: {
                   "@type": "Answer",
-                  text: faq.answer?.slice(0, 500),
+                  // In full: the markup has to say what the page says.
+                  text: faq.answer,
                 },
               })),
             }),
@@ -689,6 +706,11 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
       Itinerary and prices last updated: {updatedLabel}
     </p>
   )}
+
+  {/* The questions a reader arrives with, answered first. */}
+  <Reveal className="rich-text w-full text-base leading-relaxed" style={{ color: "var(--color-text)" }}>
+    <p>{lead}</p>
+  </Reveal>
 
   {/* Overview description */}
   {trek.overview && (
@@ -1083,36 +1105,15 @@ sectionMap["map"] = () => <section id="map" className="py-10 sm:py-12">
       waypoints={waypoints?.length > 0 ? waypoints : undefined}
       itinerary={itinerary?.length > 0 ? itinerary : undefined}
       staticFallbackImage={trek.staticMapImage || undefined}
-      title={`${tripName} route map`}
+      placeholderImage={mapStill}
+      placeholderCompactImage={mapStillCompact}
+      title={routeMapAlt(tripName, waypoints)}
     />
   </Reveal>
-
-  {/* The stops as text: the interactive map draws in the browser, so this is
-      what a search engine, a screen reader or a slow connection gets. */}
-  {waypoints?.length > 0 && (
-    <div className="mt-8" data-pdf-hide="">
-      <h3 className="mb-4 text-base font-semibold" style={{ color: "var(--color-secondary)" }}>
-        Places on the {tripName} route
-      </h3>
-      <ol className="grid gap-x-10 gap-y-3 text-sm sm:grid-cols-2">
-        {waypoints.map((stop: { label: string; description?: string; dayNumber?: number }, i: number) => (
-          <li key={`${stop.label}-${i}`} className="flex gap-3">
-            <span className="w-12 shrink-0 text-xs font-semibold uppercase leading-5 tabular-nums" style={{ color: "var(--color-primary)" }}>
-              {stop.dayNumber ? `Day ${stop.dayNumber}` : `Stop ${i + 1}`}
-            </span>
-            <span style={{ color: "var(--color-text-muted)" }}>
-              <span className="font-semibold" style={{ color: "var(--color-text)" }}>{stop.label}</span>
-              {stop.description ? ` — ${stop.description}` : ""}
-            </span>
-          </li>
-        ))}
-      </ol>
-    </div>
-  )}
 </section>;
-sectionMap["faqs"] = () => faqs.length > 0 ? (
+sectionMap["faqs"] = () => allFaqs.length > 0 ? (
   <FAQAccordion
-    items={faqs.map((f: any) => ({ question: f.question, answer: f.answer }))}
+    items={allFaqs}
     heading={sectionData.faqs?.heading || "Frequently Asked Questions"}
     description={sectionData.faqs?.description}
     id="faqs"
@@ -1334,7 +1335,7 @@ sectionMap["gallery"] = () => trek.galleryImages?.length > 0 ? <div data-pdf-hid
         hasItinerary={itinerary.length > 0}
         hasInclusions={inclusions.length > 0 || exclusions.length > 0}
         hasPricing={pricingTiers.length > 0}
-        hasFaqs={faqs.length > 0}
+        hasFaqs={allFaqs.length > 0}
         hasFixedDepartures={fixedDepartureDays.length > 0 || customStartDates.length > 0}
         hasGallery={(trek.galleryImages?.length ?? 0) > 0}
         sectionOrder={sectionOrderList}

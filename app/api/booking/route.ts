@@ -73,8 +73,10 @@ export async function POST(request: NextRequest) {
     // Fetch the actual trek to validate against trek-specific constraints
     // ⚠️ SECURITY: Price and duration are loaded from the server-side trek record,
     // NOT from the client request. This prevents price-tampering attacks.
+    // Only trips on sale can be booked: a retired trip keeps its row (and its
+    // old prices) for the record, not for new bookings.
     const trek = await prisma.trek.findUnique({
-      where: { slug: trekSlug },
+      where: { slug: trekSlug, status: "published" },
       select: {
         id: true,
         title: true,

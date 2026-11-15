@@ -32,7 +32,7 @@ export async function GET(request: NextRequest) {
 
   try {
     const trek = await prisma.trek.findUnique({
-      where: { slug },
+      where: { slug, status: "published" },
       select: {
         id: true,
         title: true,

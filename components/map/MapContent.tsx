@@ -13,6 +13,8 @@ interface MapContentProps {
   geoJsonData?: string | null;
   waypoints?: Array<{ lng: number; lat: number; label: string; description?: string; dayNumber?: number }>;
   itinerary?: Array<{ dayNumber: number; title: string; elevation?: string | null }>;
+  /** Called once the map has drawn its first full frame, or has failed to start: whatever stood in for it can go. */
+  onReady?: () => void;
 }
 
 const subscribeToClient = () => () => {};
@@ -103,8 +105,14 @@ export default function MapContent({
   geoJsonData,
   waypoints,
   itinerary,
+  onReady,
 }: MapContentProps) {
   const mapContainer = useRef<HTMLDivElement>(null);
+  // Read through a ref so a new callback identity never rebuilds the map.
+  const onReadyRef = useRef(onReady);
+  useEffect(() => {
+    onReadyRef.current = onReady;
+  }, [onReady]);
   const map = useRef<maplibregl.Map | null>(null);
   // The route's extent, kept to frame the whole route again for a PDF.
   const routeView = useRef<RouteView | null>(null);
@@ -125,7 +133,12 @@ export default function MapContent({
 
     function fitRoute(m: maplibregl.Map, bounds: maplibregl.LngLatBounds, maxZoom = m.getMaxZoom()) {
       routeView.current = { bounds, maxZoom };
-      m.fitBounds(bounds, { padding: 60, maxZoom, ...withPitchAndBearing(m) });
+      // 60 px on a desktop panel; on a phone, where the panel is a few hundred
+      // pixels across, a fixed 60 px left so little room that the map zoomed out
+      // to the whole country.
+      const { clientWidth, clientHeight } = m.getContainer();
+      const padding = Math.min(60, Math.round(Math.min(clientWidth, clientHeight) * 0.12));
+      m.fitBounds(bounds, { padding, maxZoom, ...withPitchAndBearing(m) });
     }
 
     function drawGeoJsonRoute(m: maplibregl.Map, data: any) {
@@ -459,6 +472,9 @@ export default function MapContent({
         console.error("Map error:", (e as any).error ?? e);
       });
 
+      // "idle": the style, the route and every tile in view have been drawn.
+      newMap.once("idle", () => onReadyRef.current?.());
+
       map.current = newMap;
     } catch (err) {
       queueMicrotask(() => setError("Failed to initialize map"));
@@ -470,6 +486,11 @@ export default function MapContent({
       map.current = null;
     };
   }, [geoJsonUrl, waypoints, itinerary]);
+
+  // A map that cannot start shows its message; nothing should cover it.
+  useEffect(() => {
+    if (error) onReadyRef.current?.();
+  }, [error]);
 
   useEffect(() => {
     function standInStill(event: WindowEventMap["pdf-capture"]) {
@@ -538,7 +559,7 @@ export default function MapContent({
 
   if (error) {
     return (
-      <div className="flex aspect-[21/9] items-center justify-center bg-surface">
+      <div className="flex aspect-[4/3] items-center justify-center bg-surface sm:aspect-[21/9]">
         <p className="text-sm text-error">{error}</p>
       </div>
     );

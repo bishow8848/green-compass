@@ -23,6 +23,8 @@ interface TrekMapProps {
   staticFallbackImage?: string;
   /** What the map shows, e.g. "Annapurna Base Camp Trek route map" — the alt text of its still image. */
   title?: string;
+  /** Called once the map (or the image shown in its place) is ready to be seen. */
+  onReady?: () => void;
   /** When set, the map starts already expanded (fullscreen) */
   startExpanded?: boolean;
   /** When set, clicking the minimize button calls this instead of toggling locally */
@@ -36,6 +38,7 @@ export function TrekMap({
   itinerary,
   staticFallbackImage,
   title = "Trek route map",
+  onReady,
   startExpanded,
   onClose,
 }: TrekMapProps) {
@@ -48,6 +51,11 @@ export function TrekMap({
   // uploaded a map image instead, show that image in place of the interactive
   // map — otherwise the map would render with no route on it.
   const imageOnly = !geoJsonUrl && !geoJsonData && !!staticImageSrc;
+
+  // With no interactive map to wait for, the image is all there is.
+  useEffect(() => {
+    if (imageOnly) onReady?.();
+  }, [imageOnly, onReady]);
 
   // Lock page scrolling while the map is expanded to fullscreen (fixed
   // inset-0 overlay) so the side scrollbar disappears and the page behind
@@ -79,7 +87,8 @@ export function TrekMap({
         isExpanded ? "fixed inset-0 z-[70] shadow-2xl" : "relative"
       }`}
     >
-      <div className={isExpanded ? "h-full" : "aspect-[21/9]"}>
+      {/* 4:3 on phones, where 21:9 leaves a strip too short to read; lib/static-map.ts draws the stills in the same shapes. */}
+      <div className={isExpanded ? "h-full" : "aspect-[4/3] sm:aspect-[21/9]"}>
         {imageOnly ? (
           <div className="relative h-full w-full bg-surface">
             <Image
@@ -111,6 +120,7 @@ export function TrekMap({
               geoJsonData={geoJsonData}
               waypoints={waypoints}
               itinerary={itinerary}
+              onReady={onReady}
             />
           </>
         )}
