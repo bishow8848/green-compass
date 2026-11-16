@@ -110,4 +110,41 @@ export const RETIRED_GUIDES: Record<string, string> = {
   "putha-hiunchuli-expedition-guide": "putha-hiunchuli-expedition",
   "api-himal-expedition-guide": "api-himal-expedition",
   "kanjirowa-expedition-guide": "kanjirowa-expedition",
+  "upper-mustang-trek-complete-guide": "upper-mustang-trek",
+  "everest-three-passes-trek-guide": "everest-three-pass-trek",  // "Everest Three Passes Trek" -> "Everest Three Pass Trek"
+  "everest-base-camp-helicopter-return-guide": "everest-base-camp-trek-with-helicopter-return",
+  "everest-base-camp-helicopter-tour-guide": "everest-base-camp-helicopter-tour",
+  "annapurna-base-camp-helicopter-tour-guide": "annapurna-base-camp-helicopter-tour",
+  "poon-hill-trek-guide": "poonhill-trek",  // "Poon Hill Trek" -> "Poonhill Trek"
+  "mohare-danda-community-trek-guide": "mohare-danda-trek",
+  "khopra-danda-trek-guide": "khopra-danda-trek",
+  "tilicho-lake-trek-guide": "tilicho-lake-trek",
+  "nar-phu-valley-trek-guide": "nar-phu-valley-trek",
+  "jomsom-muktinath-trek-guide": "jomsom-muktinath-trek",
+  "muktinath-pilgrimage-guide": "muktinath-pilgrimage-tour",  // "Muktinath Pilgrimage Guide" -> "Muktinath Pilgrimage Tour"
+  "tsum-valley-trek-guide": "tsum-valley-trek",
+  "ruby-valley-trek-guide": "ruby-valley-circuit-trek",  // "Ruby Valley Trek" -> "Ruby Valley Circuit Trek"
+  "tamang-heritage-trail-guide": "tamang-heritage-trek",  // "Tamang Heritage Trail" -> "Tamang Heritage Trek"
+  "gosaikunda-lake-trek-guide": "gosaikunda-lake-trek",
+  "panch-pokhari-trek-guide": "panch-pokhari-trek",
+  "ama-yangri-trek-guide": "ama-yangri-trek",
+  "rolwaling-valley-and-tashi-lapcha-guide": "rolwaling-valley-trek",  // "Rolwaling Valley and the Tashi Lapcha" -> "Rolwaling Valley Trek"
+  "makalu-base-camp-trek-guide": "makalu-base-camp-trek",
+  "kanchenjunga-circuit-trek-guide": "kanchenjunga-circuit-trek",
+  "pikey-peak-trek-guide": "pikey-peak-trek",
+  "red-panda-trail-trek-guide": "red-panda-trail-trek",
+  "mundum-trail-trek-guide": "mundum-trek",  // "Mundum Trail Trek" -> "Mundum Trek"
+  "rara-lake-trek-guide": "rara-lake-trek",
+  "api-himal-base-camp-trek-guide": "api-himal-base-camp-trek",
+  "lower-dolpo-trek-guide": "lower-dolpo-trek",
+  "upper-dolpo-trek-guide": "upper-dolpo-trek",
+  "shey-phoksundo-lake-trek-guide": "shey-phoksundo-lake-trek",
+  "paragliding-in-pokhara-guide": "paragliding-in-pokhara",  // "Paragliding in Pokhara" -> "Paragliding in Pokhara, Nepal – 1 Day"
+  "island-peak-climbing-guide": "island-peak-climbing",
+  "mera-peak-climbing-guide": "mera-peak-climbing",
+  "lobuche-east-peak-climbing-guide": "lobuche-east-peak-climbing",
+  "yala-peak-climbing-guide": "yala-peak-climbing",
+  "ama-dablam-expedition-guide": "ama-dablam-expedition",
+  "everest-expedition-guide": "everest-expedition",
+  "manaslu-expedition-guide": "manaslu-expedition",
 };

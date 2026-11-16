@@ -282,9 +282,8 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
   const mapStill = trek.staticMapImage || drawnStill("wide");
   const mapStillCompact = trek.staticMapImage ? undefined : drawnStill("compact");
   // Stored as a Date, or as its ISO string when the trip came from the cache.
-  const updatedLabel = trek.updatedAt
-    ? new Date(trek.updatedAt).toLocaleDateString("en-US", { month: "long", year: "numeric", timeZone: "UTC" })
-    : null;
+  // Not shown to visitors; it only feeds the WebPage schema's dateModified.
+  const updatedIso = trek.updatedAt ? new Date(trek.updatedAt).toISOString() : null;
 
   // Start independent reads together to avoid server-side request waterfalls.
   const homeSettingsPromise = getCachedOrFetch(
@@ -413,6 +412,25 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
           }),
         }}
       />
+
+      {/* WebPage schema: carries the last-updated date for search engines
+          without printing it on the page. */}
+      {updatedIso && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: serializeJsonLd({
+              "@context": "https://schema.org",
+              "@type": "WebPage",
+              "@id": `${SITE_URL}/${catSlug}/${slug}#webpage`,
+              url: `${SITE_URL}/${catSlug}/${slug}`,
+              name: trek.title,
+              dateModified: updatedIso,
+              mainEntity: { "@id": `${SITE_URL}/${catSlug}/${slug}#trip` },
+            }),
+          }}
+        />
+      )}
 
       {/* TouristTrip schema for rich itinerary data */}
       <script
@@ -700,12 +718,6 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
       </div>
     </StaggerItem>
   </Stagger>
-
-  {updatedLabel && (
-    <p className="mb-6 text-xs" style={{ color: "var(--color-text-muted)" }} data-pdf-hide="">
-      Itinerary and prices last updated: {updatedLabel}
-    </p>
-  )}
 
   {/* The questions a reader arrives with, answered first. */}
   <Reveal className="rich-text w-full text-base leading-relaxed" style={{ color: "var(--color-text)" }}>
