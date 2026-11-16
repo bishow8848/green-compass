@@ -223,6 +223,8 @@ export const cacheKeys = {
    *  selector. Do NOT write to `searchTreks` with this shape — it would
    *  overwrite the full shape and break hero-image resolution. */
   treksListAll: "treks:list-all",
+  /** Every trek's route at overview detail, for the home page hero map. */
+  heroMapRoutes: "treks:hero-map:v2",
 
   // Blog
   blogPosts: "blog:list",

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, type ComponentType } from "react";
 import { ArrowRight, Undo2, ZoomIn, ZoomOut } from "lucide-react";
 import * as THREE from "three";
 import { AnimatePresence, stagger } from "framer-motion";
@@ -9,6 +9,57 @@ import { SearchBar } from "@/components/search/SearchBar";
 import { MotionLink, Stagger, StaggerItem } from "@/components/motion";
 import { EASE_OUT, SPRING_SNAPPY, SPRING_SOFT } from "@/components/motion/presets";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+import { cn } from "@/lib/utils";
+import { loadHeroMapData, loadHeroMapModule, warmMapConnection } from "./hero-map-data";
+import type { GlobeOrigin, HeroMapEntry, HeroMapLevel, HeroNepalMapApi, HeroNepalMapProps } from "./hero-map-types";
+
+/**
+ * The map of Nepal is not part of the page: no HTML, no script, no styles,
+ * no data until someone shows they mean to zoom in. Then its module, the trek
+ * routes and a connection to Mapbox are fetched (once; later dives reuse them).
+ */
+let mapModule: Promise<ComponentType<HeroNepalMapProps>> | null = null;
+/** The map component once downloaded, so a dive after a preload can mount it straight away. */
+let loadedMapView: ComponentType<HeroNepalMapProps> | null = null;
+function loadMapView(): Promise<ComponentType<HeroNepalMapProps>> {
+  mapModule ??= loadHeroMapModule()
+    .then((m) => (loadedMapView = m.default))
+    .catch((err) => {
+      mapModule = null;
+      throw err;
+    });
+  void loadHeroMapData();
+  warmMapConnection();
+  return mapModule;
+}
+
+/**
+ * Camera distances. The globe used to stop at 8.4; it now zooms on past that,
+ * and crossing ENTER_DIST dives into the map of Nepal.
+ */
+const PRELOAD_DIST = 9.2;
+const ENTER_DIST = 8.0;
+const MIN_DIST = 7.2;
+const NO_MAP_MIN_DIST = 8.4;
+const MAX_DIST = 15;
+/** How long the globe takes to swing Nepal round to face the camera. */
+const DIVE_MS = 600;
+
+type HeroView = "globe" | "diving" | "map";
+
+interface GlobeApi {
+  zoom: (factor: number) => void;
+  reset: () => void;
+  /** Back from the map: default view, Nepal facing, drawing again. */
+  resume: () => void;
+  /** The map cannot run: go back to the plain globe and stop diving. */
+  disableMap: () => void;
+  /** Someone means to zoom in: get the map ready behind the globe. */
+  warm: () => void;
+}
+
+/** A map prepared on intent but never dived into is removed after this long. */
+const STANDBY_MS = 30000;
 
 interface HeroCta {
   label: string;
@@ -71,9 +122,20 @@ export function GreenCompassHero({
   const hitzoneRef = useRef<HTMLDivElement | null>(null);
   const copyRef = useRef<HTMLDivElement | null>(null);
   const [hintVisible, setHintVisible] = useState(true);
-  const zoomInRef = useRef<HTMLButtonElement | null>(null);
-  const zoomOutRef = useRef<HTMLButtonElement | null>(null);
-  const zoomResetRef = useRef<HTMLButtonElement | null>(null);
+  const globeApiRef = useRef<GlobeApi | null>(null);
+  const mapApiRef = useRef<HeroNepalMapApi | null>(null);
+  const [view, setView] = useState<HeroView>("globe");
+  /** Set while a dive is under way or the map is up; cleared (unmounting the map) once it closes. */
+  const [entry, setEntry] = useState<HeroMapEntry | null>(null);
+  /** The map component, once its module has downloaded. */
+  const [MapView, setMapView] = useState<ComponentType<HeroNepalMapProps> | null>(null);
+  /**
+   * Set on a sign of intent (zooming in begins): the map is created hidden
+   * behind the globe, at its place, and loads its first tiles, so the dive
+   * itself has nothing left to wait for. Cleared if no dive follows.
+   */
+  const [warmEntry, setWarmEntry] = useState<HeroMapEntry | null>(null);
+  const [mapLevel, setMapLevel] = useState<HeroMapLevel>("nepal");
 
   const heroTitle = title || "Trek the Himalaya with";
   const heroHighlight = titleHighlight || "Green Compass Treks.";
@@ -197,8 +259,8 @@ export function GreenCompassHero({
     oc.dampingFactor = 0.08;
     oc.rotateSpeed = 0.45;
     oc.zoomSpeed = 0.6;
-    oc.minDistance = 8.4;
-    oc.maxDistance = 15;
+    oc.minDistance = MIN_DIST;
+    oc.maxDistance = MAX_DIST;
     oc.autoRotate = false;
     oc.autoRotateSpeed = 0.5;
     oc.update();
@@ -212,25 +274,132 @@ export function GreenCompassHero({
 
     function zb(f: number) {
       const o = cam.position.clone().sub(oc.target);
-      o.setLength(THREE.MathUtils.clamp(o.length() * f, 8.4, 15));
+      o.setLength(THREE.MathUtils.clamp(o.length() * f, oc.minDistance, oc.maxDistance));
       cam.position.copy(oc.target).add(o);
       oc.update();
     }
-    zoomInRef.current?.addEventListener("click", () => {
-      hideHint();
-      zb(0.8);
-    });
-    zoomOutRef.current?.addEventListener("click", () => {
-      hideHint();
-      zb(1.25);
-    });
-    zoomResetRef.current?.addEventListener("click", () => {
-      hideHint();
-      oc.autoRotate = false;
-      cam.position.copy(dp);
-      oc.target.copy(dt2);
-      oc.update();
-    });
+
+    /* ── The dive into the map ──────────────────────────────────────
+       Zooming in past ENTER_DIST freezes the controls, swings Nepal round
+       to face the camera, and hands the map the globe's on-screen centre
+       and radius so it can start as the same globe and fly in. */
+    // No token, no map: the globe keeps its old zoom limit and never dives.
+    let mapAllowed = Boolean(process.env.NEXT_PUBLIC_MAPBOX_TOKEN);
+    if (!mapAllowed) oc.minDistance = NO_MAP_MIN_DIST;
+    let preloaded = false;
+    // Zooming in (not out) or a pinch starting on the globe: fetch the map now.
+    const onWheelIntent = (e: WheelEvent) => {
+      if (e.deltaY < 0) warmUp();
+    };
+    const onTouchIntent = (e: TouchEvent) => {
+      if (e.touches.length >= 2) warmUp();
+    };
+    hitzone.addEventListener("wheel", onWheelIntent, { passive: true });
+    hitzone.addEventListener("touchstart", onTouchIntent, { passive: true });
+    let diving = false;
+    let paused = false;
+    let diveStart = 0;
+    const diveMs = rm ? 1 : DIVE_MS;
+    const qFrom = new THREE.Quaternion();
+    const qTo = new THREE.Quaternion();
+
+    /** The globe turned so Nepal faces the camera wherever it has been orbited to, north up. */
+    function nepalTowardCamera(): THREE.Quaternion {
+      const camDir = cam.position.clone().sub(oc.target).normalize();
+      // Looking straight down a pole, "up" has to come from somewhere else.
+      const worldUp = Math.abs(camDir.y) > 0.98 ? new THREE.Vector3(0, 0, -Math.sign(camDir.y)) : new THREE.Vector3(0, 1, 0);
+      const r = new THREE.Vector3().crossVectors(worldUp, camDir).normalize();
+      const u = new THREE.Vector3().crossVectors(camDir, r).normalize();
+      // `orient` turns Nepal to +z with north up; this then turns +z to the camera.
+      const toCamera = new THREE.Matrix4().makeBasis(r, u, camDir).multiply(orient);
+      return new THREE.Quaternion().setFromRotationMatrix(toCamera);
+    }
+
+    /** Where the globe is on screen right now: its centre, and its projected radius (focal length × tan of its angular radius). */
+    function globeOrigin(): GlobeOrigin {
+      const d = cam.position.distanceTo(oc.target);
+      const focal = lastH / 2 / Math.tan((cam.fov * Math.PI) / 360);
+      return {
+        x: canvasLeft + lastW / 2,
+        y: canvasTop + lastH / 2,
+        radius: focal * Math.tan(Math.asin(Math.min(R / d, 1))),
+      };
+    }
+
+    /**
+     * A sign someone means to zoom in — scrolling in over the globe, a
+     * two-finger touch on it, a hover, focus or touch on the zoom-in button
+     * (just dragging the globe round does not count): fetch the map and set it
+     * up hidden behind the globe, so the dive has nothing left to wait for.
+     */
+    function warmUp() {
+      if (!mapAllowed || diving) return;
+      loadMapView()
+        .then((component) => {
+          if (!mapAllowed) return;
+          setMapView(() => component);
+          setWarmEntry((prev) => prev ?? { id: 0, origin: globeOrigin() });
+        })
+        .catch(() => {});
+    }
+
+    function startDive() {
+      diving = true;
+      oc.enabled = false;
+      qFrom.copy(gg.quaternion);
+      qTo.copy(nepalTowardCamera());
+      diveStart = performance.now();
+      const origin = globeOrigin();
+      setView("diving");
+      setEntry((prev) => ({ id: (prev?.id ?? 0) + 1, origin }));
+      // Already downloaded (the usual case after a preload): mount the map in this same render.
+      if (loadedMapView) {
+        const component = loadedMapView;
+        setMapView(() => component);
+        return;
+      }
+      loadMapView()
+        .then((component) => setMapView(() => component))
+        .catch((err) => {
+          // Offline, or the chunk failed: carry on with the plain globe.
+          console.error("Map of Nepal could not load:", err);
+          setView("globe");
+          setEntry(null);
+          globeApiRef.current?.disableMap();
+        });
+    }
+
+    globeApiRef.current = {
+      zoom: (f) => {
+        if (!diving) zb(f);
+      },
+      reset: () => {
+        if (diving) return;
+        oc.autoRotate = false;
+        cam.position.copy(dp);
+        oc.target.copy(dt2);
+        oc.update();
+      },
+      resume: () => {
+        diving = false;
+        cam.position.copy(dp);
+        oc.target.copy(dt2);
+        // Nepal facing, as the map was when it zoomed back out.
+        gg.quaternion.setFromRotationMatrix(orient);
+        oc.enabled = true;
+        oc.update();
+        if (paused) {
+          paused = false;
+          if (!raf) raf = requestAnimationFrame(loop);
+        }
+      },
+      disableMap: () => {
+        mapAllowed = false;
+        oc.minDistance = NO_MAP_MIN_DIST;
+        globeApiRef.current?.resume();
+      },
+      warm: warmUp,
+    };
 
     // Grow the globe canvas with zoom: the canvas expands
     // around the globe's centre so the globe is never clipped, and the fov opens
@@ -241,6 +410,8 @@ export function GreenCompassHero({
     let cy = 0;
     let lastW = 0;
     let lastH = 0;
+    let canvasLeft = 0;
+    let canvasTop = 0;
     function measureBase() {
       const hr = hero.getBoundingClientRect();
       if (split.matches) {
@@ -281,6 +452,8 @@ export function GreenCompassHero({
         lastH = h;
         const left = Math.round(cx - w / 2);
         const top = Math.round(cy - h / 2);
+        canvasLeft = left;
+        canvasTop = top;
         canvas.style.width = w + "px";
         canvas.style.height = h + "px";
         canvas.style.left = left + "px";
@@ -307,18 +480,46 @@ export function GreenCompassHero({
 
     let raf = 0;
     function loop() {
-      raf = requestAnimationFrame(loop);
-      // Ambient rotation only at (or beyond) the original zoom level.
-      if (!rm && cam.position.distanceTo(oc.target) >= CAM_BASE - 0.02) {
-        gg.rotateY(0.0015);
+      // Hidden under the map: stop drawing altogether until resume().
+      if (paused) {
+        raf = 0;
+        return;
       }
-      oc.update();
+      raf = requestAnimationFrame(loop);
+      let diveDone = false;
+      if (diving) {
+        const t = Math.min(1, (performance.now() - diveStart) / diveMs);
+        const eased = t < 0.5 ? 2 * t * t : 1 - (-2 * t + 2) ** 2 / 2;
+        gg.quaternion.slerpQuaternions(qFrom, qTo, eased);
+        diveDone = t >= 1;
+      } else {
+        const d = cam.position.distanceTo(oc.target);
+        // Ambient rotation only at (or beyond) the original zoom level.
+        if (!rm && d >= CAM_BASE - 0.02) {
+          gg.rotateY(0.0015);
+        }
+        oc.update();
+        if (mapAllowed) {
+          // Zooming in at all: start fetching the map so the dive does not wait on it.
+          if (!preloaded && d < PRELOAD_DIST) {
+            preloaded = true;
+            warmUp();
+          }
+          if (d < ENTER_DIST) startDive();
+        }
+      }
       fitGlobe();
       rend.render(scene, cam);
+      // Nepal now faces the camera and nothing moves until the map takes over:
+      // keep this frame on screen and stop drawing, leaving the device to the map.
+      if (diveDone) paused = true;
     }
     raf = requestAnimationFrame(loop);
 
     return () => {
+      globeApiRef.current = null;
+      hitzone.removeEventListener("wheel", onWheelIntent);
+      hitzone.removeEventListener("touchstart", onTouchIntent);
       cancelAnimationFrame(raf);
       window.removeEventListener("resize", onResize);
       copyObserver.disconnect();
@@ -334,6 +535,57 @@ export function GreenCompassHero({
     };
   }, []);
 
+  // Back on the globe: once the map has faded out, remove it entirely (its
+  // WebGL context, tiles and DOM). Diving again builds a fresh one.
+  useEffect(() => {
+    if (view !== "globe" || !entry) return;
+    const timer = setTimeout(() => {
+      setEntry(null);
+      setWarmEntry(null);
+    }, 750);
+    return () => clearTimeout(timer);
+  }, [view, entry]);
+
+  // Got ready on intent but never dived into: take the hidden map away again.
+  useEffect(() => {
+    if (!warmEntry || entry) return;
+    const timer = setTimeout(() => setWarmEntry(null), STANDBY_MS);
+    return () => clearTimeout(timer);
+  }, [warmEntry, entry]);
+
+  const handleMapReady = useCallback(() => setView("map"), []);
+  const handleMapExit = useCallback(() => {
+    setView("globe");
+    setMapLevel("nepal");
+    globeApiRef.current?.resume();
+  }, []);
+  const handleMapFail = useCallback(() => {
+    setView("globe");
+    setEntry(null);
+    setWarmEntry(null);
+    globeApiRef.current?.disableMap();
+  }, []);
+  const warmMap = useCallback(() => globeApiRef.current?.warm(), []);
+  const mapEntry = entry ?? warmEntry;
+
+  const inMap = view === "map";
+  function zoomIn() {
+    setHintVisible(false);
+    if (inMap) mapApiRef.current?.zoomIn();
+    else globeApiRef.current?.zoom(0.8);
+  }
+  function zoomOut() {
+    setHintVisible(false);
+    if (inMap) mapApiRef.current?.zoomOut();
+    else globeApiRef.current?.zoom(1.25);
+  }
+  function stepBack() {
+    setHintVisible(false);
+    if (inMap) mapApiRef.current?.back();
+    else globeApiRef.current?.reset();
+  }
+  const backLabel = !inMap ? "Reset globe view" : mapLevel === "region" ? "Back to all of Nepal" : "Back to the globe";
+
   return (
     <section
       ref={sectionRef}
@@ -346,8 +598,12 @@ export function GreenCompassHero({
         className="absolute"
         aria-hidden="true"
         initial={{ opacity: 0, scale: 0.92 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 1.4, delay: 0.15, ease: EASE_OUT }}
+        animate={
+          inMap
+            ? // The map has taken over: the globe swells and fades as the map flies in.
+              { opacity: 0, scale: 1.35, transition: { duration: 0.9, ease: EASE_OUT } }
+            : { opacity: 1, scale: 1, transition: { duration: entry ? 0.8 : 1.4, delay: entry ? 0 : 0.15, ease: EASE_OUT } }
+        }
       />
 
       {/* Film-grain noise veil */}
@@ -356,9 +612,52 @@ export function GreenCompassHero({
       {/* Invisible hitzone that catches orbit/zoom gestures */}
       <div ref={hitzoneRef} className="globe-hitzone absolute" aria-hidden="true" />
 
-      {/* Globe zoom controls */}
+      {/* The map of Nepal the globe dives into. Exists only from a dive until
+          it closes: no markup, script or data otherwise. */}
+      {mapEntry && MapView && (
+        <div
+          className={cn(
+            "absolute inset-0 z-[25] transition-opacity duration-700 ease-out",
+            inMap ? "opacity-100" : "pointer-events-none opacity-0"
+          )}
+          inert={!inMap}
+        >
+          <MapView
+            entry={mapEntry}
+            standby={!entry}
+            apiRef={mapApiRef}
+            onReady={handleMapReady}
+            onFail={handleMapFail}
+            onExit={handleMapExit}
+            onLevelChange={setMapLevel}
+          />
+        </div>
+      )}
+
+      {/* First dive only: the map is still downloading. */}
+      <AnimatePresence>
+        {view === "diving" && (
+          <m.p
+            key="map-loading"
+            role="status"
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0, transition: { delay: 0.7, duration: 0.4, ease: EASE_OUT } }}
+            exit={{ opacity: 0, transition: { duration: 0.2 } }}
+            className="pointer-events-none absolute bottom-8 left-1/2 z-30 flex -translate-x-1/2 items-center gap-2.5 rounded-full border border-foreground/10 bg-background/85 px-4 py-2 text-xs font-medium text-text-muted shadow-sm backdrop-blur-md"
+          >
+            <span className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-primary/25 border-t-primary" aria-hidden="true" />
+            Loading the map of Nepal…
+          </m.p>
+        )}
+      </AnimatePresence>
+
+      {/* Zoom controls — they drive the globe, or the map once it is up */}
       <m.div
-        className="absolute right-3 top-1/2 z-30 flex -translate-y-1/2 flex-col gap-2 sm:right-6"
+        className={cn(
+          "absolute right-3 top-1/2 z-30 flex -translate-y-1/2 flex-col gap-2 sm:right-6",
+          // Phones and tablets pinch to zoom, and the map has its own back and close: give it the room.
+          inMap && "max-lg:hidden"
+        )}
         initial="hidden"
         animate="visible"
         variants={{ visible: { transition: { delayChildren: stagger(0.08, { startDelay: 0.9 }) } } }}
@@ -367,9 +666,12 @@ export function GreenCompassHero({
           variants={controlVariants}
           whileHover={{ scale: 1.08 }}
           whileTap={{ scale: 0.92 }}
-          ref={zoomInRef}
+          onClick={zoomIn}
+          onPointerEnter={warmMap}
+          onFocus={warmMap}
+          onTouchStart={warmMap}
           type="button"
-          aria-label="Zoom in on the globe"
+          aria-label={inMap ? "Zoom in on the map" : "Zoom in on the globe"}
           className="flex h-9 w-9 items-center justify-center rounded-full border border-foreground/15 bg-background/70 text-foreground shadow-sm backdrop-blur-md transition-colors hover:border-primary/40 hover:bg-surface hover:text-primary sm:h-11 sm:w-11"
         >
           <ZoomIn className="h-4 w-4 sm:h-5 sm:w-5" />
@@ -378,9 +680,9 @@ export function GreenCompassHero({
           variants={controlVariants}
           whileHover={{ scale: 1.08 }}
           whileTap={{ scale: 0.92 }}
-          ref={zoomOutRef}
+          onClick={zoomOut}
           type="button"
-          aria-label="Zoom out of the globe"
+          aria-label={inMap ? "Zoom out of the map" : "Zoom out of the globe"}
           className="flex h-9 w-9 items-center justify-center rounded-full border border-foreground/15 bg-background/70 text-foreground shadow-sm backdrop-blur-md transition-colors hover:border-primary/40 hover:bg-surface hover:text-primary sm:h-11 sm:w-11"
         >
           <ZoomOut className="h-4 w-4 sm:h-5 sm:w-5" />
@@ -389,9 +691,10 @@ export function GreenCompassHero({
           variants={controlVariants}
           whileHover={{ scale: 1.08, rotate: -20 }}
           whileTap={{ scale: 0.92 }}
-          ref={zoomResetRef}
+          onClick={stepBack}
           type="button"
-          aria-label="Reset globe view"
+          aria-label={backLabel}
+          title={inMap ? backLabel : undefined}
           className="flex h-9 w-9 items-center justify-center rounded-full border border-foreground/15 bg-background/70 text-foreground shadow-sm backdrop-blur-md transition-colors hover:border-primary/40 hover:bg-surface hover:text-primary sm:h-11 sm:w-11"
         >
           <Undo2 className="h-4 w-4 sm:h-5 sm:w-5" />
@@ -400,7 +703,7 @@ export function GreenCompassHero({
 
       {/* Globe interaction hint — fades out on first touch */}
       <AnimatePresence>
-        {hintVisible && (
+        {hintVisible && view === "globe" && (
           <m.p
             key="globe-hint"
             initial={{ opacity: 0, y: 6 }}
@@ -409,7 +712,7 @@ export function GreenCompassHero({
             className="absolute bottom-5 right-4 z-30 hidden text-[10px] font-medium uppercase tracking-[0.18em] text-text-muted sm:bottom-8 sm:right-8 split:block"
           >
             Drag to rotate · <span className="pointer-coarse:hidden">scroll</span>
-            <span className="hidden pointer-coarse:inline">pinch</span> to zoom
+            <span className="hidden pointer-coarse:inline">pinch</span> to zoom into Nepal
           </m.p>
         )}
       </AnimatePresence>
@@ -422,7 +725,12 @@ export function GreenCompassHero({
              full-height hero that far below the fold). ── */}
       <div
         ref={copyRef}
-        className="pointer-events-none relative z-20 mx-auto flex min-h-full w-full max-w-[1400px] flex-col justify-end px-5 pb-24 sm:px-8 sm:pb-28 lg:px-14 lg:pb-40 split:justify-center split:pb-0"
+        // Out of the way (and out of the tab order) while the dive and the map run.
+        inert={view !== "globe"}
+        className={cn(
+          "pointer-events-none relative z-20 mx-auto flex min-h-full w-full max-w-[1400px] flex-col justify-end px-5 pb-24 transition-opacity duration-500 sm:px-8 sm:pb-28 lg:px-14 lg:pb-40 split:justify-center split:pb-0",
+          view !== "globe" && "opacity-0"
+        )}
       >
         <Stagger className="relative w-full max-w-xl split:max-w-[50%]">
           {/* Rhumb lines — the bearing lines that radiate from a compass rose on

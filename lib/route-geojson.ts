@@ -138,6 +138,67 @@ function pointCount(features: ReturnType<typeof toFeatures>): number {
   );
 }
 
+function linesOf(data: any): RawLine[] {
+  return data?.type === "FeatureCollection" && Array.isArray(data.features)
+    ? data.features.flatMap((f: any) => rawLines(f?.geometry))
+    : data?.type === "Feature"
+      ? rawLines(data.geometry)
+      : rawLines(data);
+}
+
+// For a map showing every route at once (the home page hero): ~30 m to start,
+// loosened until the route fits its budget, and 4 decimals (~10 m).
+const OVERVIEW_TOLERANCE = 0.0003;
+const OVERVIEW_MAX_TOLERANCE = 0.005;
+// GPS fixes are metres apart; a jump this long between two is a flight or a
+// switched-off logger (several Everest tracks fly Kathmandu → Lukla, 135 km).
+const MAX_JUMP_KM = 10;
+
+/** Equirectangular distance — plenty for telling metres from tens of kilometres. */
+function roughKm([lng1, lat1]: Position, [lng2, lat2]: Position): number {
+  const x = (lng2 - lng1) * Math.cos(((lat1 + lat2) / 2) * (Math.PI / 180));
+  return Math.hypot(x, lat2 - lat1) * 111.2;
+}
+
+/** The line broken wherever it jumps further than MAX_JUMP_KM. */
+function splitAtJumps(line: Position[]): Position[][] {
+  const pieces: Position[][] = [[line[0]]];
+  for (let i = 1; i < line.length; i++) {
+    if (roughKm(line[i - 1], line[i]) > MAX_JUMP_KM) pieces.push([]);
+    pieces[pieces.length - 1].push(line[i]);
+  }
+  return pieces.filter((p) => p.length >= 2);
+}
+
+/**
+ * The route's lines at overview detail: few enough points that dozens of
+ * routes travel in one small response, and no straight streaks for flights.
+ * Empty when the file holds no line or cannot be parsed.
+ */
+export function routeOverviewLines(raw: string | null | undefined, maxPoints = 400): Position[][] {
+  if (!raw) return [];
+  let data: any;
+  try {
+    data = JSON.parse(raw);
+  } catch {
+    return [];
+  }
+  const lines = linesOf(data)
+    .flatMap((r) => (r.multi ? r.lines : [r.line]))
+    .flatMap(splitAtJumps);
+  if (lines.length === 0) return [];
+
+  const count = (ls: Position[][]) => ls.reduce((n, l) => n + l.length, 0);
+  let tolerance = OVERVIEW_TOLERANCE;
+  let out = lines.map((l) => simplify(l, tolerance));
+  while (count(out) > maxPoints && tolerance < OVERVIEW_MAX_TOLERANCE) {
+    tolerance = Math.min(tolerance * 2, OVERVIEW_MAX_TOLERANCE);
+    out = lines.map((l) => simplify(l, tolerance));
+  }
+  const round4 = (v: number) => Math.round(v * 1e4) / 1e4;
+  return out.map((l) => l.map(([lng, lat]): Position => [round4(lng), round4(lat)]));
+}
+
 export function slimRouteGeoJson(raw: string | null | undefined): string | null {
   if (!raw) return null;
   let data: any;
@@ -147,12 +208,7 @@ export function slimRouteGeoJson(raw: string | null | undefined): string | null 
     return raw;
   }
 
-  const lines: RawLine[] =
-    data?.type === "FeatureCollection" && Array.isArray(data.features)
-      ? data.features.flatMap((f: any) => rawLines(f?.geometry))
-      : data?.type === "Feature"
-        ? rawLines(data.geometry)
-        : rawLines(data);
+  const lines = linesOf(data);
 
   if (lines.length === 0) return raw;
 
